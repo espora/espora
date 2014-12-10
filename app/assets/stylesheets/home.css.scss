@@ -1,0 +1,44 @@
+
+.esp-logo {
+	width: 331px;
+	height: 195px;
+	margin-left: 514px;
+}
+
+#menu {
+	width: 400px;
+	height: 74px;
+	border-width: 1px;
+	border-color: green;
+	border-style: solid;
+	padding-left: 15px;
+	margin-left: 410px;
+	margin-top: 30px;
+	border-radius: 4%;
+}
+
+#login {
+	width: 331px;
+	height: 225px;
+
+	border-width: 1px;
+	border-color: green;
+	border-style: solid;
+
+	padding-left: 15px;
+
+	margin-left: 510px;
+	margin-top: 45px;
+	border-radius: 5%;
+
+	font: 75% "Trebuchet MS", sans-serif;
+}
+
+#login div {
+	width: 100%;
+	margin-top: 20px;
+}
+
+#login div input {
+	width: 80%;
+}

@@ -1,0 +1,31 @@
+
+<div>
+	<%= image_tag("EsporaBlanco.png", :class => "esp-logo") %>
+</div>
+
+<div id="login">
+	<%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
+
+		<div style="margin-left: 25px;">
+			<%= f.label :email do %>Usuario: <% end %>
+			<%= f.email_field :email, autofocus: true %>
+		</div>
+
+		<div style="margin-left: 25px;">
+			<%= f.label :password do %>Contraseña: <% end %>
+			<%= f.password_field :password, autocomplete: "off" %>
+		</div>
+
+		<% if devise_mapping.rememberable? -%>
+			<div style="margin-left: 166px;">
+				<%= f.check_box :remember_me, :style => "width: 10%; float: left;" %>
+				<%= f.label :remember_me do %>No cerrar sesión<% end %>
+			</div>
+		<% end %>
+
+		<div style="margin-left: 120px; margin-top: 18px;">
+			<%= f.submit "Entrar", :class => "pure-button pure-button-primary", :style => "width: 25%;" %>
+		</div>
+	<% end %>
+</div>
+	

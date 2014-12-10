@@ -1,0 +1,117 @@
+
+<div style="font: 65% 'Trebuchet MS', sans-serif; margin: 50px;">
+	<div>
+		<%= image_tag("Espora.png", :class => "ter-logo") %>
+	</div>
+
+	<div id="ter-tabs">
+		
+		<ul>
+			<li><a href="#perfil">Perfil</a></li>
+			<li><a href="#lue">LUE</a></li>
+			<li><a href="#fie">FIE</a></li>
+			<li><a href="#fosti">FOSTI</a></li>
+			<li><a href="#havad">HAVAD</a></li>
+
+			<div id="ter-logout">
+				<%= link_to destroy_therapist_session_path, method: :delete do %>SALIR<% end %>
+			</div>
+		</ul>
+
+		<div id="perfil">
+			<div id="perfil-tab">
+				<div id="inicio">BIENVENIDO A ESPORA!!</div>
+				<div id="informacion">Información del terapeuta</div>
+
+			</div>
+		</div>
+
+		<div id="lue">
+			<div id="lue-tab">
+				<ul>
+					<li><a href="#consultar">Consultar</a></li>
+					<li><a href="#nuevo">Nuevo</a></li>
+					<li><a href="#historial">Historial</a></li>
+				</ul>
+				<div id="consultar">Lista de pacientes</div>
+
+				<div id="nuevo">
+					<table style="width:100%">
+						<tr>
+							<td>Fecha de Solicitud :<input id="fecha-sol"></td>
+							<td>Estado Actual
+								<select class="selectmenu">
+									<option>Muy Mal</option>
+									<option>Mal</option>
+									<option>Regular</option>
+									<option>Bien</option>
+									<option>Muy Bien</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Nombre :<input id="nombre"></td>
+							<td>Modo de Solicitud
+								<input type="radio" name="sol" value="net">Internet<br>
+								<input type="radio" name="sol" value="personal">Personal
+							</td>
+						</tr>
+
+						<tr>
+							<td>No. Cuenta :<input id="no.cuenta"></td>
+							<td>Status
+								<select class="selectmenu">
+									<option>T - Tratamiento</option>
+									<option>ER – Esperando Respuesta</option>
+									<option>C – Canalizado</option>
+									<option>A – Abandonado</option>
+									<option>R – Retomado</option>
+									<option>F – Finalizado</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Horarios Disponibles :<input id="horario"></td>
+							<td>Telefono :<input id="fon"></td>
+						</tr>
+
+						<tr>
+							<td>E-mail :<input id="mail"></td>
+							<td>Notas: <input id="notas"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="historial">Estadissticas de los alumnos consultados</div>
+			</div>
+		</div>
+
+		<div id="fie">
+			<div id="fie-tab">
+				<ul>
+					<li>
+						<a href="#consultar-fie">Consultar</a>
+					</li>
+				</ul>
+				<div id="consultar-fie">Lista de pacientes</div>
+			</div>
+		</div>
+
+		<div id="fosti">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</div>
+		<div id="havad">
+			Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$( "#ter-tabs" ).tabs();
+		$( "#perfil-tab" ).tabs();
+		$( "#lue-tab" ).tabs();
+		$( "#fie-tab" ).tabs();
+	});
+</script>

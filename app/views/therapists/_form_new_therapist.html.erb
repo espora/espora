@@ -1,0 +1,50 @@
+<div style="min-height: 500px;">
+	<%= form_for(therapist, url: therapists_create_path,  remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
+
+		<div class="form-inputs" style="width: 100%;">
+			<div>
+				<%= f.label :pLastName do %>Apellido Paterno: <% end %>
+				<%= f.text_field :pLastName, autofocus: true, :size => 100 %>
+			</div>
+
+			<div>
+				<%= f.label :mLastName do %>Apellido Materno: <% end %>
+				<%= f.text_field :mLastName, autofocus: true, :size => 100 %>
+			</div>
+
+			<div>
+				<%= f.label :name do %>Nombre(s): <% end %>
+				<%= f.text_field :name, autofocus: true, :size => 100 %>
+			</div>
+		</div>
+
+		<div class="form-inputs" style="width: 48.5%;">
+			<div>
+				<%= f.label :telephone1 do %>Telefono: <% end %>
+				<%= f.text_field :telephone1, autofocus: true %>
+			</div>
+
+			<div>
+				<%= f.label :telephone2 do %>Celular: <% end %>
+				<%= f.text_field :telephone2, autofocus: true %>
+			</div>
+		</div>
+
+		<div class="form-inputs" style="width: 48.5%; margin-left: 10px;">
+			<div>
+				<%= f.label :email %>
+				<%= f.email_field :email, autofocus: true %>
+			</div>
+
+			<div>
+				<%= f.label :password %>
+				<%= f.password_field :password, autocomplete: "off" %>
+			</div>
+
+			<div>
+				<%= f.label :password_confirmation do %>Confirme password:<% end %>
+				<%= f.password_field :password_confirmation, autocomplete: "off" %>
+			</div>
+		<div>
+	<% end %>
+</div>

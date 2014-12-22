@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  p_last_name: MyString
+  m_last_name: MyString
+  names: MyString
+  account_number: 1
+  birth: 2014-12-22
+  age: 1
+  sex: MyString
+  career: MyString
+  init_school: MyString
+  semester: 1
+  failed_subjects: 1
+  telephone1: MyString
+  telephone2: MyString
+  email: MyString
+  status: MyString
+
+two:
+  p_last_name: MyString
+  m_last_name: MyString
+  names: MyString
+  account_number: 1
+  birth: 2014-12-22
+  age: 1
+  sex: MyString
+  career: MyString
+  init_school: MyString
+  semester: 1
+  failed_subjects: 1
+  telephone1: MyString
+  telephone2: MyString
+  email: MyString
+  status: MyString

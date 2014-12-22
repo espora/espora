@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reasons: MyText
+  condition: MyString
+  how_met: MyString
+  money: 1.5
+  pre_care: false
+  request_date: 2014-12-22
+  attention_date: 2014-12-22
+
+two:
+  reasons: MyText
+  condition: MyString
+  how_met: MyString
+  money: 1.5
+  pre_care: false
+  request_date: 2014-12-22
+  attention_date: 2014-12-22

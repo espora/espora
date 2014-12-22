@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  day: 1
+  beginH: 2014-12-22 15:02:05
+  endH: 2014-12-22 15:02:05
+  patient_request_id: 
+
+two:
+  day: 1
+  beginH: 2014-12-22 15:02:05
+  endH: 2014-12-22 15:02:05
+  patient_request_id: 

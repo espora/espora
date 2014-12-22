@@ -9,6 +9,8 @@ Espora::Application.routes.draw do
 
   # Terapeutas
   get "/therapist" => "therapists#show", as: "therapist_index"
+  get "/therapists/new" => "therapists#new"
+  post "/therapists/create" => "therapists#create", as: "therapists_create"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

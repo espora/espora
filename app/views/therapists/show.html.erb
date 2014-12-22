@@ -12,6 +12,9 @@
 			<li><a href="#fie">FIE</a></li>
 			<li><a href="#fosti">FOSTI</a></li>
 			<li><a href="#havad">HAVAD</a></li>
+			<% if current_therapist.role == "Coordinator" %>
+			<li><a href="#add_therapist">Registra Terapeuta</a></li>
+			<% end %>
 
 			<div id="ter-logout">
 				<%= link_to destroy_therapist_session_path, method: :delete do %>SALIR<% end %>
@@ -101,15 +104,38 @@
 		<div id="fosti">
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 		</div>
+
 		<div id="havad">
 			Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.
 		</div>
+
+		<% if current_therapist.role == "Coordinator" %>
+		<div id="add_therapist">
+		</div>
+		<% end %>
 	</div>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$( "#ter-tabs" ).tabs();
+		$( "#ter-tabs" ).tabs({
+			beforeActivate: function( event, ui ) {
+				var newPanel = ui.newPanel;
+				if(newPanel.attr("id") == "add_therapist") {
+
+					// Carga el formato para agregar un nuevo
+					$.ajax({
+						type: "GET",
+						url: "/therapists/new",
+						dataType: "html",
+						success: function(data) {
+							newPanel.html(data);
+						}
+					});
+				}
+			}
+		});
+
 		$( "#perfil-tab" ).tabs();
 		$( "#lue-tab" ).tabs();
 		$( "#fie-tab" ).tabs();

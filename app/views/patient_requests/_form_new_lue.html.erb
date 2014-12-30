@@ -1,0 +1,44 @@
+<div style="min-height: 500px;">
+	<%= form_for(patient_request, url: create_patient_request_path,  remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |patient_request_form| %>
+
+		<!-- FORMULARIO PARA EL PACIENTE -->
+		<%= fields_for patient_request.patient do |patient_form| %>
+		<div class="form-inputs" style="width: 100%;">
+
+			<div>
+				<%= patient_form.label :p_last_name do %>Apellido Paterno: <% end %>
+				<%= patient_form.text_field :p_last_name, autofocus: true, :size => 100 %>
+			</div>
+
+			<div>
+				<%= patient_form.label :m_last_name do %>Apellido Materno: <% end %>
+				<%= patient_form.text_field :m_last_name, autofocus: true, :size => 100 %>
+			</div>
+
+			<div>
+				<%= patient_form.label :names do %>Nombre(s): <% end %>
+				<%= patient_form.text_field :names, autofocus: true, :size => 100 %>
+			</div>
+
+			<div>
+				<%= patient_form.label :account_number do %>Numero de cuenta: <% end %>
+				<%= patient_form.text_field :account_number, autofocus: true, :size => 20 %>
+			</div>
+
+			<div>
+				<%= patient_form.label :age do %>Edad: <% end %>
+				<%= patient_form.text_field :age, autofocus: true, :size => 20 %>
+			</div>
+
+			<div>
+				<%= patient_form.label :sex do %>Sexo: <% end %>
+				<%= patient_form.radio_button :sex, 'm' %> 
+				<%= patient_form.label :sex, 'Masculino', :value => 'm' %>
+				<%= patient_form.radio_button :sex, 'f' %>
+				<%= patient_form.label :sex, 'Femenino', :value => 'f' %>
+			</div>
+		</div>
+		<% end %>
+
+	<% end %>
+</div>

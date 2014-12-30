@@ -38,54 +38,7 @@
 				</ul>
 				<div id="consultar">Lista de pacientes</div>
 
-				<div id="nuevo">
-					<table style="width:100%">
-						<tr>
-							<td>Fecha de Solicitud :<input id="fecha-sol"></td>
-							<td>Estado Actual
-								<select class="selectmenu">
-									<option>Muy Mal</option>
-									<option>Mal</option>
-									<option>Regular</option>
-									<option>Bien</option>
-									<option>Muy Bien</option>
-								</select>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Nombre :<input id="nombre"></td>
-							<td>Modo de Solicitud
-								<input type="radio" name="sol" value="net">Internet<br>
-								<input type="radio" name="sol" value="personal">Personal
-							</td>
-						</tr>
-
-						<tr>
-							<td>No. Cuenta :<input id="no.cuenta"></td>
-							<td>Status
-								<select class="selectmenu">
-									<option>T - Tratamiento</option>
-									<option>ER – Esperando Respuesta</option>
-									<option>C – Canalizado</option>
-									<option>A – Abandonado</option>
-									<option>R – Retomado</option>
-									<option>F – Finalizado</option>
-								</select>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Horarios Disponibles :<input id="horario"></td>
-							<td>Telefono :<input id="fon"></td>
-						</tr>
-
-						<tr>
-							<td>E-mail :<input id="mail"></td>
-							<td>Notas: <input id="notas"></td>
-						</tr>
-					</table>
-				</div>
+				<div id="nuevo"></div>
 				<div id="historial">Estadissticas de los alumnos consultados</div>
 			</div>
 		</div>
@@ -117,27 +70,41 @@
 </div>
 
 <script type="text/javascript">
+
+	function loadPanel( url, panel ) {
+		// Pedimos via ajax
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "html",
+			success: function( data ) {
+				panel.html( data );
+			}
+		});
+	}
+
 	$(document).ready(function() {
 		$( "#ter-tabs" ).tabs({
 			beforeActivate: function( event, ui ) {
 				var newPanel = ui.newPanel;
-				if(newPanel.attr("id") == "add_therapist") {
 
-					// Carga el formato para agregar un nuevo
-					$.ajax({
-						type: "GET",
-						url: "/therapists/new",
-						dataType: "html",
-						success: function(data) {
-							newPanel.html(data);
-						}
-					});
+				if( newPanel.attr( "id" ) == "add_therapist" ) {
+					loadPanel( "<%= new_therapist_path %>", newPanel );
 				}
 			}
 		});
 
 		$( "#perfil-tab" ).tabs();
-		$( "#lue-tab" ).tabs();
+
+		$( "#lue-tab" ).tabs( {
+			beforeActivate: function( event, ui ) {
+				var newPanel = ui.newPanel;
+				if( newPanel.attr( "id" ) == "nuevo" ) {
+					loadPanel( "<%= new_patient_request_path %>", newPanel );
+				}
+			}
+		});
+
 		$( "#fie-tab" ).tabs();
 	});
 </script>

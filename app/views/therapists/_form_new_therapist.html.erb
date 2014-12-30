@@ -1,20 +1,20 @@
 <div style="min-height: 500px;">
-	<%= form_for(therapist, url: therapists_create_path,  remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
+	<%= form_for(therapist, url: create_therapists_path,  remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
 
 		<div class="form-inputs" style="width: 100%;">
 			<div>
-				<%= f.label :pLastName do %>Apellido Paterno: <% end %>
-				<%= f.text_field :pLastName, autofocus: true, :size => 100 %>
+				<%= f.label :p_last_name do %>Apellido Paterno: <% end %>
+				<%= f.text_field :p_last_name, autofocus: true, :size => 100 %>
 			</div>
 
 			<div>
-				<%= f.label :mLastName do %>Apellido Materno: <% end %>
-				<%= f.text_field :mLastName, autofocus: true, :size => 100 %>
+				<%= f.label :m_last_name do %>Apellido Materno: <% end %>
+				<%= f.text_field :m_last_name, autofocus: true, :size => 100 %>
 			</div>
 
 			<div>
-				<%= f.label :name do %>Nombre(s): <% end %>
-				<%= f.text_field :name, autofocus: true, :size => 100 %>
+				<%= f.label :names do %>Nombre(s): <% end %>
+				<%= f.text_field :names, autofocus: true, :size => 100 %>
 			</div>
 		</div>
 

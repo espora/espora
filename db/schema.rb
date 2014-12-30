@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222210404) do
+ActiveRecord::Schema.define(version: 20141223033937) do
 
   create_table "affected_areas", force: true do |t|
     t.string   "area"
@@ -34,7 +34,10 @@ ActiveRecord::Schema.define(version: 20141222210404) do
     t.datetime "updated_at"
     t.integer  "receive_therapist_id"
     t.integer  "attention_therapist_id"
+    t.integer  "patient_id"
   end
+
+  add_index "patient_requests", ["patient_id"], name: "index_patient_requests_on_patient_id"
 
   create_table "patients", force: true do |t|
     t.string   "p_last_name"
@@ -93,11 +96,12 @@ ActiveRecord::Schema.define(version: 20141222210404) do
     t.datetime "updated_at"
     t.string   "scholar_grade"
     t.string   "role"
-    t.string   "pLastName"
-    t.string   "mLastName"
     t.string   "name"
     t.string   "telephone1"
     t.string   "telephone2"
+    t.string   "p_last_name"
+    t.string   "m_last_name"
+    t.string   "names"
   end
 
   add_index "therapists", ["email"], name: "index_therapists_on_email", unique: true

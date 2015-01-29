@@ -1,0 +1,307 @@
+<script type="text/javascript">
+
+	function changeScheduleDay () {
+		console.log("ok123");
+	}
+
+	function changeAffectedArea ( input ) {
+
+		// Obtenemos el hidden input correspondiente
+		var field = $( input ).parent().find( "[type=hidden]" )[0];
+		var fieldValue = "";
+
+		// Si se esta en check
+		if(input.checked) {
+
+			// Obtenemos el area afectada del checkbox
+			fieldValue = $( input ).attr("affarea");
+		}
+
+		// Seteamos el valor del hidden 
+		$( field ).attr( "value", fieldValue );
+	}
+
+	$(document).ready(function() {
+
+		// Al agregar un horario baja el div
+		$(document).on('nested:fieldAdded', function( event ) {
+			$("#form-container").height( $("#form-container").height() + 50 );
+		});
+
+		// Al eliminar un horario sube el div
+		$(document).on('nested:fieldRemoved', function( event ) {
+			$("#form-container").height( $("#form-container").height() - 50 );
+		});
+
+		// Hacemos click a un horario
+		$(".add_nested_fields").html("<i class='fa fa-plus-circle' style='font-size: 13px;'></i> Agregar un horario");
+		$(".add_nested_fields").click();
+	});
+
+</script>
+
+<div id="form-container" style="height: 1276px;">
+	<%= nested_form_for(patient_request, url: create_patient_request_path,  remote: true, :html => { :id => "form-new-lue", :class => "pure-form pure-form-stacked" }) do |request_form| %>
+
+		<!-- FORMULARIO PARA EL PACIENTE -->
+		<div style="width: 100%; float: left;">
+			<%= fields_for patient_request.patient do |patient_form| %>
+
+				<div class="form-inputs" style="width: 38%; float: left;">
+					<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+						DATOS PERSONALES
+					</div>
+
+					<!-- NOMBRES -->
+					<div style="margin-left: 4%; margin-top: 5px;">
+						<%= patient_form.label :names do %>Nombre(s): <% end %>
+						<%= patient_form.text_field :names, autofocus: true, :size => 50 %>
+					</div>
+
+					<!-- A PATERNO -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :p_last_name do %>Apellido Paterno: <% end %>
+						<%= patient_form.text_field :p_last_name, autofocus: true, :size => 50 %>
+					</div>
+
+					<!-- A MATERNO -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :m_last_name do %>Apellido Materno: <% end %>
+						<%= patient_form.text_field :m_last_name, autofocus: true, :size => 50 %>
+					</div>
+
+					<!-- FECHA DE NACIMIENTO -->
+					<div style="margin-left: 4%; margin-top: 10px;" class="form-date">
+						<div>Fecha de Nacimiento:</div>
+						<%= patient_form.date_select :birth,
+						:order => [:day, :month, :year],
+						:start_year => 1970, :end_year => 2010,
+						:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+							'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre'] %>
+					</div>
+
+					<!-- EDAD -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :age do %>Edad: <% end %>
+						<%= patient_form.text_field :age, autofocus: true, :size => 5 %>
+					</div>
+
+					<!-- SEXO -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :sex do %>Sexo: <% end %>
+
+						<div style="width: 100%; margin-top: 3px; margin-left: 1.2%; float: left;">
+							<%= patient_form.radio_button :sex, 'm', :style => "float: left;" %>
+							<%= patient_form.label :sex, 'Masculino', :value => 'm', :style => "float: left; margin-left: 3px;" %>
+						</div>
+
+						<div style="width: 15%; margin-top: 3px; margin-left: 1.2%; float: left;">
+							<%= patient_form.radio_button :sex, 'f', :style => "float: left;" %>
+							<%= patient_form.label :sex, 'Femenino', :value => 'f', :style => "float: left; margin-left: 3px;" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-inputs" style="width: 39.4%; height: 369px; float: left; margin-left: 1.5%; min-height: 341px;">
+					<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+						DATOS ESCOLARES
+					</div>
+
+					<!-- NUMERO DE CUENTA -->
+					<div style="margin-left: 4%; margin-top: 5px;">
+						<%= patient_form.label :account_number do %>No. de cuenta: <% end %>
+						<%= patient_form.text_field :account_number, autofocus: true, :size => 20 %>
+					</div>
+
+					<!-- CARRERA -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :career, "Carrera: " %>
+						<%= patient_form.select :career, [["Actuaría", "actuaria"], ["Biología", "biologia"], ["Ciencias Ambientales", "ciencias_ambientales"], ["Ciencias de la Computación", "ciencias_de_la_computacion"], ["Ciencias de la Tierra", "ciencias_de_la_tierra"], ["Física", "fisica"], ["Fisica Biomédica", "fisica_biomedica"], ["Manejo Sustentable de Zonas Costeras", "manejo_sustentable_de_zonas_costeras"], ["Matemáticas", "matematicas"]] %>
+					</div>
+
+					<!-- AÑO DE INICIO -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :init_school do %>Año de inicio: <% end %>
+
+						<% bYear = 1990 %>
+						<% eYear = 2015 %>
+						<% yearsSchool = [] %>
+						<% index = 0 %>
+						<% (bYear..eYear).each do |i| %>
+							<% yearsSchool[index] = [i.to_s, i.to_s] %>
+							<% index += 1 %>
+						<% end %>
+						<%= patient_form.select :init_school, yearsSchool %>
+					</div>
+
+					<!-- SEMESTRE -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :semester do %>Semestre en curso: <% end %>
+						<%= patient_form.text_field :semester, autofocus: true, :size => 5 %>
+					</div>
+
+					<!-- MATERIAS CURSADAS -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= patient_form.label :failed_subjects do %>Número de materias adeudadas: <% end %>
+						<%= patient_form.text_field :failed_subjects, autofocus: true, :size => 5 %>
+					</div>
+				</div>
+
+				<div style="width: 80%; float: left;">
+					<div class="form-inputs" style="width: 100%; float: left;">
+						<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+							CONTACTOS
+						</div>
+
+						<!-- TELEFONO 1 -->
+						<div style="margin-left: 2%; margin-top: 5px;">
+							<%= patient_form.label :telephone1 do %>Telefono: <% end %>
+							<%= patient_form.text_field :telephone1, autofocus: true %>
+						</div>
+
+						<!-- TELEFONO 2 -->
+						<div style="margin-left: 2%; margin-top: 10px;">
+							<%= patient_form.label :telephone2 do %>Celular: <% end %>
+							<%= patient_form.text_field :telephone2, autofocus: true %>
+						</div>
+
+						<!-- EMAIL -->
+						<div style="margin-left: 2%; margin-top: 10px;">
+							<%= patient_form.label :email %>
+							<%= patient_form.email_field :email, autofocus: true %>
+						</div>
+					</div>
+				</div>
+
+			<% end %>
+		</div>
+
+		<!-- FORMULARIO PARA LA SOLICIUD -->
+		<div style="width: 100%; float: left;">
+
+			<div class="form-inputs" style="width: 80%; float: left;">
+				<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+					DATOS DE INGRESO
+				</div>
+
+				<!-- MOTIVOS -->
+				<div style="margin-left: 2%; margin-top: 10px;">
+					<%= request_form.label :reasons do %>¿Cuáles son tus motivos de consulta?<% end %>
+					<%= request_form.text_area :reasons, autofocus: true, cols: 70, rows: 7 %>
+				</div>
+
+				<!-- CONDICION -->
+				<div style="margin-left: 2%; margin-top: 10px;">
+					<%= request_form.label :condition do %>¿Cómo te sientes actualmente?<% end %>
+					<%= request_form.select :condition, [["Muy mal", "muy_mal"], ["Mal", "mal"], ["Regular", "regular"], ["Bien", "bien"], ["Muy bien", "muy_bien"]] %>
+				</div>
+
+				<!-- COMO CONOCIO -->
+				<div style="margin-left: 2%; margin-top: 10px;">
+					<%= request_form.label :how_met do %>¿Cómo te enteraste de los servicios que ofrecemos?<% end %>
+					<%= request_form.text_field :how_met, autofocus: true, :size => 50 %>
+				</div>
+
+				<!-- DINERO -->
+				<div style="margin-left: 2%; margin-top: 10px;">
+					<%= request_form.label :money do %>¿Cuánto dinero dispones para gastos personales (por semana)?<% end %>
+					<%= request_form.text_field :money, autofocus: true, :size => 6 %>
+				</div>
+
+				<!-- ATENCION PREVIA -->
+				<div style="width: 100%; margin-left: 2%; margin-top: 10px; height: 57px;">
+					<%= request_form.label :pre_care do %>¿Anteriormente habías asistido a algún espacio de atención psicológica?<% end %>
+
+					<div style="width: 100%; margin-top: 3px; margin-left: 1.2%; float: left;">
+						<%= request_form.radio_button :pre_care, 's', :style => "float: left;" %>
+						<%= request_form.label :pre_care, 'Si', :value => 's', :style => "float: left; margin-left: 3px;" %>
+					</div>
+
+					<div style="width: 15%; margin-top: 3px; margin-left: 1.2%; float: left;">
+						<%= request_form.radio_button :pre_care, 'n', :style => "float: left;" %>
+						<%= request_form.label :pre_care, 'No', :value => 'n', :style => "float: left; margin-left: 3px;" %>
+					</div>
+				</div>
+
+				<!-- AREAS AFECTADAS -->
+				<div style="margin-left: 2%; margin-top: 10px;">
+
+					<div style="width: 100%; float: left;">
+						¿Cuáles de las siguientes áreas se han visto afectadas en tu vida en relación con tu motivo de consulta?
+					</div>
+
+					<div style="width: 30%; float: left;">
+						<%= request_form.fields_for :affected_areas do | aarea_form | %>
+							
+							<div style="width: 50%; float: left; margin-top: 7px; height: 16px;" >
+								<input type="checkbox" affarea="<%= aarea_form.object.area %>" onchange="changeAffectedArea(this);" other="aarea_form.object.isOther?">
+								<%= aarea_form.label :area, :style => "display: inline-block; position: relative; top: -3px;" do %>
+									<%= aarea_form.object.area %>
+								<% end %>
+
+								<% if aarea_form.object.isOther? %>
+									<%= aarea_form.text_field :area, :value => "", autofocus: true, :size => 10, :style => "display: inline-block; position: relative; top: -3px;" %>
+								<% else %>
+									<%= aarea_form.hidden_field :area, :value => "" %>
+								<% end %>
+							</div>
+
+						<% end %>
+					</div>
+				</div>
+
+				<!-- HORARIOS -->
+				<div style="margin-left: 2%; margin-top: 25px;">
+					<div style="width: 100%; float: left;">
+						¿Cuáles son tus horarios disponibles para asistir a las sesiones?
+					</div>
+
+					<!-- TITULOS -->
+					<div style="width: 100%; float: left; margin-top: 9px; font-weight: bold; ">
+						<div style="width: 3%; float: left; margin-left: 17%;">Día</div>
+						<div style="width: 9%; float: left; margin-left: 7%;">Hora de inicio</div>
+						<div style="width: 10%; float: left; margin-left: 5.1%">Hora de termino</div>
+					</div>
+
+					<%= request_form.fields_for :request_schedules do |schedule_form| %>
+						<div style="width: 100%; height: 35px; float: left; margin-top: 5px; margin-bottom: 5px;">
+							<div style="width: 13%; float: left; font-style: italic; padding-top: 10px;">
+								Horario Disponible:
+							</div>
+
+							<!-- DIA -->
+							<div style="width: 12%; float: left;">
+								<%= schedule_form.select :day, [["Lunes", "1"], ["Martes", "2"], ["Miércoles", "3"], ["Jueves", "4"], ["Viernes", "5"]], {},
+								{ :onChange => "changeScheduleDay();" }%>
+							</div>
+
+							<!-- HORA DE INICIO -->
+							<div style="width: 13%; float: left;" class="form-date">
+								<%= schedule_form.time_select :beginH %>
+							</div>
+
+							<!-- HORA DE TERMINO -->
+							<div style="width: 13%; float: left; margin-left: 2%;" class="form-date">
+								<%= schedule_form.time_select :endH %>
+							</div>
+
+							<div style="width: 12%; float: left; padding-top: 10px;">
+								<%= schedule_form.link_to_remove "Borrar horario" %>
+							</div>
+						</div>
+					<% end %>
+					
+					<div>
+						<%= request_form.link_to_add "Agregar un horario", :request_schedules %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ENVIAR -->
+		<div style="width: 100%; float: left; margin-top: 12px;">
+			<%= request_form.submit "GUARDAR SOLICITUD", :class => "pure-button pure-button-primary" %>
+		</div>
+
+	<% end %>
+</div>

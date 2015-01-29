@@ -35,7 +35,17 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# Sistema de login
 gem 'devise'
+
+# Formularios anidados
+gem 'nested_form'
+
+# Iconos
+gem 'font-awesome-rails'
+
+# Para imprimir bonito
+gem 'awesome_print'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

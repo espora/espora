@@ -31,13 +31,15 @@
 
 		<div id="lue">
 			<div id="lue-tab">
+				<!-- PESTANAS -->
 				<ul>
 					<li><a href="#consultar">Consultar</a></li>
 					<li><a href="#nuevo">Nuevo</a></li>
 					<li><a href="#historial">Historial</a></li>
 				</ul>
-				<div id="consultar">Lista de pacientes</div>
 
+				<!-- PANELES -->
+				<div id="consultar">Lista de pacientes</div>
 				<div id="nuevo"></div>
 				<div id="historial">Estadissticas de los alumnos consultados</div>
 			</div>
@@ -70,8 +72,13 @@
 </div>
 
 <script type="text/javascript">
-
+	
+	/* loadPanel:
+	*   Hace una peticion via ajax a una url dada
+	*   y el resultado lo pone en el panel dado
+	*/
 	function loadPanel( url, panel ) {
+
 		// Pedimos via ajax
 		$.ajax({
 			type: "GET",
@@ -99,8 +106,16 @@
 		$( "#lue-tab" ).tabs( {
 			beforeActivate: function( event, ui ) {
 				var newPanel = ui.newPanel;
-				if( newPanel.attr( "id" ) == "nuevo" ) {
+
+				if( newPanel.attr( "id" ) == "consultar" ) {
+				} else if( newPanel.attr( "id" ) == "nuevo" ) {
 					loadPanel( "<%= new_patient_request_path %>", newPanel );
+					
+					// Cuando el formulario se sube exitosamente
+					$("#form-new-lue").bind("ajax:success", function( evt, data, status, xhr ) {
+						console.log("PACIENTE CREADO CORRECTAMENTE!!!!");
+					});
+				} else if( newPanel.attr( "id" ) == "historial" ) {
 				}
 			}
 		});

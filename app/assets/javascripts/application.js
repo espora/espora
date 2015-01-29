@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require jquery.ui.all
+//= require jquery_nested_form
 //= require_tree .

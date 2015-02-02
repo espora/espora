@@ -1,9 +1,12 @@
 <script type="text/javascript">
 
-	function changeScheduleDay () {
+	// Se cambio el dia en un horario
+	function changeScheduleDay ( input ) {
 		console.log("ok123");
+		console.log(input);
 	}
 
+	// Asigna en el hidden input el area afectada que se hizo check
 	function changeAffectedArea ( input ) {
 
 		// Obtenemos el hidden input correspondiente
@@ -55,7 +58,7 @@
 					<!-- NOMBRES -->
 					<div style="margin-left: 4%; margin-top: 5px;">
 						<%= patient_form.label :names do %>Nombre(s): <% end %>
-						<%= patient_form.text_field :names, autofocus: true, :size => 50 %>
+						<%= patient_form.text_field :names, autofocus: true, :size => 50, :required => true %>
 					</div>
 
 					<!-- A PATERNO -->
@@ -272,7 +275,7 @@
 							<!-- DIA -->
 							<div style="width: 12%; float: left;">
 								<%= schedule_form.select :day, [["Lunes", "1"], ["Martes", "2"], ["Miércoles", "3"], ["Jueves", "4"], ["Viernes", "5"]], {},
-								{ :onChange => "changeScheduleDay();" }%>
+								{ :onChange => "changeScheduleDay(this);" }%>
 							</div>
 
 							<!-- HORA DE INICIO -->

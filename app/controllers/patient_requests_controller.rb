@@ -36,11 +36,13 @@ class PatientRequestsController < ApplicationController
 	# POST
 	def create
 
+		# Limpiamos las areas afectadas vacias
 		aff_areas_attr = params[:patient_request][:affected_areas_attributes]
 		aff_areas_attr.reject! do | key, value |
 			aff_areas_attr[key]["area"] == ""
 		end
 
+		# debug
 		ap params
 
 		# Creamos la solicitd del paciente y checamos la validez
@@ -54,23 +56,20 @@ class PatientRequestsController < ApplicationController
 				# Asignamos el paciente
 				@patient_request.patient = @patient
 
-				# Limpiamos las areas afectadas vacias
-				@patient_request.affected_areas.each do | affArea |
-					if affArea == ""
-						affArea.remove
-					end
-				end
+				# Asignamos el terapeuta actual como el que recibio la solicitud
+				@patient_request.receive_therapist = current_therapist
 
-				# Asignamos el terapeuta actual como el que registro
-				@patient_request.receive_therapist = current_therapist				
+				# Dar la fecha de registro
+				@patient_request.request_date = Time.now
 
-				# Salvamos
+				# Salvamos en la BD
 				@patient_request.save
 
 				# Mandamos a renderear de nuevo con mensaje
 				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
 				render partial: "form", locals: { patient_request: @patient_request, flash: flash }
 			else
+				puts "NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE "
 				render :new
 			end
 		else

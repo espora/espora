@@ -9,5 +9,5 @@ class PatientRequest < ActiveRecord::Base
 
 	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
 	accepts_nested_attributes_for :affected_areas, :allow_destroy => true
-	
+
 end

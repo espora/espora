@@ -47,6 +47,9 @@ gem 'font-awesome-rails'
 # Para imprimir bonito
 gem 'awesome_print'
 
+# Diagramas entidad relacion
+gem "rails-erd" # Requiere tener instalado la biblioteca graphviz en el sistema
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -89,6 +89,7 @@
 				panel.html( data );
 			}
 		});
+
 	}
 
 	$(document).ready(function() {
@@ -109,6 +110,8 @@
 				var newPanel = ui.newPanel;
 
 				if( newPanel.attr( "id" ) == "consultar" ) {
+					loadPanel( "", newPanel );
+
 				} else if( newPanel.attr( "id" ) == "nuevo" ) {
 					loadPanel( "<%= new_patient_request_path %>", newPanel );
 					

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_mother: false
+  patient_record_id: 
+  paternal_trait_type_id: 
+
+two:
+  from_mother: false
+  patient_record_id: 
+  paternal_trait_type_id: 

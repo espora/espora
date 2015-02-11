@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111194015) do
+ActiveRecord::Schema.define(version: 20150211183016) do
 
   create_table "affected_areas", force: true do |t|
     t.string   "area"
@@ -21,6 +21,91 @@ ActiveRecord::Schema.define(version: 20150111194015) do
   end
 
   add_index "affected_areas", ["patient_request_id"], name: "index_affected_areas_on_patient_request_id"
+
+  create_table "appointments", force: true do |t|
+    t.integer  "number"
+    t.datetime "date"
+    t.boolean  "attended"
+    t.text     "notes"
+    t.integer  "patient_record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "appointments", ["patient_record_id"], name: "index_appointments_on_patient_record_id"
+
+  create_table "cie10_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "clinical_structure_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "experience_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mechanism_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "paternal_trait_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "paternal_traits", force: true do |t|
+    t.boolean  "from_mother"
+    t.integer  "patient_record_id"
+    t.integer  "paternal_trait_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "paternal_traits", ["paternal_trait_type_id"], name: "index_paternal_traits_on_paternal_trait_type_id"
+  add_index "paternal_traits", ["patient_record_id"], name: "index_paternal_traits_on_patient_record_id"
+
+  create_table "patient_records", force: true do |t|
+    t.text     "observations"
+    t.text     "lives_with"
+    t.integer  "patient_id"
+    t.integer  "therapist_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "cie10_type_id"
+    t.integer  "clinical_structure_type_id"
+  end
+
+  add_index "patient_records", ["cie10_type_id"], name: "index_patient_records_on_cie10_type_id"
+  add_index "patient_records", ["clinical_structure_type_id"], name: "index_patient_records_on_clinical_structure_type_id"
+  add_index "patient_records", ["patient_id"], name: "index_patient_records_on_patient_id"
+  add_index "patient_records", ["therapist_id"], name: "index_patient_records_on_therapist_id"
+
+  create_table "patient_records_experience_types", id: false, force: true do |t|
+    t.integer "patient_record_id"
+    t.integer "experience_type_id"
+  end
+
+  add_index "patient_records_experience_types", ["experience_type_id"], name: "index_patient_records_experience_types_on_experience_type_id"
+  add_index "patient_records_experience_types", ["patient_record_id"], name: "index_patient_records_experience_types_on_patient_record_id"
+
+  create_table "patient_records_mechanism_types", id: false, force: true do |t|
+    t.integer "patient_record_id"
+    t.integer "mechanism_type_id"
+  end
+
+  add_index "patient_records_mechanism_types", ["mechanism_type_id"], name: "index_patient_records_mechanism_types_on_mechanism_type_id"
+  add_index "patient_records_mechanism_types", ["patient_record_id"], name: "index_patient_records_mechanism_types_on_patient_record_id"
 
   create_table "patient_requests", force: true do |t|
     t.text     "reasons"
@@ -33,8 +118,8 @@ ActiveRecord::Schema.define(version: 20150111194015) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "receive_therapist_id"
-    t.integer  "attention_therapist_id"
     t.integer  "patient_id"
+    t.integer  "contact_therapist_id"
   end
 
   add_index "patient_requests", ["patient_id"], name: "index_patient_requests_on_patient_id"
@@ -69,6 +154,23 @@ ActiveRecord::Schema.define(version: 20150111194015) do
   end
 
   add_index "request_schedules", ["patient_request_id"], name: "index_request_schedules_on_patient_request_id"
+
+  create_table "symptom_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "symptoms", force: true do |t|
+    t.integer  "symptom_type_id"
+    t.integer  "level"
+    t.integer  "appointment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "symptoms", ["appointment_id"], name: "index_symptoms_on_appointment_id"
+  add_index "symptoms", ["symptom_type_id"], name: "index_symptoms_on_symptom_type_id"
 
   create_table "therapist_schedules", force: true do |t|
     t.integer  "day"

@@ -1,5 +1,8 @@
 class PatientRequestsController < ApplicationController
 
+	before_filter :authenticate_therapist!, :except => [ :new, :create ]
+
+
 	# GET
 	def new
 		@patient_request = PatientRequest.new
@@ -75,6 +78,11 @@ class PatientRequestsController < ApplicationController
 		else
 			render :new
 		end
+	end
+
+	# GET
+	def show
+		
 	end
 
 	private

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  observations: MyText
+  lives_with: MyText
+  patient_id: 
+  therapist_id: 
+
+two:
+  observations: MyText
+  lives_with: MyText
+  patient_id: 
+  therapist_id: 

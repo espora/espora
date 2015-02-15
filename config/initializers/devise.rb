@@ -5,6 +5,8 @@ Devise.setup do |config|
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # config.secret_key = '8e9015c1705cfcbeda07f576805c4a2f2e38cfc303e13323754cc11a13aac848d42d7205f0de1d31b6fb4fae06f638430e4e44ef6796468e747421c6ea8d83ed'
+  Espora::Application.config.secret_key_base = '5235b585a4866570fed37365c8e6d8f8f474fd070633cb649122bd652a6cd8fe4dc53ca5c742d8438f0d136839b33c427a73c159f8ff20f31864c63f2267ad71'
+
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,

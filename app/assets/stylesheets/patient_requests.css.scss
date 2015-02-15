@@ -1,3 +1,12 @@
 // Place all the styles related to the PatientRequests controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#lue-table div.arrow-expand {
+	font-size: 18px;
+	display: block;
+}
+
+#lue-table .orderby {
+	cursor: pointer;
+}

@@ -7,9 +7,16 @@ class TherapistsController < ApplicationController
 	end
 
 	# GET
+	def profile
+		@therapist = Therapist.find(params[:id])
+		
+		render partial: "profile", locals: { therapist: @therapist }
+	end
+
+	# GET
 	def new
 		@therapist = Therapist.new
-		render partial: "therapists/form_new_therapist", locals: { therapist: @therapist }
+		render partial: "form_new_therapist", locals: { therapist: @therapist }
 	end
 
 	# POST

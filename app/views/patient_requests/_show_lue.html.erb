@@ -1,0 +1,39 @@
+
+<table id="lue-table" class="pure-table pure-table-bordered">
+
+	<thead>
+		<tr>
+			<th class="orderby">NO. DE CUENTA</th>
+			<th class="orderby">APELLIDO PATERNO</th>
+			<th class="orderby">APELLIDO MATERNO</th>
+			<th class="orderby">NOMBRE(S)</th>
+			<th class="orderby">FECHA DE SOLICITUD</th>
+			<th class="orderby">CONDICIÓN</th>
+			<th class="orderby">STATUS</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% patient_requests.each_with_index do | patient_request, index | %>
+			<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+				<td><%= patient_request.patient.account_number %></td>
+				<td><%= patient_request.patient.p_last_name %></td>
+				<td><%= patient_request.patient.m_last_name %></td>
+				<td><%= patient_request.patient.names %></td>
+				<td><%= patient_request.request_date %></td>
+				<td><%= patient_request.condition %></td>
+				<td>En espera</td>
+				<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+			</tr>
+
+			<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+				<td colspan="7" style="background: #000; height: 40px;" ></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	$("#lue-table").expandTable();
+</script>

@@ -16,3 +16,23 @@
 //= require jquery.ui.all
 //= require jquery_nested_form
 //= require_tree .
+
+
+/**
+ *loadPanel:
+ *   Hace una peticion via ajax a una url dada
+ *   y el resultado lo pone en el panel dado
+ */
+function loadPanel( url, panel ) {
+
+	// Pedimos via ajax
+	$.ajax({
+		type: "GET",
+		url: url,
+		dataType: "html",
+		success: function( data ) {
+			panel.html( data );
+		}
+	});
+
+}

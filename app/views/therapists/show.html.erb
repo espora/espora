@@ -1,50 +1,36 @@
 
 <div style="font: 65% 'Trebuchet MS', sans-serif; margin: 50px;">
+
+	<!-- LOGO -->
 	<div>
 		<%= image_tag("Espora.png", :class => "ter-logo") %>
 	</div>
 
+	<!-- WORKSPACE TERAPEUTA -->
 	<div id="ter-tabs">
 		
+		<!-- OPCIONES PESTAÑA -->
 		<ul>
 			<li><a href="#perfil">Perfil</a></li>
 			<li><a href="#lue">LUE</a></li>
 			<li><a href="#fie">FIE</a></li>
 			<li><a href="#fosti">FOSTI</a></li>
 			<li><a href="#havad">HAVAD</a></li>
-			
 			<% if current_therapist.role == "Coordinator" %>
-			<li><a href="#add_therapist">Registra Terapeuta</a></li>
+				<li><a href="#add_therapist">Registra Terapeuta</a></li>
 			<% end %>
 
+			<!-- SALIR -->
 			<div id="ter-logout">
 				<%= link_to destroy_therapist_session_path, method: :delete do %>SALIR<% end %>
 			</div>
 		</ul>
 
-		<div id="perfil">
-			<div id="perfil-tab">
-				<div id="inicio">BIENVENIDO A ESPORA!!</div>
-				<div id="informacion">Información del terapeuta</div>
+		<!-- PERFIL -->
+		<div id="perfil"></div>
 
-			</div>
-		</div>
-
-		<div id="lue">
-			<div id="lue-tab">
-				<!-- PESTANAS -->
-				<ul>
-					<li><a href="#consultar">Consultar</a></li>
-					<li><a href="#nuevo">Nuevo</a></li>
-					<li><a href="#historial">Historial</a></li>
-				</ul>
-
-				<!-- PANELES -->
-				<div id="consultar">Lista de pacientes</div>
-				<div id="nuevo"></div>
-				<div id="historial">Estadissticas de los alumnos consultados</div>
-			</div>
-		</div>
+		<!-- LUE PANEL -->
+		<div id="lue"></div>
 
 		<div id="fie">
 			<div id="fie-tab">
@@ -73,54 +59,35 @@
 </div>
 
 <script type="text/javascript">
-	
-	/* loadPanel:
-	*   Hace una peticion via ajax a una url dada
-	*   y el resultado lo pone en el panel dado
-	*/
-	function loadPanel( url, panel ) {
-
-		// Pedimos via ajax
-		$.ajax({
-			type: "GET",
-			url: url,
-			dataType: "html",
-			success: function( data ) {
-				panel.html( data );
-			}
-		});
-
-	}
 
 	$(document).ready(function() {
 		$( "#ter-tabs" ).tabs({
 			beforeActivate: function( event, ui ) {
+
+				// Siguiente panel
 				var newPanel = ui.newPanel;
 
+				// PANEL AL WORKSPACE
+
+				// Perfil
+				if( newPanel.attr( "id" ) == "perfil" ) {
+					loadPanel( "<%= therapist_profile_path(current_therapist.id) %>", newPanel );
+				}
+
+				// LUE
+				if( newPanel.attr( "id" ) == "lue" ) {
+					loadPanel( "<%= patient_requests_index_path %>", newPanel );
+				}
+
+				// Agregar terapeuta
 				if( newPanel.attr( "id" ) == "add_therapist" ) {
 					loadPanel( "<%= new_therapist_path %>", newPanel );
 				}
-			}
-		});
+			},
+			create: function( event, ui ) {
 
-		$( "#perfil-tab" ).tabs();
-
-		$( "#lue-tab" ).tabs( {
-			beforeActivate: function( event, ui ) {
-				var newPanel = ui.newPanel;
-
-				if( newPanel.attr( "id" ) == "consultar" ) {
-					loadPanel( "", newPanel );
-
-				} else if( newPanel.attr( "id" ) == "nuevo" ) {
-					loadPanel( "<%= new_patient_request_path %>", newPanel );
-					
-					// Cuando el formulario se sube exitosamente
-					$("#form-new-lue").bind("ajax:success", function( evt, data, status, xhr ) {
-						console.log("PACIENTE CREADO CORRECTAMENTE!!!!");
-					});
-				} else if( newPanel.attr( "id" ) == "historial" ) {
-				}
+				// Por default pone el perfil
+				loadPanel( "<%= therapist_profile_path(current_therapist.id) %>", $("#perfil") );
 			}
 		});
 

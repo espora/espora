@@ -1,0 +1,55 @@
+
+<!-- WORKSPACE LUE -->
+<div id="lue-tab">
+
+	<!-- PESTANAS -->
+	<ul>
+		<li><a href="#consultar">Consultar</a></li>
+		<li><a href="#nuevo">Nuevo</a></li>
+		<li><a href="#historial">Historial</a></li>
+	</ul>
+
+	<!-- PANELES -->
+	<div id="consultar"></div>
+	<div id="nuevo"></div>
+	<div id="historial">Estadissticas de los alumnos consultados</div>
+	
+</div>
+
+<script type="text/javascript">
+	$( "#lue-tab" ).tabs( {
+		beforeActivate: function( event, ui ) {
+
+			// Siguiente panel
+			var newPanel = ui.newPanel;
+
+			// PANEL AL WORKSPACE
+
+			// Mostrar la lista de espera
+			if( newPanel.attr( "id" ) == "consultar" ) {
+				loadPanel( "<%= show_lue_path %>", newPanel );
+
+			}
+
+			// Nueva solicitud
+			if( newPanel.attr( "id" ) == "nuevo" ) {
+				loadPanel( "<%= new_patient_request_path %>", newPanel );
+				
+			}
+
+			// Consultar el historial
+			if( newPanel.attr( "id" ) == "historial" ) {
+			}
+		},
+		create: function( event, ui ) {
+
+			// Por default pone el lue
+			loadPanel( "<%= show_lue_path %>", $("#consultar") );
+		}
+	});
+
+	// Evento cuando el formulario se cargo
+	/*$("#form-work").bind("ajax:success", function(evt, data, status, xhr) {
+		// TODO codigo de respuesta
+	});*/
+</script>

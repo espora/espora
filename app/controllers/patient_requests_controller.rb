@@ -2,6 +2,10 @@ class PatientRequestsController < ApplicationController
 
 	before_filter :authenticate_therapist!, :except => [ :new, :create ]
 
+	# GET
+	def index
+		render partial: "index"
+	end
 
 	# GET
 	def new
@@ -81,10 +85,12 @@ class PatientRequestsController < ApplicationController
 	end
 
 	# GET
-	def show
-		
-	end
+	def show_lue
+		@patient_requests = PatientRequest.all
 
+		render partial: "show_lue", locals: { patient_requests: @patient_requests }
+	end
+	
 	private
 
 	def patient_requets_params

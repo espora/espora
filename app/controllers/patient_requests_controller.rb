@@ -90,6 +90,11 @@ class PatientRequestsController < ApplicationController
 
 		render partial: "show_lue", locals: { patient_requests: @patient_requests }
 	end
+
+	# POST
+	def lue_search
+		
+	end
 	
 	private
 

@@ -10,3 +10,16 @@
 #lue-table .orderby {
 	cursor: pointer;
 }
+
+.lue-block {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+#lue-search, #lue-filter {
+	width: 20%;
+	margin-left: 2%;
+	margin-top: 15px;
+	float: left;
+}

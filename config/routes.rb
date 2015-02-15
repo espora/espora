@@ -27,6 +27,7 @@ Espora::Application.routes.draw do
 
   # Consultar lue
   get "/patient_requests/lue" => "patient_requests#show_lue", as: "show_lue"
+  post "/patient_requests/lue/search" => "patient_requests#search", as: "lue_search"
   #post "/lue" => "patient_requests#lue", as: "lue"
 
   # Pacientes

@@ -17,14 +17,28 @@
 /************ FORMULARIOS **************/
 
 .form-inputs {
-	min-height: 133px;
-
 	position: relative;
-	float: left;
 
 	border: 1px solid #d3d3d3;
 	border-radius: 3px;
 
 	padding: 10px 0px 10px 10px;
 	margin-top: 10px;
+}
+
+.form-inputs > div {
+	width: 100%;
+	float: left;
+}
+
+.form-date select {
+	display: inline-block;
+}
+
+.form-radio-opt label input {
+	float: left;
+}
+
+textarea {
+	resize: none;
 }

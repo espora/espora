@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  date: 2015-02-10 20:26:11
+  attended: false
+  notes: MyText
+  patient_record_id: 
+
+two:
+  number: 1
+  date: 2015-02-10 20:26:11
+  attended: false
+  notes: MyText
+  patient_record_id: 

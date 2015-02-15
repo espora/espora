@@ -1,0 +1,7 @@
+es:
+  devise:
+    failure:
+      therapist:
+        not_found_in_database: "Terapeuta no registrado"
+
+  hola: "Hola mundo"

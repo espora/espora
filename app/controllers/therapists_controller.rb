@@ -12,4 +12,10 @@ class TherapistsController < ApplicationController
 		render partial: "therapists/form_new_therapist", locals: { therapist: @therapist }
 	end
 
+	# POST
+	def create
+	end
+
+	
+
 end

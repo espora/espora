@@ -4,6 +4,7 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
+  Espora::Application.config.secret_key_base = '5379c22614ae610fc2109ebe5106925dd88c4dce70bde622a04b93a5057d0671303be11740fe563a68d63dcf6b0000b604c61b701878598b0ac30f8e99aa2c14'
   # config.secret_key = '8e9015c1705cfcbeda07f576805c4a2f2e38cfc303e13323754cc11a13aac848d42d7205f0de1d31b6fb4fae06f638430e4e44ef6796468e747421c6ea8d83ed'
   #config.secret_key = '0c98f00121327bbc81fe3a3409e43b6dcbcfcb37015a523a67b906b6dc2a9ac9a7bb008fb1c75769f0d93cacf421f41b6e7c1f72ca1cae1383d47d9c598dd4d9'
   #espora::Application.config.secret_token = '8509aca42f7ce9357bf1f7cfa6800bfd7a2df41fdde8ff456b1f8e7cddbca149f1c4deb1891571438450ddb1eebb8b103501e846cb44ac87ac2535b56b967cfa'

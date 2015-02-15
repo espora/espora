@@ -64,7 +64,7 @@
 					<!-- A PATERNO -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :p_last_name do %>Apellido Paterno: <% end %>
-						<%= patient_form.text_field :p_last_name, autofocus: true, :size => 50 %>
+						<%= patient_form.text_field :p_last_name, autofocus: true, :size => 50, :required = true %>
 					</div>
 
 					<!-- A MATERNO -->
@@ -83,12 +83,7 @@
 							'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre'] %>
 					</div>
 
-					<!-- EDAD -->
-					<div style="margin-left: 4%; margin-top: 10px;">
-						<%= patient_form.label :age do %>Edad: <% end %>
-						<%= patient_form.text_field :age, autofocus: true, :size => 5 %>
-					</div>
-
+					
 					<!-- SEXO -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :sex do %>Sexo: <% end %>

@@ -16,12 +16,7 @@
 			<%= f.password_field :password, autocomplete: "off" %>
 		</div>
 
-		<% if devise_mapping.rememberable? -%>
-			<div style="margin-left: 166px;">
-				<%= f.check_box :remember_me, :style => "width: 10%; float: left;" %>
-				<%= f.label :remember_me do %>No cerrar sesión<% end %>
-			</div>
-		<% end %>
+		
 
 		<div style="margin-left: 120px; margin-top: 18px;">
 			<%= f.submit "Entrar", :class => "pure-button pure-button-primary", :style => "width: 25%;" %>

@@ -11,19 +11,19 @@ class Patient < ActiveRecord::Base
 
 ########################
     #t.string   "p_last_name"
-    validates :p_last_name, presence: { :menssage => "Ingresar el apellido paterno" }
+    validates :p_last_name, presence: { :message => "Ingresar el apellido paterno" }
     validates :p_last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato invalido, solo permite letras" } 
 
     #t.string   "m_last_name"
-    validates :m_last_name, presence: { :menssage => "Ingresar el apellido materno" }
+    validates :m_last_name, presence: { :message => "Ingresar el apellido materno" }
  	validates :m_last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato invalido, solo permite letras" } 
 
     #t.string   "names"
-    validates :names, presence: { :menssage => "Ingresar un(os) nombre(s)" }
+    validates :names, presence: { :message => "Ingresar un(os) nombre(s)" }
     validates :names, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato invalido, solo permite letras" } 
 
     #t.integer  "account_number"
-    validates :account_number, presence: { :menssage => "Ingresar el numero de cuenta"}
+    validates :account_number, presence: { :message => "Ingresar el numero de cuenta"}
     validates :account_number, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
     validates :account_number, :length => { is: 9 }
     validates :account_number, uniqueness: { message: "No. Cuenta ya registrado" }
@@ -35,13 +35,13 @@ class Patient < ActiveRecord::Base
     #validates :age,
 
     #t.string   "sex"
-    validates :sex, presence: { :menssage => "Campo vacio" }
+    validates :sex, presence: { :message => "Campo vacio" }
 
     #t.string   "career"
-    validates :career, presence: { :menssage => "Campo vacio" }
+    validates :career, presence: { :message => "Campo vacio" }
 
     #t.string   "init_school"
-    validates :init_school, presence: { :menssage => "Campo vacio" }
+    validates :init_school, presence: { :message => "Campo vacio" }
 
     #t.integer  "semester"
     validates :semester, numericality: { only_integer: true, :message => "Tipo de dato invalido"} 
@@ -69,7 +69,7 @@ class Patient < ActiveRecord::Base
     	too_long: "Debe tener a lo mas %{count} digitos"
  	}
     #t.string   "email"
-    validates :email, presence: { :menssage => "Ingresar email" }
+    validates :email, presence: { :message => "Ingresar email" }
     VALID_CARACTERS = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, format: { :with => VALID_CARACTERS , message: "Formato de correo invalido" }
     validates :email, uniqueness: { case_sensitive: true, message: "email ya se registrado" }

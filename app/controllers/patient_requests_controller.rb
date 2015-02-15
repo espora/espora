@@ -76,8 +76,10 @@ class PatientRequestsController < ApplicationController
 				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
 				render partial: "form", locals: { patient_request: @patient_request, flash: flash }
 			else
+				puts "::::::::::::::::::::::::"
+				puts @patient_request.errors.size
 				puts "NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE "
-				render :new
+				render partial: "form", locals: { patient_request: @patient_request, flash: flash }
 			end
 		else
 			render :new

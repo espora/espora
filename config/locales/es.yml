@@ -1,7 +1,11 @@
 es:
   devise:
+    sessions:
+      therapist:
+        signed_out: "Ha salido del sistema"
     failure:
       therapist:
         not_found_in_database: "Terapeuta no registrado"
+        invalid: "Contraseña inválida"
 
   hola: "Hola mundo"

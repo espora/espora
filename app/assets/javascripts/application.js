@@ -36,3 +36,9 @@ function loadPanel( url, panel ) {
 	});
 
 }
+
+function timerAlertBox (elem) {
+	setTimeout(function() {
+		$(elem).remove();
+	}, 4000);
+}

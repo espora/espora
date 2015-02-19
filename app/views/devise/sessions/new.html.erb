@@ -1,26 +1,41 @@
+<div style="width: 28%; margin-left: 36%;">
 
-<div>
-	<%= image_tag("EsporaBlanco.png", :class => "esp-logo") %>
-</div>
+	<div style="width: 100%;">
+		<%= image_tag("EsporaBlanco.png", :class => "esp-logo", :style => "margin-left: 2%;") %>
+	</div>
 
-<div id="login">
-	<%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
-
-		<div style="margin-left: 25px;">
-			<%= f.label :email do %>Usuario: <% end %>
-			<%= f.email_field :email, autofocus: true %>
-		</div>
-
-		<div style="margin-left: 25px;">
-			<%= f.label :password do %>Contraseña: <% end %>
-			<%= f.password_field :password, autocomplete: "off" %>
-		</div>
-
-		
-
-		<div style="margin-left: 120px; margin-top: 18px;">
-			<%= f.submit "Entrar", :class => "pure-button pure-button-primary", :style => "width: 25%;" %>
-		</div>
+	<% if not flash[:alert].nil? %>
+		<div class="alert-box error" onload="timerAlertBox(this);"><%= flash[:alert] %></div>
 	<% end %>
+	<% if not flash[:notice].nil? %>
+		<div class="alert-box notice" onload="timerAlertBox(this);"><%= flash[:notice] %></div>
+	<% end %>
+
+	<div id="login">
+		<%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
+			<div style="margin-left: 25px;">
+				<%= f.label :email do %>Usuario: <% end %>
+				<%= f.email_field :email, autofocus: true, :required => true %>
+			</div>
+
+			<div style="margin-left: 25px;">
+				<%= f.label :password do %>Contraseña: <% end %>
+				<%= f.password_field :password, autocomplete: "off", :required => true %>
+			</div>
+
+			<div style="margin-left: 120px; margin-top: 18px;">
+				<%= f.submit "Entrar", :class => "pure-button pure-button-primary", :style => "width: 25%;" %>
+			</div>
+		<% end %>
+	</div>
 </div>
-	
+
+<script type="text/javascript">
+	$(".alert-box").each(function() {
+		timerAlertBox(this);
+	});
+
+	$(".alert-box").click(function() {
+		$(this).remove();
+	});
+</script>

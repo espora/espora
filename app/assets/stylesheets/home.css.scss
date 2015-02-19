@@ -14,12 +14,12 @@
 	padding-left: 15px;
 	margin-left: 410px;
 	margin-top: 30px;
-	border-radius: 4%;
+	border-radius: 4px;
 }
 
 #login {
-	width: 331px;
-	height: 225px;
+	width: 87%;
+	height: 205px;
 
 	border-width: 1px;
 	border-color: green;
@@ -27,9 +27,8 @@
 
 	padding-left: 15px;
 
-	margin-left: 510px;
-	margin-top: 45px;
-	border-radius: 5%;
+	margin-top: 15px;
+	border-radius: 4px;
 
 	font: 75% "Trebuchet MS", sans-serif;
 }
@@ -41,4 +40,35 @@
 
 #login div input {
 	width: 80%;
+}
+
+/******* NOTICE *******/
+
+.alert-box {
+	width: 72%;
+	color: #555;
+	border-radius: 4px;
+	font-size: 12px;
+	padding: 10px 36px;
+	cursor: pointer;
+}
+
+.error {
+	background: #ffecec;
+	border: 1px solid #f5aca6;
+}
+
+.success {
+	background: #e9ffd9;
+	border: 1px solid #a6ca8a;
+}
+
+.warning {
+	background: #fff8c4;
+	border: 1px solid #f2c779;
+}
+
+.notice {
+	background: #e3f7fc;
+	border: 1px solid #8ed9f6;
 }

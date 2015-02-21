@@ -1,14 +1,28 @@
 class PatientRequestsController < ApplicationController
 
-	before_filter :authenticate_therapist!, :except => [ :new, :create ]
+	before_filter :authenticate_therapist!
+
+	# Layout para el terapeuta
+	layout "therapist", :only => [ :lue, :new ]
 
 	# GET
-	def index
-		render partial: "index"
+	def lue
+
+		# Obtenemos las solicitudes
+		@patient_requests = PatientRequest.all
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 1
+
+		# Panel para las tabs del workspace del lue
+		@lue_active_tab = 0
+
 	end
 
 	# GET
 	def new
+
+		# Creamos los objetos
 		@patient_request = PatientRequest.new
 		@patient_request.patient = Patient.new
 
@@ -37,7 +51,11 @@ class PatientRequestsController < ApplicationController
 		@patient_request.affected_areas.build
 		@patient_request.affected_areas.last.area = "Otro"
 
-		render partial: "form", locals: { patient_request: @patient_request }
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 1
+
+		# Panel para las tabs del workspace del lue
+		@lue_active_tab = 1
 	end
 
 	# POST
@@ -86,23 +104,20 @@ class PatientRequestsController < ApplicationController
 		end
 	end
 
-	# GET
-	def show_lue
-		@patient_requests = PatientRequest.all
-
-		render partial: "show_lue", locals: { patient_requests: @patient_requests }
+	# POST
+	def lue_search
 	end
 	
 	private
 
-	def patient_requets_params
-		params.require(:patient_request).permit(:reasons, :condition, :how_met, :money, :pre_care,
-			:affected_areas_attributes => [ :area ], :request_schedules_attributes => [ :day, :beginH, :endH ])
-	end
+		def patient_requets_params
+			params.require(:patient_request).permit(:reasons, :condition, :how_met, :money, :pre_care,
+				:affected_areas_attributes => [ :area ], :request_schedules_attributes => [ :day, :beginH, :endH ])
+		end
 
-	def patient_params
-		params.require(:patient).permit(:names, :p_last_name, :m_last_name, :birth, :age, :sex, :account_number, :career,
-			:init_school, :semester, :failed_subjects, :telephone1, :telephone2, :email)
-	end
+		def patient_params
+			params.require(:patient).permit(:names, :p_last_name, :m_last_name, :birth, :age, :sex, :account_number, :career,
+				:init_school, :semester, :failed_subjects, :telephone1, :telephone2, :email)
+		end
 	
 end

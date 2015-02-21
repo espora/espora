@@ -40,7 +40,7 @@
 		$(".add_nested_fields").html("<i class='fa fa-plus-circle' style='font-size: 13px;'></i> Agregar un horario");
 		$(".add_nested_fields").click();
 
-		
+
 		//Quita letras en campos numericos
 		$(".num-field").keypress(function ( event ) {
 			var charCode = event.which;
@@ -67,6 +67,16 @@
 					<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
 						DATOS PERSONALES
 					</div>
+
+					<!-- Mensajes de Error -->
+					<% if patient_form.object.errors.any? %>
+						<h2>Errores: </h2>
+						<ul>
+							<% patient_form.object.errors.full_messages.each do |message| %>
+								<li><%= message %></li>	
+							<% end %>	
+						</ul>
+					<% end %>
 
 					<!-- NOMBRES -->
 					<div style="margin-left: 4%; margin-top: 5px;">

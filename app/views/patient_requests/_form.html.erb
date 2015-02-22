@@ -177,13 +177,13 @@
 						<!-- TELEFONO 1 -->
 						<div style="margin-left: 2%; margin-top: 5px;">
 							<%= patient_form.label :telephone1 do %>Telefono: <% end %>
-							<%= patient_form.text_field :telephone1, autofocus: true , :required => true, class: "num-field",  :maxlength => 13%>
+							<%= patient_form.text_field :telephone1, autofocus: true , :required => true, class: "num-field", :maxlength => 13%>
 						</div>
 
 						<!-- TELEFONO 2 -->
 						<div style="margin-left: 2%; margin-top: 10px;">
 							<%= patient_form.label :telephone2 do %>Celular: <% end %>
-							<%= patient_form.text_field :telephone2, autofocus: true , class: "num-field",  :maxlength => 13%>
+							<%= patient_form.text_field :telephone2, autofocus: true , class: "num-field", :maxlength => 13%>
 						</div>
 
 						<!-- EMAIL -->
@@ -208,7 +208,7 @@
 				<!-- MOTIVOS -->
 				<div style="margin-left: 2%; margin-top: 10px;">
 					<%= request_form.label :reasons do %>¿Cuáles son tus motivos de consulta?<% end %>
-					<%= request_form.text_area :reasons, autofocus: true, cols: 70, rows: 7 , :required => true%>
+					<%= request_form.text_area :reasons, autofocus: true, cols: 70, rows: 7 , :required => true, :maxlength => 400 %>
 				</div>
 
 				<!-- CONDICION -->

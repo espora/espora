@@ -4,7 +4,7 @@
 	<div class="lue-block" style="height: 60px;">
 
 		<!-- BUSQUEDA -->
-		<%= form_tag lue_search_path, method: "post", class: "pure-form", id: "lue-search" do %>
+		<%= form_tag lue_index_path, method: "get", class: "pure-form", id: "lue-search" do %>
 			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
 			<%= submit_tag "Buscar", class: "pure-button pure-button-primary" %>
 		<% end %>

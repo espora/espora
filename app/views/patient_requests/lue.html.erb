@@ -49,10 +49,7 @@
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
 						<td colspan="8" class="lue-register">
-							<div style="">
-								<div>
-								</div>
-							</div>
+							<%= render partial: "info_patient", locals: { patient: patient_request.patient } %>
 						</td>
 					</tr>
 				<% end %>

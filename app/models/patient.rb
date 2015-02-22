@@ -6,6 +6,19 @@ class Patient < ActiveRecord::Base
 	# Expediente
 	has_one :patient_record, :dependent => :destroy
 
+	# Mapeo condicion a nombre en formulario
+	NAME_CAREER = {
+		"actuaria" => "Actuaría", 
+		"biologia" => "Biología", 
+		"ciencias_ambientales" => "Ciencias Ambientales", 
+		"ciencias_de_la_computacion" => "Ciencias de la Computación",
+		"ciencias_de_la_tierra" => "Ciencias de la Tierra", 
+		"fisica" => "Física",
+		"fisica_biomedica" => "Fisica Biomédica",
+		"manejo_sustentable_de_zonas_costeras" => "Manejo Sustentable de Zonas Costeras",
+		"matematicas" => "Matemáticas"
+	}
+
 	###### VALIDACIONES
 
 	#t.string   "p_last_name"

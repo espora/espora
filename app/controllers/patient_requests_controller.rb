@@ -1,6 +1,10 @@
 class PatientRequestsController < ApplicationController
 
+	# Devise
 	before_filter :authenticate_therapist!
+
+	# Incluir las funciones de ayuda de la aplicacion
+	include ApplicationHelper
 
 	# Layout para el terapeuta
 	layout "therapist", :only => [ :lue, :new ]
@@ -8,8 +12,19 @@ class PatientRequestsController < ApplicationController
 	# GET
 	def lue
 
-		# Obtenemos las solicitudes
-		@patient_requests = PatientRequest.all
+		# Debug
+		ap params
+
+		if not params[:account_number].nil?
+
+			# Nos pidieron un paciente con numero de cuenta
+			patient = Patient.find_by_account_number(params[:account_number])
+			@patient_requests = [ patient.patient_request ]
+
+		else
+			# Obtenemos las solicitudes
+			@patient_requests = PatientRequest.all
+		end
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 1
@@ -87,17 +102,19 @@ class PatientRequestsController < ApplicationController
 				# Dar la fecha de registro
 				@patient_request.request_date = Time.now
 
+				# Calculamos la edad del paciente
+				@patient.age = age(@patient.birth)
+
 				# Salvamos en la BD
 				@patient_request.save
 
 				# Mandamos a renderear de nuevo con mensaje
 				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
-				render partial: "form", locals: { patient_request: @patient_request, flash: flash }
+				puts "aca pasa"
+
+				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 			else
-				puts "::::::::::::::::::::::::"
-				puts @patient_request.errors.size
-				puts "NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE NO ES VALIDO EL PACIENTE "
-				render partial: "form", locals: { patient_request: @patient_request, flash: flash }
+				render :new
 			end
 		else
 			render :new

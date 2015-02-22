@@ -17,10 +17,39 @@ class PatientRequestsController < ApplicationController
 
 		if not params[:account_number].nil?
 
-			# Nos pidieron un paciente con numero de cuenta
+			# Buscamos un paciente con el numero de cuenta y regresamos
 			patient = Patient.find_by_account_number(params[:account_number])
 			@patient_requests = [ patient.patient_request ]
 
+		elsif not params[:searchStr].nil?
+
+			if params[:searchStr] == ""
+
+				# Viene vacio, entonces mandamos todas
+				@patient_requests = PatientRequest.all
+				
+			else
+
+				# BUSQUEDA
+
+				# Por apellido paterno
+				patients_found = Patient.where("p_last_name LIKE ?", "%#{params[:searchStr]}%")
+
+				# Por apellido materno
+				patients_found += Patient.where("m_last_name LIKE ?", "%#{params[:searchStr]}%")
+
+				# Por nombres
+				patients_found += Patient.where("names LIKE ?", "%#{params[:searchStr]}%")
+
+				# Por numero de cuenta
+				patients_found += Patient.where("account_number LIKE ?", "%#{params[:searchStr]}%")
+
+				# Agregamos todas las solicitudes de los pacientes
+				@patient_requests = Array.new
+				patients_found.each do | patient |
+					@patient_requests.push(patient.patient_request)
+				end
+			end
 		else
 			# Obtenemos las solicitudes
 			@patient_requests = PatientRequest.all
@@ -81,9 +110,6 @@ class PatientRequestsController < ApplicationController
 		aff_areas_attr.reject! do | key, value |
 			aff_areas_attr[key]["area"] == ""
 		end
-
-		# debug
-		ap params
 
 		# Creamos la solicitd del paciente y checamos la validez
 		@patient_request = PatientRequest.new(patient_requets_params)

@@ -17,8 +17,6 @@ Espora::Application.routes.draw do
 
   # Consultar lue
   get "/therapists/lue" => "patient_requests#lue", as: "lue_index"
-  post "/patient_requests/lue/search" => "patient_requests#search", as: "lue_search"
-  #post "/lue" => "patient_requests#lue", as: "lue"
 
   # Crear solicitud paciente
   get "/therapists/lue/new" => "patient_requests#new", as: "new_patient_request"

@@ -81,19 +81,19 @@
 					<!-- NOMBRES -->
 					<div style="margin-left: 4%; margin-top: 5px;">
 						<%= patient_form.label :names do %>Nombre(s): <% end %>
-						<%= patient_form.text_field :names, autofocus: true, :size => 50, :required => true %>
+						<%= patient_form.text_field :names, autofocus: true, :size => 50, :required => true, :maxlength => 25 %>
 					</div>
 
 					<!-- A PATERNO -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :p_last_name do %>Apellido Paterno: <% end %>
-						<%= patient_form.text_field :p_last_name, autofocus: true, :size => 50, :required => true %>
+						<%= patient_form.text_field :p_last_name, autofocus: true, :size => 50, :maxlength => 20, :required => true %>
 					</div>
 
 					<!-- A MATERNO -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :m_last_name do %>Apellido Materno: <% end %>
-						<%= patient_form.text_field :m_last_name, autofocus: true, :size => 50, :required => true %>
+						<%= patient_form.text_field :m_last_name, autofocus: true, :size => 50, :maxlength => 20, :required => true %>
 					</div>
 
 					<!-- FECHA DE NACIMIENTO -->
@@ -112,7 +112,7 @@
 						<%= patient_form.label :sex do %>Sexo: <% end %>
 
 						<div style="width: 100%; margin-top: 3px; margin-left: 1.2%; float: left;">
-							<%= patient_form.radio_button :sex, 'm', :style => "float: left;" %>
+							<%= patient_form.radio_button :sex, 'm', :style => "float: left;", :checked => true %>
 							<%= patient_form.label :sex, 'Masculino', :value => 'm', :style => "float: left; margin-left: 3px;" %>
 						</div>
 
@@ -131,7 +131,7 @@
 					<!-- NUMERO DE CUENTA -->
 					<div style="margin-left: 4%; margin-top: 5px; ">
 						<%= patient_form.label :account_number do %>No. de cuenta: <% end %>
-						<%= patient_form.text_field :account_number, autofocus: true, :size => 20, :required => true, class: "num-field"%>
+						<%= patient_form.text_field :account_number, autofocus: true, :size => 20, :required => true, class: "num-field", :maxlength => 9%>
 					</div>
 
 					<!-- CARRERA -->
@@ -158,13 +158,13 @@
 					<!-- SEMESTRE -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :semester do %>Semestre en curso: <% end %>
-						<%= patient_form.text_field :semester, autofocus: true, :size => 5 , :required => true, class: "num-field"%>
+						<%= patient_form.text_field :semester, autofocus: true, :size => 5 , :required => true, :maxlength => 2, class: "num-field"%>
 					</div>
 
 					<!-- MATERIAS CURSADAS -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :failed_subjects do %>Número de materias adeudadas: <% end %>
-						<%= patient_form.text_field :failed_subjects, autofocus: true, :size => 5 , :required => true, class: "num-field"%>
+						<%= patient_form.text_field :failed_subjects, autofocus: true, :size => 5 , :required => true, :maxlength => 2, class: "num-field"%>
 					</div>
 				</div>
 
@@ -177,13 +177,13 @@
 						<!-- TELEFONO 1 -->
 						<div style="margin-left: 2%; margin-top: 5px;">
 							<%= patient_form.label :telephone1 do %>Telefono: <% end %>
-							<%= patient_form.text_field :telephone1, autofocus: true , :required => true, class: "num-field"%>
+							<%= patient_form.text_field :telephone1, autofocus: true , :required => true, class: "num-field",  :maxlength => 13%>
 						</div>
 
 						<!-- TELEFONO 2 -->
 						<div style="margin-left: 2%; margin-top: 10px;">
 							<%= patient_form.label :telephone2 do %>Celular: <% end %>
-							<%= patient_form.text_field :telephone2, autofocus: true , :required => true, class: "num-field"%>
+							<%= patient_form.text_field :telephone2, autofocus: true , class: "num-field",  :maxlength => 13%>
 						</div>
 
 						<!-- EMAIL -->
@@ -239,7 +239,7 @@
 					</div>
 
 					<div style="width: 15%; margin-top: 3px; margin-left: 1.2%; float: left;">
-						<%= request_form.radio_button :pre_care, 'n', :style => "float: left;" %>
+						<%= request_form.radio_button :pre_care, 'n', :style => "float: left;", :checked => true  %>
 						<%= request_form.label :pre_care, 'No', :value => 'n', :style => "float: left; margin-left: 3px;" %>
 					</div>
 				</div>

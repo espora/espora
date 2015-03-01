@@ -50,6 +50,9 @@ gem 'awesome_print'
 # Diagramas entidad relacion
 gem "rails-erd" # Requiere tener instalado la biblioteca graphviz en el sistema
 
+#Diás y horas de la semana
+gem 'tod'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

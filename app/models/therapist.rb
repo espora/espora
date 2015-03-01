@@ -12,4 +12,11 @@ class Therapist < ActiveRecord::Base
 	# Expediente que atiende
 	has_many :patient_records
 
+	def matchesPatientSchedule ( patient_request )
+		
+		patient_request.request_schedules.each do | req_schedule |
+		end
+
+		return false
+	end
 end

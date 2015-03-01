@@ -5,7 +5,7 @@
 		<br><br>
 		<b>Teléfono:</b> <%= patient.telephone1 %>
 		<br><br>
-		<% if patient.telephone2.nil? %>
+		<% if patient.telephone2 == "" %>
 			<% tel2 = "---" %>
 		<% else %>
 			<% tel2 = patient.telephone2 %>

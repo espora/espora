@@ -4,17 +4,24 @@
 	<div class="lue-block" style="height: 60px;">
 
 		<!-- BUSQUEDA -->
-		<%= form_tag lue_index_path, method: "get", class: "pure-form", id: "lue-search" do %>
+		<form action="<%= lue_index_path %>" method="get" class="pure-form" id="lue-search">
 			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
-			<%= submit_tag "Buscar", class: "pure-button pure-button-primary" %>
+			<%= submit_tag "Buscar",  name: nil, class: "pure-button pure-button-primary" %>
+		</form>
+
+		<!-- FILTRAR -->
+		<% if params[:searchStr].nil? %>
+			<% path_filter = request.fullpath %>
+		<% else %>
+			OKOKOKOK
+			<% path_filter = request.fullpath + params[:searchStr] %>
 		<% end %>
 
-		<!-- FILTRAR -->	
-		<%= form_tag "/filter", method: "post", class: "pure-form", id: "lue-filter" do %>
+		<form action="<%= path_filter %>" method="get" class="pure-form" id="lue-filter">
 			<%= label_tag 'filter_by', 'Filtrar por:' %>
-			<%= select_tag 'filter_by', options_for_select([ "No filtrar", "Concidencias en horario" ], "No filtrar") %>
-		<% end %>
-
+			<%= select_tag 'filter_by', "<option value='none'>No Filtrar</option><option value='schedule'>Concidencias en horario</option>".html_safe,
+			:onchange => "this.form.submit();" %>
+		</form>
 	</div>
 
 	<!-- TABLA -->
@@ -60,7 +67,6 @@
 	<script type="text/javascript">
 		$("#lue-table").expandTable({
 			beforeExpand: function(elem) {
-				console.log(elem);
 			}
 		});
 	</script>

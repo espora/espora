@@ -2,27 +2,29 @@ class TherapistsController < ApplicationController
 
 	before_filter :authenticate_therapist!
 
-	# GET
-	def show
-	end
+	# Layout
+	layout "therapist"
 
 	# GET
 	def profile
+
+		# Obtenemos el terapeuta
 		@therapist = Therapist.find(params[:id])
-		
-		render partial: "profile", locals: { therapist: @therapist }
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 0
 	end
 
 	# GET
 	def new
 		@therapist = Therapist.new
-		render partial: "form_new_therapist", locals: { therapist: @therapist }
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 2
 	end
 
 	# POST
 	def create
 	end
-
-	
 
 end

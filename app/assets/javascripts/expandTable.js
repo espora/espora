@@ -1,12 +1,16 @@
 (function($) {
-	$.fn.expandTable = function() {
+	$.fn.expandTable = function(options) {
+
 		var element = this;
+		var onExandFunc = options.beforeExpand;
 
 		$(element).find("tr:odd").addClass("odd");
 		$(element).find("tr:not(.odd)").hide();
 		$(element).find("tr:first-child").show();
 
 		$(element).find("tr.odd").click(function() {
+			onExandFunc($(this).next("tr"));
+
 			$(this).next("tr").toggle();
 
 			var icon = $(this).find(".arrow-expand i");

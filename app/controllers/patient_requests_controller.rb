@@ -15,14 +15,20 @@ class PatientRequestsController < ApplicationController
 		# Debug
 		ap params
 
+		# El Array que se ira llenando
+		@patient_requests = Array.new
+
+		# Nos pasaron un numero de cuenta?
 		if not params[:account_number].nil?
 
 			# Buscamos un paciente con el numero de cuenta y regresamos
 			patient = Patient.find_by_account_number(params[:account_number])
-			@patient_requests = [ patient.patient_request ]
+			@patient_requests.concat([ patient.patient_request ])
 
-		elsif not params[:searchStr].nil?
+		end
 
+		# Estan buscando algo?
+		if not params[:searchStr].nil?
 			if params[:searchStr] == ""
 
 				# Viene vacio, entonces mandamos todas
@@ -45,14 +51,38 @@ class PatientRequestsController < ApplicationController
 				patients_found += Patient.where("account_number LIKE ?", "%#{params[:searchStr]}%")
 
 				# Agregamos todas las solicitudes de los pacientes
-				@patient_requests = Array.new
 				patients_found.each do | patient |
-					@patient_requests.push(patient.patient_request)
+					@patient_requests.concat([ patient.patient_request ])
 				end
 			end
-		else
-			# Obtenemos las solicitudes
+		end
+
+		# Si no hubo ninguno hay que solicitar todos
+		if params[:account_number].nil? and params[:searchStr].nil?
 			@patient_requests = PatientRequest.all
+		end
+
+		# Hay que filtrar
+		if not params[:filter_by].nil?
+			if params[:filter_by] == "schedule"
+			end
+		end
+
+		# Hay que ordenar
+		if not params[:order_by].nil? and @patient_requests.size > 0
+			if params[:order_by] == "condition"
+				@patient_requests.sort! { |x, y|
+					PatientRequest::CONDITION_ORDER[x.condition] <=> PatientRequest::CONDITION_ORDER[y.condition]
+				}
+
+			elsif params[:order_by] == "status"
+				# TODO Ordenar por status del paciente
+
+			else
+				@patient_requests.sort! { |x, y|
+					x.patient.attributes[params[:order_by]] <=> y.patient.attributes[params[:order_by]]
+				}
+			end
 		end
 
 		# Panel para las tabs del workspace del terapeuta
@@ -147,10 +177,6 @@ class PatientRequestsController < ApplicationController
 		end
 	end
 
-	# POST
-	def lue_search
-	end
-	
 	private
 
 		def patient_requets_params

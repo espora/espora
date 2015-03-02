@@ -19,6 +19,15 @@ class PatientRequest < ActiveRecord::Base
 		"muy_bien" => "Muy bien"
 	}
 
+	# Mapeo para el orden
+	CONDITION_ORDER = {
+		"mal" => 0,
+		"muy_mal" => 1,
+		"regular" => 2,
+		"bien" => 3,
+		"muy_bien" => 4
+	}
+
 	###### VALIDACIONES
 
 	#t.text "reasons"

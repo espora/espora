@@ -5,19 +5,20 @@
 
 		<!-- BUSQUEDA -->
 		<form action="<%= lue_index_path %>" method="get" class="pure-form" id="lue-search">
+			<% if not params[:filter_by].nil? %>
+				<%= hidden_field_tag 'filter_by', params[:filter_by] %>
+			<% end %>
+
 			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
 			<%= submit_tag "Buscar",  name: nil, class: "pure-button pure-button-primary" %>
 		</form>
 
 		<!-- FILTRAR -->
-		<% if params[:searchStr].nil? %>
-			<% path_filter = request.fullpath %>
-		<% else %>
-			OKOKOKOK
-			<% path_filter = request.fullpath + params[:searchStr] %>
-		<% end %>
+		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="lue-filter">
+			<% if not params[:searchStr].nil? %>
+				<%= hidden_field_tag 'searchStr', params[:searchStr] %>
+			<% end %>
 
-		<form action="<%= path_filter %>" method="get" class="pure-form" id="lue-filter">
 			<%= label_tag 'filter_by', 'Filtrar por:' %>
 			<%= select_tag 'filter_by', "<option value='none'>No Filtrar</option><option value='schedule'>Concidencias en horario</option>".html_safe,
 			:onchange => "this.form.submit();" %>
@@ -30,33 +31,47 @@
 		<table id="lue-table" class="pure-table pure-table-bordered">
 			<thead>
 				<tr>
-					<th class="orderby">NO. DE CUENTA</th>
-					<th class="orderby">APELLIDO PATERNO</th>
-					<th class="orderby">APELLIDO MATERNO</th>
-					<th class="orderby">NOMBRE(S)</th>
-					<th class="orderby">FECHA DE SOLICITUD</th>
-					<th class="orderby">CONDICIÓN</th>
-					<th class="orderby">STATUS</th>
+					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">NO. DE CUENTA</th>
+					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">APELLIDO PATERNO</th>
+					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">APELLIDO MATERNO</th>
+					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
+					<th class="order<%= (params[:order_by] == 'request_date')? ' order-active' : '' %>" orderby="request_date">FECHA DE SOLICITUD</th>
+					<th class="order<%= (params[:order_by] == 'condition')? ' order-active' : '' %>" orderby="condition">CONDICIÓN</th>
+					<th>STATUS</th>
 					<th></th>
 				</tr>
 			</thead>
 
+			<!-- FORMULARIO PARA FILTRAR -->
+			<form action="<%= request.fullpath %>" method="get" id="orderby-form">
+				<% if not params[:searchStr].nil? %>
+					<%= hidden_field_tag 'searchStr', params[:searchStr] %>
+				<% end %>
+
+				<% if not params[:filter_by].nil? %>
+					<%= hidden_field_tag 'filter_by', params[:filter_by] %>
+				<% end %>
+
+				<%= hidden_field_tag 'order_by', '' %>
+			</form>
+
 			<tbody>
-				<% @patient_requests.each_with_index do | patient_request, index | %>
+				<% @patient_requests.each_with_index do | req, index | %>
+					<% patient = req.patient %>
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
-						<td><%= patient_request.patient.account_number %></td>
-						<td><%= patient_request.patient.p_last_name %></td>
-						<td><%= patient_request.patient.m_last_name %></td>
-						<td><%= patient_request.patient.names %></td>
-						<td><%= patient_request.request_date %></td>
-						<td><%= PatientRequest::NAME_CONDITION[patient_request.condition] %></td>
+						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
+						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= patient.p_last_name %></td>
+						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>
+						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
+						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
+						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= PatientRequest::NAME_CONDITION[req.condition] %></td>
 						<td>En espera</td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
 						<td colspan="8" class="lue-register">
-							<%= render partial: "info_patient", locals: { patient: patient_request.patient } %>
+							<%= render partial: "info_patient", locals: { patient: patient } %>
 						</td>
 					</tr>
 				<% end %>
@@ -65,12 +80,24 @@
 	</div>
 
 	<script type="text/javascript">
+		$(".order").click(function() {
+
+			var orderbyValue = $(this).attr("orderby");
+
+			// Seleccionamos el input del formulario de ordenamiento
+			var input = $("input#order_by");
+			input.attr("value", orderbyValue);
+
+			// Envia el formulario
+			$("#orderby-form").submit();
+		});
+
 		$("#lue-table").expandTable({
 			beforeExpand: function(elem) {
 			}
 		});
 	</script>
-
+	
 <% end %>
 
 <%= render template: "patient_requests/lue_tab" %>

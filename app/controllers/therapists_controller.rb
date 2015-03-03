@@ -15,6 +15,11 @@ class TherapistsController < ApplicationController
 		@therapist_active_tab = 0
 	end
 
+	#HAVAD
+	def havad
+		
+	end
+
 	# GET
 	def new
 		@therapist = Therapist.new

@@ -22,6 +22,7 @@
 				<ul>
 					<li><a href="#perfil">Perfil</a></li>
 					<li><a href="#lue">LUE</a></li>
+					<li><a href="#havad">HAVAD</a></li>
 					<% if current_therapist.role == "Coordinator" %>
 						<li><a href="#add_therapist">Registra Terapeuta</a></li>
 					<% end %>
@@ -40,6 +41,11 @@
 				<!-- LUE PANEL -->
 				<div id="lue">
 					<%= content_for?(:lue_tab) ? yield(:lue_tab) : "" %>
+				</div>
+
+				<!-- HAVAD PANEL -->
+				<div id="havad">
+					<%= content_for?(:havad_tab) ? yield(:havad_tab) : "" %>
 				</div>
 
 				<% if current_therapist.role == "Coordinator" %>
@@ -72,6 +78,11 @@
 						// LUE
 						if( newPanel.attr( "id" ) == "lue" ) {
 							window.location = "<%= lue_index_path %>";
+						}
+
+						//HAVAD
+						if( newPanel.attr( "id" ) == "havad" ) {
+							window.location = "<%= havad_index_path %>";
 						}
 
 						// Agregar terapeuta

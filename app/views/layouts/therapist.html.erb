@@ -87,7 +87,7 @@
 
 						// Agregar terapeuta
 						if( newPanel.attr( "id" ) == "add_therapist" ) {
-							window.location = "<%= new_therapist_path %>"
+							window.location = "<%= (current_therapist.role == 'Coordinator') ? new_therapist_path : '' %>"
 						}
 					}
 				});

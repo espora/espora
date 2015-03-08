@@ -1,0 +1,34 @@
+<% content_for :fosti do %>
+	<table class="pure-table pure-table-bordered">
+		<thead>
+			<tr>
+				<th>NOMBRE</th>
+				<th>EDAD</th>
+				<th>CARRERA</th>
+				<th>SEMESTRE</th>
+				<th>TELÉFONO</th>
+				<th>NÚMERO DE SESIONES</th>
+				<th>FECHA DE ADMISIÓN</th>
+				<th>ELEGIR ALUMNO</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% @patient_records.each do | record | %>
+			<% patient = record.patient %>
+				<tr class="pure-table-odd">
+					<td><%=patient.names + " " + patient.p_last_name + " " + patient.m_last_name%></td>
+					<td><%=patient.age%></td>
+					<td><%=patient.career%></td>
+					<td><%=patient.semester%></td>
+					<td><%=patient.telephone1%></td>
+					<td><%=record.appointments.count%></td>
+					<td><%=patient.patient_request.updated_at%></td>
+					<td><i class="fa fa-arrow-right"></i></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>
+
+<%= render template: "patient_records/havad_tab" %>

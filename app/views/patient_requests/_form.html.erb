@@ -28,12 +28,12 @@
 
 		// Al agregar un horario baja el div
 		$(document).on('nested:fieldAdded', function( event ) {
-			$("#form-container").height( $("#form-container").height() + 50 );
+			$(".form-container").height( $(".form-container").height() + 50 );
 		});
 
 		// Al eliminar un horario sube el div
 		$(document).on('nested:fieldRemoved', function( event ) {
-			$("#form-container").height( $("#form-container").height() - 50 );
+			$(".form-container").height( $(".form-container").height() - 50 );
 		});
 
 		// Hacemos click a un horario
@@ -54,8 +54,8 @@
 	
 </script>
 
-<div id="form-container" style="height: 1305px;">
-	<%= nested_form_for(patient_request, url: create_patient_request_path, :html => { :id => "form-new-lue", :class => "pure-form pure-form-stacked" }) do |request_form| %>
+<div class="form-container" style="height: 1305px;">
+	<%= nested_form_for(patient_request, :html => { :id => "form-new-lue", :class => "pure-form pure-form-stacked" }) do |request_form| %>
 
 		<!-- FORMULARIO PARA EL PACIENTE -->
 		<div style="width: 100%; float: left;">
@@ -318,7 +318,7 @@
 		</div>
 
 		<!-- ENVIAR -->
-		<div style="width: 18%; float: right; margin-top: 22px;">
+		<div style="width: 18%; float: left; margin-top: 22px;">
 			<%= request_form.submit "GUARDAR SOLICITUD", :class => "pure-button pure-button-primary" %>
 		</div>
 

@@ -7,13 +7,10 @@ class PatientRequestsController < ApplicationController
 	include ApplicationHelper
 
 	# Layout para el terapeuta
-	layout "therapist", :only => [ :lue, :new ]
+	layout "therapist", :only => [ :lue, :new, :edit ]
 
 	# GET
 	def lue
-
-		# Debug
-		ap params
 
 		# El Array que se ira llenando
 		@patient_requests = Array.new
@@ -132,6 +129,21 @@ class PatientRequestsController < ApplicationController
 		@lue_active_tab = 1
 	end
 
+	# GET
+	def edit
+
+		# Obtenemos la solicitud
+		@patient_request = PatientRequest.find(params[:id])
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 1
+
+		# Panel para las tabs del workspace del lue
+		@lue_active_tab = 1
+
+		render template: "patient_requests/new"
+	end
+
 	# POST
 	def create
 
@@ -175,6 +187,58 @@ class PatientRequestsController < ApplicationController
 		else
 			render :new
 		end
+	end
+
+	# PATCH
+	def update
+
+		# Obtenemos los objetos
+		@patient = Patient.find_by_account_number( params[:patient][:account_number] )
+
+		@patient_request = @patient.patient_request
+
+		# Limpiamos las areas afectadas vacias
+		aff_areas_attr = params[:patient_request][:affected_areas_attributes]
+		aff_areas_attr.reject! do | key, value |
+			aff_areas_attr[key]["area"] == ""
+		end
+
+		# Creamos la solicitd del paciente y checamos la validez
+		@patient_request.assign_attributes(patient_requets_params)
+		if @patient_request.valid?
+
+			# Creamos al paciente solicitante y checamos la validez
+			@patient.assign_attributes(patient_params)
+			if @patient.valid?
+
+				# Calculamos la edad del paciente
+				@patient.age = age(@patient.birth)
+
+				# Salvamos en la BD
+				@patient_request.save
+
+				# Mandamos a renderear de nuevo con mensaje
+				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
+				puts "aca pasa"
+
+				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
+			else
+				render :new
+			end
+		else
+			render :new
+		end
+	end
+
+	# DELETE
+	def delete
+		@patient_request = PatientRequest.find(params[:id])
+		@patient = @patient_request.patient
+
+		@patient.destroy
+		@patient_request.destroy
+
+		redirect_to lue_index_path
 	end
 
 	private

@@ -10,5 +10,10 @@
  *
  *= require_self
  *= require font-awesome
+ *= require normalize-rails
  *= require_tree .
  */
+
+.pure-button {
+	border-radius: 4px;
+}

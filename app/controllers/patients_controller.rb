@@ -5,4 +5,10 @@ class PatientsController < ApplicationController
 
 	def create
 	end
+
+	# POST
+	def mark_contact
+		@patient = Patient.find(params[:id])
+	end
+
 end

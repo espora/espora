@@ -7,14 +7,14 @@ Espora::Application.routes.draw do
   root "home#index"
   get  "/" => "home#index"
 
-  # Terapeutas
+  ##### Terapeutas
   get "/therapists/profile/:id" => "therapists#profile", as: "therapist_profile"
 
   # Crear terapeutas
   get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
   post "/therapists/create" => "therapists#create", as: "create_therapists"
 
-  # Solicitudes de ingreso Patient Request (LUE)
+  ##### Solicitudes de ingreso Patient Request (LUE)
 
   # Consultar lue
   get "/therapists/lue" => "patient_requests#lue", as: "lue_index"
@@ -36,7 +36,9 @@ Espora::Application.routes.draw do
   # Marcar la solicitud como contactado
   post "/therapists/lue/mark_contact/:id" => "patients#mark_contact", as: "patient_mark_contact"
 
-  # Expedientes de pacientes (Patient Record)
-  get "/therapists/havad" => "patient_records#havad", as: "havad_index"
+  ##### Expedientes de pacientes (Patient Record)
+
+  # Index de expedientes de paciente (FOSTI / HAVAD)
+  get "/therapists/havad/" => "patient_records#havad", as: "havad_index"
 
 end

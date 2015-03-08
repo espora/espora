@@ -1,0 +1,76 @@
+<% content_for :lue_list_tab do %>
+
+	<!-- FILTRO Y BUSQUEDA -->
+	<div class="lue-block" style="height: 60px;">
+
+		<!-- BUSQUEDA -->
+		<form action="<%= lue_index_path %>" method="get" class="pure-form" id="lue-search">
+			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
+			<%= submit_tag "Buscar",  name: nil, class: "pure-button pure-button-primary" %>
+		</form>
+
+		<!-- FILTRAR -->
+		<% if params[:searchStr].nil? %>
+			<% path_filter = request.fullpath %>
+		<% else %>
+			OKOKOKOK
+			<% path_filter = request.fullpath + params[:searchStr] %>
+		<% end %>
+
+		<form action="<%= path_filter %>" method="get" class="pure-form" id="lue-filter">
+			<%= label_tag 'filter_by', 'Filtrar por:' %>
+			<%= select_tag 'filter_by', "<option value='none'>No Filtrar</option><option value='schedule'>Concidencias en horario</option>".html_safe,
+			:onchange => "this.form.submit();" %>
+		</form>
+	</div>
+
+	<!-- TABLA -->
+	<div class="lue-block" style="padding-left: 2%;">
+
+		<table id="lue-table" class="pure-table pure-table-bordered">
+			<thead>
+				<tr>
+					<th class="orderby">NO. DE CUENTA</th>
+					<th class="orderby">APELLIDO PATERNO</th>
+					<th class="orderby">APELLIDO MATERNO</th>
+					<th class="orderby">NOMBRE(S)</th>
+					<th class="orderby">FECHA DE SOLICITUD</th>
+					<th class="orderby">CONDICIÓN</th>
+					<th class="orderby">STATUS</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<% @patient_requests.each_with_index do | patient_request, index | %>
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+						<td><%= patient_request.patient.account_number %></td>
+						<td><%= patient_request.patient.p_last_name %></td>
+						<td><%= patient_request.patient.m_last_name %></td>
+						<td><%= patient_request.patient.names %></td>
+						<td><%= patient_request.request_date %></td>
+						<td><%= PatientRequest::NAME_CONDITION[patient_request.condition] %></td>
+						<td>En espera</td>
+						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+					</tr>
+
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+						<td colspan="8" class="lue-register">
+							<%= render partial: "info_patient", locals: { patient: patient_request.patient } %>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		$("#lue-table").expandTable({
+			beforeExpand: function(elem) {
+			}
+		});
+	</script>
+
+<% end %>
+
+<%= render template: "patient_requests/lue_tab" %>

@@ -10,29 +10,29 @@ class PatientRequest < ActiveRecord::Base
 	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
 	accepts_nested_attributes_for :affected_areas, :allow_destroy => true
 
-#######################
+	# Mapeo condicion a nombre en formulario
+	NAME_CONDITION = {
+		"mal" => "Mal",
+		"muy_mal" => "Muy mal",
+		"regular" => "Regular",
+		"bien" => "Bien",
+		"muy_bien" => "Muy bien"
+	}
 
-	#t.text     "reasons" = motivosls
+	###### VALIDACIONES
+
+	#t.text "reasons"
+	validates :reasons, presence: { :message => "Campo vacio" }
 	validates :reasons, length: { maximum: 400,
-    too_long: "%{count} es el máximo de caracteres que se pueden ingresar" }
+	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
 
-    #t.string   "condition" = condición
-    validates :condition, presence: { :message => "Campo vacío, ingresar una condición" }
-    validates :condition, format: { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" } 
-    validates :condition, inclusion: { :in => %w(muy_mal mal regular bien muy_bien), :message => "%{value} no es una condición de paciente"}
+	#t.string   "condition"
+	#t.string   "how_met"
+	validates :how_met, presence: { :message => "Campo vacio" }
+	validates :how_met, length: { maximum: 69,
+	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
 
-    #t.string   "how_met" = modoConocio
-    validates :how_met, presence: { :message => "Campo vacío, ingresar como conocio" }
-    validates :how_met, length: { maximum: 50, 
-    too_long: "%{count} es el máximo de caracteres que se pueden ingresar" }
-    
-    #t.float    "money" = dineroGasto
-    validates :money, numericality: { :only_integer => true }
-    validates :money, length: { maximum: 6, 
-    too_long: "%{count} es el máximo de caracteres que se pueden ingresar"}
-
-    #t.boolean  "pre_care" = atnPrevia
-    validates :pre_care, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" }
-	validates :pre_care, :inclusion => { :in => %w(s n), :message => "%{value} no es un tipo de valor permitido" }
-
+	#t.float "money"
+	validates :money, presence: { :message => "Campo vacio" }
+	validates :money, numericality: { only_integer: true }
 end

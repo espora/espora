@@ -1,0 +1,43 @@
+<div >
+	<div id="info-patient-left" style="margin-right: 15px,">
+		<br>
+		<b>Carrera:</b> <%= Patient::NAME_CAREER[patient.career]  %>
+		<br><br>
+		<b>Teléfono:</b> <%= patient.telephone1 %>
+		<br><br>
+		<% if patient.telephone2 == "" %>
+			<% tel2 = "---" %>
+		<% else %>
+			<% tel2 = patient.telephone2 %>
+		<% end %>
+		<b>Celular:</b> <%= tel2 %>
+		<br><br>
+		<b>Correo:</b> <%= patient.email %>
+		<br><br>		
+	</div>
+
+	<div id="info-patient-right">
+		<!--Horarios: 
+		<table>
+			<tr>
+				<th>Hora</th>
+				<th>Lu</th>
+				<th>Ma</th>
+				<th>Mi</th>
+				<th>Ju</th>
+				<th>Vi</th>
+			</tr>
+			<tr>
+				<td>14:00</td>
+				<td>si</td>
+				<td>no</td>
+				<td>si</td>
+				<td>si</td>
+				<td>si</td>
+			</tr>
+		</table>-->
+	</div>
+	<div id = "info-patiett-right">
+
+	</div>
+</div>

@@ -1,0 +1,45 @@
+<% content_for :lue_tab do %>
+
+	<!-- WORKSPACE LUE -->
+	<div id="lue-tab">
+
+		<!-- PESTANAS -->
+		<ul>
+			<li><a href="#consultar">Consultar</a></li>
+			<li><a href="#nuevo">Nuevo</a></li>
+		</ul>
+
+		<!-- PANELES -->
+		<div id="consultar">
+			<%= content_for?(:lue_list_tab) ? yield(:lue_list_tab) : "" %>
+		</div>
+		<div id="nuevo">
+			<%= content_for?(:lue_new_tab) ? yield(:lue_new_tab) : "" %>
+		</div>
+		
+	</div>
+
+	<script type="text/javascript">
+		$( "#lue-tab" ).tabs({
+			active: parseInt("<%= @lue_active_tab %>"),
+			beforeActivate: function( event, ui ) {
+
+				// Siguiente panel
+				var newPanel = ui.newPanel;
+
+				// PANEL AL WORKSPACE
+
+				// Lista
+				if( newPanel.attr( "id" ) == "consultar" ) {
+					window.location = "<%= lue_index_path %>";
+				}
+
+				// Nuevo
+				if( newPanel.attr( "id" ) == "nuevo" ) {
+					window.location = "<%= new_patient_request_path %>";
+				}
+			}
+		});
+	</script>
+
+<% end %>

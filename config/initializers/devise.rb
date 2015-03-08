@@ -6,6 +6,11 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   Espora::Application.config.secret_key_base = '5379c22614ae610fc2109ebe5106925dd88c4dce70bde622a04b93a5057d0671303be11740fe563a68d63dcf6b0000b604c61b701878598b0ac30f8e99aa2c14'
   # config.secret_key = '8e9015c1705cfcbeda07f576805c4a2f2e38cfc303e13323754cc11a13aac848d42d7205f0de1d31b6fb4fae06f638430e4e44ef6796468e747421c6ea8d83ed'
+  #config.secret_key = '0c98f00121327bbc81fe3a3409e43b6dcbcfcb37015a523a67b906b6dc2a9ac9a7bb008fb1c75769f0d93cacf421f41b6e7c1f72ca1cae1383d47d9c598dd4d9'
+  #espora::Application.config.secret_token = '8509aca42f7ce9357bf1f7cfa6800bfd7a2df41fdde8ff456b1f8e7cddbca149f1c4deb1891571438450ddb1eebb8b103501e846cb44ac87ac2535b56b967cfa'
+   #Espora::Application.config.secret_key_base = '0f4e507384017799f1e1554d58816d0fe9ed1e4f72b80ca1c2154bb4fb6895efcd7fb44dc4a2d8e05f4e3af3ef77ae4d02ddc72073a55f4c5872f937f4160f42'
+   Espora::Application.config.secret_key_base = 'ac68f3288e30604a2cf7055c99c41c60a8f10ccc8ccd2a4c90f884492ee057aaef03ffb368b5592ee301d26f2cdfa7f56ce180f03e80c5af784018715fa1cf78'
+
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,

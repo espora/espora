@@ -6,87 +6,78 @@ class Patient < ActiveRecord::Base
 	# Expediente
 	has_one :patient_record, :dependent => :destroy
 
-	# Validaciones
-	validates :account_number, presence: true
+	# Mapeo condicion a nombre en formulario
+	NAME_CAREER = {
+		"actuaria" => "Actuaría", 
+		"biologia" => "Biología", 
+		"ciencias_ambientales" => "Ciencias Ambientales", 
+		"ciencias_de_la_computacion" => "Ciencias de la Computación",
+		"ciencias_de_la_tierra" => "Ciencias de la Tierra", 
+		"fisica" => "Física",
+		"fisica_biomedica" => "Fisica Biomédica",
+		"manejo_sustentable_de_zonas_costeras" => "Manejo Sustentable de Zonas Costeras",
+		"matematicas" => "Matemáticas"
+	}
 
-########################
-    #t.string "p_last_name" = apellido Paterno
-    validates :p_last_name, presence: { :message => "Campo vacío, ingresar el apellido paterno" }
-    validates :p_last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" } 
+	###### VALIDACIONES
 
-    #t.string   "m_last_name" = apellido Materno
-    validates :m_last_name, presence: { :message => "Campo vacío, ingresar el apellido materno" }
- 	validates :m_last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" } 
+	#t.string   "p_last_name"
+	validates :p_last_name, presence: { :message => "Ingresar el apellido paterno" }
+	validates :p_last_name, :format => { :with => /(\A[A-Za-z\sÁÉÍÓÚáéíóúñÑ]+\z)/, :message => "Formato invalido, solo permite letras" }
 
-    #t.string   "names" = nombres
-    validates :names, presence: { :message => "Campo vacío, ingresar un(os) nombre(s)" }
-    validates :names, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" } 
-    validates :telephone1, length: {
-    	minimum: 2,
-    	maximum: 20,
-    	tokenizer: lambda { |str| str.split(/\s+/) },
-    	too_short: "Debe tener al menos %{count} dígitos",
-    	too_long: "Debe tener a lo mas %{count} dígitos"
- 	}
+	#t.string   "m_last_name"
+	validates :m_last_name, presence: { :message => "Ingresar el apellido materno" }
+	validates :m_last_name, :format => { :with => /(\A[A-Za-z\sÁÉÍÓÚáéíóúñÑ]+\z)/, :message => "Formato invalido, solo permite letras" }
 
-    #t.integer  "account_number" = numero Cuenta
-    validates :account_number, presence: { :message => "Campo vacío, ingresar el numero de cuenta"}
-    validates :account_number, numericality: { :only_integer => true, :message => "Tipo de dato inválido" } 
-    validates :account_number, :length => { :is => 9, :message => "Tamaño incorrecto, solo se permiten 9 caractares" }
-    validates :account_number, uniqueness: { :message => "No. Cuenta ya registrado" }
+	#t.string   "names"
+	validates :names, presence: { :message => "Ingresar un(os) nombre(s)" }
+	validates :names, :format => { :with => /(\A[A-Za-z\sÁÉÍÓÚáéíóúñÑ]+\z)/, :message => "Formato invalido, solo permite letras" }
 
-    #t.date     "birth" = Fecha de nacimiento
-    #validates :birth,
+	#t.integer  "account_number"
+	validates :account_number, presence: { :message => "Ingresar el numero de cuenta"}
+	validates :account_number, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
+	validates :account_number, :length => { is: 9 }
+	validates :account_number, uniqueness: { message: "No. Cuenta ya registrado" }
 
-    #t.string   "sex" = sexo
-    validates :sex, presence: { :message => "Campo vacío" }
-	validates :sex, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" }
-	validates :sex, :inclusion => { :in => %w(f m), :message => "%{value} no es un tipo de sexo" }
+	#t.string   "sex"
+	validates :sex, presence: { :message => "Campo vacio" }
 
-    #t.string   "career" = carrera
-    validates :career, presence: { :message => "Campo vacío" }
-	validates :career, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Formato inválido, solo permite letras" }
-	validates :career, :inclusion => { :in => %w(actuaria biologia ciencias_ambientales ciencias_de_la_computacion ciencias_de_la_tierra fisica_biomedica manejo_sustentable_de_zonas_costeras matematicas),
-									   :message => "%{value} no es una carrera de la Facultad de Ciencias" }
+	#t.string   "sex"
+	validates :sex, presence: { :message => "Campo vacio" }
 
-    #t.string   "init_school" = año de ingreso
-    validates :init_school, presence: { :message => "Campo vacío" }
-    validates :init_school, numericality: { :only_integer => true, :message => "Tipo de dato inválido, solo permite enteros" } 
+	#t.string   "career"
+	validates :career, presence: { :message => "Campo vacio" }
 
-    #t.integer  "semester" = semestre
-    validates :semester, numericality: { :only_integer => true, :message => "Tipo de dato inválido, solo permite enteros"} 
-    validates :semester, length: { :is => 5	} # tengo duda con este porque dice en el form que el tamaño es 5, pero aún así tengo duda
+	#t.string   "init_school"
+	validates :init_school, presence: { :message => "Campo vacio" }
 
+	#t.integer  "semester"
+	validates :semester, numericality: { only_integer: true, :message => "Tipo de dato invalido"} 
 
-    #t.integer  "failed_subjects" = materias Reprobadas
-    validates :failed_subjects, numericality: { :only_integer => true, :message => "Tipo de dato inválido, solo permite enteros" } 
+	#t.integer  "failed_subjects"
+	validates :failed_subjects, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
 
-    #t.string   "telephone1" = telefono
-    validates :telephone1, presence: { :message => "Campo vacío, ingresar un número telefonico" }
-    validates :telephone1, numericality: { :only_integer => true, :message => "Tipo de dato inválido, solo permite enteros" } 
-    validates :telephone1, length: {
-    	minimum: 7,
-    	maximum: 12,
-    	tokenizer: lambda { |str| str.split(/\s+/) },
-    	too_short: "Debe tener al menos %{count} dígitos",
-    	too_long: "Debe tener a lo mas %{count} dígitos"
- 	}
+	#t.string   "telephone1" : telefono
+	validates :telephone1, presence: { :message => "Campo vacio" }
+	validates :telephone1, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
+	validates :telephone1, length: {
+		minimum: 8,
+		maximum: 13,
+		too_short: "Debe tener al menos %{count} digitos",
+		too_long: "Debe tener a lo mas %{count} digitos"
+	}
 
-    #t.string   "telephone2" = celular
-    validates :telephone2, numericality: { :only_integer => true, :message => "Tipo de dato inválido, solo permite enteros" } 
-    validates :telephone2, length: {
-    	minimum: 10,
-    	maximum: 13,
-    	tokenizer: lambda { |str| str.split(/\s+/) },
-    	too_short: "Debe tener al menos %{count} dígitos",
-    	too_long: "Debe tener a lo mas %{count} dígitos"
- 	}
-    #t.string   "email" 
-    validates :email, presence: { :message => "Campo vacío, ingresar email" }
-    VALID_CARACTERS = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-    validates :email, format: { :with => VALID_CARACTERS , :message => "Formato de correo inválido" }
-    validates :email, uniqueness: { :case_sensitive => true, :message => "email ya registrado" }
+	#t.string   "telephone2" : celular
+	#validates :telephone2, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
+	#validates :telephone2, length: {
+	#	maximum: 13,
+	#	too_long: "Debe tener a lo mas %{count} digitos"
+	#}
+
+	#t.string   "email"
+	validates :email, presence: { :message => "Ingresar email" }
+	VALID_CARACTERS = /\A([0-9A-Za-z\-\.\_]+)\@[a-z]+\.[a-z]+\z/
+	validates :email, format: { :with => VALID_CARACTERS , message: "Formato de correo invalido" }
+	validates :email, uniqueness: { case_sensitive: true, message: "email ya se registrado" }
 
 end
-
-

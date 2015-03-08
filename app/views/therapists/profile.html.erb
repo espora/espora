@@ -1,0 +1,65 @@
+<% content_for :profile_tab do %>
+
+	<!-- Panel izquierdo -->
+	<div id="ter-profile-1">
+
+		<div>
+			<span><b>ID: </b> <%= @therapist.id %></span>
+		</div>
+
+		<div>
+			<span><b>Nombre: </b> <%= @therapist.p_last_name + " " + @therapist.m_last_name + " " + @therapist.names %></span>
+		</div>
+
+		<div>
+			<span><b>Teléfono: </b> <%= @therapist.telephone1 %></span>
+		</div>
+
+		<div>
+			<span><b>E-Mail: </b> <%= @therapist.email %></span>
+		</div>
+
+	</div>
+	<br><br><br><br><br><br><br>
+	<div>
+	<!-- TABLA -->
+	<div class="lue-block" style="padding-left: 2%;">
+
+		<table id="lue-table" class="pure-table pure-table-bordered">
+			<thead>
+				<tr>
+					<th class="orderby">NO. DE CUENTA</th>
+					<th class="orderby">APELLIDO PATERNO</th>
+					<th class="orderby">APELLIDO MATERNO</th>
+					<th class="orderby">NOMBRE(S)</th>
+					<th class="orderby">CONDICIÓN</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+						<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+					</tr>
+
+					<tr>
+						<td colspan="8" class="lue-register">
+							
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		$("#lue-table").expandTable({
+			beforeExpand: function(elem) {
+			}
+		});
+	</script>
+<% end %>

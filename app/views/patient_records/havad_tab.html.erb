@@ -7,6 +7,8 @@
 		<ul>
 			<% if content_for?(:fosti) %>
 				<li><a href="#fosti">FOSTI</a></li>
+			<% else content_for(:havad) %>
+				<li><a href="#havad"></a></li>
 			<% end %>
 		</ul>
 
@@ -14,6 +16,10 @@
 		<% if content_for?(:fosti) %>
 			<div id="fosti">
 				<%= yield(:fosti) %>
+			</div>
+		<% else content_for(:havad) %>
+			<div id="havad">
+				<%= yield(:havad) %>
 			</div>
 		<% end %>
 

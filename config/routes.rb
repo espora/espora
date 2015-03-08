@@ -1,5 +1,6 @@
 Espora::Application.routes.draw do
 
+  get "patient_records/havad"
   devise_for :therapists
 
   # Ruta raiz
@@ -13,7 +14,7 @@ Espora::Application.routes.draw do
   get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
   post "/therapists/create" => "therapists#create", as: "create_therapists"
 
-  # Solicitudes de ingreso (LUE)
+  # Solicitudes de ingreso Patient Request (LUE)
 
   # Consultar lue
   get "/therapists/lue" => "patient_requests#lue", as: "lue_index"
@@ -22,6 +23,7 @@ Espora::Application.routes.draw do
   get "/therapists/lue/new" => "patient_requests#new", as: "new_patient_request"
   post "/patient_requests/create" => "patient_requests#create", as: "create_patient_request"
 
-  # Pacientes
+  # Expedientes de pacientes (Patient Record)
+  get "/therapists/havad" => "patient_records#havad", as: "havad_index"
 
 end

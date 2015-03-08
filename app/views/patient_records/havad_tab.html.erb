@@ -1,0 +1,23 @@
+<% content_for :havad_tab do %>
+	
+	<!-- WORKSPACE HAVAD -->
+	<div id="havad-tab">
+
+		<!-- PESTANAS -->
+		<ul>
+			<li><a href="#p1">Pestaña1</a></li>
+		</ul>
+
+		<!-- PANELES -->
+		<div id="p1">
+			<%= content_for?(:p1_tab) ? yield(:p1_tab) : "" %>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+		$( "#havad-tab" ).tabs({
+			active: parseInt("<%= @havad_active_tab %>")
+		});
+	</script>
+<% end %>

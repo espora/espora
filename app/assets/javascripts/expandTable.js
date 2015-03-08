@@ -2,13 +2,13 @@
 	$.fn.expandTable = function(options) {
 
 		var element = this;
+		var tableBody = $(this).find("> tbody")[0];
 		var onExandFunc = options.beforeExpand;
 
-		$(element).find("tr:odd").addClass("odd");
-		$(element).find("tr:not(.odd)").hide();
-		$(element).find("tr:first-child").show();
+		$(tableBody).find("> tr:even").addClass("even");
+		$(tableBody).find("> tr:not(.even)").hide();
 
-		$(element).find("tr.odd").click(function() {
+		$(tableBody).find("> tr.even").click(function() {
 			onExandFunc($(this).next("tr"));
 
 			$(this).next("tr").toggle();
@@ -23,6 +23,6 @@
 					icon.addClass("fa-caret-down");
 				}
 			}
-		});	
+		});
 	}
 })(jQuery);

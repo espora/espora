@@ -21,7 +21,20 @@ Espora::Application.routes.draw do
 
   # Crear solicitud paciente
   get "/therapists/lue/new" => "patient_requests#new", as: "new_patient_request"
-  post "/patient_requests/create" => "patient_requests#create", as: "create_patient_request"
+  post "/therapists/lue/create" => "patient_requests#create", as: "patient_requests"
+
+  # Editar y salvar
+  get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "edit_patient_request"
+  patch "/therapists/lue/create" => "patient_requests#update", as: "patient_request"
+
+  # Editar solicitud paciente
+  get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "patient_request_edit"
+
+  # Eliminar solicitud paciente
+  delete "/therapists/lue/delete/:id" => "patient_requests#delete", as: "patient_request_delete"
+
+  # Marcar la solicitud como contactado
+  post "/therapists/lue/mark_contact/:id" => "patients#mark_contact", as: "patient_mark_contact"
 
   # Expedientes de pacientes (Patient Record)
   get "/therapists/havad" => "patient_records#havad", as: "havad_index"

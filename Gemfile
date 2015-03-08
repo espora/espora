@@ -50,6 +50,12 @@ gem 'awesome_print'
 # Diagramas entidad relacion
 gem "rails-erd" # Requiere tener instalado la biblioteca graphviz en el sistema
 
+# CSS Normalizado
+gem 'normalize-rails'
+
+# Time of day (para los horarios)
+gem 'tod'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

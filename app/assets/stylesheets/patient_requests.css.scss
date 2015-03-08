@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#lue-table {
+	width: 90%;
+}
+
 #lue-table .arrow-expand {
 	font-size: 18px;
 	display: block;
@@ -28,3 +32,26 @@
 	float: left;
 }
 
+.lue-pat div {
+	display: inline-block;
+	float: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.lue-pat div span {
+	width: 100%;
+	float: left;
+	margin-top: 7px;
+}
+
+.pat-schedule-table {
+	margin-top: 22px;
+}
+
+.lue-pat-action {
+	width: 170px;
+	padding-top: 8px;
+	height: 14px;
+	margin-top: 5px;
+}

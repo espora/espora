@@ -43,5 +43,4 @@ class PatientRequest < ActiveRecord::Base
 
 	#t.float "money"
 	validates :money, presence: { :message => "Campo vacio" }
-	validates :money, numericality: { only_integer: true }
 end

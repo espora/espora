@@ -19,6 +19,12 @@ class Patient < ActiveRecord::Base
 		"matematicas" => "Matemáticas"
 	}
 
+	# Mapeo del sexo
+	NAME_SEX = {
+		"m" => "Masculino",
+		"f" => "Femenino"
+	}
+
 	###### VALIDACIONES
 
 	#t.string   "p_last_name"

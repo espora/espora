@@ -6,7 +6,8 @@ class Patient < ActiveRecord::Base
 	# Expediente
 	has_one :patient_record, :dependent => :destroy
 
-	enum status: [ :channeled, :abandonment, :treatment, :concluded]
+	enum status: [ :waiting, :contacted, :treatment ]
+	# Futuros estados :channeled, :abandonment
 
 	# Mapeo condicion a nombre en formulario
 	NAME_CAREER = {

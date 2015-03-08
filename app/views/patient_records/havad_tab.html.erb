@@ -5,13 +5,17 @@
 
 		<!-- PESTANAS -->
 		<ul>
-			<li><a href="#p1">Pestaña1</a></li>
+			<% if content_for?(:fosti) %>
+				<li><a href="#fosti">FOSTI</a></li>
+			<% end %>
 		</ul>
 
 		<!-- PANELES -->
-		<div id="p1">
-			<%= content_for?(:p1_tab) ? yield(:p1_tab) : "" %>
-		</div>
+		<% if content_for?(:fosti) %>
+			<div id="fosti">
+				<%= yield(:fosti) %>
+			</div>
+		<% end %>
 
 	</div>
 

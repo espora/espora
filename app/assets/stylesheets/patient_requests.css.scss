@@ -2,13 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#lue-table div.arrow-expand {
+#lue-table .arrow-expand {
 	font-size: 18px;
 	display: block;
 }
 
-#lue-table .orderby {
+#lue-table .order {
 	cursor: pointer;
+}
+
+.order-active, .c-order-active {
+	background-color: #e0e0e0 !important;
 }
 
 .lue-block {

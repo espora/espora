@@ -24,7 +24,11 @@
 					<td><%=patient.telephone1%></td>
 					<td><%=record.appointments.count%></td>
 					<td><%=patient.patient_request.updated_at%></td>
-					<td><i class="fa fa-arrow-right"></i></td>
+					<td>
+						<%= link_to choose_record_path(patient) do %>
+							<i class="fa fa-arrow-right"></i>
+						<% end %>
+					</td>
 				</tr>
 			<% end %>
 		</tbody>

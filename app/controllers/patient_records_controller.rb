@@ -24,8 +24,21 @@ class PatientRecordsController < ApplicationController
 			render template: "patient_records/fosti"
 		else
 
+			# Obtener el paciente
+			@current_patient = Patient.find(session[:current_patient])
+			@current_record = @current_patient.patient_record
+
 			# Renderea el expediente
 			render template: "patient_records/havad"
 		end
+	end
+
+	# GET
+	def choose
+		
+		# Pone en sesion al expediente activo
+		session[:current_patient] = params[:id]
+
+		redirect_to havad_index_path
 	end
 end

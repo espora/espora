@@ -41,6 +41,9 @@ Espora::Application.routes.draw do
   # Index de expedientes de paciente (FOSTI / HAVAD)
   get "/therapists/havad/" => "patient_records#havad", as: "havad_index"
 
+  # Elige el expediente con el que se va a trabajar
+  get "/therapists/havad/choose_record/:id" => "patient_records#choose", as: "choose_record"
+
   # HAVAD
   get "/therapists/havad"
 

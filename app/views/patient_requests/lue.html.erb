@@ -1,7 +1,7 @@
 <% content_for :lue_list_tab do %>
 
 	<!-- FILTRO Y BUSQUEDA -->
-	<div class="lue-block" style="height: 60px; ">
+	<div class="lue-block" style="height: 60px;">
 
 		<!-- BUSQUEDA -->
 		<form action="<%= lue_index_path %>" method="get" class="pure-form" id="lue-search">
@@ -26,7 +26,7 @@
 	</div>
 
 	<!-- TABLA -->
-	<div class="lue-block" style="padding-left: 2%; min-height: <%= @patient_requests.count * 170 %>px;">
+	<div class="lue-block" style="padding-left: 2%;">
 
 		<table id="lue-table" class="pure-table pure-table-bordered">
 			<thead>
@@ -37,7 +37,7 @@
 					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
 					<th class="order<%= (params[:order_by] == 'request_date')? ' order-active' : '' %>" orderby="request_date">FECHA DE SOLICITUD</th>
 					<th class="order<%= (params[:order_by] == 'condition')? ' order-active' : '' %>" orderby="condition">CONDICIÓN</th>
-					<th class="order<%= (params[:order_by] == 'status')? ' order-active' : '' %>" orderby="status">STATUS</th>
+					<th>STATUS</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -65,12 +65,12 @@
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
 						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= PatientRequest::NAME_CONDITION[req.condition] %></td>
-						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= Patient::NAME_STATUS[req.patient.status] %></td>
+						<td>En espera</td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
-						<td colspan="8" class="lue-pat">
+						<td colspan="8" class="lue-register">
 							<%= render partial: "info_patient", locals: { patient: patient } %>
 						</td>
 					</tr>
@@ -93,7 +93,8 @@
 		});
 
 		$("#lue-table").expandTable({
-			beforeExpand: function(elem) {}
+			beforeExpand: function(elem) {
+			}
 		});
 	</script>
 	

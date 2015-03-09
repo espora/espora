@@ -41,4 +41,7 @@ Espora::Application.routes.draw do
   # Index de expedientes de paciente (FOSTI / HAVAD)
   get "/therapists/havad/" => "patient_records#havad", as: "havad_index"
 
+  # HAVAD
+  get "/therapists/havad"
+
 end

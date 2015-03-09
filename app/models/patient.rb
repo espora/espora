@@ -25,6 +25,12 @@ class Patient < ActiveRecord::Base
 		"f" => "Femenino"
 	}
 
+	# Mapeo de nombres de status
+	NAME_STATUS = {
+		"waiting" => "En espera",
+		"contacted" => "Contactado"
+	}
+
 	###### VALIDACIONES
 
 	#t.string   "p_last_name"

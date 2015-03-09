@@ -6,9 +6,6 @@ class Patient < ActiveRecord::Base
 	# Expediente
 	has_one :patient_record, :dependent => :destroy
 
-	enum status: [ :waiting, :contacted, :treatment ]
-	# Futuros estados :channeled, :abandonment
-
 	# Mapeo condicion a nombre en formulario
 	NAME_CAREER = {
 		"actuaria" => "Actuaría", 
@@ -26,6 +23,12 @@ class Patient < ActiveRecord::Base
 	NAME_SEX = {
 		"m" => "Masculino",
 		"f" => "Femenino"
+	}
+
+	# Mapeo de nombres de status
+	NAME_STATUS = {
+		"waiting" => "En espera",
+		"contacted" => "Contactado"
 	}
 
 	###### VALIDACIONES

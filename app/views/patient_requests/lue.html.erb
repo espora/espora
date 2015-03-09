@@ -37,7 +37,7 @@
 					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
 					<th class="order<%= (params[:order_by] == 'request_date')? ' order-active' : '' %>" orderby="request_date">FECHA DE SOLICITUD</th>
 					<th class="order<%= (params[:order_by] == 'condition')? ' order-active' : '' %>" orderby="condition">CONDICIÓN</th>
-					<th>STATUS</th>
+					<th class="order<%= (params[:order_by] == 'status')? ' order-active' : '' %>" orderby="status">STATUS</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -65,7 +65,7 @@
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
 						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= PatientRequest::NAME_CONDITION[req.condition] %></td>
-						<td>En espera</td>
+						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= Patient::NAME_STATUS[req.patient.status] %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 

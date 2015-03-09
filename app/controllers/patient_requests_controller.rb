@@ -82,6 +82,11 @@ class PatientRequestsController < ApplicationController
 			end
 		end
 
+		# Nos quedamos solo con los que tienen status esperando o contactado
+		@patient_requests.keep_if { | pat_req |
+			pat_req.patient.status == "waiting" or pat_req.patient.status == "contacted"
+		}
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 1
 
@@ -160,6 +165,9 @@ class PatientRequestsController < ApplicationController
 			# Creamos al paciente solicitante y checamos la validez
 			@patient = Patient.new(patient_params)
 			if @patient.valid?
+
+				# Estado en espera
+				@patient.status = "waiting"
 
 				# Asignamos el paciente
 				@patient_request.patient = @patient

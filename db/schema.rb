@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150308210712) do
+ActiveRecord::Schema.define(version: 20150309002750) do
 
   create_table "affected_areas", force: true do |t|
     t.string   "area"
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 20150308210712) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "status"
+    t.string   "status"
   end
 
   create_table "request_schedules", force: true do |t|

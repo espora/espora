@@ -28,9 +28,20 @@
 		<b>EDITAR SOLICITUD</b>
 	<% end %>
 
-	<!-- BOTON PARA EDITAR INFORMACION -->
-	<%= link_to patient_mark_contact_path(patient), :class => "pure-button pure-button-active lue-pat-action" do %>
-		<b>MARCAR COMO CONTACTADO</b>
+	<% if patient.status == "waiting" %>
+
+		<!-- BOTON PARA MARCAR COMO CONTACTADO -->
+		<%= link_to patient_mark_contact_path(patient), :class => "pure-button pure-button-active lue-pat-action" do %>
+			<b>MARCAR COMO CONTACTADO</b>
+		<% end %>
+
+	<% elsif patient.status == "contacted" %>
+		
+		<!-- BOTON PARA COMENZAR A ATENDER -->
+		<%= link_to assign_patient_path(patient), :class => "pure-button pure-button-active lue-pat-action", data: { confirm: "¿Estás seguro?" } do %>
+			<b>COMENZAR A ATENDER</b>
+		<% end %>
+
 	<% end %>
 
 	<!-- BOTON PARA ELIMINAR REGISTRO -->

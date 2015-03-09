@@ -249,6 +249,32 @@ class PatientRequestsController < ApplicationController
 		redirect_to lue_index_path
 	end
 
+	# GET
+	def assign
+
+		# Obtenemos el paciente
+		@patient = Patient.find(params[:id])
+
+		# Crea un expediente
+		@patient_record = PatientRecord.new
+
+		# Lo asignamos al paciente
+		@patient_record.patient = @patient
+
+		# El terapeuta que lo atendio
+		@patient_record.therapist = current_therapist
+
+		# Marcamos la fecha de hoy como la fecha de atencion
+		@patient.patient_request.update_attributes(:attention_date => Time.now)
+
+		# Salvamos el expediente
+		@patient_record.save
+
+		# Guardamos que estamos trabajando con el y enviamos al havad
+		session[:current_patient] = params[:id]
+		redirect_to havad_index_path
+	end
+
 	private
 
 		def patient_requets_params

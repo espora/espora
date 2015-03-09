@@ -34,7 +34,10 @@ Espora::Application.routes.draw do
   delete "/therapists/lue/delete/:id" => "patient_requests#delete", as: "patient_request_delete"
 
   # Marcar la solicitud como contactado
-  post "/therapists/lue/mark_contact/:id" => "patients#mark_contact", as: "patient_mark_contact"
+  get "/therapists/lue/mark_contact/:id" => "patients#mark_contact", as: "patient_mark_contact"
+
+  # Un terapeuta comienza a tender a un paciente (se crea su expediente)
+  get "/therapists/lue/assign_patient/:id" => "patient_request#assign", as: "assign_patient"
 
   ##### Expedientes de pacientes (Patient Record)
 

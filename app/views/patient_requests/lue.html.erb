@@ -1,7 +1,7 @@
 <% content_for :lue_list_tab do %>
 
 	<!-- FILTRO Y BUSQUEDA -->
-	<div class="lue-block" style="height: 60px; ">
+	<div class="lue-block" style="height: 60px;">
 
 		<!-- BUSQUEDA -->
 		<form action="<%= lue_index_path %>" method="get" class="pure-form" id="lue-search">
@@ -26,7 +26,7 @@
 	</div>
 
 	<!-- TABLA -->
-	<div class="lue-block" style="padding-left: 2%; min-height: <%= @patient_requests.count * 170 %>px;">
+	<div class="lue-block" style="padding-left: 2%;">
 
 		<table id="lue-table" class="pure-table pure-table-bordered">
 			<thead>
@@ -70,7 +70,7 @@
 					</tr>
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
-						<td colspan="8" class="lue-pat">
+						<td colspan="8" class="lue-register">
 							<%= render partial: "info_patient", locals: { patient: patient } %>
 						</td>
 					</tr>
@@ -93,7 +93,8 @@
 		});
 
 		$("#lue-table").expandTable({
-			beforeExpand: function(elem) {}
+			beforeExpand: function(elem) {
+			}
 		});
 	</script>
 	

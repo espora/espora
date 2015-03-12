@@ -266,6 +266,13 @@ class PatientRequestsController < ApplicationController
 		# Marcamos la fecha de hoy como la fecha de atencion
 		@patient.patient_request.update_attributes(:attention_date => Time.now)
 
+		# Le construimos los rasgos de los padres
+		@patient_record.paternal_traits.build
+		@patient_record.paternal_traits.last.from_mother = true
+
+		@patient_record.paternal_traits.build
+		@patient_record.paternal_traits.last.from_mother = false
+
 		# Salvamos el expediente
 		@patient_record.save
 

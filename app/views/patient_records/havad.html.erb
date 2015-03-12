@@ -1,45 +1,51 @@
 <% content_for :havad do %>
-	<div> <% @current_patient.names %> </div>
-	<!--FORMULARIO HAVAD -->
 
+	<!--FORMULARIO HAVAD -->
 	<div style="margin-left: 4%; margin-top: 5px;">
-		<%= fields_for patient_record.patient do |patient_record_form| %>
-		<!--Familiograma (¿Con quien vive?)-->
-		<table class="pure-table pure-table-bordered">
+		<%= nested_form_for current_patient.patient_record do | record_form | %>
+
+			<!--Familiograma (¿Con quien vive?)-->
 			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
 				FAMILIOGRAMA
 			</div>
-
-			<!-- FAMILIA -->
 			<div style="margin-left: 4%; margin-top: 5px;">
-				<%= patient_record_form.label :lives_with do %>¿Con quien vives?: <% end %>
-				<%= patient_record_form.text_field :lives_with, autofocus: true, :size => 50, :required => true, :maxlength => 25 %>
+				<%= record_form.label :lives_with do %>¿Con quien vives?: <% end %>
+				<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :required => true, :maxlength => 25 %>
 			</div>
 
 			<!-- RASGOS PADRES -->
-			<!--<div style="margin-left: 4%; margin-top: 10px;">
-				<%= patient_form.label :ALGO!!!!, "Padre: " %>
-				<%= patient_form.select :ALGO!!!, [["Agresivo", "agresivo"], ["Ambivalente", "ambivalente"], ["Ansioso", "ansioso"], ["Ausente", "ausente"], ["Autoritario", "autoritario"],["Cariñoso", "cariñoso"],["Comprensivo", "comprensivo"],["Dependiente", "dependiente"],["Depresivo", "depresivo"],["Enojón", "enojon"],["Impulsivo", "impulsivo"],["Insatisfecho", "insatisfecho"],["Inseguro", "inseguro"],["Masoquista", "masoquista"],["Negligente", "negligente"],["Obsesivo", "obsesivo"],["Paranoide", "paranoide"],["Pasivo", "pasivo"],["Sobreprotector", "sobreprotector"],["Transgresor", "transgresor"]] %>
-
-				<%= patient_form.label :ALGO!!!!, "Madre: " %>
-				<%= patient_form.select :ALGO!!!, [["Agresivo", "agresivo"], ["Ambivalente", "ambivalente"], ["Ansioso", "ansioso"], ["Ausente", "ausente"], ["Autoritario", "autoritario"],["Cariñoso", "cariñoso"],["Comprensivo", "comprensivo"],["Dependiente", "dependiente"],["Depresivo", "depresivo"],["Enojón", "enojon"],["Impulsivo", "impulsivo"],["Insatisfecho", "insatisfecho"],["Inseguro", "inseguro"],["Masoquista", "masoquista"],["Negligente", "negligente"],["Obsesivo", "obsesivo"],["Paranoide", "paranoide"],["Pasivo", "pasivo"],["Sobreprotector", "sobreprotector"],["Transgresor", "transgresor"]] %>
-			</div> -->
-
-			<!-- CIE 10 -->
-			<div style="margin-left: 4%; margin-top: 10px;">
-				<%= patient_form.label :cie10_type_id, "Carrera: " %>
-				<%= patient_form.select :cie10_type_id, [["Transtornos Mentales Orgánicos", "transtornos_mentales_organicos"], ["Trastornos Mentales y del Comportamiento Debido al Consumo", "trastornos_mentales_y_del_comportamiento_debido_al_consumo"], ["Esquizofrenia y trastornos de ideas delirantes", "Esquizofrenia y trastornos de ideas delirantes"], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]] %>
+			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+				RASGOS PADRES
 			</div>
 
+			<!-- CAMPOS PARA PARA LA MADRE -->
+			<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
+			<%= record_form.fields_for mother_trait do | mother_form | %>
+				<div style="margin-left: 4%; margin-top: 5px;">
+					<%= mother_form.label :patient_record_id do %>Rasgo: <% end %>
+					<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+				</div>
+			<% end %>
 
+			<!-- CAMPOS PARA PARA EL PADRE -->
+			<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
+			<%= record_form.fields_for father_trait do | father_form | %>
+				<div style="margin-left: 4%; margin-top: 5px;">
+					<%= father_form.label :patient_record_id do %>Rasgo: <% end %>
+					<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+				</div>
+			<% end %>
 
+			<!-- CIE10 -->
+			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+				CIE10
+			</div>
+			<div style="margin-left: 4%; margin-top: 5px;">
+				<%= record_form.label :cie10_type_id do %>CIE10: <% end %>
+				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+			</div>
 
-		</table>
 		<% end %>
-	</div>
-
-	<div style="margin-left: 4%; margin-top: 5px;">
-		Rasgos de los padres
 	</div>
 
 <% end %>

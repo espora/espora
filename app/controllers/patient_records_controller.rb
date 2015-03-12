@@ -1,5 +1,8 @@
 class PatientRecordsController < ApplicationController
 
+	# Incluir las funciones de ayuda de la aplicacion
+	include ApplicationHelper
+
 	# Devise
 	before_filter :authenticate_therapist!
 
@@ -16,8 +19,7 @@ class PatientRecordsController < ApplicationController
 		@havad_active_tab = 0
 
 		# Mandando a renderear
-		if session[:current_patient].nil?
-
+		if current_patient.nil?
 			@patient_records = current_therapist.patient_records
 
 			# Si no hay paciente entonces fosti
@@ -25,8 +27,7 @@ class PatientRecordsController < ApplicationController
 		else
 
 			# Obtener el paciente
-			@current_patient = Patient.find(session[:current_patient])
-			@current_record = @current_patient.patient_record
+			@current_record = current_patient.patient_record
 
 			# Renderea el expediente
 			render template: "patient_records/havad"
@@ -37,8 +38,18 @@ class PatientRecordsController < ApplicationController
 	def choose
 		
 		# Pone en sesion al expediente activo
-		session[:current_patient] = params[:id]
+		session[:current_patient_id] = params[:id]
 
+		# Redirigimos al havad
 		redirect_to havad_index_path
+	end
+
+	def close
+
+		# Quitamos la variable de sesion del paciente elegido
+		session.delete(:current_patient_id)
+
+		# Redirigimos al path
+		redirect_to therapist_profile_path(current_therapist)
 	end
 end

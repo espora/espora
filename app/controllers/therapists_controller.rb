@@ -25,7 +25,7 @@ class TherapistsController < ApplicationController
 		@therapist = Therapist.new
 
 		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 2
+		@therapist_active_tab = 3
 	end
 
 	# POST

@@ -31,7 +31,9 @@ module PatientRequestsHelper
 			tr_str +=  (min.to_s.length == 1)? (min.to_s + "0") : min.to_s
 			tr_str += " hrs.</td>"
 
-			range = Shift.new(TimeOfDay.new(hour, min), TimeOfDay.new(nextHour, nextMin))
+			time = TimeOfDay.new(hour, min)
+			next_time = TimeOfDay.new(nextHour, nextMin)
+			range = Shift.new(time, next_time)
 
 			# One available?
 			one_available = false
@@ -49,11 +51,12 @@ module PatientRequestsHelper
 				day_schedules.each do | day_schedule |
 
 					# Creamos el tod
-					schedule_begin = TimeOfDay.new(day_schedule.beginH.hour, day_schedule.beginH.min)
-					schedule_end = TimeOfDay.new(day_schedule.endH.hour, day_schedule.endH.min)
+					begin_schedule = TimeOfDay.new(day_schedule.beginH.hour, day_schedule.beginH.min)
+					end_schedule = TimeOfDay.new(day_schedule.endH.hour, day_schedule.endH.min)
+					range_schedule = Shift.new(begin_schedule, end_schedule)
 
 					# Preguntamos si se incluye al horario
-					if range.include?(schedule_begin) or range.include?(schedule_end)
+					if range.include?(begin_schedule) or range.include?(end_schedule) or range_schedule.include?(time) or range_schedule.include?(next_time)
 						available = true
 						break
 					end

@@ -28,7 +28,8 @@ class Patient < ActiveRecord::Base
 	# Mapeo de nombres de status
 	NAME_STATUS = {
 		"waiting" => "En espera",
-		"contacted" => "Contactado"
+		"contacted" => "Contactado",
+		"treatment" => "En tratamiento"
 	}
 
 	###### VALIDACIONES
@@ -79,17 +80,16 @@ class Patient < ActiveRecord::Base
 		too_long: "Debe tener a lo mas %{count} digitos"
 	}
 
-	#t.string   "telephone2" : celular
-	#validates :telephone2, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
-	#validates :telephone2, length: {
-	#	maximum: 13,
-	#	too_long: "Debe tener a lo mas %{count} digitos"
-	#}
-
 	#t.string   "email"
 	validates :email, presence: { :message => "Ingresar email" }
 	VALID_CARACTERS = /\A([0-9A-Za-z\-\.\_]+)\@[a-z]+\.[a-z]+\z/
 	validates :email, format: { :with => VALID_CARACTERS , message: "Formato de correo invalido" }
 	validates :email, uniqueness: { case_sensitive: true, message: "email ya se registrado" }
+
+	###### METODOS
+
+	def full_name
+		self.p_last_name + " " + self.m_last_name + " " + self.names
+	end
 
 end

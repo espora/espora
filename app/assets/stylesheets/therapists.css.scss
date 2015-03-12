@@ -1,10 +1,31 @@
-	
+
+#ter-header {
+	width: 100%;
+	height: 95px;
+}
+
+#ter-header > div {
+	position: relative;
+	float: left;
+	height: inherit;
+}
+
+#ter-curr-patient span {
+	font-size: 13px;
+	width: 100%;
+	float: left;
+}
+
+#ter-curr-patient a:visited {
+	color: #0000EE;
+}
+
 .ter-logo {
 	width: 205px;
-	height: 86px;
-	border-radius: 5%;
-	margin-left: 1050px;
-	margin-bottom: 15px;
+	height: 85px;
+
+	border-radius: 5.5%;
+	float: right;
 }
 
 #ter-logout {

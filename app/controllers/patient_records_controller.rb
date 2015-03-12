@@ -12,6 +12,9 @@ class PatientRecordsController < ApplicationController
 	# GET
 	def havad
 
+		# El Array que se ira llenando
+		@patient_records = Array.new
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 2
 

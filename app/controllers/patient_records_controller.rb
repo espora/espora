@@ -12,6 +12,9 @@ class PatientRecordsController < ApplicationController
 	# GET
 	def havad
 
+		# El Array que se ira llenando
+		@patient_records = Array.new
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 2
 
@@ -43,6 +46,7 @@ class PatientRecordsController < ApplicationController
 		# Redirigimos al havad
 		redirect_to havad_index_path
 	end
+
 
 	def close
 

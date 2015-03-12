@@ -1,5 +1,23 @@
 <% content_for :havad do %>
-	<div>HOLA MUDNO</div>
+	<div> <% @current_patient.names %> </div>
+	<!--FORMULARIO HAVAD -->
+
+	<div style="margin-left: 4%; margin-top: 5px;">
+		<!--Familiograma (¿Con quien vive?)-->
+		<table class="pure-table pure-table-bordered">
+			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
+				FAMILIOGRAMA
+			</div>
+
+
+		</table>
+		
+	</div>
+
+	<div style="margin-left: 4%; margin-top: 5px;">
+		Rasgos de los padres
+	</div>
+
 <% end %>
 
 <%= render template: "patient_records/havad_tab" %>

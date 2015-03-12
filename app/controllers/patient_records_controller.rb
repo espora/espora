@@ -41,4 +41,8 @@ class PatientRecordsController < ApplicationController
 
 		redirect_to havad_index_path
 	end
+
+	#POST
+	def create
+	end
 end

@@ -103,30 +103,11 @@ class PatientRequestsController < ApplicationController
 		@patient_request.patient = Patient.new
 
 		# Areas afectadas
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Escolar"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Familiar"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Social"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Laboral"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Pareja"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Sexual"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Emocional"
-
-		@patient_request.affected_areas.build
-		@patient_request.affected_areas.last.area = "Otro"
-
+		AffectedArea::AFFECTED_AREAS.each do | area_name |
+			@patient_request.affected_areas.build
+			@patient_request.affected_areas.last.area = area_name
+		end
+		
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 1
 
@@ -139,6 +120,25 @@ class PatientRequestsController < ApplicationController
 
 		# Obtenemos la solicitud
 		@patient_request = PatientRequest.find(params[:id])
+
+		# Areas afectadas
+		affected_areas = @patient_request.affected_areas
+		AffectedArea::AFFECTED_AREAS.each do | area_name |
+
+			# Vemos si tiene esta area
+			has_area = false
+			affected_areas.each do | a_area |
+				if (a_area.area == area_name) or (a_area.isOther? and area_name == "Otro")
+					has_area = true
+					break
+				end
+			end
+
+			if not has_area
+				@patient_request.affected_areas.build
+				@patient_request.affected_areas.last.area = area_name
+			end
+		end
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 1
@@ -202,7 +202,6 @@ class PatientRequestsController < ApplicationController
 
 		# Obtenemos los objetos
 		@patient = Patient.find_by_account_number( params[:patient][:account_number] )
-
 		@patient_request = @patient.patient_request
 
 		# Limpiamos las areas afectadas vacias

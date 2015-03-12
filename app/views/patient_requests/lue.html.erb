@@ -75,6 +75,14 @@
 						</td>
 					</tr>
 				<% end %>
+
+				<% if @patient_requests.count == 0 %>
+					<tr>
+						<td colspan="8" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
+							NO SE HALLARON SOLICITUDES
+						</td>
+					</tr>
+				<% end %>
 			</tbody>
 		</table>
 	</div>

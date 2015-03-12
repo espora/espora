@@ -253,12 +253,14 @@
 						<%= request_form.fields_for :affected_areas do | aarea_form | %>
 							
 							<div style="width: 50%; float: left; margin-top: 7px; height: 16px;" >
-								<input type="checkbox" affarea="<%= aarea_form.object.area %>" onchange="changeAffectedArea(this);" other="aarea_form.object.isOther?">
+								<input type="checkbox" affarea="<%= aarea_form.object.area %>" onchange="changeAffectedArea(this);" other="aarea_form.object.isOther?" <% if not aarea_form.object.id.nil? %>checked<% end %>>
+
 								<%= aarea_form.label :area, :style => "display: inline-block; position: relative; top: -3px;" do %>
 									<%= aarea_form.object.area %>
 								<% end %>
-
+								
 								<% if aarea_form.object.isOther? %>
+									
 									<%= aarea_form.text_field :area, :value => "", autofocus: true, :size => 10, :style => "display: inline-block; position: relative; top: -3px;" %>
 								<% else %>
 									<%= aarea_form.hidden_field :area, :value => "" %>

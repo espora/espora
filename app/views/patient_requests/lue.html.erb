@@ -20,8 +20,7 @@
 			<% end %>
 
 			<%= label_tag 'filter_by', 'Filtrar por:' %>
-			<%= select_tag 'filter_by', "<option value='none'>No Filtrar</option><option value='schedule'>Concidencias en horario</option>".html_safe,
-			:onchange => "this.form.submit();" %>
+			<%= select_tag 'filter_by', lue_filter_options(params[:filter_by]).html_safe, :onchange => "this.form.submit();" %>
 		</form>
 	</div>
 

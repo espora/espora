@@ -270,8 +270,11 @@ class PatientRequestsController < ApplicationController
 		# Salvamos el expediente
 		@patient_record.save
 
+		# Marcamos al paciente como en atencion
+		@patient.update_attributes(:status => "treatment")
+
 		# Guardamos que estamos trabajando con el y enviamos al havad
-		session[:current_patient] = params[:id]
+		session[:current_patient] = @patient.id
 		redirect_to havad_index_path
 	end
 

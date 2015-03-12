@@ -10,9 +10,31 @@
 
 		<div style="font: 65% 'Trebuchet MS', sans-serif; margin: 50px;">
 			
-			<!-- LOGO -->
-			<div>
-				<%= image_tag("Espora.png", :class => "ter-logo") %>
+			<!-- BANNER -->
+			<div id="ter-header">
+
+				<div id="ter-curr-patient" style="width: 25%;">
+					<% if !current_patient.nil? %>
+						<span style="margin-top: 38px;">
+							<b>EXPEDIENTE ELEGIDO:</b> <%= current_patient.full_name %>
+						</span>
+						<span>
+							<b>PROXIMA CITA:</b> 10/10/2015
+						</span>
+						<span style="margin-top: 3px;">
+							<%= link_to close_record_path do %>Cerrar Expediente<% end %>
+						</span>
+					<% else %>
+						<span style="margin-top: 57px;">
+							<b>NO SE TIENE ELEGIDO UN<br>EXPEDIENTE</b>
+						</span>
+					<% end %>
+				</div>
+
+				<!-- LOGO -->
+				<div style="width: 75%;">
+					<%= image_tag("Espora.png", :class => "ter-logo") %>
+				</div>
 			</div>
 
 			<!-- WORKSPACE TERAPEUTA -->

@@ -1,10 +1,7 @@
 <script type="text/javascript">
 
 	// Se cambio el dia en un horario
-	function changeScheduleDay ( input ) {
-		console.log("ok123");
-		console.log(input);
-	}
+	function changeScheduleDay ( input ) {}
 
 	// Asigna en el hidden input el area afectada que se hizo check
 	function changeAffectedArea ( input ) {
@@ -36,10 +33,13 @@
 			$(".form-container").height( $(".form-container").height() - 50 );
 		});
 
-		// Hacemos click a un horario
+		// Agregamos un campo
 		$(".add_nested_fields").html("<i class='fa fa-plus-circle' style='font-size: 13px;'></i> Agregar un horario");
-		$(".add_nested_fields").click();
 
+		// Si no hay horarios hacemos click para tener al menos uno
+		if($(".schedule-form").length == 0) {
+			$(".add_nested_fields").click();
+		}
 
 		//Quita letras en campos numericos
 		$(".num-field").keypress(function ( event ) {
@@ -283,7 +283,7 @@
 					</div>
 
 					<%= request_form.fields_for :request_schedules do |schedule_form| %>
-						<div style="width: 100%; height: 35px; float: left; margin-top: 5px; margin-bottom: 5px;">
+						<div class="schedule-form" style="width: 100%; height: 35px; float: left; margin-top: 5px; margin-bottom: 5px;">
 							<div style="width: 13%; float: left; font-style: italic; padding-top: 10px;">
 								Horario Disponible:
 							</div>

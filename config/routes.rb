@@ -37,7 +37,7 @@ Espora::Application.routes.draw do
   get "/therapists/lue/mark_contact/:id" => "patients#mark_contact", as: "patient_mark_contact"
 
   # Un terapeuta comienza a tender a un paciente (se crea su expediente)
-  get "/therapists/lue/assign_patient/:id" => "patient_request#assign", as: "assign_patient"
+  get "/therapists/lue/assign/:id" => "patient_requests#assign", as: "assign_patient"
 
   ##### Expedientes de pacientes (Patient Record)
 
@@ -46,6 +46,7 @@ Espora::Application.routes.draw do
 
   # Elige el expediente con el que se va a trabajar
   get "/therapists/havad/choose_record/:id" => "patient_records#choose", as: "choose_record"
+  get "/therapists/havad/close_record" => "patient_records#close", as: "close_record"
 
   # HAVAD
   get "/therapists/havad"

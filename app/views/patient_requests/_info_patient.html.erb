@@ -1,43 +1,52 @@
-<div >
-	<div id="info-patient-left" style="margin-right: 15px,">
-		<br>
-		<b>Carrera:</b> <%= Patient::NAME_CAREER[patient.career]  %>
-		<br><br>
-		<b>Teléfono:</b> <%= patient.telephone1 %>
-		<br><br>
-		<% if patient.telephone2 == "" %>
-			<% tel2 = "---" %>
-		<% else %>
-			<% tel2 = patient.telephone2 %>
+<div style="width: 25%; margin-left: 6.5%;">
+
+	<span style="margin-top: 22px;"><b>EDAD:</b> <%= patient.age %></span>
+	<span><b>SEXO:</b> <%= Patient::NAME_SEX[ patient.sex ] %></span>
+	<span><b>CARRERA:</b> <%= Patient::NAME_CAREER[ patient.career ] %></span>
+	
+	<span><b>TELÉFONO:</b> <%= patient.telephone1 %></span>
+	<span><b>CELULAR:</b> <%= (patient.telephone2 == "")? "--------" : patient.telephone2 %></span>
+	<span><b>CORREO:</b> <%= patient.email %></span>
+
+	<span style="margin-top: 10px;">
+		<b>MOTIVOS DE CONSULTA:</b>
+		<p style="margin: 0; margin-top: 4px; text-align: justify;"><%= patient.patient_request.reasons %></p>
+	</span>
+
+</div>
+
+<div style="width: 40%; margin-left: 2%;" align="center">
+	<span><b>DISPONIBILIDAD HORARIO:</b></span>
+
+	<%= table_patient_schedule(patient.patient_request) %>
+</div>
+
+<div style="width: 20%; margin-left: 4%; margin-top: 30px;">
+
+	<!-- BOTON PARA EDITAR INFORMACION -->
+	<%= link_to edit_patient_request_path(patient.patient_request), :class => "pure-button pure-button-active lue-pat-action", :style => "margin-top: 15px;" do %>
+		<b>EDITAR SOLICITUD</b>
+	<% end %>
+
+	<% if patient.status == "waiting" %>
+
+		<!-- BOTON PARA MARCAR COMO CONTACTADO -->
+		<%= link_to patient_mark_contact_path(patient), :class => "pure-button pure-button-active lue-pat-action" do %>
+			<b>MARCAR COMO CONTACTADO</b>
 		<% end %>
-		<b>Celular:</b> <%= tel2 %>
-		<br><br>
-		<b>Correo:</b> <%= patient.email %>
-		<br><br>		
-	</div>
 
-	<div id="info-patient-right">
-		<!--Horarios: 
-		<table>
-			<tr>
-				<th>Hora</th>
-				<th>Lu</th>
-				<th>Ma</th>
-				<th>Mi</th>
-				<th>Ju</th>
-				<th>Vi</th>
-			</tr>
-			<tr>
-				<td>14:00</td>
-				<td>si</td>
-				<td>no</td>
-				<td>si</td>
-				<td>si</td>
-				<td>si</td>
-			</tr>
-		</table>-->
-	</div>
-	<div id = "info-patiett-right">
+	<% elsif patient.status == "contacted" %>
+		
+		<!-- BOTON PARA COMENZAR A ATENDER -->
+		<%= link_to assign_patient_path(patient), :class => "pure-button pure-button-active lue-pat-action", data: { confirm: "¿Estás seguro?" } do %>
+			<b>COMENZAR A ATENDER</b>
+		<% end %>
 
-	</div>
+	<% end %>
+
+	<!-- BOTON PARA ELIMINAR REGISTRO -->
+	<%= link_to patient_request_delete_path(patient.patient_request), :class => "pure-button pure-button-active lue-pat-action", :style => "background: rgb(202, 60, 60); color: #FFF;", data: { confirm: "¿Estás seguro?" }, method: :delete do %>
+		<b>ELIMINAR REGISTRO</b>
+	<% end %>
+
 </div>

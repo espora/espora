@@ -20,8 +20,7 @@
 			<% end %>
 
 			<%= label_tag 'filter_by', 'Filtrar por:' %>
-			<%= select_tag 'filter_by', "<option value='none'>No Filtrar</option><option value='schedule'>Concidencias en horario</option>".html_safe,
-			:onchange => "this.form.submit();" %>
+			<%= select_tag 'filter_by', lue_filter_options(params[:filter_by]).html_safe, :onchange => "this.form.submit();" %>
 		</form>
 	</div>
 
@@ -65,13 +64,21 @@
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
 						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= PatientRequest::NAME_CONDITION[req.condition] %></td>
-						<td>En espera</td>
+						<td><%= Patient::NAME_STATUS[patient.status] %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
-						<td colspan="8" class="lue-register">
+						<td colspan="8" class="lue-pat">
 							<%= render partial: "info_patient", locals: { patient: patient } %>
+						</td>
+					</tr>
+				<% end %>
+
+				<% if @patient_requests.count == 0 %>
+					<tr>
+						<td colspan="8" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
+							NO SE HALLARON SOLICITUDES
 						</td>
 					</tr>
 				<% end %>

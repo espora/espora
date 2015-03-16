@@ -1,10 +1,7 @@
 <script type="text/javascript">
 
 	// Se cambio el dia en un horario
-	function changeScheduleDay ( input ) {
-		console.log("ok123");
-		console.log(input);
-	}
+	function changeScheduleDay ( input ) {}
 
 	// Asigna en el hidden input el area afectada que se hizo check
 	function changeAffectedArea ( input ) {
@@ -28,18 +25,21 @@
 
 		// Al agregar un horario baja el div
 		$(document).on('nested:fieldAdded', function( event ) {
-			$("#form-container").height( $("#form-container").height() + 50 );
+			$(".form-container").height( $(".form-container").height() + 50 );
 		});
 
 		// Al eliminar un horario sube el div
 		$(document).on('nested:fieldRemoved', function( event ) {
-			$("#form-container").height( $("#form-container").height() - 50 );
+			$(".form-container").height( $(".form-container").height() - 50 );
 		});
 
-		// Hacemos click a un horario
+		// Agregamos un campo
 		$(".add_nested_fields").html("<i class='fa fa-plus-circle' style='font-size: 13px;'></i> Agregar un horario");
-		$(".add_nested_fields").click();
 
+		// Si no hay horarios hacemos click para tener al menos uno
+		if($(".schedule-form").length == 0) {
+			$(".add_nested_fields").click();
+		}
 
 		//Quita letras en campos numericos
 		$(".num-field").keypress(function ( event ) {
@@ -54,8 +54,8 @@
 	
 </script>
 
-<div id="form-container" style="height: 1305px;">
-	<%= nested_form_for(patient_request, url: create_patient_request_path, :html => { :id => "form-new-lue", :class => "pure-form pure-form-stacked" }) do |request_form| %>
+<div class="form-container" style="height: 1305px;">
+	<%= nested_form_for(patient_request, :html => { :id => "form-new-lue", :class => "pure-form pure-form-stacked" }) do |request_form| %>
 
 		<!-- FORMULARIO PARA EL PACIENTE -->
 		<div style="width: 100%; float: left;">
@@ -253,12 +253,14 @@
 						<%= request_form.fields_for :affected_areas do | aarea_form | %>
 							
 							<div style="width: 50%; float: left; margin-top: 7px; height: 16px;" >
-								<input type="checkbox" affarea="<%= aarea_form.object.area %>" onchange="changeAffectedArea(this);" other="aarea_form.object.isOther?">
+								<input type="checkbox" affarea="<%= aarea_form.object.area %>" onchange="changeAffectedArea(this);" other="aarea_form.object.isOther?" <% if not aarea_form.object.id.nil? %>checked<% end %>>
+
 								<%= aarea_form.label :area, :style => "display: inline-block; position: relative; top: -3px;" do %>
 									<%= aarea_form.object.area %>
 								<% end %>
-
+								
 								<% if aarea_form.object.isOther? %>
+									
 									<%= aarea_form.text_field :area, :value => "", autofocus: true, :size => 10, :style => "display: inline-block; position: relative; top: -3px;" %>
 								<% else %>
 									<%= aarea_form.hidden_field :area, :value => "" %>
@@ -283,7 +285,7 @@
 					</div>
 
 					<%= request_form.fields_for :request_schedules do |schedule_form| %>
-						<div style="width: 100%; height: 35px; float: left; margin-top: 5px; margin-bottom: 5px;">
+						<div class="schedule-form" style="width: 100%; height: 35px; float: left; margin-top: 5px; margin-bottom: 5px;">
 							<div style="width: 13%; float: left; font-style: italic; padding-top: 10px;">
 								Horario Disponible:
 							</div>
@@ -318,7 +320,7 @@
 		</div>
 
 		<!-- ENVIAR -->
-		<div style="width: 18%; float: right; margin-top: 22px;">
+		<div style="width: 18%; float: left; margin-top: 22px;">
 			<%= request_form.submit "GUARDAR SOLICITUD", :class => "pure-button pure-button-primary" %>
 		</div>
 

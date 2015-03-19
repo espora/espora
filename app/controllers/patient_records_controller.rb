@@ -37,6 +37,10 @@ class PatientRecordsController < ApplicationController
 		end
 	end
 
+	# PUT
+	def update
+	end
+
 	# GET
 	def choose
 		

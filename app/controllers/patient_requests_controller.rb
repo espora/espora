@@ -59,12 +59,6 @@ class PatientRequestsController < ApplicationController
 			@patient_requests = PatientRequest.all
 		end
 
-		# Hay que filtrar
-		if not params[:filter_by].nil?
-			if params[:filter_by] == "schedule"
-			end
-		end
-
 		# Hay que ordenar
 		if not params[:order_by].nil? and @patient_requests.size > 0
 			if params[:order_by] == "condition"
@@ -78,6 +72,18 @@ class PatientRequestsController < ApplicationController
 			else
 				@patient_requests.sort! { |x, y|
 					x.patient.attributes[params[:order_by]] <=> y.patient.attributes[params[:order_by]]
+				}
+			end
+		end
+
+		# Hay que filtrar
+		if not params[:filter_by].nil?
+
+			# Nos quedamos solo los que coinciden en horario con el 
+			# terapeuta
+			if params[:filter_by] == "schedule"
+				@patient_requests.keep_if { | pat_req |
+					current_therapist.match_schedule?(pat_req)
 				}
 			end
 		end
@@ -265,6 +271,13 @@ class PatientRequestsController < ApplicationController
 
 		# Marcamos la fecha de hoy como la fecha de atencion
 		@patient.patient_request.update_attributes(:attention_date => Time.now)
+
+		# Le construimos los rasgos de los padres
+		@patient_record.paternal_traits.build
+		@patient_record.paternal_traits.last.from_mother = true
+
+		@patient_record.paternal_traits.build
+		@patient_record.paternal_traits.last.from_mother = false
 
 		# Salvamos el expediente
 		@patient_record.save

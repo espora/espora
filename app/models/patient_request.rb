@@ -21,8 +21,8 @@ class PatientRequest < ActiveRecord::Base
 
 	# Mapeo para el orden
 	CONDITION_ORDER = {
-		"mal" => 0,
-		"muy_mal" => 1,
+		"muy_mal" => 0,
+		"mal" => 1,
 		"regular" => 2,
 		"bien" => 3,
 		"muy_bien" => 4
@@ -30,17 +30,24 @@ class PatientRequest < ActiveRecord::Base
 
 	###### VALIDACIONES
 
-	#t.text "reasons"
+	# t.text "reasons"
 	validates :reasons, presence: { :message => "Campo vacio" }
 	validates :reasons, length: { maximum: 400,
 	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
 
-	#t.string   "condition"
-	#t.string   "how_met"
+	# t.string   "condition"
+	# t.string   "how_met"
 	validates :how_met, presence: { :message => "Campo vacio" }
 	validates :how_met, length: { maximum: 69,
 	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
 
-	#t.float "money"
+	# t.float "money"
 	validates :money, presence: { :message => "Campo vacio" }
+
+	# t.association "affected_areas"
+	validates :affected_areas, :length => { :minimum => 1 }
+
+	# t.association "request_schedules"
+	validates :request_schedules, :length => { :minimum => 1 }
+
 end

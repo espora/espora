@@ -6,10 +6,19 @@ class PatientsController < ApplicationController
 	def create
 	end
 
-	# POST
-	def mark_contact
+	# GET
+	def mark_contacted
 		@patient = Patient.find(params[:id])
-		@patient.status = "contacted"
+		@patient.status = "waiting"
+		@patient.save
+
+		redirect_to lue_index_path
+	end	
+
+	# GET
+	def mark_uninterested
+		@patient = Patient.find(params[:id])
+		@patient.status = "uninterested"
 		@patient.save
 
 		redirect_to lue_index_path

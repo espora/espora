@@ -1,4 +1,11 @@
 es:
+  activerecord:
+    errors:
+      models:
+        patient_request:
+          attributes:
+            affected_areas:
+              too_short: "No selecciono ninguna área afectada"
   devise:
     sessions:
       therapist:

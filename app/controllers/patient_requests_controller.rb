@@ -7,7 +7,7 @@ class PatientRequestsController < ApplicationController
 	include ApplicationHelper
 
 	# Layout para el terapeuta
-	layout "therapist", :only => [ :lue, :new, :edit ]
+	layout "therapist", :only => [ :lue, :new, :edit, :create ]
 
 	# GET
 	def lue
@@ -21,7 +21,6 @@ class PatientRequestsController < ApplicationController
 			# Buscamos un paciente con el numero de cuenta y regresamos
 			patient = Patient.find_by_account_number(params[:account_number])
 			@patient_requests.concat([ patient.patient_request ])
-
 		end
 
 		# Estan buscando algo?
@@ -67,7 +66,9 @@ class PatientRequestsController < ApplicationController
 				}
 
 			elsif params[:order_by] == "status"
-				# TODO Ordenar por status del paciente
+				@patient_requests.sort! { |x, y|
+					Patient::STATUS_ORDER[x.patient.status] <=> Patient::STATUS_ORDER[y.patient.status]
+				}
 
 			else
 				@patient_requests.sort! { |x, y|
@@ -90,14 +91,8 @@ class PatientRequestsController < ApplicationController
 
 		# Nos quedamos solo con los que tienen status esperando o contactado
 		@patient_requests.keep_if { | pat_req |
-			pat_req.patient.status == "waiting" or pat_req.patient.status == "contacted"
+			pat_req.patient.status == "uncontacted" or pat_req.patient.status == "waiting" or pat_req.patient.status == "contacted"
 		}
-
-		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 1
-
-		# Panel para las tabs del workspace del lue
-		@lue_active_tab = 0
 
 	end
 
@@ -113,12 +108,10 @@ class PatientRequestsController < ApplicationController
 			@patient_request.affected_areas.build
 			@patient_request.affected_areas.last.area = area_name
 		end
-		
-		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 1
 
-		# Panel para las tabs del workspace del lue
-		@lue_active_tab = 1
+		# Creamos un horario de solicitud
+		@patient_request.request_schedules.build
+		
 	end
 
 	# GET
@@ -127,32 +120,9 @@ class PatientRequestsController < ApplicationController
 		# Obtenemos la solicitud
 		@patient_request = PatientRequest.find(params[:id])
 
-		# Areas afectadas
-		affected_areas = @patient_request.affected_areas
-		AffectedArea::AFFECTED_AREAS.each do | area_name |
 
-			# Vemos si tiene esta area
-			has_area = false
-			affected_areas.each do | a_area |
-				if (a_area.area == area_name) or (a_area.isOther? and area_name == "Otro")
-					has_area = true
-					break
-				end
-			end
-
-			if not has_area
-				@patient_request.affected_areas.build
-				@patient_request.affected_areas.last.area = area_name
-			end
-		end
-
-		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 1
-
-		# Panel para las tabs del workspace del lue
-		@lue_active_tab = 1
-
-		render template: "patient_requests/new"
+		# Rendereamos el formulario
+		render :new
 	end
 
 	# POST
@@ -164,16 +134,19 @@ class PatientRequestsController < ApplicationController
 			aff_areas_attr[key]["area"] == ""
 		end
 
-		# Creamos la solicitd del paciente y checamos la validez
+		# Creamos la solicitd y al paciente
 		@patient_request = PatientRequest.new(patient_requets_params)
+		@patient = Patient.new(patient_params)
+		@patient_request.patient = @patient
+
+		# Checamos la validez
 		if @patient_request.valid?
 
-			# Creamos al paciente solicitante y checamos la validez
-			@patient = Patient.new(patient_params)
+			# Checamos la validez
 			if @patient.valid?
 
 				# Estado en espera
-				@patient.status = "waiting"
+				@patient.status = "uncontacted"
 
 				# Asignamos el paciente
 				@patient_request.patient = @patient
@@ -192,7 +165,6 @@ class PatientRequestsController < ApplicationController
 
 				# Mandamos a renderear de nuevo con mensaje
 				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
-				puts "aca pasa"
 
 				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 			else
@@ -209,49 +181,7 @@ class PatientRequestsController < ApplicationController
 		# Obtenemos los objetos
 		@patient = Patient.find_by_account_number( params[:patient][:account_number] )
 		@patient_request = @patient.patient_request
-
-		# Limpiamos las areas afectadas vacias
-		aff_areas_attr = params[:patient_request][:affected_areas_attributes]
-		aff_areas_attr.reject! do | key, value |
-			aff_areas_attr[key]["area"] == ""
-		end
-
-		# Creamos la solicitd del paciente y checamos la validez
-		@patient_request.assign_attributes(patient_requets_params)
-		if @patient_request.valid?
-
-			# Creamos al paciente solicitante y checamos la validez
-			@patient.assign_attributes(patient_params)
-			if @patient.valid?
-
-				# Calculamos la edad del paciente
-				@patient.age = age(@patient.birth)
-
-				# Salvamos en la BD
-				@patient_request.save
-
-				# Mandamos a renderear de nuevo con mensaje
-				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
-				puts "aca pasa"
-
-				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
-			else
-				render :new
-			end
-		else
-			render :new
-		end
-	end
-
-	# DELETE
-	def delete
-		@patient_request = PatientRequest.find(params[:id])
-		@patient = @patient_request.patient
-
-		@patient.destroy
-		@patient_request.destroy
-
-		redirect_to lue_index_path
+		
 	end
 
 	# GET

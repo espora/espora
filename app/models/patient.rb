@@ -27,9 +27,26 @@ class Patient < ActiveRecord::Base
 
 	# Mapeo de nombres de status
 	NAME_STATUS = {
-		"waiting" => "En espera",
-		"contacted" => "Contactado",
-		"treatment" => "En tratamiento"
+		"uncontacted" => "Sin contactar",
+		"waiting" => "Esperando respuesta",
+		"treatment" => "En tratamiento",
+		"uninterested" => "Ya no esta interesado",
+		"interrupted_treatment" => "Tratamiento interrumpido",
+		"redirected" => "Canalizado",
+		"ended" => "Finalizado",
+		"abandoned_treatment" => "Tratamiento abandonado"
+	}
+
+	# Mapeo para el orden del status
+	STATUS_ORDER = {
+		"uncontacted" => 0,
+		"waiting" => 1,
+		"treatment" => 2,
+		"uninterested" => 3,
+		"interrupted_treatment" => 4,
+		"redirected" => 5,
+		"ended" => 6,
+		"abandoned_treatment" => 7
 	}
 
 	###### VALIDACIONES
@@ -50,7 +67,7 @@ class Patient < ActiveRecord::Base
 	validates :account_number, presence: { :message => "Ingresar el numero de cuenta"}
 	validates :account_number, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
 	validates :account_number, :length => { is: 9 }
-	validates :account_number, uniqueness: { message: "No. Cuenta ya registrado" }
+	validates :account_number, uniqueness: { message: "Número de Cuenta ya registrado" }
 
 	#t.string   "sex"
 	validates :sex, presence: { :message => "Campo vacio" }
@@ -84,7 +101,7 @@ class Patient < ActiveRecord::Base
 	validates :email, presence: { :message => "Ingresar email" }
 	VALID_CARACTERS = /\A([0-9A-Za-z\-\.\_]+)\@[a-z]+\.[a-z]+\z/
 	validates :email, format: { :with => VALID_CARACTERS , message: "Formato de correo invalido" }
-	validates :email, uniqueness: { case_sensitive: true, message: "email ya se registrado" }
+	validates :email, uniqueness: { case_sensitive: true, message: "Correo electrónico ya registrado" }
 
 	###### METODOS
 

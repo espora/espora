@@ -31,10 +31,10 @@ Espora::Application.routes.draw do
   get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "patient_request_edit"
 
   # Eliminar solicitud paciente
-  delete "/therapists/lue/delete/:id" => "patient_requests#delete", as: "patient_request_delete"
+  get "/therapists/lue/mark_uninterested/:id" => "patients#mark_uninterested", as: "patient_mark_uninterested"
 
-  # Marcar la solicitud como contactado
-  get "/therapists/lue/mark_contact/:id" => "patients#mark_contact", as: "patient_mark_contact"
+  # Marcar la solicitud como paciente contactado
+  get "/therapists/lue/mark_contacted/:id" => "patients#mark_contacted", as: "patient_mark_contacted"
 
   # Un terapeuta comienza a tender a un paciente (se crea su expediente)
   get "/therapists/lue/assign/:id" => "patient_requests#assign", as: "assign_patient"

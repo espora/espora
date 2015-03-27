@@ -28,15 +28,15 @@
 		<b>EDITAR SOLICITUD</b>
 	<% end %>
 
-	<% if patient.status == "waiting" %>
+	<% if patient.status == "uncontacted" %>
 
-		<!-- BOTON PARA MARCAR COMO CONTACTADO -->
-		<%= link_to patient_mark_contact_path(patient), :class => "pure-button pure-button-active lue-pat-action" do %>
-			<b>MARCAR COMO CONTACTADO</b>
+		<!-- BOTON PARA MARCAR COMO ESPERANDO RESPUESTA -->
+		<%= link_to patient_mark_contacted_path(patient), :class => "pure-button pure-button-active lue-pat-action", data: { confirm: "¿Estás seguro?" } do %>
+			<b>CONTACTADO</b>
 		<% end %>
 
-	<% elsif patient.status == "contacted" %>
-		
+	<% elsif patient.status == "waiting" %>
+
 		<!-- BOTON PARA COMENZAR A ATENDER -->
 		<%= link_to assign_patient_path(patient), :class => "pure-button pure-button-active lue-pat-action", data: { confirm: "¿Estás seguro?" } do %>
 			<b>COMENZAR A ATENDER</b>
@@ -45,8 +45,8 @@
 	<% end %>
 
 	<!-- BOTON PARA ELIMINAR REGISTRO -->
-	<%= link_to patient_request_delete_path(patient.patient_request), :class => "pure-button pure-button-active lue-pat-action", :style => "background: rgb(202, 60, 60); color: #FFF;", data: { confirm: "¿Estás seguro?" }, method: :delete do %>
-		<b>ELIMINAR REGISTRO</b>
+	<%= link_to patient_mark_uninterested_path(patient), :class => "pure-button pure-button-active lue-pat-action", :style => "background: rgb(202, 60, 60); color: #FFF;", data: { confirm: "¿Estás seguro?" } do %>
+		<b>NO INTERESADO</b>
 	<% end %>
 
 </div>

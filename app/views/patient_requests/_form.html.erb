@@ -55,26 +55,35 @@
 </script>
 
 <div class="form-container" style="height: 1305px;">
+	
+	<!-- Mensajes de Error -->
+	<% if patient_request.patient.errors.any? %>
+		<% patient_request.patient.errors.messages.each do | attr, message | %>
+			<div class="alert-box error" style="width: 75%; color: #5a0000;" onclick="$(this).remove();">
+				<b style="margin-right: 5px;">Solicitud no registrada:</b> <%= message[0] %>
+			</div>
+		<% end %>
+	<% end %>
+
+	<% if patient_request.errors.any? %>
+		<% patient_request.errors.messages.each do | attr, message | %>
+			<div class="alert-box error" style="width: 75%; color: #5a0000;" onclick="$(this).remove();">
+				<b style="margin-right: 5px;">Solicitud no registrada:</b> <%= message[0] %>
+			</div>
+		<% end %>
+	<% end %>
+
 	<%= nested_form_for(patient_request, :html => { :id => "form-new-lue", :class => "pure-form pure-form-stacked" }) do |request_form| %>
 
 		<!-- FORMULARIO PARA EL PACIENTE -->
 		<div style="width: 100%; float: left;">
+
 			<%= fields_for patient_request.patient do |patient_form| %>
 
 				<div class="form-inputs" style="width: 38%; float: left; height: 369px;">
 					<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
 						DATOS PERSONALES
 					</div>
-
-					<!-- Mensajes de Error -->
-					<% if patient_form.object.errors.any? %>
-						<h2>Errores: </h2>
-						<ul>
-							<% patient_form.object.errors.full_messages.each do |message| %>
-								<li><%= message %></li>	
-							<% end %>	
-						</ul>
-					<% end %>
 
 					<!-- NOMBRES -->
 					<div style="margin-left: 4%; margin-top: 5px;">
@@ -298,12 +307,12 @@
 
 							<!-- HORA DE INICIO -->
 							<div style="width: 13%; float: left;" class="form-date">
-								<%= schedule_form.time_select :beginH %>
+								<%= schedule_form.time_select :beginH,  { minute_step: 15 } %>
 							</div>
 
 							<!-- HORA DE TERMINO -->
 							<div style="width: 13%; float: left; margin-left: 2%;" class="form-date">
-								<%= schedule_form.time_select :endH %>
+								<%= schedule_form.time_select :endH,  { minute_step: 15 } %>
 							</div>
 
 							<div style="width: 12%; float: left; padding-top: 10px;">

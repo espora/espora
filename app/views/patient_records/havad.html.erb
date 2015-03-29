@@ -3,6 +3,7 @@
 	<!--FORMULARIO HAVAD -->
 	<div class="form-inputs" style="width: 47%; margin-left: 2%; margin-top: 5px;">
 		<%= nested_form_for current_patient.patient_record do | record_form | %>
+		
 			<!--Familiograma (¿Con quien vive?)-->
 			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
 				FAMILIOGRAMA
@@ -72,7 +73,7 @@
 					<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
 						<%= record_form.label :cie10_type_id do %>MECANISMOS: <% end %>
 					</div>
-						<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+						<%= record_form.select :cie10_type_id, MechanismType::options_for_select %>
 				</td>
 			</tr>
 

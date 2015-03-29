@@ -1,5 +1,13 @@
 <% content_for :havad do %>
 
+	<script type="text/javascript">
+		function changeMechanism (checkbox) {
+			// el id del mecanismo 
+			// quitar o agregar un hidden de ese mecanismo
+			console.log("123");
+		}
+	</script>
+
 	<!--FORMULARIO HAVAD -->
 	<div class="form-inputs" style="width: 47%; margin-left: 2%; margin-top: 5px;">
 		<%= nested_form_for current_patient.patient_record do | record_form | %>
@@ -8,7 +16,7 @@
 			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
 				FAMILIOGRAMA
 			</div>
-			<div style="margin-left: 4%; margin-top: -5px;">
+			<div style="margin-left: 4%; margin-top: -5px; margin-bottom: 30px;">
 				<%= record_form.label :lives_with do %>¿Con quien vives?: <% end %>
 				<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :required => true, :maxlength => 25 %>
 			</div>
@@ -17,99 +25,79 @@
 			<div style="font-weight: bold; font-size: 13px; margin-bottom: 3px; margin-top: 15px;">
 				RASGOS PADRES
 			</div>
+			<div style="margin-top: 5px; margin-left: 25px; ">
 
-		<div style="margin-top: 5px; margin-left: 25px;">
-			<!-- CAMPOS PARA PARA LA MADRE -->
-			<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
-			<%= record_form.fields_for mother_trait do | mother_form | %>
-				<div style="margin-left: 0%; margin-top: 5px; float:left">
-					<%= mother_form.label :patient_record_id do %>Madre: <% end %>
-					<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
-				</div>
-			<% end %>
-			
-			<!-- CAMPOS PARA PARA EL PADRE -->
-			<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
-			<%= record_form.fields_for father_trait do | father_form | %>
-				<div style="margin-left: 2%; margin-top: 5px; float:left">
-					<%= father_form.label :patient_record_id do %>Padre: <% end %>
-					<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
-				</div>
-			<% end %>
-		</div>
-		<br><br>
+				<!-- CAMPOS PARA PARA LA MADRE -->
+				<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
+				<%= record_form.fields_for mother_trait do | mother_form | %>
+					<div style="margin-left: 0%; margin-top: 5px; float:left">
+						<%= mother_form.label :patient_record_id do %>Madre: <% end %>
+						<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+					</div>
+				<% end %>
+				
+				<!-- CAMPOS PARA PARA EL PADRE -->
+				<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
+				<%= record_form.fields_for father_trait do | father_form | %>
+					<div style="margin-left: 2%; margin-top: 5px; float:left; margin-bottom: 30px">
+						<%= father_form.label :patient_record_id do %>Padre: <% end %>
+						<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+					</div>
+				<% end %>
+			</div>
+
+			<br><br>
+
 			<!-- CIE10 -->
-			<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
+			<div style="font-weight: bold; font-size: 13px; width: 50px">
 				<%= record_form.label :cie10_type_id do %>CIE10: <% end %>
 			</div>
+			<div style="margin-top: 5px; margin-left: 25px; margin-bottom: 30px;">
 				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+			</div>
 
 			<!-- MECANISMOS-->
-			<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
-				<%= record_form.fields_for :mechanism_types do | mechanism_form | %>
+			<div style="font-weight: bold; font-size: 13px; margin-top: 5px;">
+				MECANISMOS
+			</div>
+			<div style="margin-top: 5px; margin-left: 25px;">
+				<% record_form.object.mechanism_types.each_with_index do | mechanism_type, idx | %>
+					<% name_input = "patient_record[mechanism_types_attributes]["+idx.to_s+"][id]" %>
+					<%= hidden_field_tag name_input, mechanism_type.id.to_s %>
+				<% end %>
+
+				<% MechanismType.all.each do | mechanism_type | %>
+					<input type='checkbox' id-mechanism=<%= mechanism_type.id %> onchange='changeMechanism(this);' <% if record_form.object.mechanism_types.include?(mechanism_type) %>checked<% end %>>
+					<%= label_tag 'mechanism_type_name', mechanism_type.name %>
+				<br>
 				<% end %>
 			</div>
 
 			<!-- SITUACIONES Y EXPERIENCIAS -->
-			<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
-				<%= record_form.label :cie10_type_id do %>SITUACIONES Y EXPERIENCIAS: <% end %>
+			<div style="font-weight: bold; font-size: 13px; margin-left:55%; margin-top: -362px;">
+				SITUACIONES Y EXPERIENCIAS
 			</div>
-				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+			<div style="margin-top: 5px; margin-left: 55%;">
+				<% record_form.object.experience_types.each_with_index do | experience_type, idx | %>
+					<% name_input = "patient_record[experience_types_attributes]["+idx.to_s+"][id]" %>
+					<%= hidden_field_tag name_input, experience_type.id.to_s %>
+				<% end %>
+
+				<% ExperienceType.all.each do | experience_type | %>
+					<input type='checkbox' id-experiece=<%= experience_type.id %> onchange='changeExperience(this);' <% if record_form.object.experience_types.include?(experience_type) %>checked<% end %>>
+					<%= label_tag 'experience_type_name', experience_type.name %>
+				<br>
+				<% end %>
+			</div>
 
 			<!-- ESTRUCTURA CLINICA-->
-			<div style=" font-weight: bold; font-size: 13px;margin-left: 4%; margin-top: 5px;">
-				<%= record_form.label :cie10_type_id do %>ESTRUCTURA CLINICA: <% end %>
+			<div style=" font-weight: bold; font-size: 13px;margin-left: 0%; margin-top: 80px;">
+				<%= record_form.label :clinical_structure_type_id do %>ESTRUCTURA CLINICA: <% end %>
 			</div>
-				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+			<div style=" font-weight: bold; font-size: 13px;margin-left: 0%; margin-top: 10px; margin-bottom: 50px;">
+				<%= record_form.select :clinical_structure_type_id, ClinicalStructureType::options_for_select %>
+			</div>
 		<% end %>
-	</div>
-	
-	<div class="form-inputs" style="width: 47%; height: 369px; float: right; margin-left: 1.5%; min-height: 341px; margin-top: -400px">
-
-		<table class="pure-table pure-table-bordered" style="width:100%">
-			<thead>
-				<th >CITA</th>
-				<th >HORARIO</th>
-				<th >ASISTIO</th>
-				<th></th>
-			</thead>
-			<tbody>		
-		  <tr class="pure-table-odd">
-		    <td>1</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-check-circle"></i></td>
-		    <td><i class="fa fa-caret-down"></i></td>
-		  </tr>
-		  <tr class="pure-table-odd">
-		    <td>2</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-check-circle"></i></td>
-		    <td>50</td>
-		  </tr>
-		  <tr class="pure-table-odd">
-		    <td>3</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-ban"></i></td>
-		    <td>50</td>
-		  </tr>
-		  <tr class="pure-table-odd">
-		    <td>4</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-check-circle"></i></td>
-		    <td>50</td>
-		  </tr>
-		  </tbody>
-		</table>
-
-		<button class:"pure-button pure-button-primary" style = "float:right; margin-top:10px; ">Añadir Cita</button>
-
-		<!-- OBSERVACIONES -->
-		<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px; margin-top: 20px;">
-				OBSERVACIONES
-		<textarea rows="10" cols="50">
-		</textarea>
-		</div>
-
 	</div>
 <% end %>
 

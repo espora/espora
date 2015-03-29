@@ -3,7 +3,7 @@
 	<!--FORMULARIO HAVAD -->
 	<div class="form-inputs" style="width: 47%; margin-left: 2%; margin-top: 5px;">
 		<%= nested_form_for current_patient.patient_record do | record_form | %>
-		
+
 			<!--Familiograma (¿Con quien vive?)-->
 			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
 				FAMILIOGRAMA
@@ -18,85 +18,49 @@
 				RASGOS PADRES
 			</div>
 
-		<table>
-			<tr>
-				<td>
+		<div style="margin-top: 5px; margin-left: 25px;">
 			<!-- CAMPOS PARA PARA LA MADRE -->
-			<div style="font-weight: bold; font-size: 13px; margin-bottom: 3px; margin-top: 15px;">
-				MADRE
-			</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
 			<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
 			<%= record_form.fields_for mother_trait do | mother_form | %>
 				<div style="margin-left: 0%; margin-top: 5px; float:left">
-					<%= mother_form.label :patient_record_id do %>Rasgo: <% end %>
+					<%= mother_form.label :patient_record_id do %>Madre: <% end %>
 					<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
 				</div>
 			<% end %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<!-- CAMPOS PARA PARA EL PADRE -->
-					<div style="font-weight: bold; font-size: 13px; margin-bottom: 3px; margin-top: 15px;">
-						PADRE
-					</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
-					<%= record_form.fields_for father_trait do | father_form | %>
-						<div style="margin-left: 0%; margin-top: 5px; float:left">
-							<%= father_form.label :patient_record_id do %>Rasgo: <% end %>
-							<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
-						</div>
-					<% end %>
-				</td>
-			</tr>
+			
+			<!-- CAMPOS PARA PARA EL PADRE -->
+			<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
+			<%= record_form.fields_for father_trait do | father_form | %>
+				<div style="margin-left: 2%; margin-top: 5px; float:left">
+					<%= father_form.label :patient_record_id do %>Padre: <% end %>
+					<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+				</div>
+			<% end %>
+		</div>
+		<br><br>
+			<!-- CIE10 -->
+			<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
+				<%= record_form.label :cie10_type_id do %>CIE10: <% end %>
+			</div>
+				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
 
-			<tr>
-				<td>
-					<!-- CIE10 -->
-					<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
-						<%= record_form.label :cie10_type_id do %>CIE10: <% end %>
-					</div>
-						<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<!-- MECANISMOS-->
-					<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
-						<%= record_form.label :cie10_type_id do %>MECANISMOS: <% end %>
-					</div>
-						<%= record_form.select :cie10_type_id, MechanismType::options_for_select %>
-				</td>
-			</tr>
+			<!-- MECANISMOS-->
+			<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
+				<%= record_form.fields_for :mechanism_types do | mechanism_form | %>
+				<% end %>
+			</div>
 
-			<tr>
-				<td>
-					<!-- SITUACIONES Y EXPERIENCIAS -->
-					<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
-						<%= record_form.label :cie10_type_id do %>SITUACIONES Y EXPERIENCIAS: <% end %>
-					</div>
-						<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<!-- ESTRUCTURA CLINICA-->
-					<div style=" font-weight: bold; font-size: 13px;margin-left: 4%; margin-top: 5px;">
-						<%= record_form.label :cie10_type_id do %>ESTRUCTURA CLINICA: <% end %>
-					</div>
-						<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
-				</td>
-			</tr>
+			<!-- SITUACIONES Y EXPERIENCIAS -->
+			<div style="font-weight: bold; font-size: 13px; margin-left: 4%; margin-top: 5px;">
+				<%= record_form.label :cie10_type_id do %>SITUACIONES Y EXPERIENCIAS: <% end %>
+			</div>
+				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
 
-		</table>
+			<!-- ESTRUCTURA CLINICA-->
+			<div style=" font-weight: bold; font-size: 13px;margin-left: 4%; margin-top: 5px;">
+				<%= record_form.label :cie10_type_id do %>ESTRUCTURA CLINICA: <% end %>
+			</div>
+				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
 		<% end %>
 	</div>
 	

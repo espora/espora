@@ -106,13 +106,10 @@
 					<!-- FECHA DE NACIMIENTO -->
 					<div style="margin-left: 4%; margin-top: 10px;" class="form-date">
 						<div>Fecha de Nacimiento:</div>
-						<%= patient_form.date_select :birth,
-						:order => [:day, :month, :year],
-						:start_year => 1970, :end_year => 2010,
-						:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-							'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre'] %>
+						<%= patient_form.date_select :birth, :order => [:day, :month, :year], :start_year => 1970, :end_year => 2010,
+						:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+							'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre'] %>
 					</div>
-
 					
 					<!-- SEXO -->
 					<div style="margin-left: 4%; margin-top: 10px;">
@@ -293,7 +290,7 @@
 						<div style="width: 10%; float: left; margin-left: 5.1%">Hora de termino</div>
 					</div>
 
-					<%= request_form.fields_for :request_schedules do |schedule_form| %>
+					<%= request_form.fields_for :request_schedules do | schedule_form | %>
 						<div class="schedule-form" style="width: 100%; height: 35px; float: left; margin-top: 5px; margin-bottom: 5px;">
 							<div style="width: 13%; float: left; font-style: italic; padding-top: 10px;">
 								Horario Disponible:

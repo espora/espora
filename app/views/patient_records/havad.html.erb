@@ -1,10 +1,61 @@
 <% content_for :havad do %>
 
 	<script type="text/javascript">
-		function changeMechanism (checkbox) {
-			// el id del mecanismo 
-			// quitar o agregar un hidden de ese mecanismo
-			console.log($(checkbox).attr("id-mechanism"));
+		
+		function changeMechanism ( input ) {
+
+			var idMechanism = $(input).attr("id-mechanism");
+
+			if( input.checked ) {
+
+				// Creamos el hidden input
+				var hidden = document.createElement("input");
+				$(hidden).attr("type", "hidden");
+
+				// Lo seteamos con el nombre, id y valor
+				$(hidden).attr("id", "patient_record_mechanism_types_attributes_" + idMechanism + "_id");
+				$(hidden).attr("name", "patient_record[mechanism_types_attributes][" + idMechanism + "][id]");
+				$(hidden).val(idMechanism);
+
+				// Lo agregamos al div de mecanismo
+				$(input).parent().append(hidden);
+			}
+			else {
+
+				// Localizamos al hidden input y lo quitamos
+				var hidden = $("#patient_record_mechanism_types_attributes_" + idMechanism + "_id");
+				if(hidden.length > 0) {
+					hidden.remove();
+				}
+			}
+		}
+
+		function changeExperience ( input ) {
+
+			var idExperiece = $(input).attr("id-experiece");
+
+			if( input.checked ) {
+
+				// Creamos el hidden input
+				var hidden = document.createElement("input");
+				$(hidden).attr("type", "hidden");
+
+				// Lo seteamos con el nombre, id y valor
+				$(hidden).attr("id", "patient_record_experience_types_attributes_" + idExperiece + "_id");
+				$(hidden).attr("name", "patient_record[experience_types_attributes][" + idExperiece + "][id]");
+				$(hidden).val(idExperiece);
+
+				// Lo agregamos al div de mecanismo
+				$(input).parent().append(hidden);
+			}
+			else {
+
+				// Localizamos al hidden input y lo quitamos
+				var hidden = $("#patient_record_experience_types_attributes_" + idExperiece + "_id");
+				if(hidden.length > 0) {
+					hidden.remove();
+				}
+			}
 		}
 	</script>
 
@@ -61,8 +112,8 @@
 				MECANISMOS
 			</div>
 			<div style="margin-top: 5px; margin-left: 25px;">
-				<% record_form.object.mechanism_types.each_with_index do | mechanism_type, idx | %>
-					<% name_input = "patient_record[mechanism_types_attributes]["+idx.to_s+"][id]" %>
+				<% record_form.object.mechanism_types.each do | mechanism_type | %>
+					<% name_input = "patient_record[mechanism_types_attributes]["+mechanism_type.id.to_s+"][id]" %>
 					<%= hidden_field_tag name_input, mechanism_type.id.to_s %>
 				<% end %>
 
@@ -78,8 +129,8 @@
 				SITUACIONES Y EXPERIENCIAS
 			</div>
 			<div style="margin-top: 5px; margin-left: 55%;">
-				<% record_form.object.experience_types.each_with_index do | experience_type, idx | %>
-					<% name_input = "patient_record[experience_types_attributes]["+idx.to_s+"][id]" %>
+				<% record_form.object.experience_types.each do | experience_type | %>
+					<% name_input = "patient_record[experience_types_attributes]["+experience_type.id.to_s+"][id]" %>
 					<%= hidden_field_tag name_input, experience_type.id.to_s %>
 				<% end %>
 

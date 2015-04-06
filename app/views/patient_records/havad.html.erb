@@ -1,5 +1,44 @@
 <% content_for :havad do %>
 
+	<style type="text/css">
+		div.field-havad {
+			width: 100%;
+			position: relative;
+			float: left;
+			margin-top: 13px;
+		}
+
+		div.field-havad span {
+			font-weight: bold;
+			font-size: 13px;
+		}
+
+		div.field-havad > div {
+			margin-top: 8px;
+			margin-left: 25px;
+		}
+
+		div.havad-checkbox {
+			margin: 2px 0px 2px 0px;
+		}
+
+		div.havad-checkbox label {
+			display: inline-block;
+			top: -3px;
+			position: relative;
+		}
+
+		div.havad-section {
+			width: 99%;
+			position: relative;
+			float: left;
+			border: 1px solid #d3d3d3;
+			border-radius: 3px;
+			padding: 10px 0px 10px 10px;
+			margin-top: 10px;
+		}
+	</style>
+
 	<script type="text/javascript">
 		
 		function changeMechanism ( input ) {
@@ -17,8 +56,8 @@
 				$(hidden).attr("name", "patient_record[mechanism_types_attributes][" + idMechanism + "][id]");
 				$(hidden).val(idMechanism);
 
-				// Lo agregamos al div de mecanismo
-				$(input).parent().append(hidden);
+				// Lo agregamos al div de los inputs
+				$("#mechanism-inputs").append(hidden);
 			}
 			else {
 
@@ -45,8 +84,8 @@
 				$(hidden).attr("name", "patient_record[experience_types_attributes][" + idExperiece + "][id]");
 				$(hidden).val(idExperiece);
 
-				// Lo agregamos al div de mecanismo
-				$(input).parent().append(hidden);
+				// Lo agregamos al div de inputs
+				$("#experience-inputs").append(hidden);
 			}
 			else {
 
@@ -57,149 +96,170 @@
 				}
 			}
 		}
+
 	</script>
 
-	<!--FORMULARIO HAVAD -->
-	<div class="form-inputs" style="width: 47%; margin-left: 2%; margin-top: 5px; float: left">
-		<%= nested_form_for current_patient.patient_record do | record_form | %>
+	<div class="havad-section" style="padding-bottom: 20px;">
+		
+		<!--FORMULARIO HAVAD -->
+		<%= form_for(current_patient.patient_record, :html => { :id => "form-havad", :class => "pure-form pure-form-stacked" }) do | record_form | %>
 
-			<!--Familiograma (¿Con quien vive?)-->
-			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
-				FAMILIOGRAMA
-			</div>
-			<div style="margin-left: 4%; margin-top: -5px; margin-bottom: 30px;">
-				<%= record_form.label :lives_with do %>¿Con quien vives?: <% end %>
-				<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :required => true, :maxlength => 25 %>
-			</div>
+			<!-- PRIMERA COLUMNA -->
+			<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
 
-			<!-- RASGOS PADRES -->
-			<div style="font-weight: bold; font-size: 13px; margin-bottom: 3px; margin-top: 15px;">
-				RASGOS PADRES
-			</div>
-			<div style="margin-top: 5px; margin-left: 25px; ">
-
-				<!-- CAMPOS PARA PARA LA MADRE -->
-				<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
-				<%= record_form.fields_for mother_trait do | mother_form | %>
-					<div style="margin-left: 0%; margin-top: 5px; float:left">
-						<%= mother_form.label :patient_record_id do %>Madre: <% end %>
-						<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+				<!--Familiograma (¿Con quien vive?) -->
+				<div class="field-havad">
+					<span>FAMILIOGRAMA</span>
+					<div>
+						<%= record_form.label :lives_with do %>¿Con quien vives?<% end %>
+						<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 25 %>
 					</div>
-				<% end %>
-				
-				<!-- CAMPOS PARA PARA EL PADRE -->
-				<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
-				<%= record_form.fields_for father_trait do | father_form | %>
-					<div style="margin-left: 2%; margin-top: 5px; float:left; margin-bottom: 30px">
-						<%= father_form.label :patient_record_id do %>Padre: <% end %>
-						<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+				</div>
+
+				<!-- RASGOS PADRES -->
+				<div class="field-havad">
+					<span>RASGOS PADRES</span>
+					<div>
+						<!-- MADRE -->
+						<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
+						<%= record_form.fields_for mother_trait do | mother_form | %>
+							<div style="margin-left: 0%; float: left;">
+								<%= mother_form.label :patient_record_id do %>Madre: <% end %>
+								<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+							</div>
+						<% end %>
+
+						<!-- PADRE -->
+						<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
+						<%= record_form.fields_for father_trait do | father_form | %>
+							<div style="margin-left: 2%; float: left;">
+								<%= father_form.label :patient_record_id do %>Padre: <% end %>
+								<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
+							</div>
+						<% end %>
 					</div>
-				<% end %>
-			</div>
+				</div>
 
-			<br><br>
-
-			<!-- CIE10 -->
-			<div style="font-weight: bold; font-size: 13px; width: 50px">
-				<%= record_form.label :cie10_type_id do %>CIE10: <% end %>
-			</div>
-			<div style="margin-top: 5px; margin-left: 25px; margin-bottom: 30px;">
-				<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
-			</div>
+				<!-- CIE10 -->
+				<div class="field-havad">
+					<span><%= record_form.label :cie10_type_id do %>CIE10<% end %></span>
+					<div>
+						<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+					</div>
+				</div>
 
 				<!-- MECANISMOS-->
-				<div style="width: 48%; position: relative; float: left; margin-bottom: 30px;" id= "mechanism" >
-					<div style="font-weight: bold; font-size: 13px; margin-top: 5px;">
-						MECANISMOS
-					</div>
-					<div style="margin-top: 5px; margin-left: 25px;">
-						<% record_form.object.mechanism_types.each_with_index do | mechanism_type, idx | %>
-							<% name_input = "patient_record[mechanism_types_attributes]["+idx.to_s+"][id]" %>
-							<%= hidden_field_tag name_input, mechanism_type.id.to_s %>
-						<% end %>
+				<div class="field-havad">
+					<span>MECANISMOS</span>
+					<div>
+						<% mechanisms = MechanismType.all %>
+						<% middle = (mechanisms.count / 2) + 1 %>
 
-						<% MechanismType.all.each do | mechanism_type | %>
-							<input type='checkbox' id-mechanism=<%= mechanism_type.id %> onchange='changeMechanism(this);' <% if record_form.object.mechanism_types.include?(mechanism_type) %>checked<% end %>>
-							<%= label_tag 'mechanism_type_name', mechanism_type.name %>
-						<br>
-						<% end %>
+						<div style="width: 40%; float: left;">
+							<% (0...middle).each do | i | %>
+								<div class="havad-checkbox">
+									<% checked = record_form.object.mechanism_types.include?(mechanisms[i]) ? "checked" : "" %>
+									<input type='checkbox' id-mechanism=<%= mechanisms[i].id %> onchange='changeMechanism(this);' <%= checked %>>
+									<%= label_tag 'mechanism_type_name', mechanisms[i].name %>
+								</div>
+							<% end %>
+						</div>
+
+						<div style="width: 40%; float: left; margin-left: 1%;">
+							<% (middle...mechanisms.count).each do | i | %>
+								<div class="havad-checkbox">
+									<% checked = record_form.object.mechanism_types.include?(mechanisms[i]) ? "checked" : "" %>
+									<input type='checkbox' id-mechanism=<%= mechanisms[i].id %> onchange='changeMechanism(this);' <%= checked %>>
+									<%= label_tag 'mechanism_type_name', mechanisms[i].name %>
+								</div>
+							<% end %>
+						</div>
+
+						<!-- HIDDENS -->
+						<div id="mechanism-inputs">
+							<% record_form.object.mechanism_types.each_with_index do | mecha, idx | %>
+								<% name_input = "patient_record[mechanism_types_attributes][" + idx.to_s + "][id]" %>
+								<%= hidden_field_tag name_input, mecha.id.to_s %>
+							<% end %>
+						</div>
 					</div>
 				</div>
+			</div>
+
+			<!-- SEGUNDA COLUMNA -->
+			<div style="width: 47%; position: relative; float: left; margin-left: 1.5%;">
 
 				<!-- SITUACIONES Y EXPERIENCIAS -->
-				<div style="width: 45%; position: relative; float: left; margin-top: 5px;" id="experience">
-					<div style="font-weight: bold; font-size: 13px; margin-left:0%;">
-						SITUACIONES Y EXPERIENCIAS
-					</div>
-					<div style="margin-top: 5px; margin-left: 0%;">
-						<% record_form.object.experience_types.each_with_index do | experience_type, idx | %>
-							<% name_input = "patient_record[experience_types_attributes]["+idx.to_s+"][id]" %>
-							<%= hidden_field_tag name_input, experience_type.id.to_s %>
-						<% end %>
+				<div class="field-havad">
+					<span>SITUACIONES Y EXPERIENCIAS</span>
+					<div>
+						<% experiences = ExperienceType.all %>
+						<% middle = (experiences.count / 2) + 1 %>
 
-						<% ExperienceType.all.each do | experience_type | %>
-							<input type='checkbox' id-experiece=<%= experience_type.id %> onchange='changeExperience(this);' <% if record_form.object.experience_types.include?(experience_type) %>checked<% end %>>
-							<%= label_tag 'experience_type_name', experience_type.name %>
-						<br>
-						<% end %>
+						<div style="width: 40%; float: left;">
+							<% (0...middle).each do | i | %>
+								<div class="havad-checkbox">
+									<% checked = record_form.object.experience_types.include?(experiences[i]) ? "checked" : "" %>
+									<input type='checkbox' id-experiece=<%= experiences[i].id %> onchange='changeExperience(this);' <%= checked %>>
+									<%= label_tag 'experience_type_name', experiences[i].name %>
+								</div>
+							<% end %>
+						</div>
+
+						<div style="width: 40%; float: left; margin-left: 1%;">
+							<% (middle...experiences.count).each do | i | %>
+								<div class="havad-checkbox">
+									<% checked = record_form.object.experience_types.include?(experiences[i]) ? "checked" : "" %>
+									<input type='checkbox' id-experiece=<%= experiences[i].id %> onchange='changeExperience(this);' <%= checked %>>
+									<%= label_tag 'experience_type_name', experiences[i].name %>
+								</div>
+							<% end %>
+						</div>	
+
+						<!-- HIDDENS -->
+						<div id="experience-inputs">
+							<% record_form.object.experience_types.each_with_index do | exp, idx | %>
+								<% name_input = "patient_record[experience_types_attributes]["+idx.to_s+"][id]" %>
+								<%= hidden_field_tag name_input, exp.id.to_s %>
+							<% end %>
+						</div>
 					</div>
 				</div>
 
-			<!-- ESTRUCTURA CLINICA-->
-			<div style=" font-weight: bold; font-size: 13px;margin-left: 0%; margin-top: 80px; width: 160px;">
-				<%= record_form.label :clinical_structure_type_id do %>ESTRUCTURA CLINICA: <% end %>
-			</div>
-			<div style=" font-weight: bold; font-size: 13px;margin-left: 0%; margin-top: 10px; margin-bottom: 50px;">
-				<%= record_form.select :clinical_structure_type_id, ClinicalStructureType::options_for_select %>
+				<!-- ESTRUCTURA CLINICA -->
+				<div class="field-havad">
+					<span><%= record_form.label :clinical_structure_type_id do %>ESTRUCTURA CLINICA<% end %></span>
+					<div>
+						<%= record_form.select :clinical_structure_type_id, ClinicalStructureType::options_for_select %>
+					</div>
+				</div>
+
+				<!-- OBSERVACIONES -->
+				<div class="field-havad">
+					<span><%= record_form.label :observations do %>OBSERVACIONES<% end %></span>
+					<div>
+						<%= record_form.text_area :observations, autofocus: true, cols: 60, rows: 10 %>
+					</div>
+				</div>
+
+				<!-- GUARDAR -->
+				<div style="float: right; margin: 10px 13% 0px 0px;">
+					<%= record_form.submit "GUARDAR EXPEDIENTE", :class => "pure-button pure-button-primary" %>
+				</div>
 			</div>
 		<% end %>
 	</div>
-	<div class="form-inputs" style="width: 47%; height: 369px; float: left; margin-left: 1.5%; min-height: 341px; ">
 
-		<table class="pure-table pure-table-bordered" style="width:100%">
-			<thead>
-				<th >CITA</th>
-				<th >HORARIO</th>
-				<th >ASISTIO</th>
-				<th></th>
-			</thead>
-			<tbody>		
-		  <tr class="pure-table-odd">
-		    <td>1</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-check-circle"></i></td>
-		    <td><i class="fa fa-caret-down"></i></td>
-		  </tr>
-		  <tr class="pure-table-odd">
-		    <td>2</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-check-circle"></i></td>
-		    <td>50</td>
-		  </tr>
-		  <tr class="pure-table-odd">
-		    <td>3</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-ban"></i></td>
-		    <td>50</td>
-		  </tr>
-		  <tr class="pure-table-odd">
-		    <td>4</td>
-		    <td>2:00 a 3:00 pm</td>		
-		    <td><i class="fa-check-circle"></i></td>
-		    <td>50</td>
-		  </tr>
-		  </tbody>
-		</table>
+	<div class="havad-section">
+		<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
+			
+			<!-- CITAS -->
+			<div class="field-havad">
+				<span>CITAS</span>
+				<div><%= render partial: "appointment_table", locals: { patient_record: current_patient.patient_record } %></div>
+			</div>
 
-		<button class:"pure-button pure-button-primary" style = "float:right; margin-top:10px; ">Añadir Cita</button>
-
-		<!-- OBSERVACIONES -->
-		<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px; margin-top: 20px;">
-				OBSERVACIONES
-		<textarea rows="10" cols="50">
-		</textarea>
 		</div>
-
 	</div>
 <% end %>
 

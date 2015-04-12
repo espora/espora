@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309002750) do
+ActiveRecord::Schema.define(version: 20150329201712) do
 
   create_table "affected_areas", force: true do |t|
     t.string   "area"
@@ -52,11 +52,27 @@ ActiveRecord::Schema.define(version: 20150309002750) do
     t.datetime "updated_at"
   end
 
+  create_table "experience_types_patient_records", id: false, force: true do |t|
+    t.integer "experience_type_id"
+    t.integer "patient_record_id"
+  end
+
+  add_index "experience_types_patient_records", ["experience_type_id"], name: "index_experience_types_patient_records_on_experience_type_id"
+  add_index "experience_types_patient_records", ["patient_record_id"], name: "index_experience_types_patient_records_on_patient_record_id"
+
   create_table "mechanism_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "mechanism_types_patient_records", id: false, force: true do |t|
+    t.integer "mechanism_type_id"
+    t.integer "patient_record_id"
+  end
+
+  add_index "mechanism_types_patient_records", ["mechanism_type_id"], name: "index_mechanism_types_patient_records_on_mechanism_type_id"
+  add_index "mechanism_types_patient_records", ["patient_record_id"], name: "index_mechanism_types_patient_records_on_patient_record_id"
 
   create_table "paternal_trait_types", force: true do |t|
     t.string   "name"
@@ -90,22 +106,6 @@ ActiveRecord::Schema.define(version: 20150309002750) do
   add_index "patient_records", ["clinical_structure_type_id"], name: "index_patient_records_on_clinical_structure_type_id"
   add_index "patient_records", ["patient_id"], name: "index_patient_records_on_patient_id"
   add_index "patient_records", ["therapist_id"], name: "index_patient_records_on_therapist_id"
-
-  create_table "patient_records_experience_types", id: false, force: true do |t|
-    t.integer "patient_record_id"
-    t.integer "experience_type_id"
-  end
-
-  add_index "patient_records_experience_types", ["experience_type_id"], name: "index_patient_records_experience_types_on_experience_type_id"
-  add_index "patient_records_experience_types", ["patient_record_id"], name: "index_patient_records_experience_types_on_patient_record_id"
-
-  create_table "patient_records_mechanism_types", id: false, force: true do |t|
-    t.integer "patient_record_id"
-    t.integer "mechanism_type_id"
-  end
-
-  add_index "patient_records_mechanism_types", ["mechanism_type_id"], name: "index_patient_records_mechanism_types_on_mechanism_type_id"
-  add_index "patient_records_mechanism_types", ["patient_record_id"], name: "index_patient_records_mechanism_types_on_patient_record_id"
 
   create_table "patient_requests", force: true do |t|
     t.text     "reasons"

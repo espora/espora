@@ -93,7 +93,6 @@ class PatientRequestsController < ApplicationController
 		@patient_requests.keep_if { | pat_req |
 			pat_req.patient.status == "uncontacted" or pat_req.patient.status == "waiting" or pat_req.patient.status == "contacted"
 		}
-
 	end
 
 	# GET
@@ -111,7 +110,6 @@ class PatientRequestsController < ApplicationController
 
 		# Creamos un horario de solicitud
 		@patient_request.request_schedules.build
-		
 	end
 
 	# GET

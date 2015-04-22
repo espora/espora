@@ -30,4 +30,9 @@ module ApplicationHelper
 		@current_patient ||= Patient.find(session[:current_patient_id])
 	end
 
+	def current_appointment
+		return unless session[:current_appointment_id]
+		@current_appointment ||= Appointment.find(session[:current_appointment_id])
+	end
+
 end

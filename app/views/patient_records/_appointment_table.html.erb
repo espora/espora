@@ -1,32 +1,32 @@
-<table class="pure-table pure-table-bordered" style="width: 100%; margin-top: 1p3x;">
+<table id="appointment-table" class="pure-table pure-table-bordered">
 	<thead>
 		<th>CITA</th><th>HORARIO</th><th>ASISTIO</th><th></th>
 	</thead>
 	<tbody>
-		<tr class="pure-table-odd">
-			<td>1</td>
-			<td>2:00 a 3:00 pm</td>
-			<td><i class="fa-check-circle"></i></td>
-			<td><i class="fa fa-caret-down"></i></td>
-		</tr>
-		<tr class="pure-table-odd">
-			<td>2</td>
-			<td>2:00 a 3:00 pm</td>
-			<td><i class="fa-check-circle"></i></td>
-			<td>50</td>
-		</tr>
-		<tr class="pure-table-odd">
-			<td>3</td>
-			<td>2:00 a 3:00 pm</td>
-			<td><i class="fa-ban"></i></td>
-			<td>50</td>
-		</tr>
-		<tr class="pure-table-odd">
-			<td>4</td>
-			<td>2:00 a 3:00 pm</td>
-			<td><i class="fa-check-circle"></i></td>
-			<td>50</td>
-		</tr>
+		<% appointments.each do | appointment | %>
+			<tr class="pure-table-odd">
+				<td><%= appointment.number %></td>
+				<td><%= appointment.date.to_s %></td>
+				<td>
+					<% if appointment.attended.nil? %>
+						<i class="fa fa-question-circle" style="color: #0606c8;"></i>
+					<% else %>
+						<% if appointment.attended %>
+							<i class="fa fa-check-circle" style="color: #15bc08;"></i>
+						<% else %>
+							<i class="fa fa-times-circle" style="color: #ff0000;"></i>
+						<% end %>
+					<% end %>
+				</td>
+
+				<td>
+					<%= link_to show_appointment_path(appointment) do %>
+						<i class="fa fa-arrow-right"></i>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
 	</tbody>
 </table>
-<button class="pure-button pure-button-primary" style="float:right; margin-top:10px; ">Añadir Cita</button>
+
+<button class="pure-button pure-button-primary" style="float:right; margin-top:10px;">Añadir Cita</button>

@@ -1,44 +1,5 @@
 <% content_for :havad do %>
 
-	<style type="text/css">
-		div.field-havad {
-			width: 100%;
-			position: relative;
-			float: left;
-			margin-top: 13px;
-		}
-
-		div.field-havad span {
-			font-weight: bold;
-			font-size: 13px;
-		}
-
-		div.field-havad > div {
-			margin-top: 8px;
-			margin-left: 25px;
-		}
-
-		div.havad-checkbox {
-			margin: 2px 0px 2px 0px;
-		}
-
-		div.havad-checkbox label {
-			display: inline-block;
-			top: -3px;
-			position: relative;
-		}
-
-		div.havad-section {
-			width: 99%;
-			position: relative;
-			float: left;
-			border: 1px solid #d3d3d3;
-			border-radius: 3px;
-			padding: 10px 0px 10px 10px;
-			margin-top: 10px;
-		}
-	</style>
-
 	<script type="text/javascript">
 		
 		function changeMechanism ( input ) {
@@ -256,7 +217,7 @@
 			<!-- CITAS -->
 			<div class="field-havad">
 				<span>CITAS</span>
-				<div><%= render partial: "appointment_table", locals: { patient_record: current_patient.patient_record } %></div>
+				<div><%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %></div>
 			</div>
 
 		</div>

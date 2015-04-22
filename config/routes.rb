@@ -45,7 +45,7 @@ Espora::Application.routes.draw do
   get "/therapists/havad/" => "patient_records#havad", as: "havad_index"
 
   # Salvar el expediene de paciente
-  patch "/therapists/lue/update" => "patient_records#update", as: "patient_record"
+  patch "/therapists/havad/update/:id" => "patient_records#update", as: "patient_record"
 
   # Elige el expediente con el que se va a trabajar
   get "/therapists/havad/choose_record/:id" => "patient_records#choose", as: "choose_record"

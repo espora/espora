@@ -111,8 +111,8 @@
 				<div class="field-havad">
 					<span>FAMILIOGRAMA</span>
 					<div>
-						<%= record_form.label :lives_with do %>¿Con quien vives?<% end %>
-						<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 25 %>
+						<%= record_form.label :lives_with do %>¿Con quien vive?<% end %>
+						<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 50, :required => true %>
 					</div>
 				</div>
 
@@ -256,7 +256,7 @@
 			<!-- CITAS -->
 			<div class="field-havad">
 				<span>CITAS</span>
-				<div><%= render partial: "appointment_table", locals: { patient_record: current_patient.patient_record } %></div>
+				<div><%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %></div>
 			</div>
 
 		</div>

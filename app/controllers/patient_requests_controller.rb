@@ -1,10 +1,10 @@
 class PatientRequestsController < ApplicationController
 
-	# Devise
-	before_filter :authenticate_therapist!
-
 	# Incluir las funciones de ayuda de la aplicacion
 	include ApplicationHelper
+
+	# Devise
+	before_filter :authenticate_therapist!
 
 	# Layout para el terapeuta
 	layout "therapist", :only => [ :lue, :new, :edit, :create ]

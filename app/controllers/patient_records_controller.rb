@@ -39,6 +39,25 @@ class PatientRecordsController < ApplicationController
 
 	# PUT
 	def update
+		puts "entra a UPDATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		# debug
+		ap params
+
+		@patient_record = PatientRecord.find(params[:id])
+		@patient_record.update(patient_records_params)
+		if @patient_record.valid?
+
+			# Salvamos en la BD
+			@patient_record.save
+
+			# Mandamos a renderear de nuevo con mensaje
+			flash[:notice] = "¡Ha guardado exitosamente un expediente!"
+
+			redirect_to havad_index_path
+		else
+			puts "!!!!!!!!!!!!!!!!!!!!"
+			puts @patient_record
+		end
 	end
 
 	# GET
@@ -54,10 +73,16 @@ class PatientRecordsController < ApplicationController
 
 	def close
 
-		# Quitamos la variable de sesion del paciente elegido
+		# Quitamos la variable de sesion del aciente elegido
 		session.delete(:current_patient_id)
 
 		# Redirigimos al path
 		redirect_to therapist_profile_path(current_therapist)
 	end
+
+	private
+
+		def patient_records_params
+			params.require(:patient_record).permit(:lives_with, :observations)
+		end
 end

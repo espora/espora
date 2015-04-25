@@ -12,11 +12,6 @@ class Therapist < ActiveRecord::Base
 	# Expediente que atiende
 	has_many :patient_records
 
-<<<<<<< HEAD
-	def matchesPatientSchedule ( patient_request )
-		
-		patient_request.request_schedules.each do | req_schedule |
-=======
 	def match_schedule? ( patient_request )
 
 		# Iteramos todos los horarios del terapeuta
@@ -46,7 +41,6 @@ class Therapist < ActiveRecord::Base
 				end
 
 			end
->>>>>>> 76331f357fae5d00c6a124fcef8def5bfe41809a
 		end
 
 		return false

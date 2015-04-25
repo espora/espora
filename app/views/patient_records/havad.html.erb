@@ -1,44 +1,5 @@
 <% content_for :havad do %>
 
-	<style type="text/css">
-		div.field-havad {
-			width: 100%;
-			position: relative;
-			float: left;
-			margin-top: 13px;
-		}
-
-		div.field-havad span {
-			font-weight: bold;
-			font-size: 13px;
-		}
-
-		div.field-havad > div {
-			margin-top: 8px;
-			margin-left: 25px;
-		}
-
-		div.havad-checkbox {
-			margin: 2px 0px 2px 0px;
-		}
-
-		div.havad-checkbox label {
-			display: inline-block;
-			top: -3px;
-			position: relative;
-		}
-
-		div.havad-section {
-			width: 99%;
-			position: relative;
-			float: left;
-			border: 1px solid #d3d3d3;
-			border-radius: 3px;
-			padding: 10px 0px 10px 10px;
-			margin-top: 10px;
-		}
-	</style>
-
 	<script type="text/javascript">
 		
 		function changeMechanism ( input ) {
@@ -62,7 +23,7 @@
 			else {
 
 				// Localizamos al hidden input y lo quitamos
-				var hidden = $("#patient_record_mechanism_types_attributes_" + idMechanism + "_id");
+				var hidden = $("#mechanism-inputs input[value='" + idMechanism + "']");
 				if(hidden.length > 0) {
 					hidden.remove();
 				}
@@ -90,7 +51,7 @@
 			else {
 
 				// Localizamos al hidden input y lo quitamos
-				var hidden = $("#patient_record_experience_types_attributes_" + idExperiece + "_id");
+				var hidden = $("#experience-inputs input[value='" + idExperiece + "']");
 				if(hidden.length > 0) {
 					hidden.remove();
 				}
@@ -99,167 +60,180 @@
 
 	</script>
 
-	<div class="havad-section" style="padding-bottom: 20px;">
-		
-		<!--FORMULARIO HAVAD -->
-		<%= form_for(current_patient.patient_record, :html => { :id => "form-havad", :class => "pure-form pure-form-stacked" }) do | record_form | %>
+	<div style="width: 99%; position: relative; float: left;">
 
-			<!-- PRIMERA COLUMNA -->
-			<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
-
-				<!--Familiograma (¿Con quien vive?) -->
-				<div class="field-havad">
-					<span>FAMILIOGRAMA</span>
-					<div>
-						<%= record_form.label :lives_with do %>¿Con quien vive?<% end %>
-						<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 50, :required => true %>
-					</div>
-				</div>
-
-				<!-- RASGOS PADRES -->
-				<div class="field-havad">
-					<span>RASGOS PADRES</span>
-					<div>
-						<!-- MADRE -->
-						<% mother_trait = record_form.object.paternal_traits.where(:from_mother => true).first  %>
-						<%= record_form.fields_for mother_trait do | mother_form | %>
-							<div style="margin-left: 0%; float: left;">
-								<%= mother_form.label :patient_record_id do %>Madre: <% end %>
-								<%= mother_form.select :patient_record_id, PaternalTraitType::options_for_select %>
-							</div>
-						<% end %>
-
-						<!-- PADRE -->
-						<% father_trait = record_form.object.paternal_traits.where(:from_mother => false).first  %>
-						<%= record_form.fields_for father_trait do | father_form | %>
-							<div style="margin-left: 2%; float: left;">
-								<%= father_form.label :patient_record_id do %>Padre: <% end %>
-								<%= father_form.select :patient_record_id, PaternalTraitType::options_for_select %>
-							</div>
-						<% end %>
-					</div>
-				</div>
-
-				<!-- CIE10 -->
-				<div class="field-havad">
-					<span><%= record_form.label :cie10_type_id do %>CIE10<% end %></span>
-					<div>
-						<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
-					</div>
-				</div>
-
-				<!-- MECANISMOS-->
-				<div class="field-havad">
-					<span>MECANISMOS</span>
-					<div>
-						<% mechanisms = MechanismType.all %>
-						<% middle = (mechanisms.count / 2) + 1 %>
-
-						<div style="width: 40%; float: left;">
-							<% (0...middle).each do | i | %>
-								<div class="havad-checkbox">
-									<% checked = record_form.object.mechanism_types.include?(mechanisms[i]) ? "checked" : "" %>
-									<input type='checkbox' id-mechanism=<%= mechanisms[i].id %> onchange='changeMechanism(this);' <%= checked %>>
-									<%= label_tag 'mechanism_type_name', mechanisms[i].name %>
-								</div>
-							<% end %>
-						</div>
-
-						<div style="width: 40%; float: left; margin-left: 1%;">
-							<% (middle...mechanisms.count).each do | i | %>
-								<div class="havad-checkbox">
-									<% checked = record_form.object.mechanism_types.include?(mechanisms[i]) ? "checked" : "" %>
-									<input type='checkbox' id-mechanism=<%= mechanisms[i].id %> onchange='changeMechanism(this);' <%= checked %>>
-									<%= label_tag 'mechanism_type_name', mechanisms[i].name %>
-								</div>
-							<% end %>
-						</div>
-
-						<!-- HIDDENS -->
-						<div id="mechanism-inputs">
-							<% record_form.object.mechanism_types.each_with_index do | mecha, idx | %>
-								<% name_input = "patient_record[mechanism_types_attributes][" + idx.to_s + "][id]" %>
-								<%= hidden_field_tag name_input, mecha.id.to_s %>
-							<% end %>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- SEGUNDA COLUMNA -->
-			<div style="width: 47%; position: relative; float: left; margin-left: 1.5%;">
-
-				<!-- SITUACIONES Y EXPERIENCIAS -->
-				<div class="field-havad">
-					<span>SITUACIONES Y EXPERIENCIAS</span>
-					<div>
-						<% experiences = ExperienceType.all %>
-						<% middle = (experiences.count / 2) + 1 %>
-
-						<div style="width: 40%; float: left;">
-							<% (0...middle).each do | i | %>
-								<div class="havad-checkbox">
-									<% checked = record_form.object.experience_types.include?(experiences[i]) ? "checked" : "" %>
-									<input type='checkbox' id-experiece=<%= experiences[i].id %> onchange='changeExperience(this);' <%= checked %>>
-									<%= label_tag 'experience_type_name', experiences[i].name %>
-								</div>
-							<% end %>
-						</div>
-
-						<div style="width: 40%; float: left; margin-left: 1%;">
-							<% (middle...experiences.count).each do | i | %>
-								<div class="havad-checkbox">
-									<% checked = record_form.object.experience_types.include?(experiences[i]) ? "checked" : "" %>
-									<input type='checkbox' id-experiece=<%= experiences[i].id %> onchange='changeExperience(this);' <%= checked %>>
-									<%= label_tag 'experience_type_name', experiences[i].name %>
-								</div>
-							<% end %>
-						</div>	
-
-						<!-- HIDDENS -->
-						<div id="experience-inputs">
-							<% record_form.object.experience_types.each_with_index do | exp, idx | %>
-								<% name_input = "patient_record[experience_types_attributes]["+idx.to_s+"][id]" %>
-								<%= hidden_field_tag name_input, exp.id.to_s %>
-							<% end %>
-						</div>
-					</div>
-				</div>
-
-				<!-- ESTRUCTURA CLINICA -->
-				<div class="field-havad">
-					<span><%= record_form.label :clinical_structure_type_id do %>ESTRUCTURA CLINICA<% end %></span>
-					<div>
-						<%= record_form.select :clinical_structure_type_id, ClinicalStructureType::options_for_select %>
-					</div>
-				</div>
-
-				<!-- OBSERVACIONES -->
-				<div class="field-havad">
-					<span><%= record_form.label :observations do %>OBSERVACIONES<% end %></span>
-					<div>
-						<%= record_form.text_area :observations, autofocus: true, cols: 60, rows: 10 %>
-					</div>
-				</div>
-
-				<!-- GUARDAR -->
-				<div style="float: right; margin: 10px 13% 0px 0px;">
-					<%= record_form.submit "GUARDAR EXPEDIENTE", :class => "pure-button pure-button-primary" %>
-				</div>
+		<!-- MENSAJES DEL HAVAD -->
+		<% if not flash[:notice].nil? %>
+			<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;"
+			onclick="$(this).remove();">
+				<%= flash[:notice] %>
 			</div>
 		<% end %>
-	</div>
 
-	<div class="havad-section">
-		<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
+		<div class="havad-section" style="padding-bottom: 20px;">
 			
-			<!-- CITAS -->
-			<div class="field-havad">
-				<span>CITAS</span>
-				<div><%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %></div>
-			</div>
+			<!--FORMULARIO HAVAD -->
+			<%= nested_form_for(current_patient.patient_record, :html => { :id => "form-havad", :class => "pure-form pure-form-stacked" }) do | record_form | %>
 
+				<!-- PRIMERA COLUMNA -->
+				<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
+
+					<!--Familiograma (¿Con quien vive?) -->
+					<div class="field-havad">
+						<span>FAMILIOGRAMA</span>
+						<div>
+							<%= record_form.label :lives_with do %>¿Con quien vive?<% end %>
+							<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 50, :required => true %>
+						</div>
+					</div>
+
+					<!-- RASGOS PADRES -->
+					<div class="field-havad">
+						<span>RASGOS PADRES</span>
+						<div>
+							<%= record_form.fields_for :paternal_traits do | paternal_trait_form | %>
+								<% if paternal_trait_form.object.from_mother %>
+									
+									<!-- MADRE -->
+									<div style="margin-left: 0%; float: left;">
+										<%= paternal_trait_form.label :paternal_trait_type_id do %>Madre: <% end %>
+										<%= paternal_trait_form.select :paternal_trait_type_id, PaternalTraitType::options_for_select %>
+									</div>
+
+								<% else %>
+									
+									<!-- PADRE -->
+									<div style="margin-left: 2%; float: left;">
+										<%= paternal_trait_form.label :paternal_trait_type_id do %>Padre: <% end %>
+										<%= paternal_trait_form.select :paternal_trait_type_id, PaternalTraitType::options_for_select %>
+									</div>
+
+								<% end %>
+							<% end %>
+						</div>
+					</div>
+
+					<!-- CIE10 -->
+					<div class="field-havad">
+						<span><%= record_form.label :cie10_type_id do %>CIE10<% end %></span>
+						<div>
+							<%= record_form.select :cie10_type_id, Cie10Type::options_for_select %>
+						</div>
+					</div>
+
+					<!-- MECANISMOS-->
+					<div class="field-havad">
+						<span>MECANISMOS</span>
+						<div>
+							<% mechanisms = MechanismType.all %>
+							<% middle = (mechanisms.count / 2) + 1 %>
+
+							<div style="width: 40%; float: left;">
+								<% (0...middle).each do | i | %>
+									<div class="havad-checkbox">
+										<% checked = record_form.object.mechanism_types.include?(mechanisms[i]) ? "checked" : "" %>
+										<input type='checkbox' id-mechanism=<%= mechanisms[i].id %> onchange='changeMechanism(this);' <%= checked %>>
+										<%= label_tag 'mechanism_type_name', mechanisms[i].name %>
+									</div>
+								<% end %>
+							</div>
+
+							<div style="width: 40%; float: left; margin-left: 1%;">
+								<% (middle...mechanisms.count).each do | i | %>
+									<div class="havad-checkbox">
+										<% checked = record_form.object.mechanism_types.include?(mechanisms[i]) ? "checked" : "" %>
+										<input type='checkbox' id-mechanism=<%= mechanisms[i].id %> onchange='changeMechanism(this);' <%= checked %>>
+										<%= label_tag 'mechanism_type_name', mechanisms[i].name %>
+									</div>
+								<% end %>
+							</div>
+
+							<!-- HIDDENS -->
+							<div id="mechanism-inputs">
+								<% record_form.object.mechanism_types.each_with_index do | mecha, idx | %>
+									<% name_input = "patient_record[mechanism_types_attributes][" + idx.to_s + "][id]" %>
+									<%= hidden_field_tag name_input, mecha.id.to_s %>
+								<% end %>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- SEGUNDA COLUMNA -->
+				<div style="width: 47%; position: relative; float: left; margin-left: 1.5%;">
+
+					<!-- SITUACIONES Y EXPERIENCIAS -->
+					<div class="field-havad">
+						<span>SITUACIONES Y EXPERIENCIAS</span>
+						<div>
+							<% experiences = ExperienceType.all %>
+							<% middle = (experiences.count / 2) + 1 %>
+
+							<div style="width: 40%; float: left;">
+								<% (0...middle).each do | i | %>
+									<div class="havad-checkbox">
+										<% checked = record_form.object.experience_types.include?(experiences[i]) ? "checked" : "" %>
+										<input type='checkbox' id-experiece=<%= experiences[i].id %> onchange='changeExperience(this);' <%= checked %>>
+										<%= label_tag 'experience_type_name', experiences[i].name %>
+									</div>
+								<% end %>
+							</div>
+
+							<div style="width: 40%; float: left; margin-left: 1%;">
+								<% (middle...experiences.count).each do | i | %>
+									<div class="havad-checkbox">
+										<% checked = record_form.object.experience_types.include?(experiences[i]) ? "checked" : "" %>
+										<input type='checkbox' id-experiece=<%= experiences[i].id %> onchange='changeExperience(this);' <%= checked %>>
+										<%= label_tag 'experience_type_name', experiences[i].name %>
+									</div>
+								<% end %>
+							</div>	
+
+							<!-- HIDDENS -->
+							<div id="experience-inputs">
+								<% record_form.object.experience_types.each_with_index do | exp, idx | %>
+									<% name_input = "patient_record[experience_types_attributes]["+idx.to_s+"][id]" %>
+									<%= hidden_field_tag name_input, exp.id.to_s %>
+								<% end %>
+							</div>
+						</div>
+					</div>
+
+					<!-- ESTRUCTURA CLINICA -->
+					<div class="field-havad">
+						<span><%= record_form.label :clinical_structure_type_id do %>ESTRUCTURA CLINICA<% end %></span>
+						<div>
+							<%= record_form.select :clinical_structure_type_id, ClinicalStructureType::options_for_select %>
+						</div>
+					</div>
+
+					<!-- OBSERVACIONES -->
+					<div class="field-havad">
+						<span><%= record_form.label :observations do %>OBSERVACIONES<% end %></span>
+						<div>
+							<%= record_form.text_area :observations, autofocus: true, cols: 60, rows: 10 %>
+						</div>
+					</div>
+
+					<!-- GUARDAR -->
+					<div style="float: right; margin: 10px 13% 0px 0px;">
+						<%= record_form.submit "GUARDAR EXPEDIENTE", :class => "pure-button pure-button-primary" %>
+					</div>
+				</div>
+			<% end %>
 		</div>
+
+		<div class="havad-section">
+			<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
+				
+				<!-- CITAS -->
+				<div class="field-havad">
+					<span>CITAS</span>
+					<div><%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %></div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 <% end %>
 

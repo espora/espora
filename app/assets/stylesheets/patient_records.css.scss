@@ -66,3 +66,14 @@ table#appointment-table th, table#appointment-table td {
 table#appointment-table i {
 	font-size: 18px;
 }
+
+div#appointment-container {
+	width: 100%;
+	height: 484px;
+}
+
+div#appointment-container div.pat-record-section {
+	width: 48%;
+	min-height: 484px;
+	padding-bottom: 15px;
+}

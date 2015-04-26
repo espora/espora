@@ -30,12 +30,12 @@
 				// PANEL AL WORKSPACE
 
 				// Lista
-				if( newPanel.attr( "id" ) == "consultar" ) {
+				if( newPanel.attr( "id" ) === "consultar" ) {
 					window.location = "<%= lue_index_path %>";
 				}
 
 				// Nuevo
-				if( newPanel.attr( "id" ) == "nuevo" ) {
+				if( newPanel.attr( "id" ) === "nuevo" ) {
 					window.location = "<%= new_patient_request_path %>";
 				}
 			}

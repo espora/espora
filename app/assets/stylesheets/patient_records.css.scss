@@ -55,8 +55,7 @@ div.pat-record-section {
 }
 
 table#appointment-table {
-	width: 65%;
-	margin-top: 13px;
+	width: 100%;
 }
 
 table#appointment-table th, table#appointment-table td {
@@ -72,8 +71,10 @@ div#appointment-container {
 	height: 484px;
 }
 
-div#appointment-container div.pat-record-section {
+div#appointment-container > div {
 	width: 48%;
-	min-height: 484px;
+	height: 475px;
 	padding-bottom: 15px;
+	position: relative;
+	float: left;
 }

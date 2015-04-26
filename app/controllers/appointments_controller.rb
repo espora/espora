@@ -12,11 +12,6 @@ class AppointmentsController < ApplicationController
 		# Obtenemos la cita por el id
 		@appointment = Appointment.find(params[:id])
 
-		# Le acompletamos los 5 signos y sintomas si no los tiene aún
-		dif = 5 - @appointment.symptoms.count
-		dif.times do | i |
-			@appointment.symptoms.build
-		end
 	end
 
 	# PUT
@@ -30,7 +25,7 @@ class AppointmentsController < ApplicationController
 
 		# Limpiamos los sintomas vacios
 		params[:appointment][:symptoms_attributes].reject! do | key, value |
-			value[:symptom_type_id] == "" and value[:level] == ""
+			not value[:id].nil?
 		end
 
 		# Hacemos update
@@ -38,7 +33,7 @@ class AppointmentsController < ApplicationController
 		if @appointment.valid?
 
 			# Mandamos a renderear de nuevo con mensaje
-			flash[:notice] = "¡Información de cita guardada!"
+			flash[:notice] = "¡Información de cita guardada éxitosamente!"
 
 			# Redirigimos al expediente
 			redirect_to havad_index_path
@@ -52,7 +47,7 @@ class AppointmentsController < ApplicationController
 	private
 
 		def appointment_params
-			params.require(:appointment).permit(:attended, :notes, :symptoms_attributes => [:symptom_type_id, :level])
+			params.require(:appointment).permit(:attended, :notes, :symptoms_attributes => [:symptom_type_id, :level, :_destroy])
 		end
 
 end

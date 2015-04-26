@@ -34,74 +34,75 @@
 				$("#symptoms-table select").prop("disabled", true);
 				$("#appointment_notes").prop("disabled", true);
 			}
+
+			// Obtenemos el numero de sintomas
+			var symptomsCount = $("#symptoms-table tbody tr").length;
+			var diff = 5 - symptomsCount;
+
+			// Agregamos los que hagan falta
+			for (var i = 0; i < diff; i++) {
+				$("#symptoms-add").click();
+			}
 		});
 
 	</script>
 
-	<div id="appointment-container">
+	<!--FORMULARIO APPOINTMENT -->
+	<%= nested_form_for @appointment, :html => { :id => "form-appointment", :class => "pure-form pure-form-stacked" } do | appointment_form | %>
+		
+		<div id="appointment-container" class="pat-record-section" style="width: 99%;">
 
-		<!--FORMULARIO APPOINTMENT -->
-		<%= nested_form_for @appointment, :html => { :id => "form-appointment", :class => "pure-form pure-form-stacked" } do | appointment_form | %>
+			<!-- COLUMNA IZQUIERDA -->
+			<div style="margin-left: 2%;">
 
-			<!-- PANEL IZQUIERDO -->
-			<div class="pat-record-section">
+				<!-- Numero de la cita -->
+				<div class="pat-record-info">
+					<div><span>Número de Cita: </span></div>
+					<div style="padding-top: 1px; margin-left: 7px;"><%= @appointment.number %></div>
+				</div>
 
-					<!-- Numero de la cita -->
-					<div class="pat-record-info">
-						<div><span>Número de Cita: </span></div>
-						<div style="padding-top: 1px; margin-left: 7px;">
-							<%= @appointment.number %>
-						</div>
+				<!-- Fecha de la cita -->
+				<div class="pat-record-info">
+					<div><span>Fecha: </span></div>
+					<div style="padding-top: 1px; margin-left: 7px;"><%= @appointment.date.strftime("%d-%m-%y") %></div>
+				</div>
+
+				<!-- Hora de la cita -->
+				<div class="pat-record-info">
+					<div><span>Hora: </span></div>
+					<div style="padding-top: 1px; margin-left: 7px;"><%= @appointment.date.strftime("%H:%M") %></div>
+				</div>
+
+				<!-- Asistio -->
+				<div class="pat-record-field" style="margin-top: 25px;">
+					<span>ASISTIÓ: </span>
+					<div><%= appointment_form.select :attended, [["-", nil], ["Sí", true], ["No", false]] %></div>
+				</div>
+
+				<!-- Signos y síntomas -->
+				<div class="pat-record-field" style="margin-top: 8px;">
+					<span>SIGNOS Y SÍNTOMAS: </span>
+					<div>
+						<table id="symptoms-table" class="pure-table pure-table-bordered" style="width: 70%;">
+							<thead>
+								<th>Signo o Síntoma</th><th>Nivel</th>
+							</thead>
+							<tbody>
+								<%= appointment_form.fields_for :symptoms, :wrapper => false do | symptom_form | %>
+									<tr class="fields">
+										<td><%= symptom_form.select :symptom_type_id, SymptomType::options_for_select %></td>
+										<td><%= symptom_form.select :level, [["-", nil], ["Leve", 0], ["Moderado", 1], ["Severo", 2]] %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
 					</div>
-
-					<!-- Fecha de la cita -->
-					<div class="pat-record-info">
-						<div><span>Fecha: </span></div>
-						<div style="padding-top: 1px; margin-left: 7px;">
-							<%= @appointment.date.strftime("%d-%m-%y") %>
-						</div>
-					</div>
-
-					<!-- Hora de la cita -->
-					<div class="pat-record-info">
-						<div><span>Hora: </span></div>
-						<div style="padding-top: 1px; margin-left: 7px;">
-							<%= @appointment.date.strftime("%H:%M") %>
-						</div>
-					</div>
-
-					<!-- Asistio -->
-					<div class="pat-record-field" style="margin-top: 25px;">
-						<span>ASISTIÓ: </span>
-						<div>
-							<%= appointment_form.select :attended, [["-", nil], ["Sí", true], ["No", false]] %>
-						</div>
-					</div>
-
-					<!-- Signos y síntomas -->
-					<div class="pat-record-field" style="margin-top: 8px;">
-						<span>SIGNOS Y SÍNTOMAS: </span>
-
-						<div>
-							<table id="symptoms-table" class="pure-table pure-table-bordered" style="width: 70%;">
-								<thead>
-									<th>Signo o Síntoma</th><th>Nivel</th>
-								</thead>
-								<tbody>
-									<%= appointment_form.fields_for :symptoms do | symptom_form | %>
-										<tr>
-											<td><%= symptom_form.select :symptom_type_id, SymptomType::options_for_select %></td>
-											<td><%= symptom_form.select :level, [["-", nil], ["Leve", 0], ["Moderado", 1], ["Severo", 2]] %></td>
-										</tr>
-									<% end %>
-								</tbody>
-							</table>
-						</div>
-					</div>
+					<%= appointment_form.link_to_add "", :symptoms, id: "symptoms-add", style: "display: none;", :data => { :target => "#symptoms-table" } %>
+				</div>
 			</div>
 
-			<!-- PANEL DERECHO -->
-			<div class="pat-record-section" style="margin-left: 1%;">
+			<!-- COLUMNA DERECHA -->
+			<div style="margin-left: 1%;">
 
 				<!-- Notas de la cita -->
 				<div class="pat-record-field" style="margin-top: 8px; margin-bottom: 8px;">
@@ -109,16 +110,16 @@
 					<div><%= appointment_form.text_area :notes, autofocus: true, cols: 60, rows: 17 %></div>
 				</div>
 			</div>
+		</div>
 
-			<!-- BOTONES -->
-			<div style="width: 99%; float: left; position: relative; margin-top: 10px; font-size: 13px;">
-				<%= appointment_form.submit "Guardar", :class => "pure-button pure-button-primary", :style => "float: right;" %>
-				<%= link_to havad_index_path, :class => "pure-button pure-button-active", :style => "float: right; margin-right: 0.5%;" do %>
-					Ir al expediente
-				<% end %>
-			</div>
-		<% end %>
-	</div>
+		<!-- BOTONES -->
+		<div style="width: 99%; float: left; position: relative; margin-top: 10px; font-size: 13px;">
+			<%= appointment_form.submit "Guardar", :class => "pure-button pure-button-primary", :style => "float: right;" %>
+			<%= link_to havad_index_path, :class => "pure-button pure-button-active", :style => "float: right; margin-right: 0.5%;" do %>
+				Ir al expediente
+			<% end %>
+		</div>
+	<% end %>
 
 <% end %>
 

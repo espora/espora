@@ -53,6 +53,9 @@ Espora::Application.routes.draw do
 
   ##### Citas de pacientes (Appointment)
 
+  # Crea una cita
+  post "/therapists/havad/appointment/create" => "appointments#create", as: "create_appointment"
+
   # Elige una cita
   get "/therapists/havad/appointment/:id" => "appointments#show", as: "show_appointment"
 

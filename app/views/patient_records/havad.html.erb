@@ -69,8 +69,8 @@
 
 	<div style="width: 99%; position: relative; float: left;">
 
-		<!-- MENSAJES DEL HAVAD -->
 		<% if not flash[:notice].nil? %>
+			<!-- MENSAJES DEL HAVAD -->
 			<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;"
 			onclick="$(this).remove();">
 				<%= flash[:notice] %>
@@ -167,7 +167,7 @@
 				</div>
 
 				<!-- SEGUNDA COLUMNA -->
-				<div style="width: 47%; position: relative; float: left; margin-left: 1.5%;">
+				<div style="width: 47%; position: relative; float: left; margin-left: 3%;">
 
 					<!-- SITUACIONES Y EXPERIENCIAS -->
 					<div class="pat-record-field">
@@ -218,25 +218,38 @@
 					<div class="pat-record-field">
 						<span><%= record_form.label :observations do %>OBSERVACIONES<% end %></span>
 						<div>
-							<%= record_form.text_area :observations, autofocus: true, cols: 60, rows: 10 %>
+							<%= record_form.text_area :observations, autofocus: true, cols: 58, rows: 10 %>
 						</div>
 					</div>
 
 					<!-- GUARDAR -->
-					<div style="float: right; margin: 10px 13% 0px 0px;">
-						<%= record_form.submit "GUARDAR EXPEDIENTE", :class => "pure-button pure-button-primary" %>
+					<div style="float: right; margin: 10px 7% 0px 0px; font-size: 13px;">
+						<%= record_form.submit "Guardar", :class => "pure-button pure-button-primary", :style => "width: 120%;" %>
 					</div>
 				</div>
 			<% end %>
 		</div>
 
-		<div class="pat-record-section">
-			<div style="width: 80%; position: relative; float: left; margin-left: 2%;">
-				
+		<!-- CITAS CONTAINER -->
+		<div class="pat-record-section" style="padding-bottom: 20px;">
+			
+			<!-- PRIMERA COLUMNA -->
+			<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
+
 				<!-- CITAS -->
 				<div class="pat-record-field">
 					<span>CITAS</span>
 					<div><%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %></div>
+				</div>
+			</div>
+
+			<!-- SEGUNDA COLUMNA -->
+			<div style="width: 47%; position: relative; float: left; margin-left: 3%;">
+
+				<!-- NUEVA CITA -->
+				<div class="pat-record-field">
+					<span>NUEVA CITA</span>
+					<div><%= render partial: "appointments/form" %></div>
 				</div>
 			</div>
 		</div>

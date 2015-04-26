@@ -50,14 +50,10 @@ gem 'awesome_print'
 # Diagramas entidad relacion
 gem "rails-erd" # Requiere tener instalado la biblioteca graphviz en el sistema
 
-<<<<<<< HEAD
-#Diás y horas de la semana
-=======
 # CSS Normalizado
 gem 'normalize-rails'
 
 # Time of day (para los horarios)
->>>>>>> 76331f357fae5d00c6a124fcef8def5bfe41809a
 gem 'tod'
 
 # Use ActiveModel has_secure_password

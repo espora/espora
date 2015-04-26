@@ -1,3 +1,8 @@
+<%
+	# Panel para las tabs del workspace del terapeuta
+	@therapist_active_tab = 3
+%>
+
 <% content_for :new_therapist_tab do %>
 	<%= render partial: "form", locals: { therapist: @therapist } %>
 <% end %>

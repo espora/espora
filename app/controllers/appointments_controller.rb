@@ -4,7 +4,7 @@ class AppointmentsController < ApplicationController
 	before_filter :authenticate_therapist!
 
 	# Layout para el terapeuta
-	layout "therapist", :only => [ :show ]
+	layout "therapist", :only => [ :show, :update ]
 
 	# GET
 	def show
@@ -12,10 +12,15 @@ class AppointmentsController < ApplicationController
 		# Obtenemos la cita por el id
 		@appointment = Appointment.find(params[:id])
 
-		
+		# Le acompletamos los 5 signos y sintomas si no los tiene aún
+		dif = 5 - @appointment.symptoms.count
+		dif.times do | i |
+			@appointment.symptoms.build
+		end
+	end
 
-		# Redirigimos al havad
-		redirect_to havad_index_path
+	# PUT
+	def update
 	end
 
 end

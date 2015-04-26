@@ -5,28 +5,27 @@
 
 		<!-- PESTANAS -->
 		<ul>
-			<% if content_for?(:fosti) %>
+			<% if current_patient.nil? %>
 				<li><a href="#fosti">FOSTI</a></li>
+			<% else %>
+				<li><a href="#havad">Expediente</a></li>
 			<% end %>
 
-			<% if content_for?(:havad) %>
-				<li><a href="#havad">Expediente</a></li>
+			<% if content_for?(:appointment) %>
+				<li><a href="#appointment">Cita</a></li>
 			<% end %>
 		</ul>
 
 		<!-- PANELES -->
-		<% if content_for?(:fosti) %>
-			<div id="fosti" class="ter-panel">
-				<%= yield(:fosti) %>
-			</div>
+		<% if current_patient.nil? %>
+			<div id="fosti" class="ter-panel"><%= yield(:fosti) if content_for?(:fosti) %></div>
+		<% else %>
+			<div id="havad" class="ter-panel"><%= yield(:havad) if content_for?(:havad) %></div>
 		<% end %>
 
-		<% if content_for?(:havad) %>
-			<div id="havad" class="ter-panel">
-				<%= yield(:havad) %>
-			</div>
+		<% if content_for?(:appointment) %>
+			<div id="appointment" class="ter-panel"><%= yield(:appointment) %></div>
 		<% end %>
-
 	</div>
 
 	<script type="text/javascript">

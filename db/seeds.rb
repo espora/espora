@@ -5,14 +5,14 @@ puts ":::: Poblando Espora BD...\n\n"
 
 Cie10Type.delete_all
 cie10_entries = [
-	{name: "Trastornos mentales orgánicos"},
-	{name: "Trastornos mentales y del comportamiento debido al consumo"},
-	{name: "Esquizofrenia y trastornos de ideas delirantes"},
-	{name: "Trastornos del humor o afectivos"},
-	{name: "Trastornos neuróticos"},
-	{name: "Trastornos del comportamiento asociados a disfunciones fisiológicas"},
-	{name: "Trastornos de la personalidad y del comportamiento"},
-	{name: "Sin especificar"}
+	{ name: "Trastornos mentales orgánicos" },
+	{ name: "Trastornos mentales y del comportamiento debido al consumo" },
+	{ name: "Esquizofrenia y trastornos de ideas delirantes" },
+	{ name: "Trastornos del humor o afectivos" },
+	{ name: "Trastornos neuróticos" },
+	{ name: "Trastornos del comportamiento asociados a disfunciones fisiológicas" },
+	{ name: "Trastornos de la personalidad y del comportamiento" },
+	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo CIE10 (#{cie10_entries.count} inserciones)... "
@@ -40,7 +40,8 @@ mechanism_entries = [
 	{ name: "Aislamiento" },
 	{ name: "Anulación" },
 	{ name: "Form. Reactiva" },
-	{ name: "Sublimación" }
+	{ name: "Sublimación" },
+	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo de Mecanismos (#{mechanism_entries.count} inserciones)... "
@@ -70,7 +71,8 @@ paternal_trait_entries = [
 	{ name: "Paranoide" },
 	{ name: "Pasivo" },
 	{ name: "Sobreprotector" },
-	{ name: "Transgresor" }
+	{ name: "Transgresor" },
+	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo de Rasgos Paternos (#{paternal_trait_entries.count} inserciones)... "
@@ -95,7 +97,8 @@ experience_entries = [
 	{ name: "Relación destructiva" },
 	{ name: "Rivalidad Fraterna" },
 	{ name: "Separación de los padres" },
-	{ name: "Violencia intrafamiliar" }
+	{ name: "Violencia intrafamiliar" },
+	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo de Situaciones y Experiencias (#{experience_entries.count} inserciones)... "
@@ -110,7 +113,8 @@ clinical_structure_entries = [
 	{ name: "Histérica" },
 	{ name: "Fobia" },
 	{ name: "Border" },
-	{ name: "Psicosis" }
+	{ name: "Psicosis" },
+	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo de Estructura Clinica (#{clinical_structure_entries.count} inserciones)... "
@@ -165,7 +169,8 @@ symptom_entries = [
 	{ name: "Somatización" },
 	{ name: "Taquicardia" },
 	{ name: "Tristeza" },
-	{ name: "Vómito" }
+	{ name: "Vómito" },
+	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo de Signos y Síntomas (#{symptom_entries.count} inserciones)... "

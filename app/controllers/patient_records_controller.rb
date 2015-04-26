@@ -12,15 +12,6 @@ class PatientRecordsController < ApplicationController
 	# GET
 	def havad
 
-		# El Array que se ira llenando
-		@patient_records = Array.new
-
-		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 2
-
-		# Panel para las tabs del workspace del havad
-		@havad_active_tab = 0
-
 		# Mandando a renderear
 		if current_patient.nil?
 			@patient_records = current_therapist.patient_records

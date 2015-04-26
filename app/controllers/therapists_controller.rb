@@ -10,9 +10,6 @@ class TherapistsController < ApplicationController
 
 		# Obtenemos el terapeuta
 		@therapist = Therapist.find(params[:id])
-
-		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 0
 	end
 
 	#HAVAD
@@ -23,9 +20,6 @@ class TherapistsController < ApplicationController
 	# GET
 	def new
 		@therapist = Therapist.new
-
-		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 3
 	end
 
 	# POST

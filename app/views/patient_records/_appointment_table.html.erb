@@ -1,15 +1,16 @@
-<table id="appointment-table" class="pure-table pure-table-bordered">
+<table id="appointment-table" class="pure-table pure-table-bordered" align="center">
 	<thead>
-		<th>CITA</th><th>HORARIO</th><th>ASISTIO</th><th></th>
+		<th># CITA</th><th>FECHA</th><th>HORA</th><th>ASISTIO</th><th>IR A CITA</th>
 	</thead>
 	<tbody>
 		<% appointments.each do | appointment | %>
 			<tr class="pure-table-odd">
 				<td><%= appointment.number %></td>
-				<td><%= appointment.date.to_s %></td>
+				<td><%= appointment.date.strftime("%d-%m-%y") %></td>
+				<td><%= appointment.date.strftime("%H:%M") %></td>
 				<td>
 					<% if appointment.attended.nil? %>
-						<i class="fa fa-question-circle" style="color: #0606c8;"></i>
+						Sin especificar
 					<% else %>
 						<% if appointment.attended %>
 							<i class="fa fa-check-circle" style="color: #15bc08;"></i>
@@ -29,4 +30,6 @@
 	</tbody>
 </table>
 
-<button class="pure-button pure-button-primary" style="float:right; margin-top:10px;">Añadir Cita</button>
+<button class="pure-button pure-button-primary" style="float:right; margin-top:10px;">
+	Añadir Cita
+</button>

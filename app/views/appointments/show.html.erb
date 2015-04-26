@@ -1,0 +1,79 @@
+<%
+	# Panel para las tabs del workspace del terapeuta
+	@therapist_active_tab = 2
+
+	# Panel para las tabs del workspace del havad
+	@havad_active_tab = 1
+%>
+
+<% content_for :appointment do %>
+
+	<div style="width: 100%; position: relative; float: left;">
+
+		<!--FORMULARIO HAVAD -->
+		<%= nested_form_for @appointment, :html => { :id => "form-appointment", :class => "pure-form pure-form-stacked" } do | appointment_form | %>
+
+			<!-- PANEL IZQUIERDO -->
+			<div class="pat-record-section" style="width: 48%;">
+
+					<!-- Numero de la cita -->
+					<div class="pat-record-info">
+						<div><span>Número de Cita: </span></div>
+						<div style="padding-top: 1px; margin-left: 7px;">
+							<%= @appointment.number %>
+						</div>
+					</div>
+
+					<!-- Fecha de la cita -->
+					<div class="pat-record-info">
+						<div><span>Fecha: </span></div>
+						<div style="padding-top: 1px; margin-left: 7px;">
+							<%= @appointment.date.strftime("%d-%m-%y") %>
+						</div>
+					</div>
+
+					<!-- Hora de la cita -->
+					<div class="pat-record-info">
+						<div><span>Hora: </span></div>
+						<div style="padding-top: 1px; margin-left: 7px;">
+							<%= @appointment.date.strftime("%H:%M") %>
+						</div>
+					</div>
+
+					<!-- Asistio -->
+					<div class="pat-record-field" style="margin-top: 20px;">
+						<span>Asistió: </span>
+						<div>
+							<%= appointment_form.select :attended, [["-", nil], ["Sí", true], ["No", false]] %>
+						</div>
+					</div>
+
+					<!-- Signos y síntomas -->
+					<div class="pat-record-field" style="margin-top: 8px;">
+						<span>Signos y síntomas detectados en esta cita: </span>
+						<div>
+							<%= appointment_form.fields_for :symptoms do | symptom_form | %>
+								<%= 
+							<% end %>
+						</div>
+					</div>
+			</div>
+
+			<!-- PANEL DERECHO -->
+			<div class="pat-record-section" style="width: 48%; margin-left: 1%;">
+
+				<!-- Notas de la cita -->
+				<div class="pat-record-field" style="margin-top: 8px; margin-bottom: 8px;">
+					<span>Notas de la cita: </span>
+					<div>
+						<%= appointment_form.text_area :notes, autofocus: true, cols: 60, rows: 17 %>
+					</div>
+				</div>
+			</div>
+
+		<% end %>
+	</div>
+
+<% end %>
+
+<%= render template: "patient_records/havad_tab" %>

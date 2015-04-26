@@ -17,6 +17,7 @@ class PatientRecord < ActiveRecord::Base
 
 	# Rasgos de los padres
 	has_many :paternal_traits, :dependent => :destroy
+	accepts_nested_attributes_for :paternal_traits, :allow_destroy => true
 
 	# Mecanismos
 	has_and_belongs_to_many :mechanism_types

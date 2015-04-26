@@ -2,35 +2,50 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.field-havad {
+div.pat-record-field, div.pat-record-info {
 	width: 100%;
 	position: relative;
 	float: left;
 	margin-top: 13px;
+	font-size: 13px;
 }
 
-div.field-havad span {
+div.pat-record-info {
+	margin-top: 4px;
+}
+
+div.pat-record-field span {
 	font-weight: bold;
 	font-size: 13px;
 }
 
-div.field-havad > div {
+div.pat-record-field > div {
 	margin-top: 8px;
 	margin-left: 25px;
 }
 
-div.havad-checkbox {
+div.pat-record-info > div {
+	float: left;
+	position: relative;
+}
+
+div.pat-record-info > div > span {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+div.pat-record-checkbox {
 	margin: 2px 0px 2px 0px;
 }
 
-div.havad-checkbox label {
+div.pat-record-checkbox label {
 	display: inline-block;
 	top: -3px;
 	position: relative;
 }
 
-div.havad-section {
-	width: 99%;
+div.pat-record-section {
+	width: 100%;
 	position: relative;
 	float: left;
 	border: 1px solid #d3d3d3;
@@ -40,7 +55,7 @@ div.havad-section {
 }
 
 table#appointment-table {
-	width: 100%;
+	width: 65%;
 	margin-top: 13px;
 }
 

@@ -51,10 +51,13 @@ Espora::Application.routes.draw do
   get "/therapists/havad/choose_record/:id" => "patient_records#choose", as: "choose_record"
   get "/therapists/havad/close_record" => "patient_records#close", as: "close_record"
 
+  ##### Citas de pacientes (Appointment)
+
   # Elige una cita
   get "/therapists/havad/appointment/:id" => "appointments#show", as: "show_appointment"
 
-  # HAVAD
-  get "/therapists/havad"
+  # Actualiza la informacion de una cita
+  patch "/therapists/havad/appointment/update/:id" => "appointments#update", as: "appointment"
+
 
 end

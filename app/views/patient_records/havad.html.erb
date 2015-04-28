@@ -232,28 +232,15 @@
 
 		<!-- CITAS CONTAINER -->
 		<div class="pat-record-section" style="padding-bottom: 20px;">
-			
-			<!-- PRIMERA COLUMNA -->
-			<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
 
-				<!-- CITAS -->
-				<div class="pat-record-field">
-					<span>CITAS</span>
-					<div><%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %></div>
-				</div>
-			</div>
-
-			<!-- SEGUNDA COLUMNA -->
-			<div style="width: 47%; position: relative; float: left; margin-left: 3%;">
-
-				<!-- NUEVA CITA -->
-				<div class="pat-record-field">
-					<span>NUEVA CITA</span>
-					<div><%= render partial: "appointments/form" %></div>
+			<!-- CITAS -->
+			<div class="pat-record-field">
+				<span>CITAS</span>
+				<div id="appointment-table-container">
+					<%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %>
 				</div>
 			</div>
 		</div>
-
 	</div>
 <% end %>
 

@@ -1,5 +1,8 @@
 class AppointmentsController < ApplicationController
 
+	# Incluir las funciones de ayuda de la aplicacion
+	include ApplicationHelper
+
 	# Devise
 	before_filter :authenticate_therapist!
 
@@ -14,6 +17,23 @@ class AppointmentsController < ApplicationController
 
 	end
 
+	# POST
+	def create
+
+		# Obtenemos el expediente del paciente actual
+		pat_record = current_patient.patient_record
+
+		# Creamos la cita
+		appointment = Appointment.create(create_appointment_params)
+		appointment.number = pat_record.next_appointment_number
+
+		# Asignamos a las citas y guardamos
+		current_patient.patient_record.appointments << appointment
+		appointment.save		
+
+		render partial: "patient_records/appointment_table", locals: { appointments: pat_record.appointments }
+	end
+
 	# PUT
 	def update
 
@@ -24,8 +44,10 @@ class AppointmentsController < ApplicationController
 		@appointment = Appointment.find(params[:id])
 
 		# Limpiamos los sintomas vacios
-		params[:appointment][:symptoms_attributes].reject! do | key, value |
-			not value[:id].nil?
+		if not params[:appointment][:symptoms_attributes].nil?
+			params[:appointment][:symptoms_attributes].reject! do | key, value |
+				not value[:id].nil?
+			end
 		end
 
 		# Hacemos update
@@ -50,4 +72,7 @@ class AppointmentsController < ApplicationController
 			params.require(:appointment).permit(:attended, :notes, :symptoms_attributes => [:symptom_type_id, :level, :_destroy])
 		end
 
+		def create_appointment_params
+			params.permit(:date)
+		end
 end

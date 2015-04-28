@@ -1,8 +1,8 @@
-<table id="appointment-table" class="pure-table pure-table-bordered" align="center">
-	<thead>
+<table id="appointment-table" class="pure-table pure-table-bordered">
+	<thead align="center">
 		<th># CITA</th><th>FECHA</th><th>HORA</th><th>ASISTIO</th><th>IR A CITA</th>
 	</thead>
-	<tbody>
+	<tbody align="center">
 		<% appointments.each do | appointment | %>
 			<tr class="pure-table-odd">
 				<td><%= appointment.number %></td>
@@ -27,5 +27,10 @@
 				</td>
 			</tr>
 		<% end %>
+		<tr>
+			<td colspan="5" style="padding-bottom: 15px;">
+				<div><%= render partial: "appointments/form" %></div>
+			</td>
+		</tr>
 	</tbody>
 </table>

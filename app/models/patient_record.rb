@@ -27,11 +27,16 @@ class PatientRecord < ActiveRecord::Base
 
 	def next_appointment_number
 
-		# Obtenemos el ultimo numero
-		last_number = self.appointments.order("number DESC").first.number
+		# Es la primera cita
+		if self.appointments.count == 0
+			return 1
+		else
+			# Obtenemos el ultimo numero
+			last_number = self.appointments.order("number DESC").first.number
 
-		# Regresamos uno mas
-		return last_number + 1
+			# Regresamos uno mas
+			return last_number + 1
+		end
 	end
 
 end

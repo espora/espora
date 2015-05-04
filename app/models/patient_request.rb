@@ -1,14 +1,27 @@
 class PatientRequest < ActiveRecord::Base
 
+	# Paciente
 	belongs_to :patient
+
+	# Terapeuta que recibe la solicitud
 	belongs_to :receive_therapist,  :class_name => "Therapist"
+
+	# Terapeuta que contacta la solicitud
 	belongs_to :contact_therapist,  :class_name => "Therapist"
 
+	# Horarios solicitados
 	has_many :request_schedules, :dependent => :delete_all
+
+	# Areas afectadas
 	has_many :affected_areas, :dependent => :delete_all
 
+	# Horarios solicitados en formularios anidados
 	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
+	#:reject_if => proc { |attrs| attrs["symptom_type_id"].blank? or attrs["level"].blank? }
+
+	# Areas afectadas en formularios anidados
 	accepts_nested_attributes_for :affected_areas, :allow_destroy => true
+	#:reject_if => proc { |attrs| attrs["symptom_type_id"].blank? or attrs["level"].blank? }
 
 	# Mapeo condicion a nombre en formulario
 	NAME_CONDITION = {

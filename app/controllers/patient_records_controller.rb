@@ -78,7 +78,7 @@ class PatientRecordsController < ApplicationController
 			end
 
 			# Mandamos a renderear de nuevo con mensaje
-			flash[:notice] = "¡Ha guardado exitosamente un expediente!"
+			flash[:notice] = "¡Información de expediente guardada éxitosamente!"
 
 			redirect_to havad_index_path
 		else

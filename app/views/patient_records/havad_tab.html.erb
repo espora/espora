@@ -30,7 +30,19 @@
 
 	<script type="text/javascript">
 		$( "#havad-tab" ).tabs({
-			active: parseInt("<%= @havad_active_tab %>")
+			active: parseInt("<%= @havad_active_tab %>"),
+			beforeActivate: function( event, ui ) {
+
+				// Siguiente panel
+				var newPanel = ui.newPanel;
+
+				// PANEL AL WORKSPACE
+
+				// Havad y Fosti
+				if( newPanel.attr( "id" ) == "havad" || newPanel.attr( "id" ) == "fosti" ) {
+					window.location = "<%= havad_index_path %>";
+				}
+			}
 		});
 	</script>
 <% end %>

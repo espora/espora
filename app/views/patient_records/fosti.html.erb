@@ -24,14 +24,14 @@
 		<tbody>
 			<% @patient_records.each do | record | %>
 			<% patient = record.patient %>
-				<tr class="pure-table-odd">
-					<td><%=patient.names + " " + patient.p_last_name + " " + patient.m_last_name%></td>
-					<td><%=patient.age%></td>
-					<td><%=patient.career%></td>
-					<td><%=patient.semester%></td>
-					<td><%=patient.telephone1%></td>
-					<td><%=record.appointments.count%></td>
-					<td><%=patient.patient_request.updated_at%></td>
+				<tr class="pure-table-odd" align="center">
+					<td align="left"><%= patient.full_name %></td>
+					<td><%= patient.age %></td>
+					<td><%= Patient::NAME_CAREER[patient.career] %></td>
+					<td><%= patient.semester %></td>
+					<td><%= patient.telephone1 %></td>
+					<td><%= record.appointments.count %></td>
+					<td><%= patient.patient_request.updated_at.strftime("%d-%m-%y") %></td>
 					<td>
 						<%= link_to choose_record_path(patient) do %>
 							<i class="fa fa-arrow-right"></i>

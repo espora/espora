@@ -1,6 +1,36 @@
 # coding: utf-8
 puts ":::: Poblando Espora BD...\n\n"
 
+# -----> CATALOGO AREAS AFECTADAS <-----
+AffectedAreaType.delete_all
+affectedarea_entries = [
+	{ name: "Escolar" },
+	{ name: "Familiar" },
+	{ name: "Social" },
+	{ name: "Laboral" },
+	{ name: "Pareja" },
+	{ name: "Sexual" },
+	{ name: "Emocional" },
+	{ name: "Otro" }
+]
+
+puts "--- Poblando catálogo AffectedAreaType (#{affectedarea_entries.count} inserciones)... "
+affectedarea_created = AffectedAreaType.create(affectedarea_entries)
+puts "   #{AffectedAreaType.all.count} inserciones hechas al catálogo Áreas afectadas."
+
+# -----> CATALOGO <-----
+HowMetType.delete_all
+howmet_entries = [
+	{ name: "Cartel" },
+	{ name: "Amigos y/o conocidos" },
+	{ name: "Página de la Facultad" },
+	{ name: "Otro" }
+]
+
+puts "--- Poblando catálogo HowMetType (#{howmet_entries.count} inserciones)... "
+howmet_created = HowMetType.create(howmet_entries)
+puts "   #{HowMetType.all.count} inserciones hechas al catálogo Como conocio."
+
 # -----> CATALOGO CIE10 <-----
 
 Cie10Type.delete_all
@@ -11,8 +41,7 @@ cie10_entries = [
 	{ name: "Trastornos del humor o afectivos" },
 	{ name: "Trastornos neuróticos" },
 	{ name: "Trastornos del comportamiento asociados a disfunciones fisiológicas" },
-	{ name: "Trastornos de la personalidad y del comportamiento" },
-	{ name: "Sin especificar" }
+	{ name: "Trastornos de la personalidad y del comportamiento" }
 ]
 
 puts "--- Poblando catálogo CIE10 (#{cie10_entries.count} inserciones)... "
@@ -40,8 +69,7 @@ mechanism_entries = [
 	{ name: "Aislamiento" },
 	{ name: "Anulación" },
 	{ name: "Form. Reactiva" },
-	{ name: "Sublimación" },
-	{ name: "Sin especificar" }
+	{ name: "Sublimación" }
 ]
 
 puts "--- Poblando catálogo de Mecanismos (#{mechanism_entries.count} inserciones)... "
@@ -71,8 +99,7 @@ paternal_trait_entries = [
 	{ name: "Paranoide" },
 	{ name: "Pasivo" },
 	{ name: "Sobreprotector" },
-	{ name: "Transgresor" },
-	{ name: "Sin especificar" }
+	{ name: "Transgresor" }
 ]
 
 puts "--- Poblando catálogo de Rasgos Paternos (#{paternal_trait_entries.count} inserciones)... "
@@ -98,7 +125,6 @@ experience_entries = [
 	{ name: "Rivalidad Fraterna" },
 	{ name: "Separación de los padres" },
 	{ name: "Violencia intrafamiliar" },
-	{ name: "Sin especificar" }
 ]
 
 puts "--- Poblando catálogo de Situaciones y Experiencias (#{experience_entries.count} inserciones)... "
@@ -113,8 +139,7 @@ clinical_structure_entries = [
 	{ name: "Histérica" },
 	{ name: "Fobia" },
 	{ name: "Border" },
-	{ name: "Psicosis" },
-	{ name: "Sin especificar" }
+	{ name: "Psicosis" }
 ]
 
 puts "--- Poblando catálogo de Estructura Clinica (#{clinical_structure_entries.count} inserciones)... "
@@ -169,8 +194,7 @@ symptom_entries = [
 	{ name: "Somatización" },
 	{ name: "Taquicardia" },
 	{ name: "Tristeza" },
-	{ name: "Vómito" },
-	{ name: "Sin especificar" }
+	{ name: "Vómito" }
 ]
 
 puts "--- Poblando catálogo de Signos y Síntomas (#{symptom_entries.count} inserciones)... "

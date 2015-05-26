@@ -8,6 +8,15 @@
 
 <% content_for :lue_list_tab do %>
 
+	<% if not flash[:notice].nil? %>
+	
+		<!-- MENSAJES DEL LUE -->
+		<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;"
+		onclick="$(this).remove();">
+			<%= flash[:notice] %>
+		</div>
+	<% end %>
+
 	<!-- FILTRO Y BUSQUEDA -->
 	<div class="lue-block" style="height: 60px;">
 

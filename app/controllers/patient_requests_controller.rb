@@ -7,7 +7,7 @@ class PatientRequestsController < ApplicationController
 	before_filter :authenticate_therapist!
 
 	# Layout para el terapeuta
-	layout "therapist", :only => [ :lue, :new, :edit, :create ]
+	layout "therapist", :only => [ :lue, :new, :edit, :create, :update ]
 
 	# GET
 	def lue
@@ -102,14 +102,8 @@ class PatientRequestsController < ApplicationController
 		@patient_request = PatientRequest.new
 		@patient_request.patient = Patient.new
 
-		# Areas afectadas
-		AffectedArea::AFFECTED_AREAS.each do | area_name |
-			@patient_request.affected_areas.build
-			@patient_request.affected_areas.last.area = area_name
-		end
-
-		# Creamos un horario de solicitud
-		@patient_request.request_schedules.build
+		# Ponemos como conocio espora
+		#@patient_request.how_met.build
 	end
 
 	# GET
@@ -118,7 +112,6 @@ class PatientRequestsController < ApplicationController
 		# Obtenemos la solicitud
 		@patient_request = PatientRequest.find(params[:id])
 
-
 		# Rendereamos el formulario
 		render :new
 	end
@@ -126,48 +119,48 @@ class PatientRequestsController < ApplicationController
 	# POST
 	def create
 
-		# Limpiamos las areas afectadas vacias
-		aff_areas_attr = params[:patient_request][:affected_areas_attributes]
-		aff_areas_attr.reject! do | key, value |
-			aff_areas_attr[key]["area"] == ""
+		# Pasamos los blanks a nils
+		params[:patient].each do | key, value |
+			if value.blank?
+				params[:patient][key] = nil
+			end
 		end
+
+		ap params
 
 		# Creamos la solicitd y al paciente
 		@patient_request = PatientRequest.new(patient_requets_params)
 		@patient = Patient.new(patient_params)
 		@patient_request.patient = @patient
 
+		# Campo de como conocio
+		@patient_request.how_met = HowMet.new(how_met_params)
+
 		# Checamos la validez
-		if @patient_request.valid?
+		if @patient.valid? and @patient_request.valid?
 
-			# Checamos la validez
-			if @patient.valid?
+			# Estado en espera
+			@patient.status = "uncontacted"
 
-				# Estado en espera
-				@patient.status = "uncontacted"
+			# Asignamos el paciente
+			@patient_request.patient = @patient
 
-				# Asignamos el paciente
-				@patient_request.patient = @patient
+			# Asignamos el terapeuta actual como el que recibio la solicitud
+			@patient_request.receive_therapist = current_therapist
 
-				# Asignamos el terapeuta actual como el que recibio la solicitud
-				@patient_request.receive_therapist = current_therapist
+			# Dar la fecha de registro
+			@patient_request.request_date = Time.now
 
-				# Dar la fecha de registro
-				@patient_request.request_date = Time.now
+			# Calculamos la edad del paciente
+			@patient.age = age(@patient.birth)
 
-				# Calculamos la edad del paciente
-				@patient.age = age(@patient.birth)
+			# Salvamos en la BD
+			@patient_request.save
 
-				# Salvamos en la BD
-				@patient_request.save
+			# Mandamos a renderear de nuevo con mensaje
+			flash[:notice] = "¡Ha registrado exitosamente una solicitud!"
 
-				# Mandamos a renderear de nuevo con mensaje
-				flash[:notice] = "¡Ha registrado exitosamente un paciente!"
-
-				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
-			else
-				render :new
-			end
+			redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 		else
 			render :new
 		end
@@ -176,10 +169,38 @@ class PatientRequestsController < ApplicationController
 	# PATCH
 	def update
 
+		# Pasamos los blanks a nils
+		params[:patient].each do | key, value |
+			if value.blank?
+				params[:patient][key] = nil
+			end
+		end
+
 		# Obtenemos los objetos
 		@patient = Patient.find_by_account_number( params[:patient][:account_number] )
 		@patient_request = @patient.patient_request
-		
+
+		# Actualizamos
+		@patient_request.how_met.update(how_met_params)
+		@patient_request.update(patient_requets_params)
+		if @patient_request.valid?
+
+			@patient.update(patient_params)
+			if @patient.valid?
+
+				# Calculamos la edad del paciente
+				@patient.age = age(@patient.birth)
+
+				# Mandamos a renderear de nuevo con mensaje
+				flash[:notice] = "¡Ha guardado exitosamente la información de una solicitud!"
+
+				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
+			else
+				render :new
+			end
+		else
+			render :new
+		end
 	end
 
 	# GET
@@ -221,13 +242,17 @@ class PatientRequestsController < ApplicationController
 	private
 
 		def patient_requets_params
-			params.require(:patient_request).permit(:reasons, :condition, :how_met, :money, :pre_care,
-				:affected_areas_attributes => [ :area ], :request_schedules_attributes => [ :day, :beginH, :endH ])
+			params.require(:patient_request).permit(:reasons, :condition, :money, :pre_care,
+				:affected_areas_attributes => [ :affected_area_type_id, :other_name, :_destroy, :id ],
+				:request_schedules_attributes => [ :day, :beginH, :endH, :_destroy, :id ])
+		end
+
+		def how_met_params
+			params.require(:how_met).permit(:how_met_type_id, :other_name)
 		end
 
 		def patient_params
 			params.require(:patient).permit(:names, :p_last_name, :m_last_name, :birth, :age, :sex, :account_number, :career,
 				:init_school, :semester, :failed_subjects, :telephone1, :telephone2, :email)
 		end
-	
 end

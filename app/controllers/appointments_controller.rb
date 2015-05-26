@@ -21,24 +21,21 @@ class AppointmentsController < ApplicationController
 	def create
 
 		# Obtenemos el expediente del paciente actual
-		pat_record = current_patient.patient_record
+		patient_record = current_patient.patient_record
 
 		# Creamos la cita
-		appointment = Appointment.create(create_appointment_params)
-		appointment.number = pat_record.next_appointment_number
+		appointment = Appointment.new(create_appointment_params)
+		appointment.number = patient_record.next_appointment_number
 
 		# Asignamos a las citas y guardamos
-		current_patient.patient_record.appointments << appointment
-		appointment.save		
+		patient_record.appointments << appointment
+		appointment.save
 
-		render partial: "patient_records/appointment_table", locals: { appointments: pat_record.appointments }
+		render partial: "patient_records/appointment_table", locals: { appointments: patient_record.appointments }
 	end
 
 	# PUT
 	def update
-
-		# debug
-		ap params
 
 		# Obtenemos la cita
 		@appointment = Appointment.find(params[:id])

@@ -62,5 +62,4 @@ Espora::Application.routes.draw do
   # Actualiza la informacion de una cita
   patch "/therapists/havad/appointment/update/:id" => "appointments#update", as: "appointment"
 
-
 end

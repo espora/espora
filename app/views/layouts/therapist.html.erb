@@ -4,6 +4,7 @@
 		<title>Espora</title>
 		<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
 		<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+		<%= favicon_link_tag "favicon.ico" %>
 		<%= csrf_meta_tags %>
 	</head>
 	<body>
@@ -19,7 +20,7 @@
 							<b>EXPEDIENTE ELEGIDO:</b> <%= current_patient.full_name %>
 						</span>
 						<span>
-							<b>PROXIMA CITA:</b> 10/10/2015
+							<b>PRÓXIMA CITA:</b> <%= current_patient.next_appointment_date %>
 						</span>
 						<span style="margin-top: 3px;">
 							<%= link_to close_record_path do %>Cerrar Expediente<% end %>

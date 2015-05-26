@@ -1,29 +1,10 @@
 <% 
-	# Llenamos las areas afectadas que falten
-	affected_areas = @patient_request.affected_areas
-	AffectedArea::AFFECTED_AREAS.each do | area_name |
-
-		# Vemos si tiene esta area
-		has_area = false
-		affected_areas.each do | a_area |
-			if (a_area.area == area_name) or (a_area.isOther? and area_name == "Otro")
-				has_area = true
-				break
-			end
-		end
-
-		# Si no la tiene la pone
-		if not has_area
-			@patient_request.affected_areas.build
-			@patient_request.affected_areas.last.area = area_name
-		end
-	end
-
 	# Panel para las tabs del workspace del terapeuta
 	@therapist_active_tab = 1
 
 	# Panel para las tabs del workspace del lue
 	@lue_active_tab = 1
+
 %>
 
 <% content_for :lue_new_tab do %>

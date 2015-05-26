@@ -2,6 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+/******* TABLA HORARIOS DE SOLICITUD *******/
+
+#req-schedules-input {
+	table-layout: fixed;
+}
+
+#req-schedules-input th td {
+	overflow: hidden;
+}
+
+#req-schedules-input .available-schedule {
+	background: #FFF;
+	cursor: pointer;
+}
+
+#req-schedules-input .selected-schedule {
+	background: rgba(58,135,173,0.8);
+	border-top: none;
+	border-bottom: none;
+	padding: 5px;
+}
+
+/******* LUE *******/
+
 #lue-table {
 	width: 90%;
 }

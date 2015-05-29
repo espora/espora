@@ -3,6 +3,13 @@
 	<%= image_tag("EsporaBlanco.png", :class => "esp-logo") %>
 </div>
 
+<% if not flash[:alert].nil? %>
+	<div class="alert-box error"><%= flash[:alert] %></div>
+<% end %>
+<% if not flash[:notice].nil? %>
+	<div class="alert-box notice"><%= flash[:notice] %></div>
+<% end %>
+
 <div id="menu">
 	<ul type = circle>
 		<li><a href="#">¿Deseas atención psicologica?</a></li>

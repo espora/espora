@@ -14,32 +14,52 @@ class Therapist < ActiveRecord::Base
 
 	def match_schedule? ( patient_request )
 
-		# Iteramos todos los horarios del terapeuta
-		self.therapist_schedules.each do | t_schedule |
+		# Obtenemos los horarios del terapeuta acomodados por dias
+		ther_days = [ Array.new,  Array.new,  Array.new,  Array.new,  Array.new ]
+		ther_schedules = self.therapist_schedules.order('day asc')
+		ther_schedules.each do | ther_schedule |
+			ther_days[ther_schedule.day - 1] << ther_schedule
+		end
 
-			# Creamos el rango de tiempo
-			t_begin_schedule = TimeOfDay.new(t_schedule.beginH.hour, t_schedule.beginH.min)
-			t_end_schedule = TimeOfDay.new(t_schedule.endH.hour, t_schedule.endH.min)
-			t_range_schedule = Shift.new(t_begin_schedule, t_end_schedule)
+		# Obtenemos los horarios del paciente acomodados por dias
+		pat_days = [ Array.new,  Array.new,  Array.new,  Array.new,  Array.new ]
+		pat_schedules = patient_request.request_schedules.order('day asc')
+		pat_schedules.each do | pat_schedule |
+			pat_days[pat_schedule.day - 1] << pat_schedule
+		end
 
-			# Obtenemos los del dia 
-			patient_schedules = patient_request.request_schedules.where(:day => t_schedule.day)
+		# Iteramos los días
+		5.times do | day |
 
-			# Iteramos los horarios del paciente para ese día
-			patient_schedules.each do | p_schedule |
+			# Si hay coincidencias en dias
+			if not ther_days[day - 1].empty? and not pat_days[day - 1].empty?
 
-				# Creamos el rango de tiempo
-				p_begin_schedule = TimeOfDay.new(p_schedule.beginH.hour, p_schedule.beginH.min)
-				p_end_schedule = TimeOfDay.new(p_schedule.endH.hour, p_schedule.endH.min)
-				p_range_schedule = Shift.new(p_begin_schedule, p_end_schedule)
+				# Checamos las horas
+				ther_days[day - 1].each do | ther_schedule |
 
-				# Preguntamos si se incluye al horario
-				test1 = t_range_schedule.include?(p_begin_schedule) or t_range_schedule.include?(p_end_schedule)
-				test2 = p_range_schedule.include?(t_begin_schedule) or p_range_schedule.include?(t_end_schedule) 
-				if test1 or test2
-					return true
+					# Creamos el rango de tiempo
+					ther_begin_schedule = TimeOfDay.new(ther_schedule.beginH.hour, ther_schedule.beginH.min)
+					ther_end_schedule = TimeOfDay.new(ther_schedule.endH.hour, ther_schedule.endH.min)
+					ther_range_schedule = Shift.new(ther_begin_schedule, ther_end_schedule)
+
+					# Iteramos los horarios del paciente para ese día
+					pat_days[day - 1].each do | pat_schedule |
+
+						# Creamos el rango de tiempo
+						pat_begin_schedule = TimeOfDay.new(pat_schedule.beginH.hour, pat_schedule.beginH.min)
+						pat_end_schedule = TimeOfDay.new(pat_schedule.endH.hour, pat_schedule.endH.min)
+						pat_range_schedule = Shift.new(pat_begin_schedule, pat_end_schedule)
+
+						# Preguntamos si se incluye al horario
+						test  = ther_range_schedule.include?(pat_begin_schedule) or
+								ther_range_schedule.include?(pat_end_schedule) or
+								pat_range_schedule.include?(ther_begin_schedule) or
+								pat_range_schedule.include?(ther_end_schedule)
+						if test
+							return true
+						end
+					end
 				end
-
 			end
 		end
 

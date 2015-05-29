@@ -102,8 +102,6 @@ class PatientRequestsController < ApplicationController
 		@patient_request = PatientRequest.new
 		@patient_request.patient = Patient.new
 
-		# Ponemos como conocio espora
-		#@patient_request.how_met.build
 	end
 
 	# GET
@@ -125,8 +123,6 @@ class PatientRequestsController < ApplicationController
 				params[:patient][key] = nil
 			end
 		end
-
-		ap params
 
 		# Creamos la solicitd y al paciente
 		@patient_request = PatientRequest.new(patient_requets_params)
@@ -201,6 +197,18 @@ class PatientRequestsController < ApplicationController
 		else
 			render :new
 		end
+	end
+
+	# GET
+	def request_schedules
+
+		# Obtenemos la solicitud
+		patient_request = PatientRequest.find(params[:id])
+
+		# Obtenemos los horarios solicitados
+		request_schedules = patient_request.request_schedules
+
+		render json: request_schedules
 	end
 
 	# GET

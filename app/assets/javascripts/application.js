@@ -42,3 +42,40 @@ function timerAlertBox (elem) {
 		$(elem).remove();
 	}, 4000);
 }
+
+function displaySchedule (table, schedule, onRangeHandler) {
+
+	// Obtenemos los horarios del dia
+	var schedulesDay = $(table).find("td[day=" + schedule.day + "]");
+
+	// Obtenemos los id de inicio y final
+	var beginH = parseHour(schedule.beginH, 6);
+	var endH = parseHour(schedule.endH, 6);
+
+	// Ponemos las celdas iluminadas
+	var onRange = false;
+	for (var j = 0; j < schedulesDay.length; j++) {
+		var hour = parseInt($(schedulesDay[j]).attr("hour"));
+		var minutes = parseInt($(schedulesDay[j]).attr("minutes"));
+		var nextHour = parseInt($(schedulesDay[j]).attr("next-hour"));
+		var nextMinutes = parseInt($(schedulesDay[j]).attr("next-minutes"));
+
+		if(hour == beginH[0] && minutes == beginH[1]) {
+			onRange = true;
+		}
+
+		if(onRange) {
+			onRangeHandler(schedulesDay[j]);
+		}
+
+		if(nextHour == endH[0] && nextMinutes == endH[1]) {
+			break;
+		}
+	}
+}
+
+// Parsea una hora
+function parseHour (dateValue, timeDiff) {
+	var date = new Date(dateValue);
+	return [ date.getHours() + timeDiff, date.getMinutes() ];
+}

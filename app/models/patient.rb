@@ -137,9 +137,4 @@ class Patient < ActiveRecord::Base
 	def full_name
 		self.p_last_name + " " + self.m_last_name + " " + self.names
 	end
-
-	def next_appointment_date
-		""
-	end
-
 end

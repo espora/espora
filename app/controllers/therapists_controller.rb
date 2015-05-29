@@ -26,4 +26,15 @@ class TherapistsController < ApplicationController
 	def create
 	end
 
+	# GET
+	def schedules
+
+		# Obtenemos al terapeuta
+		therapist = Therapist.find(params[:id])
+
+		# Obtenemos los horarios
+		therapist_schedules = therapist.therapist_schedules
+
+		render json: therapist_schedules
+	end
 end

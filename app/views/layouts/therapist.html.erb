@@ -9,18 +9,20 @@
 	</head>
 	<body>
 
-		<div style="font: 65% 'Trebuchet MS', sans-serif; margin: 50px;">
-			
+		<!-- CONTENEDOR PRINCIPAL -->
+		<div id="ter-main-container">
+
 			<!-- BANNER -->
 			<div id="ter-header">
 
+				<!-- PACIENTE ACTUAL -->
 				<div id="ter-curr-patient" style="width: 30%;">
 					<% if !current_patient.nil? %>
 						<span style="margin-top: 38px;">
 							<b>EXPEDIENTE ELEGIDO:</b> <%= current_patient.full_name %>
 						</span>
 						<span>
-							<b>PRÓXIMA CITA:</b> <%= current_patient.next_appointment_date %>
+							<b>PRÓXIMA CITA:</b> <%= current_patient.patient_record.next_appointment_date %>
 						</span>
 						<span style="margin-top: 3px;">
 							<%= link_to close_record_path do %>Cerrar Expediente<% end %>
@@ -36,6 +38,13 @@
 				<div style="width: 70%;">
 					<%= image_tag("Espora.png", :class => "ter-logo") %>
 				</div>
+
+				<% if not flash[:notice].nil? %>
+					<!-- MENSAJES DEL TERAPEUTA -->
+					<div class="alert-box success" style="width: 100%; margin: 5px 0 3px 0; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
+						<%= flash[:notice] %>
+					</div>
+				<% end %>
 			</div>
 
 			<!-- WORKSPACE TERAPEUTA -->
@@ -43,7 +52,7 @@
 			
 				<!-- OPCIONES PESTAÑA -->
 				<ul>
-					<li><a href="#perfil">Perfil</a></li>
+					<li><a href="#perfil"><i class="fa fa-user"></i> Perfil</a></li>
 					<li><a href="#lue">LUE</a></li>
 					<li><a href="#havad">HAVAD</a></li>
 					<% if current_therapist.role == "Coordinator" %>

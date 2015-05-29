@@ -31,9 +31,6 @@ class PatientRecordsController < ApplicationController
 	# PUT
 	def update
 
-		# debug
-		ap params
-
 		# Obtenemos el expediente y hacemos update de lo mandado
 		@patient_record = PatientRecord.find(params[:id])
 		@patient_record.update(patient_records_params)

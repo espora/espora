@@ -14,6 +14,9 @@ Espora::Application.routes.draw do
   get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
   post "/therapists/create" => "therapists#create", as: "create_therapists"
 
+  # 
+  get "/therapists/schedules/:id" => "therapists#schedules", as: "therapist_schedules"
+
   ##### Solicitudes de ingreso Patient Request (LUE)
 
   # Consultar lue
@@ -32,6 +35,9 @@ Espora::Application.routes.draw do
 
   # Eliminar solicitud paciente
   get "/therapists/lue/mark_uninterested/:id" => "patients#mark_uninterested", as: "patient_mark_uninterested"
+
+  # Obtener los datos de horarios solicitados
+  get "/therapists/lue/request_schedules/:id" => "patient_requests#request_schedules", as: "request_schedules"
 
   # Marcar la solicitud como paciente contactado
   get "/therapists/lue/mark_contacted/:id" => "patients#mark_contacted", as: "patient_mark_contacted"

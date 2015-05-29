@@ -11,6 +11,7 @@ es:
   devise:
     sessions:
       therapist:
+        signed_in: "Bienvenido al sistema"
         signed_out: "Ha salido del sistema"
     failure:
       therapist:

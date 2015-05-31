@@ -66,9 +66,13 @@ class PatientRecord < ActiveRecord::Base
 			end
 		end
 
-		date = next_appointment.date.strftime("%d-%m-%y")
-		time = next_appointment.date.strftime("%H:%M")
-		return date + " " + time
+		if next_appointment.nil?
+			return "No se ha programado ninguna cita."
+		else
+			date = next_appointment.date.strftime("%d-%m-%y")
+			time = next_appointment.date.strftime("%H:%M")
+			return date + " " + time
+		end
 	end
 
 	def missed_appointments

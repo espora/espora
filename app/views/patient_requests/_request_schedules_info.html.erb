@@ -1,0 +1,110 @@
+<table id="req-schedules-info-<%= patient_request.id %>" class="pure-table-bordered pure-table noselect req-schedules-info">
+	<col width="130px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+
+	<thead>
+		<tr align="center">
+			<th>Hora</th>
+			<th>Lun.</th>
+			<th>Mar.</th>
+			<th>Mié.</th>
+			<th>Jue.</th>
+			<th>Vie.</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<%
+			# 7am a 10pm 
+			(10..22).each do |hour|
+
+				# Intervalo de 30 minutos
+				["00", "30"].each do |minutes|
+
+					# Obtenemos la siguiente hora
+					next_minutes = (minutes.to_i + 30) % 60
+					next_hour = (next_minutes == 0)? (hour + 1) : hour
+
+					# Creamos el codigo html para el tr
+					%>
+					<tr>
+						<td align="center" style="padding: 5px 0 5px 0; margin: 0 0 0 0;">
+						<%= "0" if hour.to_s.length == 1 %><%= hour.to_s %>:<%= minutes %> - 
+						<%= "0" if next_hour.to_s.length == 1 %><%= next_hour.to_s %>:<%= "0" if next_minutes.to_s.length == 1 %><%= next_minutes.to_s %>
+						hrs.
+						</td>
+					<%
+
+					# Iteramos los días
+					5.times do | day |
+
+						# Obtenemos el id
+						id_td = (day + 1).to_s + hour.to_s + minutes
+						%>
+						<td day="<%= (day + 1) %>"
+							hour="<%= hour %>" minutes="<%= minutes %>"
+							next-hour="<%= next_hour %>" next-minutes="<%= next_minutes %>">
+						</td>
+						<%
+					end
+					%>
+					</tr>
+					<%
+				end
+			end
+		%>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	(function() {
+
+		// Pedimos los datos de los horarios
+		$.ajax({
+			type: "GET",
+			url: "<%= request_schedules_path(patient_request) %>",
+			dataType: "json",
+			success: function( data ) {
+
+				// Obtenemos el id de la tabla
+				var tableId = "req-schedules-info-" + data[0].patient_request_id;
+				var table = $("#" + tableId)[0];
+
+				// Iteramos los horarios
+				for (var i = 0; i < data.length; i++) {
+
+					// Obtenemos el horario
+					var schedule = data[i];
+
+					// Mostramos el horario en la tabla
+					displaySchedule(table, schedule, function (scheduleCell) {
+						$(scheduleCell).addClass("selected-schedule");
+					});
+				}
+
+				trimTable(table);
+			}
+		});
+
+		function trimTable (table) {
+
+			// Iteramos las filas
+			var rows = $(table).find("tbody tr");
+			for (var i = 0; i < rows.length; i++) {
+				var oneSelected = false;
+				var cells = $(rows[i]).find("td");
+				for (var j = 0; j < cells.length; j++) {
+					oneSelected = oneSelected || $(cells[j]).hasClass("selected-schedule");
+				}
+
+				if(!oneSelected) {
+					$(rows[i]).hide();
+				}
+			}
+		}
+	})();
+</script>

@@ -27,11 +27,48 @@ class PatientRecord < ActiveRecord::Base
 
 	def next_appointment_number
 
-		# Obtenemos el ultimo numero
-		last_number = self.appointments.order("number DESC").first.number
+		# Es la primera cita
+		if self.appointments.count == 0
+			return 1
+		else
+			# Obtenemos el ultimo numero
+			last_number = self.appointments.order("number DESC").first.number
 
-		# Regresamos uno mas
-		return last_number + 1
+			# Regresamos uno mas
+			return last_number + 1
+		end
+	end
+
+	def next_appointment_date
+
+		# Obtenemos la hora y fecha actual
+		now = Time.now
+
+		# Obtenemos las citas
+		appointments = self.appointments
+
+		# Iteramos buscando la minima diferencia
+		next_appointment = nil
+		min_diff = -1
+		appointments.each do | appointment |
+
+			# Obtenemos la diferencia en el tiempo
+			diff = appointment.date - now
+
+			# Tomamos las diferencias positivas
+			if diff >= 0
+
+				# y nos quedamos con la menor
+				if next_appointment.nil? or diff < min_diff
+					next_appointment = appointment
+					min_diff = diff
+				end
+			end
+		end
+
+		date = next_appointment.date.strftime("%d-%m-%y")
+		time = next_appointment.date.strftime("%H:%M")
+		return date + " " + time
 	end
 
 end

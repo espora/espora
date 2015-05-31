@@ -1,0 +1,449 @@
+<%= table_schedules_input %>
+
+<!-- FIELDS ANIDADOS -->
+<div id="request-schedules-fields">
+	<%= form.fields_for :request_schedules do | schedule_form | %>
+		<%= schedule_form.hidden_field :day %>
+		<%= schedule_form.hidden_field :beginH %>
+		<%= schedule_form.hidden_field :endH %>
+		<%= schedule_form.link_to_remove "", :style => "display: none;" %>
+	<% end %>
+</div>
+
+<%= form.link_to_add "", :request_schedules, :style => "display: none;" %>
+
+<script type="text/javascript">
+
+	// Aqui vamos a guardar los horarios
+	var schedules = [ new Array(), new Array(), new Array(), new Array(), new Array() ];
+	var scheduleCells = [ new Array(), new Array(), new Array(), new Array(), new Array() ];
+
+	// Variables activas de rango
+	var activeRange = undefined;
+	var activeDay = 0;
+	var activeBegin = undefined;
+	var activeEnd = undefined;
+
+	// Llenamos los horarios con las celdas correspondientes
+	for (var day = 1; day <= 5; day++) {
+		var cellsDay = $("#req-schedules-input td[day=" + day + "]");
+		for (var i = 0; i < cellsDay.length; i++) {
+			scheduleCells[day - 1].push(cellsDay[i]);
+		}
+		scheduleCells[day - 1].sort(cellComparator);
+	}
+
+	// Llenamos los horarios guardados
+	$("#request-schedules-fields .fields").each(function () {
+
+		// Obtenemos los datos
+		var day = $(this).find("input:nth-child(1)").val();
+		var beginH = parseHour($(this).find("input:nth-child(2)").val());
+		var endH = parseHour($(this).find("input:nth-child(3)").val());
+
+		// Obtenemos las celdas de inicio y fin
+		var beginCell = getCell(day, beginH[0], beginH[1]);
+		var endCell = getCell(day, endH[0], endH[1]);
+		
+		// Usamos el manejador de horarios
+		$(beginCell).removeClass("available-schedule");
+		$(beginCell).addClass("selected-schedule");
+
+		activeDay = day;
+		handleRange(beginCell, endCell, schedules[day - 1], scheduleCells[day - 1], $(this));
+	});
+
+	// Mouse presionado sobre un horario
+	$("#req-schedules-input td").mousedown(function () {
+
+		// Si esta disponible
+		if($(this).hasClass("available-schedule")) {
+
+			// Lo marcamos como seleccionado
+			$(this).removeClass("available-schedule");
+			$(this).addClass("selected-schedule");
+
+			// Activamos las variables de rango
+			activeDay = parseInt($(this).attr("day"));
+			activeRange = [ this ];
+		}
+	});
+
+	// Mouse sobre celda
+	$("#req-schedules-input td").mouseover(function () {
+
+		// Si se esta haciendo un horario
+		if(activeRange) {
+
+			// Si estan en el mismo dia y esta disponible
+			var day = parseInt($(this).attr("day"));
+			if(activeDay == day && $(this).hasClass("available-schedule")) {
+
+				// Lo marcamos como seleccionado
+				$(this).removeClass("available-schedule");
+				$(this).addClass("selected-schedule");
+
+				activeRange.push(this);
+			}
+		}
+	});
+
+	// Mouse soltado
+	$(document).mouseup(function () {
+		if(activeRange) {
+
+			// Ordenamos el rango
+			activeRange.sort(cellComparator);
+			activeBegin = activeRange[0];
+			activeEnd = activeRange[activeRange.length - 1];
+
+			$(".add_nested_fields[data-association=request_schedules]").click();
+		}
+	});
+
+	// Al agregar un horario
+	$(document).on("nested:fieldAdded:request_schedules", function( event ) {
+
+		// Manejamos el rango
+		handleRange(activeBegin, activeEnd, schedules[activeDay - 1], scheduleCells[activeDay - 1], event.field);
+
+		// Desactivamos el rango
+		activeRange = undefined;
+		activeDay = 0;
+		activeBegin = undefined;
+		activeEnd = undefined;
+	});
+
+	// Selecciona las celdas que estan entre dos
+	function fillRange (begin, end, dayCells) {
+
+		// Recorremos el dia rellenando
+		var onRange = false;
+		for (var i = 0; i < dayCells.length; i++) {
+
+			// Si esta en el rango
+			if(onRange) {
+
+				// Si no esta seleccionada se selecciona
+				if($(dayCells[i]).hasClass("available-schedule")) {
+					$(dayCells[i]).removeClass("available-schedule");
+					$(dayCells[i]).addClass("selected-schedule");
+				}
+
+				// Comprueba si ya terminamos
+				if(dayCells[i] == end) {
+					break;
+				}
+			} else {
+
+				// Comprobamos que ya esté en el rango
+				onRange = (dayCells[i] == begin);
+			}
+		}
+	}
+
+	// Evalúa si un horario esta antes del rango
+	function isPrev (schedule, begin) {
+		var hourS = schedule.end.hour;
+		var minutesS = schedule.end.minutes;
+		var hourR = parseInt($(begin).attr("hour"));
+		var minutesR = parseInt($(begin).attr("minutes"));
+
+		return (hourR == hourS && minutesR == (minutesS + 30)) || (hourR == (hourS + 1) && minutesR == 0 && minutesS == 30);
+	}
+
+	// Evalúa si un horario esta despues del rango
+	function isNext (schedule, end) {
+		var hourS = schedule.begin.hour;
+		var minutesS = schedule.begin.minutes;
+		var hourR = parseInt($(end).attr("hour"));
+		var minutesR = parseInt($(end).attr("minutes"));
+
+		return (hourR == hourS && minutesR == (minutesS - 30)) || (hourR == (hourS - 1) && minutesR == 30 && minutesS == 0);
+	}
+
+	// Evalúa si un horario esta en medio del rango
+	function inMiddle(schedule, begin, end) {
+		var compareBegin = cellComparator(begin, schedule.begin.cell);
+		var compareEnd = cellComparator(schedule.end.cell, end);
+
+		return compareBegin <= 0.0 && compareEnd <= 0.0;
+	}
+
+	// Mezcla los rangos
+	function mergeSchedules (begin, end, prevIdx, nextIdx, schedulesDay, dayCells) {
+
+		// Obtenemos los horarios
+		var prev = prevIdx != undefined ? schedulesDay[prevIdx] : undefined;
+		var next = nextIdx != undefined ? schedulesDay[nextIdx] : undefined;
+
+		// Si esta entre dos
+		if(prev && next) {
+
+			// Asignamos el ultimo del siguiente
+			prev.end = next.end;
+			var endInput = prev.field.find("input:nth-child(3)");
+			endInput.val(prev.end.hour + ":" + prev.end.minutes);
+
+			// Quitamos el siguiente
+			$(next.begin.cell).empty();
+			next.field.find(".remove_nested_fields").click();
+			schedulesDay.splice(nextIdx, 1);
+		}
+
+		// Solo tiene un previo
+		else if(prev) {
+
+			// Asignamos la ultima hora del rango como la ultima del horario
+			prev.end.hour = parseInt($(end).attr("hour"));
+			prev.end.minutes = parseInt($(end).attr("minutes"));
+			prev.end.cell = end;
+
+			var endInput = prev.field.find("input:nth-child(3)");
+			endInput.val(prev.end.hour + ":" + prev.end.minutes);
+		}
+
+		// Solo tiene un siguiente
+		else if(next) {
+
+			// Asignamos la primera hora del rango como la primera del horario
+			next.begin.hour = parseInt($(begin).attr("hour"));
+			next.begin.minutes = parseInt($(begin).attr("minutes"));
+
+			// Cambiamos el contenido de begin
+			var iconDestroy = $(next.begin.cell).find("i")[0];
+			$(iconDestroy).click(function () {
+				removeSchedule(next, schedulesDay, dayCells);
+			});
+			$(next.begin.cell).remove("i");
+			$(begin).append(iconDestroy);
+			next.begin.cell = begin;
+
+			var beginInput = next.field.find("input:nth-child(2)");
+			beginInput.val(next.begin.hour + ":" + next.begin.minutes);
+		}
+	}
+
+	// Hace uno varios horarios
+	function unifySchedules (middleIdxes, begin, end, schedulesDay, dayCells) {
+
+		// Tomamos el primero y lo alargamos
+		var first = schedulesDay[middleIdxes[0]];
+		first.begin.hour = parseInt($(begin).attr("hour"));
+		first.begin.minutes = parseInt($(begin).attr("minutes"));
+		
+		// Cambiamos el contenido de begin
+		var iconDestroy = $(first.begin.cell).find("i")[0];
+		$(iconDestroy).click(function () {
+			removeSchedule(first, schedulesDay, dayCells);
+		});
+		$(first.begin.cell).remove("i");
+		$(begin).append(iconDestroy);
+		first.begin.cell = begin;
+
+		first.end.hour = parseInt($(end).attr("hour"));
+		first.end.minutes = parseInt($(end).attr("minutes"));
+		first.end.cell = end;
+
+		// Modificamos los inputs
+		var beginInput = first.field.find("input:nth-child(2)");
+		beginInput.val(first.begin.hour + ":" + first.begin.minutes);
+		var endInput = first.field.find("input:nth-child(3)");
+		endInput.val(first.end.hour + ":" + first.end.minutes);
+
+		// Quitamos los demas
+		var middles = new Array();
+		for (var i = 1; i < middleIdxes.length; i++) {
+			middles.push(schedulesDay[middleIdxes[i]]);
+		}
+		for (var i = 1; i < middles.length; i++) {
+			$(middles[i].begin.cell).empty();
+			middles[i].field.find(".remove_nested_fields").click();
+
+			for (var j = 0; j < schedulesDay.length; j++) {
+				if(middles[i] == schedulesDay[j]) {
+					schedulesDay.splice(j, 1);
+					break;
+				}
+			}
+		}
+	}
+
+	// Borra un horario
+	function removeSchedule (schedule, schedulesDay, dayCells) {
+
+		// Recorremos el dia vaciando
+		var onRange = false;
+		for (var i = 0; i < dayCells.length; i++) {
+
+			// Si esta en el rango
+			if(onRange) {
+
+				// Si no esta seleccionada se selecciona
+				if($(dayCells[i]).hasClass("selected-schedule")) {
+					$(dayCells[i]).empty();
+					$(dayCells[i]).removeClass("selected-schedule");
+					$(dayCells[i]).addClass("available-schedule");
+				}
+
+				// Comprueba si ya terminamos
+				if(dayCells[i] == schedule.end.cell) {
+					break;
+				}
+			} else {
+
+				// Comprobamos que ya esté en el rango
+				onRange = (dayCells[i] == schedule.begin.cell);
+				if($(dayCells[i]).hasClass("selected-schedule")) {
+					$(dayCells[i]).empty();
+					$(dayCells[i]).removeClass("selected-schedule");
+					$(dayCells[i]).addClass("available-schedule");
+				}
+			}
+		}
+
+		// Le damos click a su link de removefields
+		schedule.field.find(".remove_nested_fields").click();
+
+		// Lo quitamos de su día
+		for (var i = 0; i < schedulesDay.length; i++) {
+			if(schedulesDay[i] == schedule) {
+				schedulesDay.splice(i, 1);
+				break;
+			}
+		}
+	}
+
+	// Maneja un rango creado
+	function handleRange (begin, end, schedulesDay, dayCells, field) {
+
+		// Seleccionamos las que quedaron vacias en el drag
+		if(begin != end) {
+			fillRange(begin, end, dayCells);
+		}
+
+		// Vemos si es la continuacion, inicio o tiene en medio a otros horarios
+		var prevIdx = undefined;
+		var nextIdx = undefined;
+		var middleIdxes = new Array();
+		for (var i = 0; i < schedulesDay.length; i++) {
+
+			if(isPrev(schedulesDay[i], begin)) {
+				prevIdx = i;
+			}
+
+			if(isNext(schedulesDay[i], end)) {
+				nextIdx = i;
+			}
+
+			if(inMiddle(schedulesDay[i], begin, end)) {
+				middleIdxes.push(i);
+			}
+		}
+
+		// Si tiene rangos en medio
+		if(middleIdxes.length > 0) {
+
+			// No lo vamos a mandar
+			field.find(".remove_nested_fields").click();
+
+			// Hacemos un solo horario
+			unifySchedules(middleIdxes, begin, end, schedulesDay, dayCells);
+		}
+
+		// Si es continuacion o principio de un horario
+		else if(prevIdx != undefined || nextIdx != undefined) {
+
+			// No lo vamos a mandar
+			field.find(".remove_nested_fields").click();
+
+			// Lo mezclamos con su correspondiente
+			mergeSchedules(begin, end, prevIdx, nextIdx, schedulesDay, dayCells);
+		}
+
+		// Si no, es nuevo
+		else {
+
+			// Creamos un horario
+			var newSchedule = {
+				begin: {
+					hour: parseInt($(begin).attr("hour")),
+					minutes: parseInt($(begin).attr("minutes")),
+					cell: begin
+				},
+				end: {
+					hour: parseInt($(end).attr("next-hour")),
+					minutes: parseInt($(end).attr("next-minutes")),
+					cell: end
+				},
+				field: field,
+				day: activeDay
+			};
+			schedulesDay.push(newSchedule);
+
+			// Modificamos los inputs
+			var dayInput = field.find("input:nth-child(1)");
+			dayInput.val(activeDay);
+
+			var beginInput = field.find("input:nth-child(2)");
+			beginInput.val(newSchedule.begin.hour + ":" + newSchedule.begin.minutes);
+
+			var endInput = field.find("input:nth-child(3)");
+			endInput.val(newSchedule.end.hour + ":" + newSchedule.end.minutes);
+
+			// Creamos un tache para quitar el horario
+			var iconDestroy = document.createElement("i");
+			$(iconDestroy).addClass("fa");
+			$(iconDestroy).addClass("fa-times");
+			$(iconDestroy).css({
+				"float": "right",
+				"cursor": "pointer",
+				"color": "#001f3a"
+			});
+			$(iconDestroy).click(function () {
+				removeSchedule(newSchedule, schedulesDay, dayCells);
+			});
+			$(begin).append(iconDestroy);
+		}
+	}
+
+	// Compara celdas por su id (hora)
+	function cellComparator (x, y) {
+		var idX = parseInt($(x).attr("id"));
+		var idY = parseInt($(y).attr("id"));
+		return idX - idY;
+	}
+
+	// Parsea una hora
+	function parseHour ( dateValue ) {
+		if(dateValue.lastIndexOf("2000-01-01") == -1) {
+			dateValue = "2000-01-01 " + dateValue;
+		}
+
+		var date = new Date(dateValue);
+		return [ date.getHours(), date.getMinutes() ];
+	}
+
+	// Da una celda dada la hora y el dia
+	function getCell (day, hour, minutes) {
+
+		// Dia
+		var idCell = "#" + day;
+
+		// Hora
+		if ((hour + "").length < 2) {
+			idCell += ("0" + hour);
+		} else {
+			idCell += ("" + hour);
+		}
+
+		// Minutos
+		if ((minutes + "").length < 2) {
+			idCell += ("0" + minutes);
+		} else {
+			idCell += ("" + minutes);
+		}
+
+		return $(idCell)[0];
+	}
+</script>

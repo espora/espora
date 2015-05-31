@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_request_id: 
+  how_met_type_id: 
+  other_name: MyString
+
+two:
+  patient_request_id: 
+  how_met_type_id: 
+  other_name: MyString

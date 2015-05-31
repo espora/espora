@@ -2,6 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+/******* TABLA HORARIOS DE SOLICITUD *******/
+
+#req-schedules-input {
+	table-layout: fixed;
+}
+
+#req-schedules-input th td {
+	overflow: hidden;
+}
+
+#req-schedules-input .available-schedule {
+	background: #FFF;
+	cursor: pointer;
+}
+
+#req-schedules-input .selected-schedule {
+	background: rgba(58,135,173,0.8);
+	border-top: none;
+	border-bottom: none;
+	padding: 5px;
+}
+
+/******* LUE *******/
+
 #lue-table {
 	width: 90%;
 }
@@ -32,14 +56,14 @@
 	float: left;
 }
 
-.lue-pat div {
+.lue-pat > div {
 	display: inline-block;
 	float: left;
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
-.lue-pat div span {
+.lue-pat > div > div {
 	width: 100%;
 	float: left;
 	margin-top: 7px;
@@ -50,8 +74,67 @@
 }
 
 .lue-pat-action {
-	width: 170px;
+	width: 140px;
 	padding-top: 8px;
 	height: 14px;
 	margin-top: 5px;
+}
+
+.info-pat {
+	width: 82%;
+	margin-left: 9%;
+	border-left: 1px solid #d3d3d3;
+	border-right: 1px solid #d3d3d3;
+}
+
+.info-pat > div {
+	float: left;
+	position: relative;
+}
+
+.info-pat div > span {
+	width: 100%;
+	float: left;
+}
+
+.info-pat div > span:nth-child(2) {
+	margin-left: 3%;
+}
+
+.info-pat div > span:nth-child(1) {
+	font-weight: bold;
+	margin-top: 6px;
+}
+
+.req-schedules-info {
+	table-layout: fixed;
+}
+
+.req-schedules-info th td {
+	overflow: hidden;
+}
+
+.req-schedules-info td {
+	border-bottom: 1px solid #cbcbcb !important;
+}
+
+.req-schedules-info .selected-schedule {
+	background: rgb(58,135,173);
+	border-top: none;
+	border-bottom: none !important;
+	padding: 5px;
+}
+
+.req-schedules-info .ther-active-schedule {
+	background: rgb(26,61,78);
+	border-top: none;
+	border-bottom: none !important;
+	padding: 5px;
+}
+
+.req-schedules-info .overlap-active-schedule {
+	background: rgb(178,14,255);
+	border-top: none;
+	border-bottom: none !important;
+	padding: 5px;
 }

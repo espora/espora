@@ -26,3 +26,11 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
+table .order {
+	cursor: pointer !important;
+}
+
+table .order-active, table .c-order-active {
+	background-color: #e0e0e0 !important;
+}

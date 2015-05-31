@@ -7,13 +7,47 @@ class PatientRecordsController < ApplicationController
 	before_filter :authenticate_therapist!
 
 	# Layout para el terapeuta
-	layout "therapist", :only => [ :havad ]
+	layout "therapist", :only => [ :fosti_havad ]
 
 	# GET
-	def havad
+	def fosti_havad
 
 		# Mandando a renderear
 		if current_patient.nil?
+
+			# El Array que se ira llenando
+			@patient_records = Array.new
+
+			# Estan buscando algo?
+			if not params[:searchStr].nil?
+				if params[:searchStr] == ""
+
+					# Viene vacio, entonces mandamos todas
+					@patient_records = current_therapist.patient_records
+					
+				else
+
+					# BUSQUEDA
+
+					# Por apellido paterno
+					records_found = Patient.where("p_last_name LIKE ?", "%#{params[:searchStr]}%")
+
+					# Por apellido materno
+					records_found += Patient.where("m_last_name LIKE ?", "%#{params[:searchStr]}%")
+
+					# Por nombres
+					records_found += Patient.where("names LIKE ?", "%#{params[:searchStr]}%")
+
+					# Por numero de cuenta
+					records_found += Patient.where("account_number LIKE ?", "%#{params[:searchStr]}%")
+
+					# Agregamos todas las solicitudes de los pacientes
+					patients_found.each do | patient |
+						@patient_requests.concat([ patient.patient_request ])
+					end
+				end
+			end
+
 			@patient_records = current_therapist.patient_records
 
 			# Si no hay paciente entonces fosti

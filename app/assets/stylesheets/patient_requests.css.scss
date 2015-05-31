@@ -28,19 +28,12 @@
 
 #lue-table {
 	width: 90%;
+	table-layout: fixed;
 }
 
 #lue-table .arrow-expand {
 	font-size: 18px;
 	display: block;
-}
-
-#lue-table .order {
-	cursor: pointer;
-}
-
-.order-active, .c-order-active {
-	background-color: #e0e0e0 !important;
 }
 
 .lue-block {

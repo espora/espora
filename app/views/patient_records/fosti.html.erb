@@ -8,40 +8,101 @@
 
 <% content_for :fosti do %>
 
-	<table class="pure-table pure-table-bordered">
-		<thead>
-			<tr>
-				<th>NOMBRE</th>
-				<th>EDAD</th>
-				<th>CARRERA</th>
-				<th>SEMESTRE</th>
-				<th>TELÉFONO</th>
-				<th>NÚMERO DE SESIONES</th>
-				<th>FECHA DE ADMISIÓN</th>
-				<th>ELEGIR ALUMNO</th>
-			</tr>
-		</thead>
+	<!-- FILTRO Y BUSQUEDA -->
+	<div class="fosti-block" style="height: 60px;">
 
-		<tbody>
-			<% @patient_records.each do | record | %>
-			<% patient = record.patient %>
-				<tr class="pure-table-odd" align="center">
-					<td align="left"><%= patient.full_name %></td>
-					<td><%= patient.age %></td>
-					<td><%= Patient::NAME_CAREER[patient.career] %></td>
-					<td><%= patient.semester %></td>
-					<td><%= patient.telephone1 %></td>
-					<td><%= record.appointments.count %></td>
-					<td><%= patient.patient_request.updated_at.strftime("%d-%m-%y") %></td>
-					<td>
-						<%= link_to choose_record_path(patient) do %>
-							<i class="fa fa-arrow-right"></i>
-						<% end %>
-					</td>
-				</tr>
+		<!-- BUSQUEDA -->
+		<form action="<%= havad_index_path %>" method="get" class="pure-form" id="fosti-search">
+			<% if not params[:filter_by].nil? %>
+				<%= hidden_field_tag 'filter_by', params[:filter_by] %>
 			<% end %>
-		</tbody>
-	</table>
+
+			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
+			<%= submit_tag "Buscar",  name: nil, class: "pure-button pure-button-primary" %>
+		</form>
+	</div>
+
+	<div class="fosti-block" style="width: 98%; padding-left: 2%;">
+
+		<table id="fosti-table" class="pure-table pure-table-bordered">
+			<col width="80px"/>
+			<col width="150px"/>
+			<col width="40px"/>
+			<col width="80px"/>
+			<col width="90px"/>
+			<col width="70px"/>
+			<col width="45px"/>
+			<col width="75px"/>
+			<col width="65px"/>
+			<col width="65px"/>
+
+			<thead>
+				<tr align="center">
+					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">No. DE CUENTA</th>
+					<th class="order<%= (params[:order_by] == 'full_name')? ' order-active' : '' %>" orderby="full_name">NOMBRE</th>
+					<th class="order<%= (params[:order_by] == 'age')? ' order-active' : '' %>" orderby="age">EDAD</th>
+					<th class="order<%= (params[:order_by] == 'career')? ' order-active' : '' %>" orderby="career">CARRERA</th>
+					<th>EMAIL</th>
+					<th>TELÉFONO</th>
+					<th>No. DE CITAS</th>
+					<th>INASISTENCIAS</th>
+					<th class="order<%= (params[:order_by] == 'admission_date')? ' order-active' : '' %>" orderby="admission_date">FECHA DE ADMISIÓN</th>
+					<th>ABRIR EXPEDIENTE</th>
+				</tr>
+			</thead>
+
+			<!-- FORMULARIO PARA ORDENAR -->
+			<form action="<%= request.fullpath %>" method="get" id="orderby-form">
+				<% if not params[:searchStr].nil? %>
+					<%= hidden_field_tag 'searchStr', params[:searchStr] %>
+				<% end %>
+
+				<% if not params[:filter_by].nil? %>
+					<%= hidden_field_tag 'filter_by', params[:filter_by] %>
+				<% end %>
+
+				<%= hidden_field_tag 'order_by', '' %>
+			</form>
+
+			<tbody>
+				<% @patient_records.each_with_index do | record, idx | %>
+					<% patient = record.patient %>
+
+					<tr class="<%= 'pure-table-odd' if (idx % 2 == 1) %>" align="center">
+						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
+						<td class="<%= (params[:order_by] == 'full_name')? 'c-order-active' : '' %>"><%= patient.full_name %></td>
+						<td class="<%= (params[:order_by] == 'age')? 'c-order-active' : '' %>"><%= patient.age %></td>
+						<td class="<%= (params[:order_by] == 'career')? 'c-order-active' : '' %>"><%= Patient::NAME_CAREER[patient.career] %></td>
+						<td><%= patient.email %></td>
+						<td><%= (patient.telephone1.nil? or patient.telephone1.blank?) ? patient.telephone2 : patient.telephone1 %></td>
+						<td><%= record.appointments.count %></td>
+						<td><%= record.missed_appointments.count %></td>
+						<td class="<%= (params[:order_by] == 'admission_date')? 'c-order-active' : '' %>">
+							<%= patient.patient_request.updated_at.strftime("%d-%m-%y") %>
+						</td>
+						<td>
+							<%= link_to choose_record_path(patient) do %><i class="fa fa-folder-open-o" style="font-size: 14px;"></i><% end %>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		$("table .order").click(function() {
+
+			var orderbyValue = $(this).attr("orderby");
+
+			// Seleccionamos el input del formulario de ordenamiento
+			var input = $("input#order_by");
+			input.attr("value", orderbyValue);
+
+			// Envia el formulario
+			$("#orderby-form").submit();
+		});
+	</script>
+	
 <% end %>
 
 <%= render template: "patient_records/havad_tab" %>

@@ -71,4 +71,21 @@ class PatientRecord < ActiveRecord::Base
 		return date + " " + time
 	end
 
+	def missed_appointments
+
+		# Creamos el arreglo para las inasistencias
+		missed = Array.new
+
+		# Iteramos las citas
+		appointments = self.appointments
+		appointments.each do | appointment |
+
+			# Si se marco que no asistio agregamos
+			if not appointment.attended.nil? and not appointment.attended
+				missed << appointment
+			end
+		end
+
+		return missed
+	end
 end

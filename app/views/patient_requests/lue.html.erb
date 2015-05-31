@@ -8,6 +8,15 @@
 
 <% content_for :lue_list_tab do %>
 
+	<% if not flash[:notice].nil? %>
+	
+		<!-- MENSAJES DEL LUE -->
+		<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;"
+		onclick="$(this).remove();">
+			<%= flash[:notice] %>
+		</div>
+	<% end %>
+
 	<!-- FILTRO Y BUSQUEDA -->
 	<div class="lue-block" style="height: 60px;">
 
@@ -77,8 +86,8 @@
 					</tr>
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
-						<td colspan="8" class="lue-pat">
-							<%= render partial: "info_patient", locals: { patient: patient } %>
+						<td colspan="8" class="lue-pat" style="padding: 0 0 0 0; margin: 0 0 0 0;">
+							<%= render partial: "info_patient", locals: { patient: patient, patient_request: req } %>
 						</td>
 					</tr>
 				<% end %>
@@ -112,6 +121,45 @@
 			}
 		});
 	</script>
+
+	<% if not params[:filter_by].nil? and params[:filter_by] == "schedule" %>
+	
+		<!-- SI FILTRARON POR HORARIO MOSTRAMOS LAS COINCIDENCIAS -->
+		<script type="text/javascript">
+
+			// Pedimos el horario del terapeuta
+			$.ajax({
+				type: "GET",
+				url: "<%= therapist_schedules_path(current_therapist) %>",
+				dataType: "json",
+				success: function( data ) {
+
+					// Iteramos todos las tablas de horarios
+					$(".req-schedules-info").each(function() {
+
+						var table = this;
+
+						// Iteramos los horarios del terapeuta
+						for (var i = 0; i < data.length; i++) {
+
+							// Obtenemos un horario
+							var schedule = data[i];
+
+							// Mostramos el horario en la tabla
+							displaySchedule(table, schedule, function (scheduleCell) {
+								if($(scheduleCell).hasClass("selected-schedule")) {
+									$(scheduleCell).removeClass("selected-schedule")
+									$(scheduleCell).addClass("overlap-active-schedule");
+								} else {
+									$(scheduleCell).addClass("ther-active-schedule");
+								}
+							});
+						}
+					});
+				}
+			});
+		</script>
+	<% end %>
 	
 <% end %>
 

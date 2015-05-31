@@ -4,11 +4,14 @@ es:
       models:
         patient_request:
           attributes:
+            request_schedules:
+              too_short: "No selecciono ningún horario disponible"
             affected_areas:
               too_short: "No selecciono ninguna área afectada"
   devise:
     sessions:
       therapist:
+        signed_in: "Bienvenido al sistema"
         signed_out: "Ha salido del sistema"
     failure:
       therapist:

@@ -9,19 +9,23 @@ class PatientRequest < ActiveRecord::Base
 	# Terapeuta que contacta la solicitud
 	belongs_to :contact_therapist,  :class_name => "Therapist"
 
-	# Horarios solicitados
-	has_many :request_schedules, :dependent => :delete_all
-
 	# Areas afectadas
 	has_many :affected_areas, :dependent => :delete_all
 
-	# Horarios solicitados en formularios anidados
-	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
-	#:reject_if => proc { |attrs| attrs["symptom_type_id"].blank? or attrs["level"].blank? }
-
 	# Areas afectadas en formularios anidados
 	accepts_nested_attributes_for :affected_areas, :allow_destroy => true
-	#:reject_if => proc { |attrs| attrs["symptom_type_id"].blank? or attrs["level"].blank? }
+
+	# Como conocio espora
+	has_one :how_met, :dependent => :delete
+
+	# Como conocio en formularios anidados
+	accepts_nested_attributes_for :how_met, :allow_destroy => true
+
+	# Horarios solicitados
+	has_many :request_schedules, :dependent => :delete_all
+
+	# Horarios solicitados en formularios anidados
+	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
 
 	# Mapeo condicion a nombre en formulario
 	NAME_CONDITION = {
@@ -48,11 +52,8 @@ class PatientRequest < ActiveRecord::Base
 	validates :reasons, length: { maximum: 400,
 	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
 
-	# t.string   "condition"
 	# t.string   "how_met"
 	validates :how_met, presence: { :message => "Campo vacio" }
-	validates :how_met, length: { maximum: 69,
-	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
 
 	# t.float "money"
 	validates :money, presence: { :message => "Campo vacio" }
@@ -62,5 +63,5 @@ class PatientRequest < ActiveRecord::Base
 
 	# t.association "request_schedules"
 	validates :request_schedules, :length => { :minimum => 1 }
-
+	
 end

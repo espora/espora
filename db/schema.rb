@@ -11,15 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150329201712) do
+ActiveRecord::Schema.define(version: 20150524193415) do
 
-  create_table "affected_areas", force: true do |t|
-    t.string   "area"
-    t.integer  "patient_request_id"
+  create_table "affected_area_types", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "affected_areas", force: true do |t|
+    t.integer  "patient_request_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "other_name"
+    t.integer  "affected_area_type_id"
+  end
+
+  add_index "affected_areas", ["affected_area_type_id"], name: "index_affected_areas_on_affected_area_type_id"
   add_index "affected_areas", ["patient_request_id"], name: "index_affected_areas_on_patient_request_id"
 
   create_table "appointments", force: true do |t|
@@ -59,6 +67,23 @@ ActiveRecord::Schema.define(version: 20150329201712) do
 
   add_index "experience_types_patient_records", ["experience_type_id"], name: "index_experience_types_patient_records_on_experience_type_id"
   add_index "experience_types_patient_records", ["patient_record_id"], name: "index_experience_types_patient_records_on_patient_record_id"
+
+  create_table "how_met_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "how_mets", force: true do |t|
+    t.integer  "patient_request_id"
+    t.integer  "how_met_type_id"
+    t.string   "other_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "how_mets", ["how_met_type_id"], name: "index_how_mets_on_how_met_type_id"
+  add_index "how_mets", ["patient_request_id"], name: "index_how_mets_on_patient_request_id"
 
   create_table "mechanism_types", force: true do |t|
     t.string   "name"
@@ -110,7 +135,6 @@ ActiveRecord::Schema.define(version: 20150329201712) do
   create_table "patient_requests", force: true do |t|
     t.text     "reasons"
     t.string   "condition"
-    t.string   "how_met"
     t.float    "money"
     t.boolean  "pre_care"
     t.date     "request_date"

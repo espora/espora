@@ -41,13 +41,22 @@
 		</form>
 	</div>
 
-	<!-- TABLA -->
+	<!-- REGISTROS -->
 	<div class="lue-block" style="width: 98%; padding-left: 2%;">
 
 		<table id="lue-table" class="pure-table pure-table-bordered">
+			<col width="155px"/>
+			<col width="155px"/>
+			<col width="155px"/>
+			<col width="155px"/>
+			<col width="155px"/>
+			<col width="155px"/>
+			<col width="155px"/>
+			<col width="60px"/>
+
 			<thead>
-				<tr>
-					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">NO. DE CUENTA</th>
+				<tr align="center">
+					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">No. DE CUENTA</th>
 					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">APELLIDO PATERNO</th>
 					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">APELLIDO MATERNO</th>
 					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
@@ -58,7 +67,7 @@
 				</tr>
 			</thead>
 
-			<!-- FORMULARIO PARA FILTRAR -->
+			<!-- FORMULARIO PARA ORDENAR -->
 			<form action="<%= request.fullpath %>" method="get" id="orderby-form">
 				<% if not params[:searchStr].nil? %>
 					<%= hidden_field_tag 'searchStr', params[:searchStr] %>
@@ -74,7 +83,7 @@
 			<tbody>
 				<% @patient_requests.each_with_index do | req, index | %>
 					<% patient = req.patient %>
-					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>" align="center">
 						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
 						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= patient.p_last_name %></td>
 						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>

@@ -48,7 +48,7 @@ Espora::Application.routes.draw do
   ##### Expedientes de pacientes (Patient Record)
 
   # Index de expedientes de paciente (FOSTI / HAVAD)
-  get "/therapists/havad/" => "patient_records#havad", as: "havad_index"
+  get "/therapists/havad/" => "patient_records#fosti_havad", as: "havad_index"
 
   # Salvar el expediene de paciente
   patch "/therapists/havad/update/:id" => "patient_records#update", as: "patient_record"

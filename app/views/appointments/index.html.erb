@@ -1,0 +1,23 @@
+<%
+	# Panel para las tabs del workspace del terapeuta
+	@therapist_active_tab = params[:tab]
+
+	# Panel para las tabs del workspace del open record
+	@open_record_active_tab = 1
+%>
+
+<% content_for :appointments do %>
+
+	<!-- CITAS CONTAINER -->
+	<div style="padding-bottom: 20px;">
+
+		<!-- CITAS -->
+		<div class="pat-record-field">
+			<div id="appointment-table-container">
+				<%= render partial: "appointment_table", locals: { patient_record: @patient_record, appointments: @appointments } %>
+			</div>
+		</div>
+	</div>
+<% end %>
+
+<%= render template: "patient_records/open_record_tab" %>

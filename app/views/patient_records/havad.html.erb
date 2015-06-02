@@ -1,87 +1,26 @@
 <%
 	# Panel para las tabs del workspace del terapeuta
-	@therapist_active_tab = 2
+	@therapist_active_tab = params[:tab]
 
-	# Panel para las tabs del workspace del havad
-	@havad_active_tab = 0
+	# Panel para las tabs del workspace del open record
+	@open_record_active_tab = 0
 %>
 
 <% content_for :havad do %>
 
-	<script type="text/javascript">
-		
-		function changeMechanism ( input ) {
-
-			var idMechanism = $(input).attr("id-mechanism");
-
-			if( input.checked ) {
-
-				// Creamos el hidden input
-				var hidden = document.createElement("input");
-				$(hidden).attr("type", "hidden");
-
-				// Lo seteamos con el nombre, id y valor
-				$(hidden).attr("id", "patient_record_mechanism_types_attributes_" + idMechanism + "_id");
-				$(hidden).attr("name", "patient_record[mechanism_types_attributes][" + idMechanism + "][id]");
-				$(hidden).val(idMechanism);
-
-				// Lo agregamos al div de los inputs
-				$("#mechanism-inputs").append(hidden);
-			}
-			else {
-
-				// Localizamos al hidden input y lo quitamos
-				var hidden = $("#mechanism-inputs input[value='" + idMechanism + "']");
-				if(hidden.length > 0) {
-					hidden.remove();
-				}
-			}
-		}
-
-		function changeExperience ( input ) {
-
-			var idExperiece = $(input).attr("id-experiece");
-
-			if( input.checked ) {
-
-				// Creamos el hidden input
-				var hidden = document.createElement("input");
-				$(hidden).attr("type", "hidden");
-
-				// Lo seteamos con el nombre, id y valor
-				$(hidden).attr("id", "patient_record_experience_types_attributes_" + idExperiece + "_id");
-				$(hidden).attr("name", "patient_record[experience_types_attributes][" + idExperiece + "][id]");
-				$(hidden).val(idExperiece);
-
-				// Lo agregamos al div de inputs
-				$("#experience-inputs").append(hidden);
-			}
-			else {
-
-				// Localizamos al hidden input y lo quitamos
-				var hidden = $("#experience-inputs input[value='" + idExperiece + "']");
-				if(hidden.length > 0) {
-					hidden.remove();
-				}
-			}
-		}
-	</script>
-
 	<div style="width: 99%; position: relative; float: left;">
 
 		<% if not flash[:notice].nil? %>
-		
 			<!-- MENSAJES DEL HAVAD -->
-			<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;"
-			onclick="$(this).remove();">
+			<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
 				<%= flash[:notice] %>
 			</div>
 		<% end %>
 
-		<div class="pat-record-section" style="padding-bottom: 20px;">
-			
-			<!--FORMULARIO HAVAD -->
-			<%= nested_form_for(current_patient.patient_record, :html => { :id => "form-havad", :class => "pure-form pure-form-stacked" }) do | record_form | %>
+		<!--FORMULARIO HAVAD -->
+		<%= nested_form_for(@patient_record, :html => { :id => "form-havad", :class => "pure-form pure-form-stacked" }) do | record_form | %>
+			<%= hidden_field_tag :tab, params[:tab] %>
+			<div style="padding-bottom: 20px;">
 
 				<!-- PRIMERA COLUMNA -->
 				<div style="width: 48%; position: relative; float: left; margin-left: 2%;">
@@ -91,7 +30,7 @@
 						<span>FAMILIOGRAMA</span>
 						<div>
 							<%= record_form.label :lives_with do %>¿Con quien vive?<% end %>
-							<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 50, :required => true %>
+							<%= record_form.text_field :lives_with, autofocus: true, :size => 50, :maxlength => 50 %>
 						</div>
 					</div>
 
@@ -222,27 +161,73 @@
 							<%= record_form.text_area :observations, autofocus: true, cols: 58, rows: 10 %>
 						</div>
 					</div>
-
-					<!-- GUARDAR -->
-					<div style="float: right; margin: 10px 7% 0px 0px; font-size: 13px;">
-						<%= record_form.submit "Guardar", :class => "pure-button pure-button-primary", :style => "width: 120%;" %>
-					</div>
-				</div>
-			<% end %>
-		</div>
-
-		<!-- CITAS CONTAINER -->
-		<div class="pat-record-section" style="padding-bottom: 20px;">
-
-			<!-- CITAS -->
-			<div class="pat-record-field">
-				<span>CITAS</span>
-				<div id="appointment-table-container">
-					<%= render partial: "appointment_table", locals: { appointments: current_patient.patient_record.appointments } %>
 				</div>
 			</div>
-		</div>
+
+			<!-- GUARDAR -->
+			<div style="float: right; margin: 10px 1% 0px 0px; font-size: 13px;">
+				<%= record_form.submit "Guardar", :class => "pure-button pure-button-primary", :style => "width: 120%;" %>
+			</div>
+		<% end %>
 	</div>
+
+	<script type="text/javascript">		
+		function changeMechanism ( input ) {
+
+			var idMechanism = $(input).attr("id-mechanism");
+
+			if( input.checked ) {
+
+				// Creamos el hidden input
+				var hidden = document.createElement("input");
+				$(hidden).attr("type", "hidden");
+
+				// Lo seteamos con el nombre, id y valor
+				$(hidden).attr("id", "patient_record_mechanism_types_attributes_" + idMechanism + "_id");
+				$(hidden).attr("name", "patient_record[mechanism_types_attributes][" + idMechanism + "][id]");
+				$(hidden).val(idMechanism);
+
+				// Lo agregamos al div de los inputs
+				$("#mechanism-inputs").append(hidden);
+			}
+			else {
+
+				// Localizamos al hidden input y lo quitamos
+				var hidden = $("#mechanism-inputs input[value='" + idMechanism + "']");
+				if(hidden.length > 0) {
+					hidden.remove();
+				}
+			}
+		}
+
+		function changeExperience ( input ) {
+
+			var idExperiece = $(input).attr("id-experiece");
+
+			if( input.checked ) {
+
+				// Creamos el hidden input
+				var hidden = document.createElement("input");
+				$(hidden).attr("type", "hidden");
+
+				// Lo seteamos con el nombre, id y valor
+				$(hidden).attr("id", "patient_record_experience_types_attributes_" + idExperiece + "_id");
+				$(hidden).attr("name", "patient_record[experience_types_attributes][" + idExperiece + "][id]");
+				$(hidden).val(idExperiece);
+
+				// Lo agregamos al div de inputs
+				$("#experience-inputs").append(hidden);
+			}
+			else {
+
+				// Localizamos al hidden input y lo quitamos
+				var hidden = $("#experience-inputs input[value='" + idExperiece + "']");
+				if(hidden.length > 0) {
+					hidden.remove();
+				}
+			}
+		}
+	</script>
 <% end %>
 
-<%= render template: "patient_records/havad_tab" %>
+<%= render template: "patient_records/open_record_tab" %>

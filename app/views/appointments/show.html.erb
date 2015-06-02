@@ -1,55 +1,16 @@
 <%
 	# Panel para las tabs del workspace del terapeuta
-	@therapist_active_tab = 2
+	@therapist_active_tab = params[:tab]
 
-	# Panel para las tabs del workspace del havad
-	@havad_active_tab = 1
+	# Panel para las tabs del workspace del open record
+	@open_record_active_tab = params[:app_tab]
 %>
 
-<% content_for :appointment do %>
-
-	<script type="text/javascript">
-
-		function onChangeAttended ( input ) {
-			var attended = $(input).find(":selected").val();
-			if(attended === "true") {
-				$("#symptoms-table select").prop("disabled", false);
-				$("#appointment_notes").prop("disabled", false);
-			}
-			else {
-				$("#symptoms-table select").prop("disabled", true);
-				$("#appointment_notes").prop("disabled", true);
-			}
-		}
-
-		$(function() {
-
-			// Listener para cuando cambia de opcion en atendido
-			$(document).on("change", "#appointment_attended", function() {
-			    onChangeAttended(this);
-			});
-
-			// Disablitamos campos en caso que no haya asistido
-			if($("#appointment_attended").find(":selected").val() !== "true") {
-				$("#symptoms-table select").prop("disabled", true);
-				$("#appointment_notes").prop("disabled", true);
-			}
-
-			// Obtenemos el numero de sintomas
-			var symptomsCount = $("#symptoms-table tbody tr").length;
-			var diff = 5 - symptomsCount;
-
-			// Agregamos los que hagan falta
-			for (var i = 0; i < diff; i++) {
-				$("#symptoms-add").click();
-			}
-		});
-
-	</script>
+<% content_for "open_appointment" + @appointment.id.to_s do %>
 
 	<!--FORMULARIO APPOINTMENT -->
-	<%= nested_form_for @appointment, :html => { :id => "form-appointment", :class => "pure-form pure-form-stacked" } do | appointment_form | %>
-		
+	<%= nested_form_for(@appointment, :html => { :id => "form-appointment", :class => "pure-form pure-form-stacked" }) do | appointment_form | %>
+		<%= hidden_field_tag :tab, params[:tab] %>
 		<div id="appointment-container" class="pat-record-section" style="width: 99%;">
 
 			<!-- COLUMNA IZQUIERDA -->
@@ -115,12 +76,45 @@
 		<!-- BOTONES -->
 		<div style="width: 99%; float: left; position: relative; margin-top: 10px; font-size: 13px;">
 			<%= appointment_form.submit "Guardar", :class => "pure-button pure-button-primary", :style => "float: right;" %>
-			<%= link_to havad_index_path, :class => "pure-button pure-button-active", :style => "float: right; margin-right: 0.5%;" do %>
-				Ir al expediente
-			<% end %>
 		</div>
 	<% end %>
 
+	<script type="text/javascript">
+		function onChangeAttended ( input ) {
+			var attended = $(input).find(":selected").val();
+			if(attended === "true") {
+				$("#symptoms-table select").prop("disabled", false);
+				$("#appointment_notes").prop("disabled", false);
+			}
+			else {
+				$("#symptoms-table select").prop("disabled", true);
+				$("#appointment_notes").prop("disabled", true);
+			}
+		}
+
+		$(function() {
+
+			// Listener para cuando cambia de opcion en atendido
+			$(document).on("change", "#appointment_attended", function() {
+				onChangeAttended(this);
+			});
+
+			// Obtenemos el numero de sintomas
+			var symptomsCount = $("#symptoms-table tbody tr").length;
+			var diff = 5 - symptomsCount;
+
+			// Agregamos los que hagan falta
+			for (var i = 0; i < diff; i++) {
+				$("#symptoms-add").click();
+			}
+
+			// Disablitamos campos en caso que no haya asistido
+			if($("#appointment_attended").find(":selected").val() !== "true") {
+				$("#symptoms-table select").prop("disabled", true);
+				$("#appointment_notes").prop("disabled", true);
+			}
+		});
+	</script>
 <% end %>
 
-<%= render template: "patient_records/havad_tab" %>
+<%= render template: "patient_records/open_record_tab" %>

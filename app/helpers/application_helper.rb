@@ -1,11 +1,11 @@
 module ApplicationHelper
 
-	def age(birthday)
+	def age (birthday)
 		now = Time.now.utc.to_date
 		return now.year - birthday.year - (birthday.to_date.change(:year => now.year) > now ? 1 : 0)
 	end
 
-	def lue_filter_options ( param_filter )
+	def lue_filter_options (param_filter)
 		default_options = [["No Filtrar", "none"], ["Concidencias en horario", "schedule"]]
 
 		options = ""
@@ -25,14 +25,28 @@ module ApplicationHelper
 		return options
 	end
 
-	def current_patient
-		return unless session[:current_patient_id]
-		@current_patient ||= Patient.find(session[:current_patient_id])
+	def open_records
+		@open_records = Array.new
+
+		if not session[:open_records].nil?
+			session[:open_records].each do | key, value |
+				@open_records << PatientRecord.find(value[:id])
+			end
+		end
+
+		return @open_records
 	end
 
-	def current_appointment
-		return unless session[:current_appointment_id]
-		@current_appointment ||= Appointment.find(session[:current_appointment_id])
+	def open_appointments (patient_record)
+		@open_appointments = Array.new
+
+		if not session[:open_records][patient_record.id.to_s].nil?
+			session[:open_records][patient_record.id.to_s][:open_appointments].each do | value |
+				@open_appointments << Appointment.find(value)
+			end
+		end
+		
+		return @open_appointments
 	end
 
 end

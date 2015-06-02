@@ -1,0 +1,87 @@
+
+<% content_for "open_record" + @patient_record.id.to_s do %>
+	
+	<!-- WORKSPACE OPEN RECORD -->
+	<div id="open-record-tab">
+
+		<!-- PESTANAS -->
+		<ul>
+			<li><a href="#havad">
+				<div align="center">HAVAD</div>
+			</a></li>
+
+			<li><a href="#appointments">
+				<div align="center">Citas</div>
+			</a></li>
+
+			<!-- HEADER - CITAS ABIERTAS -->
+			<% @open_appointments = open_appointments(@patient_record) %>
+
+			<li style="width: 10px;"></li>
+			<% @open_appointments.each do | appointment | %>
+				<li class="open-appointment-tab">
+					<a href="#open_appointment_<%= appointment.id %>" style="padding-right: 1px;">
+						<div style="margin-left: 0px;">Cita <%= appointment.number %></div>
+					</a>
+					<%= link_to close_appointment_path(@patient_record, appointment) + "?tab=" + params[:tab], :style => "padding-left: 0; padding-right: 0; float: right; margin: 0 5px 0 8px; cursor: pointer;" do %>
+						<i class="fa fa-times"></i>
+					<% end %>
+				</li>
+			<% end %>
+		</ul>
+
+		<!-- HAVAD -->
+		<div id="havad" class="ter-panel">
+			<%= yield(:havad) if content_for?(:havad) %>
+		</div>
+
+		<!-- CITAS -->
+		<div id="appointments" class="ter-panel">
+			<%= yield(:appointments) if content_for?(:appointments) %>
+		</div>
+
+		<!-- PANELES - CITAS ABIERTAS -->
+		<% @open_appointments.each do | appointment | %>
+			<div id="open_appointment_<%= appointment.id %>" class="ter-panel open-appointment-panel" link-open-appointment="<%= show_appointment_path(@patient_record, appointment)%>?tab=<%= params[:tab] %>" >
+				<%= yield("open_appointment" + appointment.id.to_s) if content_for?("open_appointment" + appointment.id.to_s) %>
+			</div>
+		<% end %>
+	</div>
+
+	<script type="text/javascript">
+		$( "#open-record-tab" ).tabs({
+			active: parseInt("<%= @open_record_active_tab %>"),
+			beforeActivate: function( event, ui ) {
+
+				// Siguiente panel
+				var newPanel = ui.newPanel;
+				var newPanelId = newPanel.attr("id");
+
+				// PANEL AL WORKSPACE
+				if(newPanelId === "havad") {
+					window.location = "<%= havad_index_path(@patient_record) %>?tab=<%= params[:tab] %>";
+				}
+
+				if(newPanelId === "appointments") {
+					window.location = "<%= appointments_path(@patient_record) %>?tab=<%= params[:tab] %>";
+				}
+
+				if(newPanelId.lastIndexOf("open_appointment") != -1) {
+
+					// Encontramos el numero de tab
+					var tabindex = 2;
+					var panels = $(".open-appointment-panel");
+					for (var i = 0; i < panels.length; i++) {
+						if(newPanelId === $(panels[i]).attr("id")) {
+							break;
+						}
+						tabindex++;
+					}
+
+					window.location = newPanel.attr("link-open-appointment") + "&app_tab=" + tabindex;
+				}
+			}
+		});
+	</script>
+
+<% end %>

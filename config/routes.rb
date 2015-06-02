@@ -47,23 +47,35 @@ Espora::Application.routes.draw do
 
   ##### Expedientes de pacientes (Patient Record)
 
-  # Index de expedientes de paciente (FOSTI / HAVAD)
-  get "/therapists/havad/" => "patient_records#fosti_havad", as: "havad_index"
+  # Expedientes de paciente
+  get "/therapists/fosti" => "patient_records#fosti", as: "fosti_index"
+
+  # Muestra el expediente
+  get "/therapists/havad/:id" => "patient_records#havad", as: "havad_index"
 
   # Salvar el expediene de paciente
   patch "/therapists/havad/update/:id" => "patient_records#update", as: "patient_record"
 
   # Elige el expediente con el que se va a trabajar
-  get "/therapists/havad/choose_record/:id" => "patient_records#choose", as: "choose_record"
-  get "/therapists/havad/close_record" => "patient_records#close", as: "close_record"
+  get "/therapists/havad/open_record/:id" => "patient_records#open", as: "open_record"
+  get "/therapists/havad/close_record/:id" => "patient_records#close", as: "close_record"
 
   ##### Citas de pacientes (Appointment)
 
+  # Ver citas
+  get "/therapists/havad/:id/appointments" => "appointments#index", as: "appointments"
+
   # Crea una cita
-  post "/therapists/havad/appointment/create" => "appointments#create", as: "create_appointment"
+  post "/therapists/havad/:id/appointment/create" => "appointments#create", as: "create_appointment"
 
   # Elige una cita
-  get "/therapists/havad/appointment/:id" => "appointments#show", as: "show_appointment"
+  get "/therapists/havad/:id/open_appointment/:appointment_id" => "appointments#open", as: "open_appointment"
+
+  # Cierra una cita
+  get "/therapists/havad/:id/close_appointment/:appointment_id" => "appointments#close", as: "close_appointment"  
+
+  # Ve una cita
+  get "/therapists/havad/:id/appointment/:appointment_id" => "appointments#show", as: "show_appointment"
 
   # Actualiza la informacion de una cita
   patch "/therapists/havad/appointment/update/:id" => "appointments#update", as: "appointment"

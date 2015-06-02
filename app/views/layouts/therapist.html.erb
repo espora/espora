@@ -15,31 +15,13 @@
 			<!-- BANNER -->
 			<div id="ter-header">
 
-				<!-- PACIENTE ACTUAL -->
-				<div id="ter-curr-patient" style="width: 30%;">
-					<% if !current_patient.nil? %>
-						<span style="margin-top: 38px;">
-							<b>EXPEDIENTE ELEGIDO:</b> <%= current_patient.full_name %>
-						</span>
-						<span>
-							<b>PRÓXIMA CITA:</b> <%= current_patient.patient_record.next_appointment_date %>
-						</span>
-						<span style="margin-top: 3px;">
-							<%= link_to close_record_path do %>Cerrar Expediente<% end %>
-						</span>
-					<% else %>
-						<span style="margin-top: 57px;">
-							<b>NO SE TIENE ELEGIDO UN<br>EXPEDIENTE</b>
-						</span>
-					<% end %>
-				</div>
-
 				<!-- LOGO -->
-				<div style="width: 70%;">
+				<div style="width: 100%;">
 					<%= image_tag("Espora.png", :class => "ter-logo") %>
 				</div>
 
 				<% if not flash[:notice].nil? %>
+
 					<!-- MENSAJES DEL TERAPEUTA -->
 					<div class="alert-box success" style="width: 100%; margin: 5px 0 3px 0; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
 						<%= flash[:notice] %>
@@ -51,12 +33,30 @@
 			<div id="ter-tabs">
 			
 				<!-- OPCIONES PESTAÑA -->
-				<ul>
-					<li><a href="#perfil"><i class="fa fa-user"></i> Perfil</a></li>
-					<li><a href="#lue"><i class="fa fa-list"></i> Lista Única de Espera (LUE)</a></li>
-					<li><a href="#havad">HAVAD</a></li>
+				<ul id="ter-tabs-header">
+					<li><a href="#perfil" style="margin-top: 8px;">
+							<i class="fa fa-user-md"></i>
+							<div align="center">Perfil</div>
+					</a></li>
+
+					<li><a href="#lue">
+						<i class="fa fa-list" style="margin-top: 8px;"></i>
+						<div align="center">Lista Única de<br>Espera (LUE)</div>
+					</a></li>
+
+					<li><a href="#fosti">
+						<i class="fa fa-archive" style="margin-top: 8px;"></i>
+						<div align="center">Mis Expedientes<br>(FOSTI)</div>
+					</a></li>
+
 					<% if current_therapist.role == "Coordinator" %>
 						<li><a href="#add_therapist">Registra Terapeuta</a></li>
+					<% end %>
+
+					<% @open_records = open_records %>
+					<% if not @open_records.nil? %>
+						<!-- HEADER - EXPEDIENTES ABIERTOS -->
+						<%= render partial: "patient_records/open_records_header" %>
 					<% end %>
 
 					<!-- SALIR -->
@@ -67,24 +67,33 @@
 
 				<!-- PERFIL -->
 				<div id="perfil" class="ter-panel">
-					<%= content_for?(:profile_tab) ? yield(:profile_tab) : "" %>
+					<%= yield(:profile_tab) if content_for?(:profile_tab) %>
 				</div>
 
 				<!-- LUE PANEL -->
 				<div id="lue" class="ter-panel">
-					<%= content_for?(:lue_tab) ? yield(:lue_tab) : "" %>
+					<%= yield(:lue_tab) if content_for?(:lue_tab) %>
 				</div>
 
-				<!-- HAVAD PANEL -->
-				<div id="havad" class="ter-panel">
-					<%= content_for?(:havad_tab) ? yield(:havad_tab) : "" %>
+				<!-- FOSTI PANEL -->
+				<div id="fosti" class="ter-panel">
+					<%= yield(:fosti_tab) if content_for?(:fosti_tab) %>
 				</div>
+
+				<% if not @open_records.nil? %>
+					<!-- PANELES - EXPEDIENTES ABIERTOS -->
+					<% @open_records.each do | open_record | %>
+					<div id="open_record_<%= open_record.id %>" class="ter-panel open-record-panel" link-open-record="<%= havad_index_path(open_record) %>">
+						<%= yield("open_record" + open_record.id.to_s) if content_for?("open_record" + open_record.id.to_s) %>
+					</div>
+					<% end %>
+				<% end %>
 
 				<% if current_therapist.role == "Coordinator" %>
 
 					<!-- REGISTRAR TERAPEUTA -->
 					<div id="add_therapist">
-						<%= content_for?(:new_therapist_tab) ? yield(:new_therapist_tab) : "" %>
+						<%= yield(:new_therapist_tab) if content_for?(:new_therapist_tab) %>
 					</div>
 				<% end %>
 			</div>
@@ -99,26 +108,42 @@
 
 						// Siguiente panel
 						var newPanel = ui.newPanel;
+						var newPanelId = newPanel.attr("id");
 
 						// PANEL AL WORKSPACE
 
 						// Perfil
-						if( newPanel.attr( "id" ) == "perfil" ) {
+						if(newPanelId === "perfil") {
 							window.location = "<%= therapist_profile_path(current_therapist.id) %>";
 						}
 
 						// LUE
-						if( newPanel.attr( "id" ) == "lue" ) {
+						if(newPanelId === "lue") {
 							window.location = "<%= lue_index_path %>";
 						}
 
-						//HAVAD
-						if( newPanel.attr( "id" ) == "havad" ) {
-							window.location = "<%= havad_index_path %>";
+						// FOSTI
+						if(newPanelId === "fosti") {
+							window.location = "<%= fosti_index_path %>";
+						}
+
+						if(newPanelId.lastIndexOf("open_record") != -1) {
+
+							// Encontramos el numero de tab
+							var tabindex = 3;
+							var panels = $(".open-record-panel");
+							for (var i = 0; i < panels.length; i++) {
+								if(newPanelId === $(panels[i]).attr("id")) {
+									break;
+								}
+								tabindex++;
+							}
+
+							window.location = newPanel.attr("link-open-record") + "?tab=" + tabindex;
 						}
 
 						// Agregar terapeuta
-						if( newPanel.attr( "id" ) == "add_therapist" ) {
+						if(newPanelId === "add_therapist") {
 							window.location = "<%= (current_therapist.role == 'Coordinator') ? new_therapist_path : '' %>"
 						}
 					}

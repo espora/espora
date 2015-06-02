@@ -1,18 +1,15 @@
 <%
 	# Panel para las tabs del workspace del terapeuta
 	@therapist_active_tab = 2
-
-	# Panel para las tabs del workspace del havad
-	@havad_active_tab = 0
 %>
 
-<% content_for :fosti do %>
+<% content_for :fosti_tab do %>
 
 	<!-- FILTRO Y BUSQUEDA -->
 	<div class="fosti-block" style="height: 60px;">
 
 		<!-- BUSQUEDA -->
-		<form action="<%= havad_index_path %>" method="get" class="pure-form" id="fosti-search">
+		<form action="<%= fosti_index_path %>" method="get" class="pure-form" id="fosti-search">
 			<% if not params[:filter_by].nil? %>
 				<%= hidden_field_tag 'filter_by', params[:filter_by] %>
 			<% end %>
@@ -28,9 +25,9 @@
 			<col width="80px"/>
 			<col width="150px"/>
 			<col width="40px"/>
-			<col width="80px"/>
-			<col width="90px"/>
-			<col width="70px"/>
+			<col width="60px"/>
+			<col width="100px"/>
+			<col width="50px"/>
 			<col width="45px"/>
 			<col width="75px"/>
 			<col width="65px"/>
@@ -78,10 +75,13 @@
 						<td><%= record.appointments.count %></td>
 						<td><%= record.missed_appointments.count %></td>
 						<td class="<%= (params[:order_by] == 'admission_date')? 'c-order-active' : '' %>">
-							<%= patient.patient_request.updated_at.strftime("%d-%m-%y") %>
+							<%= record.created_at.strftime("%d-%m-%y") %>
 						</td>
 						<td>
-							<%= link_to choose_record_path(patient) do %><i class="fa fa-folder-open-o" style="font-size: 14px;"></i><% end %>
+							<% tab_index = open_records.count + 3 %>
+							<%= link_to open_record_path(record) + "?tab=" + tab_index.to_s do %>
+								<i class="fa fa-folder-open-o" style="font-size: 14px;"></i>
+							<% end %>
 						</td>
 					</tr>
 				<% end %>
@@ -102,7 +102,4 @@
 			$("#orderby-form").submit();
 		});
 	</script>
-	
 <% end %>
-
-<%= render template: "patient_records/havad_tab" %>

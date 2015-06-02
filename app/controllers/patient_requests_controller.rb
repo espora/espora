@@ -29,27 +29,24 @@ class PatientRequestsController < ApplicationController
 
 				# Viene vacio, entonces mandamos todas
 				@patient_requests = PatientRequest.all
-				
 			else
 
 				# BUSQUEDA
 
 				# Por apellido paterno
-				patients_found = Patient.where("p_last_name LIKE ?", "%#{params[:searchStr]}%")
+				@patient_requests.concat(PatientRequest.joins(:patient).where("p_last_name LIKE ?", "%#{params[:searchStr]}%"))
 
 				# Por apellido materno
-				patients_found += Patient.where("m_last_name LIKE ?", "%#{params[:searchStr]}%")
+				@patient_requests.concat(PatientRequest.joins(:patient).where("m_last_name LIKE ?", "%#{params[:searchStr]}%"))
 
 				# Por nombres
-				patients_found += Patient.where("names LIKE ?", "%#{params[:searchStr]}%")
+				@patient_requests.concat(PatientRequest.joins(:patient).where("names LIKE ?", "%#{params[:searchStr]}%"))
 
 				# Por numero de cuenta
-				patients_found += Patient.where("account_number LIKE ?", "%#{params[:searchStr]}%")
+				@patient_requests.concat(PatientRequest.joins(:patient).where("account_number LIKE ?", "%#{params[:searchStr]}%"))
 
-				# Agregamos todas las solicitudes de los pacientes
-				patients_found.each do | patient |
-					@patient_requests.concat([ patient.patient_request ])
-				end
+				# Eliminamos repetidos
+				@patient_requests.uniq!
 			end
 		end
 

@@ -1,5 +1,5 @@
 <div style=" width: 40%; position: relative; float: left; padding-left: 8%; margin-top: 13px;" align="left">
-	<%= form_tag create_appointment_path, :id => "form-appointment", :class => "pure-form pure-form-stacked", :remote => true do | appointment_form |%>
+	<%= form_tag create_appointment_path + "?tab=" + params[:tab], :id => "form-appointment", :class => "pure-form pure-form-stacked", :remote => true do | appointment_form |%>
 
 		<!-- FECHA -->
 		<div style="width: 100%; position: relative; float: left;">

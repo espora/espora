@@ -1,12 +1,4 @@
-<%
-	# Panel para las tabs del workspace del terapeuta
-	@therapist_active_tab = 1
-
-	# Panel para las tabs del workspace del lue
-	@lue_active_tab = 0
-%>
-
-<% content_for :lue_list_tab do %>
+<% content_for :lue do %>
 
 	<% if not flash[:notice].nil? %>
 	
@@ -126,7 +118,17 @@
 		});
 
 		$("#lue-table").expandTable({
-			beforeExpand: function(elem) {
+			toggle: "#lue-table .arrow-expand i",
+			beforeExpand: function(tr) {},
+			afterExpand: function(tr) {
+				var icon = $(tr).find(".arrow-expand i");
+				if(icon.hasClass("fa-caret-down")) {
+					icon.removeClass("fa-caret-down");
+					icon.addClass("fa-caret-up");
+				} else {
+					icon.removeClass("fa-caret-up");
+					icon.addClass("fa-caret-down");
+				}
 			}
 		});
 	</script>

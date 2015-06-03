@@ -1,13 +1,4 @@
-<% 
-	# Panel para las tabs del workspace del terapeuta
-	@therapist_active_tab = 1
-
-	# Panel para las tabs del workspace del lue
-	@lue_active_tab = 1
-
-%>
-
-<% content_for :lue_new_tab do %>
+<% content_for :lue_new do %>
 	<%= render partial: "form", locals: { patient_request: @patient_request } %>
 <% end %>
 

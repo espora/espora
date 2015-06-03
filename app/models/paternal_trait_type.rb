@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: paternal_trait_types
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
 class PaternalTraitType < ActiveRecord::Base
 
 	# Rasgo paterno en expediente

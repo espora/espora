@@ -1,7 +1,14 @@
+<!-- TABLAS DE CITAS -->
 <table id="appointment-table" class="pure-table pure-table-bordered">
+	
 	<thead align="center">
-		<th># CITA</th><th>FECHA</th><th>HORA</th><th>ASISTIO</th><th>IR A CITA</th>
+		<th># CITA</th>
+		<th>FECHA</th>
+		<th>HORA</th>
+		<th>ASISTIO</th>
+		<th>IR A CITA</th>
 	</thead>
+
 	<tbody align="center">
 		<% tab_index = open_appointments(patient_record).count + 2 %>
 		<% appointments.each do | appointment | %>
@@ -21,6 +28,7 @@
 					<% end %>
 				</td>
 
+				<!-- LINK PARA ABRIR LA CITA -->
 				<td>
 					<%= link_to open_appointment_path(patient_record, appointment) + "?tab=" + params[:tab] + "&app_tab=" + tab_index.to_s do %>
 						<i class="fa fa-arrow-right"></i>

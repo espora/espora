@@ -3,13 +3,15 @@ class AppointmentsController < ApplicationController
 	# Incluir las funciones de ayuda de la aplicacion
 	include ApplicationHelper
 
-	# Devise
+	# Devise - Verifica que el terapeuta este loggeado
 	before_filter :authenticate_therapist!
 
-	# Layout para el terapeuta
+	# Layout de terapeuta
 	layout "therapist", :only => [ :show, :update, :index, :open ]
 
 	# GET
+	# Todas las citas registradas
+	# de un expediente.
 	def index
 
 		# Obtenemos el expediente
@@ -17,9 +19,16 @@ class AppointmentsController < ApplicationController
 
 		# Obtenemos las citas
 		@appointments = @patient_record.appointments
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = params[:tab]
+
+		# Panel para las tabs del workspace del open record
+		@open_record_active_tab = 1
 	end
 
 	# GET
+	# Abre una cita (la pone en sesion)
 	def open
 
 		# Si no hemos creado la variable de sesion
@@ -57,6 +66,7 @@ class AppointmentsController < ApplicationController
 	end
 
 	# GET
+	# Cierra una cita (la elimina de la sesion)
 	def close
 
 		# Encontramos el indice en el arreglo
@@ -72,6 +82,7 @@ class AppointmentsController < ApplicationController
 	end
 
 	# GET
+	# Muestra la cita con sus campos para modificar
 	def show
 
 		# Obtenemos el expediente por el id
@@ -79,9 +90,16 @@ class AppointmentsController < ApplicationController
 
 		# Obtenemos la cita por el id
 		@appointment = Appointment.find(params[:appointment_id])
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = params[:tab]
+
+		# Panel para las tabs del workspace del open record
+		@open_record_active_tab = params[:app_tab]
 	end
 
 	# POST
+	# Crea una cita con los parametros dados
 	def create
 
 		# Obtenemos el expediente del paciente actual
@@ -89,16 +107,18 @@ class AppointmentsController < ApplicationController
 
 		# Creamos la cita
 		appointment = Appointment.new(create_appointment_params)
-		appointment.number = patient_record.next_appointment_number
+		appointment.number = patient_record.new_appointment_number
 
 		# Asignamos a las citas y guardamos
 		patient_record.appointments << appointment
 		appointment.save
 
+		# Rendereamos la tabla de citas
 		render partial: "appointment_table", locals: { patient_record: patient_record, appointments: patient_record.appointments }
 	end
 
 	# PUT
+	# Actualiza la informacion de una cita
 	def update
 
 		# Obtenemos la cita
@@ -129,10 +149,12 @@ class AppointmentsController < ApplicationController
 
 	private
 
+		# Ecapsula los parametros permitidos para actualizar citas
 		def appointment_params
 			params.require(:appointment).permit(:attended, :notes, :symptoms_attributes => [:symptom_type_id, :level, :_destroy])
 		end
 
+		# Ecapsula los parametros permitidos para crear la cita
 		def create_appointment_params
 			params.permit(:date)
 		end

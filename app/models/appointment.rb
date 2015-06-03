@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: appointments
+#
+#  id                :integer          not null, primary key
+#  number            :integer
+#  date              :datetime
+#  attended          :boolean
+#  notes             :text
+#  patient_record_id :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#
 class Appointment < ActiveRecord::Base
 
 	# Expediente

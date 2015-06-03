@@ -3,13 +3,15 @@ class PatientRecordsController < ApplicationController
 	# Incluir las funciones de ayuda de la aplicacion
 	include ApplicationHelper
 
-	# Devise
+	# Devise - Verifica que el terapeuta este loggeado
 	before_filter :authenticate_therapist!
 
-	# Layout para el terapeuta
+	# Layout de terapeuta
 	layout "therapist", :only => [ :fosti, :havad ]
 
 	# GET
+	# Lista de los expedientes de un terapeuta.
+	# Aplica búsquedas y ordenamientos.
 	def fosti
 
 		# El Array que se ira llenando
@@ -59,9 +61,13 @@ class PatientRecordsController < ApplicationController
 				end
 			}
 		end
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 2
 	end
 
 	# PUT
+	# Actualiza la información de un expediente
 	def update
 
 		# Obtenemos el expediente y hacemos update de lo mandado
@@ -120,6 +126,7 @@ class PatientRecordsController < ApplicationController
 	end
 
 	# GET
+	# Pone un expediente en sesión (se pone como abierto)
 	def open
 
 		# Si no hemos creado la variable de sesion
@@ -139,20 +146,32 @@ class PatientRecordsController < ApplicationController
 				# Citas abiertas
 				:open_appointments => Array.new
 			}
-		end
 
-		# Redirigimos al havad
-		redirect_to havad_index_path(params[:id]) + "?tab=" + params[:tab]
+			# Redirigimos al havad
+			redirect_to havad_index_path(params[:id]) + "?tab=" + params[:tab]
+		else
+
+			# Redirigimos al fosti
+			redirect_to fosti_index_path
+		end
 	end
 
 	# GET
+	# Muestra la hoja de datos del expediente
 	def havad
 
 		# Encontramos el expediente
 		@patient_record = PatientRecord.find(params[:id])
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = params[:tab]
+
+		# Panel para las tabs del workspace del open record
+		@open_record_active_tab = 0
 	end
 
 	# GET
+	# Cierra un expedientede la sesion
 	def close
 
 		# Quitamos la variable de sesion del paciente elegido
@@ -166,6 +185,7 @@ class PatientRecordsController < ApplicationController
 
 	private
 
+		# Ecapsula los parametros permitidos para un expediente
 		def patient_records_params
 			params.require(:patient_record).permit(:lives_with, :observations, :cie10_type_id, :clinical_structure_type_id,
 				:paternal_traits_attributes => [:id, :paternal_trait_type_id])

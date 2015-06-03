@@ -118,7 +118,7 @@ class PatientRecordsController < ApplicationController
 			end
 
 			# Mandamos a renderear de nuevo con mensaje
-			flash[:notice] = "¡Información de expediente guardada éxitosamente!"
+			flash[:notice] = { :patient_record => "¡Información de expediente guardada éxitosamente!" }
 
 			# Redirigimos al havad
 			redirect_to havad_index_path(params[:id]) + "?tab=" + params[:tab]

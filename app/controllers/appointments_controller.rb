@@ -136,7 +136,7 @@ class AppointmentsController < ApplicationController
 		if @appointment.valid?
 
 			# Mandamos a renderear de nuevo con mensaje
-			flash[:notice] = "¡Información de cita guardada éxitosamente!"
+			flash[:notice] = { :appointment => "¡Información de cita guardada éxitosamente!" }
 
 			# Redirigimos al expediente
 			redirect_to havad_index_path(@appointment.patient_record.id) + "?tab=" + params[:tab]

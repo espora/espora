@@ -167,7 +167,7 @@ class PatientRequestsController < ApplicationController
 			@patient_request.save
 
 			# Mandamos a renderear de nuevo con mensaje
-			flash[:notice] = "¡Ha registrado exitosamente una solicitud!"
+			flash[:notice] = { :patient_request => "¡Ha registrado exitosamente una solicitud!" }
 
 			redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 		else
@@ -202,7 +202,7 @@ class PatientRequestsController < ApplicationController
 				@patient.age = age(@patient.birth)
 
 				# Mandamos a renderear de nuevo con mensaje
-				flash[:notice] = "¡Ha guardado exitosamente la información de una solicitud!"
+				flash[:notice] = { :patient_request => "¡Ha guardado exitosamente la información de una solicitud!" }
 
 				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 			else

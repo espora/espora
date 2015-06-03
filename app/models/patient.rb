@@ -153,7 +153,7 @@ class Patient < ActiveRecord::Base
 
 		# Iteramos los años y lo llenamos
 		(bYear..eYear).each do |year|
-			options[i] << [year.to_s, year.to_s]
+			options << [year.to_s, year.to_s]
 		end
 
 		return options

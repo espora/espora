@@ -17,5 +17,3 @@ es:
       therapist:
         not_found_in_database: "Terapeuta no registrado"
         invalid: "Contraseña inválida"
-
-  hola: "Hola mundo"

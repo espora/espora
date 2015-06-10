@@ -1,71 +1,105 @@
 Espora::Application.routes.draw do
 
-  get "patient_records/havad"
-  devise_for :therapists
+	# Sistema de login para terapeutas
+	devise_for :therapists
 
-  # Ruta raiz
-  root "home#index"
-  get  "/" => "home#index"
+	# Ruta raiz
+	root "home#index"
+	get	"/" => "home#index"
 
-  ##### Terapeutas
-  get "/therapists/profile/:id" => "therapists#profile", as: "therapist_profile"
+	################
+	#  Terapeutas  #
+	################
 
-  # Crear terapeutas
-  get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
-  post "/therapists/create" => "therapists#create", as: "create_therapists"
+	# Perfil del terapeuta
+	get "/therapists/profile/:id" => "therapists#profile", as: "therapist_profile"
 
-  # 
-  get "/therapists/schedules/:id" => "therapists#schedules", as: "therapist_schedules"
+	# Nuevo terapeuta
+	get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
 
-  ##### Solicitudes de ingreso Patient Request (LUE)
+	# Crea terapeuta
+	post "/therapists/create" => "therapists#create", as: "create_therapists"
 
-  # Consultar lue
-  get "/therapists/lue" => "patient_requests#lue", as: "lue_index"
+	# Horarios
+	get "/therapists/schedules/:id" => "therapists#schedules", as: "therapist_schedules"
 
-  # Crear solicitud paciente
-  get "/therapists/lue/new" => "patient_requests#new", as: "new_patient_request"
-  post "/therapists/lue/create" => "patient_requests#create", as: "patient_requests"
+	##################################################
+	#  Solicitudes de ingreso Patient Request (LUE)  #
+	##################################################
 
-  # Editar y salvar
-  get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "edit_patient_request"
-  patch "/therapists/lue/create" => "patient_requests#update", as: "patient_request"
+	# Consultar lue
+	get "/therapists/lue" => "patient_requests#lue", as: "lue_index"
 
-  # Editar solicitud paciente
-  get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "patient_request_edit"
+	# Nueva solicitud de pacientes
+	get "/therapists/lue/new" => "patient_requests#new", as: "new_patient_request"
 
-  # Eliminar solicitud paciente
-  get "/therapists/lue/mark_uninterested/:id" => "patients#mark_uninterested", as: "patient_mark_uninterested"
+	# Crear solicitud paciente
+	post "/therapists/lue/create" => "patient_requests#create", as: "patient_requests"
 
-  # Obtener los datos de horarios solicitados
-  get "/therapists/lue/request_schedules/:id" => "patient_requests#request_schedules", as: "request_schedules"
+	# Editar solicitud
+	get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "edit_patient_request"
 
-  # Marcar la solicitud como paciente contactado
-  get "/therapists/lue/mark_contacted/:id" => "patients#mark_contacted", as: "patient_mark_contacted"
+	# Salvar solicitud
+	patch "/therapists/lue/create" => "patient_requests#update", as: "patient_request"
 
-  # Un terapeuta comienza a tender a un paciente (se crea su expediente)
-  get "/therapists/lue/assign/:id" => "patient_requests#assign", as: "assign_patient"
+	# Editar solicitud paciente
+	get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "patient_request_edit"
 
-  ##### Expedientes de pacientes (Patient Record)
+	# Obtener los datos de horarios solicitados
+	get "/therapists/lue/request_schedules/:id" => "patient_requests#schedules", as: "request_schedules"
 
-  # Index de expedientes de paciente (FOSTI / HAVAD)
-  get "/therapists/havad/" => "patient_records#fosti_havad", as: "havad_index"
+	# Un terapeuta comienza a tender a un paciente (se crea su expediente)
+	get "/therapists/lue/assign/:id" => "patient_requests#assign", as: "assign_patient"
 
-  # Salvar el expediene de paciente
-  patch "/therapists/havad/update/:id" => "patient_records#update", as: "patient_record"
+	###############
+	#  Pacientes  #
+	###############
 
-  # Elige el expediente con el que se va a trabajar
-  get "/therapists/havad/choose_record/:id" => "patient_records#choose", as: "choose_record"
-  get "/therapists/havad/close_record" => "patient_records#close", as: "close_record"
+	# Marcar el paciente como no interesado
+	get "/therapists/lue/mark_uninterested/:id" => "patients#mark_uninterested", as: "patient_mark_uninterested"
 
-  ##### Citas de pacientes (Appointment)
+	# Marcar la solicitud como paciente contactado
+	get "/therapists/lue/mark_contacted/:id" => "patients#mark_contacted", as: "patient_mark_contacted"
 
-  # Crea una cita
-  post "/therapists/havad/appointment/create" => "appointments#create", as: "create_appointment"
+	###############################################
+	#  Expedientes de pacientes (Patient Record)  #
+	###############################################
 
-  # Elige una cita
-  get "/therapists/havad/appointment/:id" => "appointments#show", as: "show_appointment"
+	# Expedientes de paciente
+	get "/therapists/fosti" => "patient_records#fosti", as: "fosti_index"
 
-  # Actualiza la informacion de una cita
-  patch "/therapists/havad/appointment/update/:id" => "appointments#update", as: "appointment"
+	# Muestra el expediente
+	get "/therapists/havad/:id" => "patient_records#havad", as: "havad_index"
+
+	# Salvar el expediene de paciente
+	patch "/therapists/havad/update/:id" => "patient_records#update", as: "patient_record"
+
+	# Elige un expediente para trabajar
+	get "/therapists/havad/open_record/:id" => "patient_records#open", as: "open_record"
+
+	# Elige un expediente a trabajar
+	get "/therapists/havad/close_record/:id" => "patient_records#close", as: "close_record"
+
+	###########
+	#  Citas  #
+	###########
+
+	# Ver citas
+	get "/therapists/havad/:id/appointments" => "appointments#index", as: "appointments"
+
+	# Crea una cita
+	post "/therapists/havad/:id/appointment/create" => "appointments#create", as: "create_appointment"
+
+	# Elige una cita
+	get "/therapists/havad/:id/open_appointment/:appointment_id" => "appointments#open", as: "open_appointment"
+
+	# Cierra una cita
+	get "/therapists/havad/:id/close_appointment/:appointment_id" => "appointments#close", as: "close_appointment"	
+
+	# Ve una cita
+	get "/therapists/havad/:id/appointment/:appointment_id" => "appointments#show", as: "show_appointment"
+
+	# Actualiza la informacion de una cita
+	patch "/therapists/havad/appointment/update/:id" => "appointments#update", as: "appointment"
 
 end

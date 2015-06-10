@@ -1,7 +1,7 @@
 
 #ter-main-container {
 	font: 65% 'Trebuchet MS', sans-serif;
-	margin: 50px;
+	padding: 5px 40px 0px 40px;
 }
 
 #ter-header {
@@ -50,9 +50,40 @@
 	min-height: 400px;
 }
 
+#ter-tabs-header {
+	height: 42px;
+}
+
+#ter-tabs-header li {
+	height: 40px;
+}
+
+#ter-tabs-header li i {
+	float: left;
+	font-size: 14px;
+}
+
+#ter-tabs-header li div {
+	margin-left: 8px;
+	float: left;
+}
+
+.open-record-tab:nth-child(1) {
+	margin-left: 30px !important;
+}
+
+.open-record-tab {
+	max-width: 14% !important;
+	height: 25px !important;
+	margin-top: 16px !important;
+	font-size: 10px;
+}
+
 .ter-panel {
 	display: block;
 	overflow: auto;
+	padding-left: 8px !important;
+	padding-right: 8px !important;
 }
 
 #perfil {

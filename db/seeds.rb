@@ -24,6 +24,8 @@ howmet_entries = [
 	{ name: "Cartel" },
 	{ name: "Amigos y/o conocidos" },
 	{ name: "Página de la Facultad" },
+	{ name: "Maestros o Tutores" },
+	{ name: "Platica Informativa o Bienvenida" }
 	{ name: "Otro" }
 ]
 

@@ -1,4 +1,54 @@
-<%= table_schedules_input %>
+
+<table id="req-schedules-input" class="pure-table pure-table-bordered pat-schedule-table noselect">
+	<col width="115px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+	<col width="40px"/>
+
+	<thead>
+		<tr align="center">
+			<th style="width: 55px;">Hora</th>
+			<th>Lun.</th>
+			<th>Mar.</th>
+			<th>Mié.</th>
+			<th>Jue.</th>
+			<th>Vie.</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% (10..22).each do |hour| %>
+			<% ["00", "30"].each do |minutes| %>
+				<% next_minutes = (minutes.to_i + 30) % 60 %>
+				<% next_hour = (next_minutes == 0)? (hour + 1) : hour %>
+				<tr>
+					<td align="center">
+						<% hour_str = "" %>
+						<% hour_str += "0" if hour.to_s.length == 1 %>
+						<% hour_str += hour.to_s + ":" + minutes + " - " %>
+						<% hour_str += "0" if next_hour.to_s.length == 1 %>
+						<% hour_str += next_hour.to_s + ":" %>
+						<% hour_str += "0" if next_minutes.to_s.length == 1 %>
+						<% hour_str += next_minutes.to_s + " hrs." %>
+
+						<%= hour_str %>
+					</td>
+
+					<% 5.times do | day | %>
+						<% id_td = (day + 1).to_s + hour.to_s + minutes %>
+						<td id="<%= id_td %>" class="available-schedule"
+							day="<%= (day + 1) %>"
+							hour="<%= hour %>" minutes="<%= minutes %>"
+							next-hour="<%= next_hour %>" next-minutes="<%= next_minutes %>">
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
 
 <!-- FIELDS ANIDADOS -->
 <div id="request-schedules-fields">

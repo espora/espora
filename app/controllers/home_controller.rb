@@ -1,5 +1,8 @@
 class HomeController < ApplicationController
 
+	# GET
+	# Pagina principal del proyecto, si el terapeuta
+	# esta logeado, redirigimos a su perfil.
 	def index
 
 		# Si el terapeuta esta logeado

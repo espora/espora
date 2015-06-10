@@ -18,45 +18,27 @@
 	</thead>
 
 	<tbody>
-		<%
-			# 7am a 10pm 
-			(10..22).each do |hour|
+		<% (10..22).each do |hour| %>
+			<% ["00", "30"].each do |minutes| %>
+				<% next_minutes = (minutes.to_i + 30) % 60 %>
+				<% next_hour = (next_minutes == 0)? (hour + 1) : hour %>
 
-				# Intervalo de 30 minutos
-				["00", "30"].each do |minutes|
-
-					# Obtenemos la siguiente hora
-					next_minutes = (minutes.to_i + 30) % 60
-					next_hour = (next_minutes == 0)? (hour + 1) : hour
-
-					# Creamos el codigo html para el tr
-					%>
-					<tr>
-						<td align="center" style="padding: 5px 0 5px 0; margin: 0 0 0 0;">
+				<tr>
+					<td align="center" style="padding: 5px 0 5px 0; margin: 0 0 0 0;">
 						<%= "0" if hour.to_s.length == 1 %><%= hour.to_s %>:<%= minutes %> - 
-						<%= "0" if next_hour.to_s.length == 1 %><%= next_hour.to_s %>:<%= "0" if next_minutes.to_s.length == 1 %><%= next_minutes.to_s %>
-						hrs.
-						</td>
-					<%
+						<%= "0" if next_hour.to_s.length == 1 %><%= next_hour.to_s %>:<%= "0" if next_minutes.to_s.length == 1 %><%= next_minutes.to_s %> hrs.
+					</td>
 
-					# Iteramos los días
-					5.times do | day |
-
-						# Obtenemos el id
-						id_td = (day + 1).to_s + hour.to_s + minutes
-						%>
+					<% 5.times do | day | %>
+						<% id_td = (day + 1).to_s + hour.to_s + minutes %>
 						<td day="<%= (day + 1) %>"
 							hour="<%= hour %>" minutes="<%= minutes %>"
 							next-hour="<%= next_hour %>" next-minutes="<%= next_minutes %>">
 						</td>
-						<%
-					end
-					%>
-					</tr>
-					<%
-				end
-			end
-		%>
+					<% end %>
+				</tr>
+			<% end %>
+		<% end %>
 	</tbody>
 </table>
 

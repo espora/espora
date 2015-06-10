@@ -5,10 +5,10 @@
 	</div>
 
 	<% if not flash[:alert].nil? %>
-		<div class="alert-box error"><%= flash[:alert] %></div>
+		<div class="alert-box error" onclick="$(this).remove();"><%= flash[:alert] %></div>
 	<% end %>
 	<% if not flash[:notice].nil? %>
-		<div class="alert-box notice"><%= flash[:notice] %></div>
+		<div class="alert-box notice" onclick="$(this).remove();"><%= flash[:notice] %></div>
 	<% end %>
 
 	<div id="login">
@@ -29,13 +29,3 @@
 		<% end %>
 	</div>
 </div>
-
-<script type="text/javascript">
-	$(".alert-box").each(function() {
-		timerAlertBox(this);
-	});
-
-	$(".alert-box").click(function() {
-		$(this).remove();
-	});
-</script>

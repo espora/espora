@@ -17,65 +17,55 @@
 //= require jquery_nested_form
 //= require_tree .
 
-
 /**
- *loadPanel:
- *   Hace una peticion via ajax a una url dada
- *   y el resultado lo pone en el panel dado
+ * Muestra un horario en una tabla de horarios.
+ *
+ * El encabezado de la tabla es:
+ * Hora | Lun | Mar | Mier | Jue | Vie
+ *
+ * Cada celda guarda como atributo el día al que pertenece,
+ * un número del 1 al 5.
+ * También guarda como atributo de hora (hour), minuto (minutes),
+ * siguiente hora (next-hour) y siguiente minuto (next-minutes).
+ *
+ * @param {DOM Element} table - La tabla.
+ * @param {Object} schedule - Objeto que representa al horario.
+ *   @param {Number} schedule.day - El día del horario.
+ *   @param {String} schedule.beginH - La hora de inicio del horario.
+ *   @param {String} schedule.endH - La hora de final del horario.
+ * @param {Function} onRangeHandler - Se llama por cada celda que cae en el horario
  */
-function loadPanel( url, panel ) {
+function displaySchedule (table, schedule, scheduleCell) {
 
-	// Pedimos via ajax
-	$.ajax({
-		type: "GET",
-		url: url,
-		dataType: "html",
-		success: function( data ) {
-			panel.html( data );
-		}
-	});
-
-}
-
-function timerAlertBox (elem) {
-	setTimeout(function() {
-		$(elem).remove();
-	}, 4000);
-}
-
-function displaySchedule (table, schedule, onRangeHandler) {
-
-	// Obtenemos los horarios del dia
+	// Se obtienen los horarios del dia
 	var schedulesDay = $(table).find("td[day=" + schedule.day + "]");
 
-	// Obtenemos los id de inicio y final
-	var beginH = parseHour(schedule.beginH, 6);
-	var endH = parseHour(schedule.endH, 6);
+	// Parseamos las horas
+	var beginH = [ new Date(schedule.beginH).getHours() + 6,
+				   new Date(schedule.beginH).getMinutes() ];
+	var endH   = [ new Date(schedule.endH).getHours() + 6,
+				   new Date(schedule.endH).getMinutes() ];
 
-	// Ponemos las celdas iluminadas
-	var onRange = false;
-	for (var j = 0; j < schedulesDay.length; j++) {
-		var hour = parseInt($(schedulesDay[j]).attr("hour"));
-		var minutes = parseInt($(schedulesDay[j]).attr("minutes"));
-		var nextHour = parseInt($(schedulesDay[j]).attr("next-hour"));
-		var nextMinutes = parseInt($(schedulesDay[j]).attr("next-minutes"));
+	// Iteramos la celdas del día
+	var onSchedule = false;
+	for (var i = 0; i < schedulesDay.length; i++) {
 
-		if(hour == beginH[0] && minutes == beginH[1]) {
-			onRange = true;
-		}
+		// Parseamos los datos (atributos) de la celda
+		var hour        = parseInt($(schedulesDay[i]).attr("hour"));
+		var minutes     = parseInt($(schedulesDay[i]).attr("minutes"));
+		var nextHour    = parseInt($(schedulesDay[i]).attr("next-hour"));
+		var nextMinutes = parseInt($(schedulesDay[i]).attr("next-minutes"));
 
-		if(onRange) {
-			onRangeHandler(schedulesDay[j]);
-		}
+		// Si ya estamos en el horario prendemos la bandera
+		if(hour == beginH[0] && minutes == beginH[1])
+			onSchedule = true;
 
-		if(nextHour == endH[0] && nextMinutes == endH[1]) {
+		// Si estamos en el rango llamamos al callback
+		if(onSchedule)
+			scheduleCell(schedulesDay[i]);
+
+		// Si llegamos al final del horario nos detenemos
+		if(nextHour == endH[0] && nextMinutes == endH[1])
 			break;
-		}
 	}
-}
-
-// Parsea una hora
-function parseHour (dateValue, timeDiff) {
-	var date = new Date(dateValue);
-	return [ date.getHours() + timeDiff, date.getMinutes() ];
 }

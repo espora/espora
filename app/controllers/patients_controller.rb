@@ -1,12 +1,8 @@
 class PatientsController < ApplicationController
 
-	def new
-	end
-
-	def create
-	end
-
 	# GET
+	# Marca como contactado al paciente
+	# y se pone en espera de respuesta.
 	def mark_contacted
 		@patient = Patient.find(params[:id])
 		@patient.status = "waiting"
@@ -16,6 +12,7 @@ class PatientsController < ApplicationController
 	end	
 
 	# GET
+	# Marca como desinteresado.
 	def mark_uninterested
 		@patient = Patient.find(params[:id])
 		@patient.status = "uninterested"

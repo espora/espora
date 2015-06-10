@@ -1,5 +1,31 @@
+# == Schema Information
+#
+# Table name: therapists
+#
+#  id                     :integer          not null, primary key
+#  email                  :string(255)      default(""), not null
+#  encrypted_password     :string(255)      default(""), not null
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  scholar_grade          :string(255)
+#  role                   :string(255)
+#  telephone1             :string(255)
+#  telephone2             :string(255)
+#  p_last_name            :string(255)
+#  m_last_name            :string(255)
+#  names                  :string(255)
+#
 class Therapist < ActiveRecord::Base
 
+	# Sistema de login
 	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
 	# Horarios de los terapeutas
@@ -12,7 +38,10 @@ class Therapist < ActiveRecord::Base
 	# Expediente que atiende
 	has_many :patient_records
 
-	def match_schedule? ( patient_request )
+	# Verifica si un terapeuta tiene en común algún horario
+	# de una solicitud. Es decir, si algún horario solicitado
+	# se empata con alguno de sus horarios
+	def match_schedule? (patient_request)
 
 		# Obtenemos los horarios del terapeuta acomodados por dias
 		ther_days = [ Array.new,  Array.new,  Array.new,  Array.new,  Array.new ]

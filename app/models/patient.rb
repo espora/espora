@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: patients
+#
+#  id              :integer          not null, primary key
+#  p_last_name     :string(255)
+#  m_last_name     :string(255)
+#  names           :string(255)
+#  account_number  :integer
+#  birth           :date
+#  age             :integer
+#  sex             :string(255)
+#  career          :string(255)
+#  init_school     :string(255)
+#  semester        :integer
+#  failed_subjects :integer
+#  telephone1      :string(255)
+#  telephone2      :string(255)
+#  email           :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  status          :string(255)
+#
 class Patient < ActiveRecord::Base
 
 	# Solicitud del paciente
@@ -48,8 +71,6 @@ class Patient < ActiveRecord::Base
 		"ended" => 6,
 		"abandoned_treatment" => 7
 	}
-
-	###### VALIDACIONES
 
 	# t.string   "p_last_name"
 	VALID_CARACTERS_SPANISH = /(\A[A-Za-z\sÁÉÍÓÚáéíóúñÑ]+\z)/
@@ -104,16 +125,16 @@ class Patient < ActiveRecord::Base
 	validates :email, format: { :with => VALID_CARACTERS , message: "Formato de correo invalido" }
 	validates :email, uniqueness: { case_sensitive: true, message: "Correo electrónico ya registrado" }
 
-	###### METODOS
-
 	# Devuelve las opciones disponibles para
 	# carrera
 	def self.carrer_options
-		options = []
-		i = 0
+
+		# Creamos el arreglo
+		options = Array.new
+
+		# Metemos las carreras
 		Patient::NAME_CAREER.each do |key, value|
-			options[i] = [value, key]
-			i += 1
+			options << [value, key]
 		end
 
 		return options
@@ -122,18 +143,24 @@ class Patient < ActiveRecord::Base
 	# Devuelve las opciones disponibles para inicio
 	# de año escolar
 	def self.init_school_years
+
+		# Año de inicio y final
 		bYear = 1990
 		eYear = 2015
-		options = []
-		i = 0
+
+		# Creamos el arreglo
+		options = Array.new
+
+		# Iteramos los años y lo llenamos
 		(bYear..eYear).each do |year|
-			options[i] = [year.to_s, year.to_s]
-			i += 1
+			options << [year.to_s, year.to_s]
 		end
 
 		return options
 	end
 
+	# Regresa el nombre completo del paciente:
+	#  ApellidoPaterno ApellidoMaterno Nombres
 	def full_name
 		self.p_last_name + " " + self.m_last_name + " " + self.names
 	end

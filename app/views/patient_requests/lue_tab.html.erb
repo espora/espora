@@ -11,10 +11,10 @@
 
 		<!-- PANELES -->
 		<div id="consultar" class="ter-panel">
-			<%= content_for?(:lue_list_tab) ? yield(:lue_list_tab) : "" %>
+			<%= content_for?(:lue) ? yield(:lue) : "" %>
 		</div>
 		<div id="nuevo" class="ter-panel">
-			<%= content_for?(:lue_new_tab) ? yield(:lue_new_tab) : "" %>
+			<%= content_for?(:lue_new) ? yield(:lue_new) : "" %>
 		</div>
 		
 	</div>
@@ -26,16 +26,17 @@
 
 				// Siguiente panel
 				var newPanel = ui.newPanel;
+				var newPanelId = newPanel.attr("id");
 
 				// PANEL AL WORKSPACE
 
 				// Lista
-				if( newPanel.attr( "id" ) === "consultar" ) {
+				if(newPanelId === "consultar") {
 					window.location = "<%= lue_index_path %>";
 				}
 
 				// Nuevo
-				if( newPanel.attr( "id" ) === "nuevo" ) {
+				if(newPanelId === "nuevo") {
 					window.location = "<%= new_patient_request_path %>";
 				}
 			}

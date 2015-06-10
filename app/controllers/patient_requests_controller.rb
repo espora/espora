@@ -3,13 +3,15 @@ class PatientRequestsController < ApplicationController
 	# Incluir las funciones de ayuda de la aplicacion
 	include ApplicationHelper
 
-	# Devise
+	# Devise - Verifica que el terapeuta este loggeado
 	before_filter :authenticate_therapist!
 
-	# Layout para el terapeuta
+	# Layout de terapeuta
 	layout "therapist", :only => [ :lue, :new, :edit, :create, :update ]
 
 	# GET
+	# Lista de las solicitudes de pacientes.
+	# Aplica búsquedas, filtros y ordenamientos.
 	def lue
 
 		# El Array que se ira llenando
@@ -90,18 +92,31 @@ class PatientRequestsController < ApplicationController
 		@patient_requests.keep_if { | pat_req |
 			pat_req.patient.status == "uncontacted" or pat_req.patient.status == "waiting" or pat_req.patient.status == "contacted"
 		}
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 1
+
+		# Panel para las tabs del workspace del lue
+		@lue_active_tab = 0
 	end
 
 	# GET
+	# Formulario para registrar una nueva solicitud
 	def new
 
 		# Creamos los objetos
 		@patient_request = PatientRequest.new
 		@patient_request.patient = Patient.new
 
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 1
+
+		# Panel para las tabs del workspace del lue
+		@lue_active_tab = 1
 	end
 
 	# GET
+	# Formulario para editar una nueva solicitud
 	def edit
 
 		# Obtenemos la solicitud
@@ -112,6 +127,7 @@ class PatientRequestsController < ApplicationController
 	end
 
 	# POST
+	# Crea una nueva solicitud
 	def create
 
 		# Pasamos los blanks a nils
@@ -151,7 +167,7 @@ class PatientRequestsController < ApplicationController
 			@patient_request.save
 
 			# Mandamos a renderear de nuevo con mensaje
-			flash[:notice] = "¡Ha registrado exitosamente una solicitud!"
+			flash[:notice] = { :patient_request => "¡Ha registrado exitosamente una solicitud!" }
 
 			redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 		else
@@ -160,6 +176,7 @@ class PatientRequestsController < ApplicationController
 	end
 
 	# PATCH
+	# Actualiza la información de una solicitud
 	def update
 
 		# Pasamos los blanks a nils
@@ -185,7 +202,7 @@ class PatientRequestsController < ApplicationController
 				@patient.age = age(@patient.birth)
 
 				# Mandamos a renderear de nuevo con mensaje
-				flash[:notice] = "¡Ha guardado exitosamente la información de una solicitud!"
+				flash[:notice] = { :patient_request => "¡Ha guardado exitosamente la información de una solicitud!" }
 
 				redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 			else
@@ -197,7 +214,8 @@ class PatientRequestsController < ApplicationController
 	end
 
 	# GET
-	def request_schedules
+	# Envia un json con los horarios solicitados
+	def schedules
 
 		# Obtenemos la solicitud
 		patient_request = PatientRequest.find(params[:id])
@@ -209,6 +227,10 @@ class PatientRequestsController < ApplicationController
 	end
 
 	# GET
+	# Asigna un paciente a un terapeuta através de
+	# su solicitud.
+	# Con esto se empieza a atender al paciente
+	# y se crea su expediente.
 	def assign
 
 		# Obtenemos el paciente
@@ -246,16 +268,19 @@ class PatientRequestsController < ApplicationController
 
 	private
 
+		# Ecapsula los parametros permitidos para una solicitud
 		def patient_requets_params
 			params.require(:patient_request).permit(:reasons, :condition, :money, :pre_care,
 				:affected_areas_attributes => [ :affected_area_type_id, :other_name, :_destroy, :id ],
 				:request_schedules_attributes => [ :day, :beginH, :endH, :_destroy, :id ])
 		end
 
+		# Ecapsula los parametros permitidos para el catalogo Como conocio
 		def how_met_params
 			params.require(:how_met).permit(:how_met_type_id, :other_name)
 		end
 
+		# Ecapsula los parametros permitidos para un paciente
 		def patient_params
 			params.require(:patient).permit(:names, :p_last_name, :m_last_name, :birth, :age, :sex, :account_number, :career,
 				:init_school, :semester, :failed_subjects, :telephone1, :telephone2, :email)

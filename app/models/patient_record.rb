@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: patient_records
+#
+#  id                         :integer          not null, primary key
+#  observations               :text
+#  lives_with                 :text
+#  patient_id                 :integer
+#  therapist_id               :integer
+#  created_at                 :datetime
+#  updated_at                 :datetime
+#  cie10_type_id              :integer
+#  clinical_structure_type_id :integer
+#
 class PatientRecord < ActiveRecord::Base
 
 	# Paciente al que pertenece el expediente
@@ -25,7 +39,8 @@ class PatientRecord < ActiveRecord::Base
 	# Situaciones y experiencias
 	has_and_belongs_to_many :experience_types
 
-	def next_appointment_number
+	# Devuelve el numero para una cita nueva (consecutivo del último)
+	def new_appointment_number
 
 		# Es la primera cita
 		if self.appointments.count == 0
@@ -39,7 +54,8 @@ class PatientRecord < ActiveRecord::Base
 		end
 	end
 
-	def next_appointment_date
+	# Obtiene la proxima cita
+	def next_appointment
 
 		# Obtenemos la hora y fecha actual
 		now = Time.now
@@ -66,15 +82,30 @@ class PatientRecord < ActiveRecord::Base
 			end
 		end
 
+		return next_appointment
+	end
+
+	# Devuelve la fecha de la próxima cita
+	def next_appointment_date
+
+		# Obtenemos la próxima cita
+		next_appointment = self.next_appointment
+
 		if next_appointment.nil?
+
+			# Si es nula (no hay citas)
 			return "No se ha programado ninguna cita."
 		else
+
+			# Creamos la fecha y hora
 			date = next_appointment.date.strftime("%d-%m-%y")
 			time = next_appointment.date.strftime("%H:%M")
+
 			return date + " " + time
 		end
 	end
 
+	# Devuelve las citas que el paciente no asistio
 	def missed_appointments
 
 		# Creamos el arreglo para las inasistencias

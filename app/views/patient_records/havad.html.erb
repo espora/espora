@@ -1,20 +1,15 @@
-<%
-	# Panel para las tabs del workspace del terapeuta
-	@therapist_active_tab = params[:tab]
-
-	# Panel para las tabs del workspace del open record
-	@open_record_active_tab = 0
-%>
-
 <% content_for :havad do %>
 
 	<div style="width: 99%; position: relative; float: left;">
 
-		<% if not flash[:notice].nil? %>
+		<% if not flash[:notice].nil? and flash[:notice].is_a?(Hash) %>
+		
 			<!-- MENSAJES DEL HAVAD -->
-			<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
-				<%= flash[:notice] %>
-			</div>
+			<% flash[:notice].each do | key, notice | %>
+				<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
+					<%= notice %>
+				</div>
+			<% end %>
 		<% end %>
 
 		<!--FORMULARIO HAVAD -->

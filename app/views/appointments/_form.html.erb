@@ -1,4 +1,7 @@
-<div style=" width: 40%; position: relative; float: left; padding-left: 8%; margin-top: 13px;" align="left">
+
+<div style="width: 40%; position: relative; float: left; padding-left: 8%; margin-top: 13px;" align="left">
+
+	<!-- FORMULARIO PARA CREAR UNA CITA -->
 	<%= form_tag create_appointment_path + "?tab=" + params[:tab], :id => "form-appointment", :class => "pure-form pure-form-stacked", :remote => true do | appointment_form |%>
 
 		<!-- FECHA -->
@@ -16,6 +19,7 @@
 
 <script type="text/javascript">
 
+	// Creamos los horarios en los que se permite agregar citas
 	var _allowTimes = new Array();
 	for (var i = 0; i < 24; i++) {
 		if (i < 10) {
@@ -27,6 +31,7 @@
 		}
 	}
 
+	// Inicializamos el datetimepicker
 	$("input#new-appointment-date").datetimepicker({
 		lang: "es",
 		format: "d-m-Y H:i",
@@ -34,6 +39,7 @@
 		minDate: 0
 	});
 
+	// Respuestas AJAX al formulario
 	$("#form-appointment").bind("ajax:success", function(evt, data, status, xhr) {
 		$("#appointment-table-container").html(data);
 	});

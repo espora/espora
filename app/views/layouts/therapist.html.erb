@@ -20,7 +20,7 @@
 					<%= image_tag("Espora.png", :class => "ter-logo") %>
 				</div>
 
-				<% if not flash[:notice].nil? %>
+				<% if not flash[:notice].nil? and flash[:notice].is_a?(String) %>
 
 					<!-- MENSAJES DEL TERAPEUTA -->
 					<div class="alert-box success" style="width: 100%; margin: 5px 0 3px 0; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">

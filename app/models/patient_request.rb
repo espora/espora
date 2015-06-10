@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: patient_requests
+#
+#  id                   :integer          not null, primary key
+#  reasons              :text
+#  condition            :string(255)
+#  money                :float
+#  pre_care             :boolean
+#  request_date         :date
+#  attention_date       :date
+#  created_at           :datetime
+#  updated_at           :datetime
+#  receive_therapist_id :integer
+#  patient_id           :integer
+#  contact_therapist_id :integer
+#
 class PatientRequest < ActiveRecord::Base
 
 	# Paciente
@@ -44,8 +61,6 @@ class PatientRequest < ActiveRecord::Base
 		"bien" => 3,
 		"muy_bien" => 4
 	}
-
-	###### VALIDACIONES
 
 	# t.text "reasons"
 	validates :reasons, presence: { :message => "Campo vacio" }

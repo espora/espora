@@ -1,16 +1,17 @@
 # == Schema Information
 #
-# Table name: affected_area_types
+# Table name: personal_area_types
 #
 #  id         :integer          not null, primary key
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #
-class AffectedAreaType < ActiveRecord::Base
+
+class PersonalAreaType < ActiveRecord::Base
 
 	# Areas afectadas de una solicitud
-	has_many :affected_areas
+	has_many :affected_area
 
 	# Devuelve true si el tipo es Otro
 	def is_other?

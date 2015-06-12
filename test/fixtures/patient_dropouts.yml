@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_dropout_type_id: 
+  patient_id: 
+
+two:
+  patient_dropout_type_id: 
+  patient_id: 

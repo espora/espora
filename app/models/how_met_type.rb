@@ -9,7 +9,7 @@
 #
 class HowMetType < ActiveRecord::Base
 
-	# Areas afectadas de una solicitud
+	# Como conocios en una solicitud
 	has_many :how_mets
 
 	# Devuelve true si el tipo es Otro

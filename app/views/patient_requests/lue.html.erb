@@ -82,7 +82,7 @@
 						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
-						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= PatientRequest::NAME_CONDITION[req.condition] %></td>
+						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= req.condition_type.name %></td>
 						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= Patient::NAME_STATUS[patient.status] %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>

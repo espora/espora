@@ -4,7 +4,6 @@
 #
 #  id                   :integer          not null, primary key
 #  reasons              :text
-#  condition            :string(255)
 #  money                :float
 #  pre_care             :boolean
 #  request_date         :date
@@ -14,6 +13,7 @@
 #  receive_therapist_id :integer
 #  patient_id           :integer
 #  contact_therapist_id :integer
+#  condition_type_id    :integer
 #
 class PatientRequest < ActiveRecord::Base
 
@@ -35,6 +35,9 @@ class PatientRequest < ActiveRecord::Base
 	# Como conocio espora
 	has_one :how_met, :dependent => :delete
 
+	# Condicion
+	belongs_to :condition_type
+
 	# Como conocio en formularios anidados
 	accepts_nested_attributes_for :how_met, :allow_destroy => true
 
@@ -43,24 +46,6 @@ class PatientRequest < ActiveRecord::Base
 
 	# Horarios solicitados en formularios anidados
 	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
-
-	# Mapeo condicion a nombre en formulario
-	NAME_CONDITION = {
-		"mal" => "Mal",
-		"muy_mal" => "Muy mal",
-		"regular" => "Regular",
-		"bien" => "Bien",
-		"muy_bien" => "Muy bien"
-	}
-
-	# Mapeo para el orden
-	CONDITION_ORDER = {
-		"muy_mal" => 0,
-		"mal" => 1,
-		"regular" => 2,
-		"bien" => 3,
-		"muy_bien" => 4
-	}
 
 	# t.text "reasons"
 	validates :reasons, presence: { :message => "Campo vacio" }

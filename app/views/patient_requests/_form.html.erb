@@ -144,8 +144,8 @@
 
 				<!-- CONDICION -->
 				<div style="margin-left: 2%; margin-top: 10px;">
-					<%= request_form.label :condition do %>¿Cómo te sientes actualmente?<% end %>
-					<%= request_form.select :condition, [["Muy mal", "muy_mal"], ["Mal", "mal"], ["Regular", "regular"], ["Bien", "bien"], ["Muy bien", "muy_bien"]] %>
+					<%= request_form.label :condition_type_id do %>¿Cómo te sientes actualmente?<% end %>
+					<%= request_form.select :condition_type_id, ConditionType::options_for_select %>
 				</div>
 
 				<!-- DINERO -->

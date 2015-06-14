@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150524193415) do
+ActiveRecord::Schema.define(version: 20150611233844) do
 
-  create_table "affected_area_types", force: true do |t|
+  create_table "advise_level_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -21,14 +21,20 @@ ActiveRecord::Schema.define(version: 20150524193415) do
 
   create_table "affected_areas", force: true do |t|
     t.integer  "patient_request_id"
+    t.integer  "personal_area_type_id"
+    t.string   "other_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "other_name"
-    t.integer  "affected_area_type_id"
   end
 
-  add_index "affected_areas", ["affected_area_type_id"], name: "index_affected_areas_on_affected_area_type_id"
   add_index "affected_areas", ["patient_request_id"], name: "index_affected_areas_on_patient_request_id"
+  add_index "affected_areas", ["personal_area_type_id"], name: "index_affected_areas_on_personal_area_type_id"
+
+  create_table "aid_level_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "appointments", force: true do |t|
     t.integer  "number"
@@ -49,6 +55,12 @@ ActiveRecord::Schema.define(version: 20150524193415) do
   end
 
   create_table "clinical_structure_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "condition_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -85,6 +97,17 @@ ActiveRecord::Schema.define(version: 20150524193415) do
   add_index "how_mets", ["how_met_type_id"], name: "index_how_mets_on_how_met_type_id"
   add_index "how_mets", ["patient_request_id"], name: "index_how_mets_on_patient_request_id"
 
+  create_table "improve_areas", force: true do |t|
+    t.integer  "patient_signout_id"
+    t.integer  "personal_area_type_id"
+    t.string   "other_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "improve_areas", ["patient_signout_id"], name: "index_improve_areas_on_patient_signout_id"
+  add_index "improve_areas", ["personal_area_type_id"], name: "index_improve_areas_on_personal_area_type_id"
+
   create_table "mechanism_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -116,6 +139,22 @@ ActiveRecord::Schema.define(version: 20150524193415) do
   add_index "paternal_traits", ["paternal_trait_type_id"], name: "index_paternal_traits_on_paternal_trait_type_id"
   add_index "paternal_traits", ["patient_record_id"], name: "index_paternal_traits_on_patient_record_id"
 
+  create_table "patient_dropout_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "patient_dropouts", force: true do |t|
+    t.integer  "patient_dropout_type_id"
+    t.integer  "patient_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "patient_dropouts", ["patient_dropout_type_id"], name: "index_patient_dropouts_on_patient_dropout_type_id"
+  add_index "patient_dropouts", ["patient_id"], name: "index_patient_dropouts_on_patient_id"
+
   create_table "patient_records", force: true do |t|
     t.text     "observations"
     t.text     "lives_with"
@@ -134,7 +173,6 @@ ActiveRecord::Schema.define(version: 20150524193415) do
 
   create_table "patient_requests", force: true do |t|
     t.text     "reasons"
-    t.string   "condition"
     t.float    "money"
     t.boolean  "pre_care"
     t.date     "request_date"
@@ -144,9 +182,28 @@ ActiveRecord::Schema.define(version: 20150524193415) do
     t.integer  "receive_therapist_id"
     t.integer  "patient_id"
     t.integer  "contact_therapist_id"
+    t.integer  "condition_type_id"
   end
 
   add_index "patient_requests", ["patient_id"], name: "index_patient_requests_on_patient_id"
+
+  create_table "patient_signouts", force: true do |t|
+    t.integer  "aid_level_id"
+    t.integer  "condition_type_id"
+    t.integer  "rating"
+    t.integer  "advise_level_id"
+    t.text     "satisfactions"
+    t.text     "claims"
+    t.text     "observations"
+    t.integer  "patient_dropout_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "patient_signouts", ["advise_level_id"], name: "index_patient_signouts_on_advise_level_id"
+  add_index "patient_signouts", ["aid_level_id"], name: "index_patient_signouts_on_aid_level_id"
+  add_index "patient_signouts", ["condition_type_id"], name: "index_patient_signouts_on_condition_type_id"
+  add_index "patient_signouts", ["patient_dropout_id"], name: "index_patient_signouts_on_patient_dropout_id"
 
   create_table "patients", force: true do |t|
     t.string   "p_last_name"
@@ -166,6 +223,12 @@ ActiveRecord::Schema.define(version: 20150524193415) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "status"
+  end
+
+  create_table "personal_area_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "request_schedules", force: true do |t|

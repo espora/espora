@@ -29,6 +29,9 @@ class Patient < ActiveRecord::Base
 	# Expediente
 	has_one :patient_record, :dependent => :destroy
 
+	# Baja
+	has_one :patient_dropout, :dependent => :destroy
+
 	# Mapeo condicion a nombre en formulario
 	NAME_CAREER = {
 		"actuaria" => "Actuaría", 

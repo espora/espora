@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AffectedAreaTypeTest < ActiveSupport::TestCase
+class ConditionTypeTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -61,7 +61,7 @@ class PatientRequestsController < ApplicationController
 		if not params[:order_by].nil? and @patient_requests.size > 0
 			if params[:order_by] == "condition"
 				@patient_requests.sort! { |x, y|
-					PatientRequest::CONDITION_ORDER[x.condition] <=> PatientRequest::CONDITION_ORDER[y.condition]
+					x.condition_type.id <=> y.condition_type.id
 				}
 
 			elsif params[:order_by] == "status"
@@ -262,16 +262,15 @@ class PatientRequestsController < ApplicationController
 		@patient.update_attributes(:status => "treatment")
 
 		# Guardamos que estamos trabajando con el y enviamos al havad
-		session[:current_patient] = @patient.id
-		redirect_to havad_index_path
+		redirect_to fosti_index_path
 	end
 
 	private
 
 		# Ecapsula los parametros permitidos para una solicitud
 		def patient_requets_params
-			params.require(:patient_request).permit(:reasons, :condition, :money, :pre_care,
-				:affected_areas_attributes => [ :affected_area_type_id, :other_name, :_destroy, :id ],
+			params.require(:patient_request).permit(:reasons, :condition_type_id, :money, :pre_care,
+				:affected_areas_attributes => [ :personal_area_type_id, :other_name, :_destroy, :id ],
 				:request_schedules_attributes => [ :day, :beginH, :endH, :_destroy, :id ])
 		end
 

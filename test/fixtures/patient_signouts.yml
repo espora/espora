@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  aid_level_id: 
+  condition_type_id: 
+  rating: 1
+  advise_level_id: 
+  satisfactions: MyText
+  claims: MyText
+  observations: MyText
+  patient_dropout_id: 
+
+two:
+  aid_level_id: 
+  condition_type_id: 
+  rating: 1
+  advise_level_id: 
+  satisfactions: MyText
+  claims: MyText
+  observations: MyText
+  patient_dropout_id: 

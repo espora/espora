@@ -1,13 +1,27 @@
 <!-- OPCIONES -->
 <div id="affectedAreasOpts">
-	<%= affected_area_inputs("changeAffectedArea") %>
+	<% affected_areas_type = PersonalAreaType.all %>
+	<% affected_areas_type.each do | affarea | %>
+
+		<div style="width: 50%; float: left; margin-top: 7px; height: 16px;">
+			<input type="checkbox" id-area="<%= affarea.id %>" area="<%= affarea.name %>" onclick="changeAffectedArea(this);" >
+				<div style="display: inline-block; position: relative; top: -3px; left: 3px;">
+					<%= affarea.name %>
+				</div>
+
+				<% if affarea.is_other? %>
+					<input type="text" style="display: inline-block; position: relative; top: -3px; left: 8px;" autofocus="autofocus" size="10" disabled />
+				<% end %>
+			</input>
+		</div>
+	<% end %>
 </div>
 
 <!-- FIELDS ANIDADOS -->
 <div id="affected-areas-fields">
 	<%= form.fields_for :affected_areas do | aarea_form | %>
 		<%= aarea_form.hidden_field :other_name %>
-		<%= aarea_form.hidden_field :affected_area_type_id %>
+		<%= aarea_form.hidden_field :personal_area_type_id %>
 		<%= aarea_form.link_to_remove "", :style => "display: none;" %>
 	<% end %>
 </div>

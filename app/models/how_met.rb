@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: how_mets
+#
+#  id                 :integer          not null, primary key
+#  patient_request_id :integer
+#  how_met_type_id    :integer
+#  other_name         :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#
 class HowMet < ActiveRecord::Base
 
 	# Solicitud de paciente
@@ -6,11 +17,4 @@ class HowMet < ActiveRecord::Base
 	# Tipo de como conocio
 	belongs_to :how_met_type
 
-	def isOther?
-		if self.how_met_type.name == "Otro"
-			return true
-		else
-			return false
-		end
-	end
 end

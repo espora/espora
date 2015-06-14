@@ -144,8 +144,8 @@
 
 				<!-- CONDICION -->
 				<div style="margin-left: 2%; margin-top: 10px;">
-					<%= request_form.label :condition do %>¿Cómo te sientes actualmente?<% end %>
-					<%= request_form.select :condition, [["Muy mal", "muy_mal"], ["Mal", "mal"], ["Regular", "regular"], ["Bien", "bien"], ["Muy bien", "muy_bien"]] %>
+					<%= request_form.label :condition_type_id do %>¿Cómo te sientes actualmente?<% end %>
+					<%= request_form.select :condition_type_id, ConditionType::options_for_select %>
 				</div>
 
 				<!-- DINERO -->
@@ -229,7 +229,7 @@
 						¿Cuáles son tus horarios disponibles para asistir a las sesiones? (Seleccione los rangos)
 					</div>
 
-					<div style="margin-top: -4px; margin-left: 1.2%;">
+					<div style="margin-top: -2px; margin-left: 1.2%;">
 						<%= render partial: "schedules_input", locals: { form: request_form, patient_request: patient_request } %>
 					</div>
 				</div>

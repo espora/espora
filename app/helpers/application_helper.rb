@@ -1,38 +1,54 @@
 module ApplicationHelper
 
-	def age(birthday)
+	# Devuelve edad a partir de una fecha
+	# de nacimiento
+	def age (birthday)
+
+		# Obtiene la fecha actual
 		now = Time.now.utc.to_date
+
+		# Regresa la diferencia de años con excedente
 		return now.year - birthday.year - (birthday.to_date.change(:year => now.year) > now ? 1 : 0)
 	end
 
-	def lue_filter_options ( param_filter )
-		default_options = [["No Filtrar", "none"], ["Concidencias en horario", "schedule"]]
+	# Obtiene los expedientes abiertos
+	# guardados en sesion
+	def open_records
 
-		options = ""
-		default_options.each do | option |
+		# Crea un arreglo
+		@open_records = Array.new
 
-			if not param_filter.nil?
-				if param_filter == option[1]
-					options += "<option value='" + option[1] + "' selected> " + option[0] + "</option>"
-				else
-					options += "<option value='" + option[1] + "'>" + option[0] + "</option>"
-				end
-			else
-				options += "<option value='" + option[1] + "'>" + option[0] + "</option>"
+		# Si está el registro en la sesion
+		if not session[:open_records].nil?
+
+			# Itera los identificadores de los expedientes abiertos y
+			# lo mete en el arreglo
+			session[:open_records].each do | key, value |
+				@open_records << PatientRecord.find(value[:id])
 			end
 		end
 
-		return options
+		return @open_records
 	end
 
-	def current_patient
-		return unless session[:current_patient_id]
-		@current_patient ||= Patient.find(session[:current_patient_id])
-	end
+	# Obtiene las citas abiertas de un expediente
+	# guardado en sesion
+	def open_appointments (patient_record)
 
-	def current_appointment
-		return unless session[:current_appointment_id]
-		@current_appointment ||= Appointment.find(session[:current_appointment_id])
+		# Crea un arreglo
+		@open_appointments = Array.new
+
+		# Si está el registro en la sesion
+		if not session[:open_records][patient_record.id.to_s].nil?
+
+			# Itera los identificadores de las citas abiertas
+			# y lo mete en el arreglo
+			session[:open_records][patient_record.id.to_s][:open_appointments].each do | value |
+				@open_appointments << Appointment.find(value)
+			end
+		end
+		
+		return @open_appointments
 	end
 
 end

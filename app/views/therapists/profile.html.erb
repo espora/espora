@@ -1,30 +1,44 @@
 <% content_for :profile_tab do %>
 
-	<!-- Panel izquierdo -->
-	<div id="ter-profile-1">
+	<div id="terapeuta_tabs">
+		<ul id="ter-tabs-header2">
 
-		<div>
-			<span><b>ID: </b> <%= @therapist.id %></span>
-		</div>
+			<li><a href="#perfilTab" style="margin-top: 8px;">
+					<i class="fa fa-male"></i>
+					<div align="center">Mis Datos</div>
+			</a></li>
 
-		<div>
-			<span><b>Nombre: </b> <%= @therapist.p_last_name + " " + @therapist.m_last_name + " " + @therapist.names %></span>
-		</div>
 
-		<div>
-			<span><b>Teléfono: </b> <%= @therapist.telephone1 %></span>
-		</div>
-
-		<div>
-			<span><b>E-Mail: </b> <%= @therapist.email %></span>
-		</div>
-
+			<li><a href="#estadisticasTab">
+				<i class="fa fa-pie-chart" style="margin-top: 8px;"></i>
+				<div align="center">Estadisticas</div>
+			</a></li>
+		</ul>
 	</div>
 
-	<div id='calendar'></div>
+
+	<!-- PERFIL -->
+	<div id="perfilTab" class="ter-panel">
+		<%= yield(:perfil_tab) if content_for?(:perfil_tab) %>
+	</div>
+
+	<div id="testgraph"></div>
+
+	<script type="text/javascript">
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('prueba') %>",
+			success: function(data) {
+				$("#testgraph").append(data);
+			}
+		});
+	</script>
+	<!-- </div> -->
+
+	<!-- <div id='calendar'></div> -->
 
 
-	<script>
+	<!--<script>
 
 		$(document).ready(function() {
 			$('#calendar').fullCalendar({
@@ -61,6 +75,50 @@
 			});
 			
 		});
+	</script>-->
 
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$( "#terapeuta_tabs" ).tabs({
+				active: parseInt("<%= @therapist_active_tab %>"),
+				beforeActivate: function( event, ui ) {
+
+					// Siguiente panel
+					var newPanel = ui.newPanel;
+					var newPanelId = newPanel.attr("id");
+
+					// PANEL AL WORKSPACE
+
+					// Perfil
+					if(newPanelId === "perfilTab") {
+						window.location = "<%= therapist_profile_path(current_therapist.id) %>";
+					}
+
+					// LUE
+					if(newPanelId === "estadisticasTab") {
+						window.location = "<%= graph_index_path('prueba') %>";
+					}
+
+					if(newPanelId.lastIndexOf("open_record") != -1) {
+
+						// Encontramos el numero de tab
+						var tabindex = 1;
+						var panels = $(".open-record-panel");
+						for (var i = 0; i < panels.length; i++) {
+							if(newPanelId === $(panels[i]).attr("id")) {
+								break;
+							}
+							tabindex++;
+						}
+
+						window.location = newPanel.attr("link-open-record") + "?tab=" + tabindex;
+					}
+
+					
+				}
+			});
+
+		});
 	</script>
 <% end %>

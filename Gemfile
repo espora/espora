@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+	source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.4'
@@ -58,6 +58,9 @@ gem 'tod'
 
 # Anotations
 gem 'annotate', '~> 2.6.6'
+
+#Charts
+gem 'googlecharts'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

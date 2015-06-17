@@ -34,10 +34,12 @@
 			
 				<!-- OPCIONES PESTAÑA -->
 				<ul id="ter-tabs-header">
-					<li><a href="#perfil" style="margin-top: 8px;">
+					<li>
+						<a href="#perfil" style="margin-top: 8px;">
 							<i class="fa fa-user-md"></i>
 							<div align="center">Perfil</div>
-					</a></li>
+						</a>
+					</li>
 
 					<li><a href="#lue">
 						<i class="fa fa-list" style="margin-top: 8px;"></i>
@@ -65,6 +67,7 @@
 					</div>
 				</ul>
 
+				<!-- PANELES -->
 				<!-- PERFIL -->
 				<div id="perfil" class="ter-panel">
 					<%= yield(:profile_tab) if content_for?(:profile_tab) %>
@@ -83,7 +86,7 @@
 				<% if not @open_records.nil? %>
 					<!-- PANELES - EXPEDIENTES ABIERTOS -->
 					<% @open_records.each do | open_record | %>
-					<div id="open_record_<%= open_record.id %>" class="ter-panel open-record-panel" link-open-record="<%= havad_index_path(open_record) %>">
+					<div id="open_record_<%= open_record.id %>" class="ter-panel open-record-panel" link-open-record="<%= patient_index_path(open_record) %>">
 						<%= yield("open_record" + open_record.id.to_s) if content_for?("open_record" + open_record.id.to_s) %>
 					</div>
 					<% end %>

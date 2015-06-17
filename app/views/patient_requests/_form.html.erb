@@ -30,7 +30,7 @@
 					<div class="form-inputs-title">DATOS PERSONALES</div>
 
 					<!-- NOMBRES -->
-					<div style="margin-left: 4%; margin-top: 5px;">
+					<div style="margin-left: 4%; margin-top: 8px;">
 						<%= patient_form.label :names do %>Nombre(s): <% end %>
 						<%= patient_form.text_field :names, autofocus: true, :size => 50, :maxlength => 25, :required => true %>
 					</div>
@@ -72,10 +72,10 @@
 				</div>
 
 				<div class="form-inputs" style="width: 48%; height: 100%; float: left; margin-left: 1.5%;">
-					<div class="form-inputs-title">DATOS PERSONALES</div>
+					<div class="form-inputs-title">DATOS ESCOLARES</div>
 
 					<!-- NUMERO DE CUENTA -->
-					<div style="margin-left: 4%; margin-top: 5px; ">
+					<div style="margin-left: 4%; margin-top: 8px; ">
 						<%= patient_form.label :account_number do %>No. de cuenta: <% end %>
 						<%= patient_form.text_field :account_number, autofocus: true, :size => 20, class: "num-field", :maxlength => 9, :required => true %>
 					</div>
@@ -111,7 +111,7 @@
 				<div class="form-inputs-title">CONTACTOS</div>
 
 				<!-- TELEFONO 1 -->
-				<div style="margin-left: 2%; margin-top: 5px;">
+				<div style="margin-left: 2%; margin-top: 8px;">
 					<%= patient_form.label :telephone1 do %>Telefono: <% end %>
 					<%= patient_form.text_field :telephone1, autofocus: true, class: "num-field", :maxlength => 13 %>
 				</div>
@@ -137,7 +137,7 @@
 				<div class="form-inputs-title">DATOS DE INGRESO</div>
 
 				<!-- MOTIVOS -->
-				<div style="margin-left: 2%; margin-top: 10px;">
+				<div style="margin-left: 2%; margin-top: 8px;">
 					<%= request_form.label :reasons do %>¿Cuáles son tus motivos de consulta?<% end %>
 					<%= request_form.text_area :reasons, autofocus: true, cols: 70, rows: 7 , :required => true, :maxlength => 400 %>
 				</div>

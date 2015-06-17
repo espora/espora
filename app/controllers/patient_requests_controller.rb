@@ -160,9 +160,6 @@ class PatientRequestsController < ApplicationController
 			# Dar la fecha de registro
 			@patient_request.request_date = Time.now
 
-			# Calculamos la edad del paciente
-			@patient.age = age(@patient.birth)
-
 			# Salvamos en la BD
 			@patient_request.save
 

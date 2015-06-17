@@ -5,6 +5,10 @@
 
 		<!-- PESTANAS -->
 		<ul>
+			<li><a href="#patient">
+				<div align="center">Paciente</div>
+			</a></li>
+
 			<li><a href="#havad">
 				<div align="center">HAVAD</div>
 			</a></li>
@@ -28,6 +32,11 @@
 				</li>
 			<% end %>
 		</ul>
+
+		<!-- Paciente -->
+		<div id="patient" class="ter-panel">
+			<%= yield(:patient) if content_for?(:patient) %>
+		</div>
 
 		<!-- HAVAD -->
 		<div id="havad" class="ter-panel">
@@ -57,6 +66,10 @@
 				var newPanelId = newPanel.attr("id");
 
 				// PANEL AL WORKSPACE
+				if(newPanelId === "patient") {
+					window.location = "<%= patient_index_path(@patient_record) %>?tab=<%= params[:tab] %>";
+				}
+
 				if(newPanelId === "havad") {
 					window.location = "<%= havad_index_path(@patient_record) %>?tab=<%= params[:tab] %>";
 				}

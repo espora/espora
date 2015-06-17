@@ -15,6 +15,9 @@ class TherapistsController < ApplicationController
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 0
+
+		# Panel para las tabs del workspace del perfil
+		@profile_active_tab = 0
 	end
 
 	# GET

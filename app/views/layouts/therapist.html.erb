@@ -52,7 +52,10 @@
 					</a></li>
 
 					<% if current_therapist.role == "Coordinator" %>
-						<li><a href="#add_therapist">Registra Terapeuta</a></li>
+						<li><a href="#add_therapist">
+						<i class="fa fa-users" style="margin-top: 8px;"></i>
+						<div align="center">Terapeutas</div>
+					</a></li>
 					<% end %>
 
 					<% @open_records = open_records %>

@@ -121,4 +121,14 @@ Espora::Application.routes.draw do
 	# Llenar egreso
 	get "/therapists/dropout/fill_signout/:id" => "patient_dropouts#fill_signout", as: "patient_fill_signout"
 
+	##################
+	#  Estadisticas  #
+	##################
+
+	# Index de estadisticas
+	get "/therapists/stadistics" => "stadistics#index", as: "stadistics_index"
+
+	# Grafica de estadistica
+	get "/therapists/stadistics/:graph" => "stadistics#graph", as: "graph_index"
+
 end

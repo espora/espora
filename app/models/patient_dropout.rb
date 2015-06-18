@@ -15,4 +15,11 @@ class PatientDropout < ActiveRecord::Base
 
 	# Tipo de baja
 	belongs_to :patient_dropout_type
+
+	# Egreso
+	has_one :patient_signout
+
+	# Canalizacion
+	has_one :patient_channelization
+	
 end

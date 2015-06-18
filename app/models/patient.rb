@@ -167,4 +167,18 @@ class Patient < ActiveRecord::Base
 	def full_name
 		self.p_last_name + " " + self.m_last_name + " " + self.names
 	end
+
+	# Devuelve la edad del paciente a partir de
+	# su fecha de nacimiento
+	def age
+
+		# Obtenemos su fecha de nacimiento
+		birthday = self.birth
+
+		# Obtiene la fecha actual
+		now = Time.now.utc.to_date
+
+		# Regresa la diferencia de años con excedente
+		return now.year - birthday.year - (birthday.to_date.change(:year => now.year) > now ? 1 : 0)
+	end
 end

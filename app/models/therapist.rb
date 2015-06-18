@@ -94,4 +94,10 @@ class Therapist < ActiveRecord::Base
 
 		return false
 	end
+
+	# Regresa el nombre completo del paciente:
+	#  ApellidoPaterno ApellidoMaterno Nombres
+	def full_name
+		self.p_last_name + " " + self.m_last_name + " " + self.names
+	end
 end

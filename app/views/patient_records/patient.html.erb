@@ -1,0 +1,193 @@
+<% content_for :patient do %>
+
+	<!-- PATIENT INFO CONTAINER -->
+	<div id="patient-info-container">
+
+		<% if not flash[:notice].nil? and flash[:notice].is_a?(Hash) %>
+		
+			<!-- MENSAJES DEL PACIENTE -->
+			<% flash[:notice].each do | key, notice | %>
+				<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
+					<%= notice %>
+				</div>
+			<% end %>
+		<% end %>
+
+		<!-- DATOS -->
+		<div style="width: 57%; height: 500px;">
+
+			<!-- PERSONALES -->
+			<div class="patient-info-section" style="margin-top: 8px;">
+				<div class="info-title">DATOS PERSONALES</div>
+
+				<div class="patient-info-field" style="width: 100%; margin-top: 0px;">
+					<div>Nombre:</div>
+					<div><%= @patient.full_name %></div>
+				</div>
+
+				<div class="patient-info-field">
+					<div>Sexo:</div>
+					<div><%= Patient::NAME_SEX[@patient.sex] %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 80%;">
+					<div>Edad:</div>
+					<div><%= @patient.age %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 22%;">
+					<div>Correo electrónico:</div>
+					<div><%= @patient.email %></div>
+				</div>
+
+				<div class="patient-info-field">
+					<div>Teléfono:</div>
+					<div><%= (@patient.telephone1.nil? or @patient.telephone1.blank?) ? "-----" : @patient.telephone1 %></div>
+				</div>
+
+				<div class="patient-info-field">
+					<div>Celular:</div>
+					<div><%= (@patient.telephone2.nil? or @patient.telephone2.blank?) ? "-----" : @patient.telephone2 %></div>
+				</div>
+			</div>
+
+			<!-- ESCOLARES -->
+			<div class="patient-info-section">
+				<div class="info-title">DATOS ESCOLARES</div>
+
+				<div class="patient-info-field" style="margin-top: 0px;">
+					<div>No. de Cuenta:</div>
+					<div><%= @patient.account_number %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 70%;">
+					<div>Carrera:</div>
+					<div><%= Patient::NAME_CAREER[@patient.career] %></div>
+				</div>
+
+				<div class="patient-info-field">
+					<div>Ciclo de inicio:</div>
+					<div><%= @patient.init_school.to_s + "-1" %></div>
+				</div>
+
+				<div class="patient-info-field">
+					<div>Semestre:</div>
+					<div><%= @patient.semester %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 20%;">
+					<div>Materias adeudadas:</div>
+					<div><%= @patient.failed_subjects %></div>
+				</div>
+			</div>
+
+			<!-- INGRESO -->
+			<div class="patient-info-section">
+				<div class="info-title">DATOS DE INGRESO</div>
+
+				<div class="patient-info-field" style="width: 90%; margin-top: 0px;">
+					<div>Motivos de consulta:</div>
+					<div><p style="margin: 0;"><%= @patient_request.reasons %></p></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 90%;">
+					<div>Áreas afectadas:</div>
+					<div>
+						<% aff_areas = @patient_request.affected_areas %>
+						<% aff_areas.each do |aff_area| %>
+							<% area = aff_area.personal_area_type %>
+							<div style="width: 100%; float: left; font-weight: normal; margin-left: 0;">
+								<%= (area.is_other?) ? aff_area.other_name : area.name %>
+							</div>
+						<% end %>
+					</div>
+				</div>
+
+				<div class="patient-info-field" style="width: 19%;">
+					<div>Dinero semanal:</div>
+					<div>$ <%= @patient_request.money %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 19%;">
+					<div>Atención previa:</div>
+					<div><%= (@patient_request.pre_care) ? "Si" : "No" %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 22%;">
+					<div>Cómo conoció ESPORA:</div>
+					<% how_met = @patient_request.how_met %>
+					<% how_met_type = how_met.how_met_type %>
+					<div><%= (how_met_type.is_other?) ? how_met.other_name : how_met_type.name %></div>
+				</div>
+
+				<div class="patient-info-field" style="width: 90%;">
+					<div>Terapeuta que recibió solicitud:</div>
+					<div><%= @patient_request.receive_therapist.full_name %></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- BOTONES BAJAS -->
+		<div style="width: 41.8%; height: 240px; margin-left: 10px;">
+
+			<!-- BAJAS -->
+			<div class="patient-info-section" style="margin-top: 8px;">
+				<div class="info-title">BAJA:</div>
+
+				<!-- CANALIZACION -->
+				<div style="width: 73%; margin-top: 10px; margin-left: 10%;" >
+					<%= form_for @channelization, :html => { :class => "pure-form pure-form-stacked" } do |f| %>
+						<div>
+							<%= f.label :where do %>¿A donde se canaliza?<% end %>
+							<%= f.text_field :where, :required => true, :style => "width: 100%; font-size: 11px;" %>
+						</div>
+
+						<div style="width: 48%; margin-left: 52%;">
+							<%= f.submit "PACIENTE CANALIZADO",
+								:class => "pure-button pure-button-active patient-dropout-action",
+								:style => "width: 100%; background: #4B8DF9; color: #FFF;",
+								:data => { confirm: "¿Estás seguro?" } %>
+						</div>
+					<% end %>
+				</div>
+
+				<!-- MARCAR INTERRUPCION -->
+				<div align="center" style="width: 99%; margin-top: 8px;">
+					<%= link_to patient_fill_signout_path(@patient_record),
+						:class => "pure-button pure-button-active patient-dropout-action",
+						:style => "background: #4B8DF9; color: #FFF;",
+						:data => { confirm: "¿Estás seguro?" } do %>
+						LLENAR EGRESO
+					<% end %>
+				</div>
+
+				<!-- MARCAR INTERRUPCION -->
+				<div align="center" style="width: 99%; margin-top: 8px;">
+					<%= link_to patient_interruption_path(@patient_record),
+						:class => "pure-button pure-button-active patient-dropout-action",
+						:style => "background: rgb(202, 60, 60); color: #FFF;",
+						:data => { confirm: "¿Estás seguro?" } do %>
+						TRATAMIENTO INTERRUMPIDO
+					<% end %>
+				</div>
+
+				<!-- MARCAR INTERRUPCION -->
+				<div align="center" style="width: 99%; margin-top: 8px;">
+					<%= link_to patient_abandonment_path(@patient_record),
+						:class => "pure-button pure-button-active patient-dropout-action",
+						:style => "background: rgb(202, 60, 60); color: #FFF;",
+						:data => { confirm: "¿Estás seguro?" } do %>
+						TRATAMIENTO ABANDONADO
+					<% end %>
+				</div>
+			</div>
+		</div>
+
+		<!-- OTROS BOTONES -->
+		<div style="width: 41.8%; height: 238px; margin-left: 10px; margin-top: 10px;">
+		</div>
+	</div>
+
+<% end %>
+
+<%= render template: "patient_records/open_record_tab" %>

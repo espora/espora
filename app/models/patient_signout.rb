@@ -14,22 +14,21 @@
 #  created_at         :datetime
 #  updated_at         :datetime
 #
-
 class PatientSignout < ActiveRecord::Base
 
 	# Nivel de ayuda (Que tanto te ayudo)
-	belongs_to :aid_level
+	belongs_to :aid_level_type
 
 	# Condición (Como se siente)
 	belongs_to :condition_type
 
 	# Nivel de sugerencia (Que tanto sugieres espora)
-	belongs_to :advise_level
+	belongs_to :advise_level_type
 
 	# Baja
 	belongs_to :patient_dropout
 
 	# Areas mejoradas
-	has_many :improved_areas, :dependent => :delete_all
+	has_many :improve_areas, :dependent => :delete_all
 
 end

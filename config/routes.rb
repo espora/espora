@@ -65,7 +65,7 @@ Espora::Application.routes.draw do
 	#  Expedientes de pacientes (Patient Record)  #
 	###############################################
 
-	# Expedientes de paciente
+	# Expedientes asignados al terapeuta
 	get "/therapists/fosti" => "patient_records#fosti", as: "fosti_index"
 
 	# Muestra el expediente
@@ -79,6 +79,9 @@ Espora::Application.routes.draw do
 
 	# Elige un expediente a trabajar
 	get "/therapists/havad/close_record/:id" => "patient_records#close", as: "close_record"
+
+	# Datos del paciente
+	get "/therapists/havad/:id/patient" => "patient_records#patient", as: "patient_index"
 
 	###########
 	#  Citas  #
@@ -101,6 +104,22 @@ Espora::Application.routes.draw do
 
 	# Actualiza la informacion de una cita
 	patch "/therapists/havad/appointment/update/:id" => "appointments#update", as: "appointment"
+
+	###############################
+	#  Egresos (Patient Dropout)  #
+	###############################
+
+	# Salvar una canalizacion
+	post "/therapists/dropout/channelization" => "patient_dropouts#create_channelization", as: "patient_channelizations"
+
+	# Dar de baja por interrupcion
+	get "/therapists/dropout/interruption/:id" => "patient_dropouts#create_interruption", as: "patient_interruption"
+
+	# Dar de baja por abandono
+	get "/therapists/dropout/abandonment/:id" => "patient_dropouts#create_abandonment", as: "patient_abandonment"
+
+	# Llenar egreso
+	get "/therapists/dropout/fill_signout/:id" => "patient_dropouts#fill_signout", as: "patient_fill_signout"
 
 	##################
 	#  Estadisticas  #

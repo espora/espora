@@ -113,3 +113,50 @@ div#appointment-container > div {
 	position: relative;
 	float: left;
 }
+
+/**** PATIENT ****/
+
+div#patient-info-container {
+	width: 100%;
+	font-size: 13px;
+}
+
+div#patient-info-container > div {
+	float: left;
+	border: 1px solid #d3d3d3;
+	border-radius: 3px;
+	padding-bottom: 10px;
+}
+
+div.patient-info-section {
+	width: 100%;
+	float: left;
+	margin-left: 2%;
+	margin-top: 20px;
+}
+
+div.info-title {
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 4px;
+}
+
+div.patient-info-field {
+	width: 15%;
+	margin-left: 1%;
+	margin-top: 6px;
+	float: left;
+}
+
+div.patient-info-field div:nth-child(1) {
+	font-weight: bold;
+}
+
+div.patient-info-field div:nth-child(2) {
+	margin-left: 10px;
+}
+
+.patient-dropout-action {
+	width: 40%;
+	font-weight: bold;
+}

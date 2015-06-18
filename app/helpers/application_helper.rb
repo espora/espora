@@ -1,16 +1,5 @@
 module ApplicationHelper
 
-	# Devuelve edad a partir de una fecha
-	# de nacimiento
-	def age (birthday)
-
-		# Obtiene la fecha actual
-		now = Time.now.utc.to_date
-
-		# Regresa la diferencia de años con excedente
-		return now.year - birthday.year - (birthday.to_date.change(:year => now.year) > now ? 1 : 0)
-	end
-
 	# Obtiene los expedientes abiertos
 	# guardados en sesion
 	def open_records

@@ -24,7 +24,7 @@ class AppointmentsController < ApplicationController
 		@therapist_active_tab = params[:tab]
 
 		# Panel para las tabs del workspace del open record
-		@open_record_active_tab = 1
+		@open_record_active_tab = 2
 	end
 
 	# GET

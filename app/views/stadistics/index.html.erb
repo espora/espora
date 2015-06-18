@@ -1,0 +1,16 @@
+<% content_for :statistics do %>
+	<div id="testgraph"></div>
+
+	<script type="text/javascript">
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('SolicitudesVsAtendidos') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+	</script>
+<% end %>
+
+<%= render template: "therapists/profile_tab" %>

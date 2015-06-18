@@ -10,6 +10,80 @@
 				$("#testgraph").append(data);
 			}
 		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('SexoSol') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('SexoAten') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Familiar') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('CarreraSol') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('CarreraAten') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('SemestreSol') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('SemestreAten') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('MateriasSol') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('MateriasAten') %>",
+			success: function(data) {
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				$("#testgraph").append(data);
+			}
+		});
+
+
 	</script>
 <% end %>
 

@@ -137,6 +137,7 @@
 				<!-- CANALIZACION -->
 				<div style="width: 73%; margin-top: 10px; margin-left: 10%;" >
 					<%= form_for @channelization, :html => { :class => "pure-form pure-form-stacked" } do |f| %>
+						<%= f.hidden_field "patient_id", :value => @patient.id %>
 						<div>
 							<%= f.label :where do %>¿A donde se canaliza?<% end %>
 							<%= f.text_field :where, :required => true, :style => "width: 100%; font-size: 11px;" %>
@@ -153,7 +154,7 @@
 
 				<!-- MARCAR INTERRUPCION -->
 				<div align="center" style="width: 99%; margin-top: 8px;">
-					<%= link_to patient_fill_signout_path(@patient_record),
+					<%= link_to patient_fill_signout_path(@patient_record.patient),
 						:class => "pure-button pure-button-active patient-dropout-action",
 						:style => "background: #4B8DF9; color: #FFF;",
 						:data => { confirm: "¿Estás seguro?" } do %>
@@ -163,7 +164,7 @@
 
 				<!-- MARCAR INTERRUPCION -->
 				<div align="center" style="width: 99%; margin-top: 8px;">
-					<%= link_to patient_interruption_path(@patient_record),
+					<%= link_to patient_interruption_path(@patient_record.patient),
 						:class => "pure-button pure-button-active patient-dropout-action",
 						:style => "background: rgb(202, 60, 60); color: #FFF;",
 						:data => { confirm: "¿Estás seguro?" } do %>
@@ -173,7 +174,7 @@
 
 				<!-- MARCAR INTERRUPCION -->
 				<div align="center" style="width: 99%; margin-top: 8px;">
-					<%= link_to patient_abandonment_path(@patient_record),
+					<%= link_to patient_abandonment_path(@patient_record.patient),
 						:class => "pure-button pure-button-active patient-dropout-action",
 						:style => "background: rgb(202, 60, 60); color: #FFF;",
 						:data => { confirm: "¿Estás seguro?" } do %>

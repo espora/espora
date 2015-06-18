@@ -35,7 +35,7 @@
 				<!-- OPCIONES PESTAÑA -->
 				<ul id="ter-tabs-header">
 					<li>
-						<a href="#perfil" style="margin-top: 8px;">
+						<a href="#profile" style="margin-top: 8px;">
 							<i class="fa fa-user-md"></i>
 							<div align="center">Perfil</div>
 						</a>
@@ -48,7 +48,12 @@
 
 					<li><a href="#fosti">
 						<i class="fa fa-archive" style="margin-top: 8px;"></i>
-						<div align="center">Mis Expedientes<br>(FOSTI)</div>
+						<div align="center">Expedientes<br>(FOSTI)</div>
+					</a></li>
+
+					<li><a href="#dropouts" style="margin-top: 8px;">
+						<i class="fa fa-user-times"></i>
+						<div align="center">Bajas</div>						
 					</a></li>
 
 					<% if current_therapist.role == "Coordinator" %>
@@ -72,7 +77,7 @@
 
 				<!-- PANELES -->
 				<!-- PERFIL -->
-				<div id="perfil" class="ter-panel">
+				<div id="profile" class="ter-panel">
 					<%= yield(:profile_tab) if content_for?(:profile_tab) %>
 				</div>
 
@@ -84,6 +89,11 @@
 				<!-- FOSTI PANEL -->
 				<div id="fosti" class="ter-panel">
 					<%= yield(:fosti_tab) if content_for?(:fosti_tab) %>
+				</div>
+
+				<!-- BAJAS PANEL -->
+				<div id="dropouts" class="ter-panel">
+					<%= yield(:dropouts_tab) if content_for?(:dropouts_tab) %>
 				</div>
 
 				<% if not @open_records.nil? %>
@@ -119,7 +129,7 @@
 						// PANEL AL WORKSPACE
 
 						// Perfil
-						if(newPanelId === "perfil") {
+						if(newPanelId === "profile") {
 							window.location = "<%= therapist_profile_path(current_therapist.id) %>";
 						}
 
@@ -133,10 +143,15 @@
 							window.location = "<%= fosti_index_path %>";
 						}
 
+						// BAJAS
+						if(newPanelId === "dropouts") {
+							window.location = "<%= patient_dropouts_index_path %>";
+						}
+
 						if(newPanelId.lastIndexOf("open_record") != -1) {
 
 							// Encontramos el numero de tab
-							var tabindex = 3;
+							var tabindex = 4;
 							var panels = $(".open-record-panel");
 							for (var i = 0; i < panels.length; i++) {
 								if(newPanelId === $(panels[i]).attr("id")) {

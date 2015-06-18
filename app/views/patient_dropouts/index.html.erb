@@ -1,0 +1,116 @@
+<% content_for :dropouts_tab do %>
+	
+	<!-- FILTRO Y BUSQUEDA -->
+	<div class="dropout-block" style="height: 60px;">
+		
+		<!-- BUSQUEDA -->
+		<form action="<%= patient_dropouts_index_path %>" method="get" class="pure-form" id="lue-search">
+			<% if not params[:filter_by].nil? %>
+				<%= hidden_field_tag 'filter_by', params[:filter_by] %>
+			<% end %>
+
+			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
+			<%= submit_tag "Buscar",  name: nil, class: "pure-button pure-button-primary" %>
+		</form>
+
+		<!-- FILTRAR -->
+		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="lue-filter">
+			<% if not params[:searchStr].nil? %>
+				<%= hidden_field_tag 'searchStr', params[:searchStr] %>
+			<% end %>
+
+			<%= label_tag 'filter_by', 'Filtrar por:', :style => "font-weight: bold;" %>
+			<%= select_tag 'filter_by', dropouts_filter_options(params[:filter_by]).html_safe, :onchange => "this.form.submit();" %>
+		</form>
+	</div>
+
+	<!-- REGISTROS -->
+	<div class="dropout-block" style="width: 98%; padding-left: 2%;">
+		<table id="dropout-table" class="pure-table pure-table-bordered">
+			<col width="110px"/><!-- No. DE CUENTA -->
+			<col width="155px"/><!-- APELLIDO PATERNO -->
+			<col width="155px"/><!-- APELLIDO MATERNO -->
+			<col width="150px"/><!-- NOMBRE(S) -->
+			<col width="130px"/><!-- CARRERA -->
+			<col width="125px"/><!-- EMAIL -->
+			<col width="120px"/><!-- TELÉFONO -->
+			<col width="115px"/><!-- FECHA DE BAJA -->
+			<col width="120px"/><!-- TIPO DE BAJA -->
+			<col width="40px"/>
+
+			<thead>
+				<tr align="center">
+					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">No. DE CUENTA</th>
+					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">APELLIDO PATERNO</th>
+					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">APELLIDO MATERNO</th>
+					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
+					<th class="order<%= (params[:order_by] == 'career')? ' order-active' : '' %>" orderby="career">CARRERA</th>
+					<th>EMAIL</th>
+					<th>TELÉFONO</th>
+					<th class="order<%= (params[:order_by] == 'dropout_date')? ' order-active' : '' %>" orderby="dropout_date">FECHA DE BAJA</th>
+					<th>TIPO DE BAJA</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<!-- FORMULARIO PARA ORDENAR -->
+			<form action="<%= request.fullpath %>" method="get" id="orderby-form">
+				<% if not params[:searchStr].nil? %>
+					<%= hidden_field_tag 'searchStr', params[:searchStr] %>
+				<% end %>
+
+				<% if not params[:filter_by].nil? %>
+					<%= hidden_field_tag 'filter_by', params[:filter_by] %>
+				<% end %>
+
+				<%= hidden_field_tag 'order_by', '' %>
+			</form>
+
+			<tbody>
+				<% @dropouts.each_with_index do | dropout, index | %>
+					<% isDropout = dropout.is_a?(PatientDropout) %>
+					<% patient = isDropout ? dropout.patient : dropout %>
+					<% dropout_type = isDropout ? dropout.patient_dropout_type : nil %>
+
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>" align="center">
+						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
+						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= patient.p_last_name %></td>
+						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>
+						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
+						<td class="<%= (params[:order_by] == 'career')? 'c-order-active' : '' %>"><%= Patient::NAME_CAREER[patient.career] %></td>
+						<td><%= patient.email %></td>
+						<td><%= (patient.telephone1.nil? or patient.telephone1.blank?) ? patient.telephone2 : patient.telephone1 %></td>
+						<td class="<%= (params[:order_by] == 'dropout_date')? 'c-order-active' : '' %>">
+							<%= isDropout ? dropout.created_at.strftime("%d-%m-%y") : dropout.updated_at.strftime("%d-%m-%y") %>
+						</td>
+						<td><%= isDropout ? dropout_type.name : "Desinteresado" %></td>
+						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+					</tr>
+				<% end %>
+
+				<% if @dropouts.size == 0 %>
+					<tr>
+						<td colspan="10" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
+							NO SE HALLARON BAJAS
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		$(".order").click(function() {
+			var orderbyValue = $(this).attr("orderby");
+
+			// Seleccionamos el input del formulario de ordenamiento
+			var input = $("input#order_by");
+			input.attr("value", orderbyValue);
+
+			// Envia el formulario
+			$("#orderby-form").submit();
+		});
+	</script>
+
+
+<% end %>

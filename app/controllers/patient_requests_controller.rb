@@ -59,6 +59,7 @@ class PatientRequestsController < ApplicationController
 
 		# Hay que ordenar
 		if not params[:order_by].nil? and @patient_requests.size > 0
+			
 			if params[:order_by] == "condition"
 				@patient_requests.sort! { |x, y|
 					x.condition_type.id <=> y.condition_type.id
@@ -66,7 +67,7 @@ class PatientRequestsController < ApplicationController
 
 			elsif params[:order_by] == "status"
 				@patient_requests.sort! { |x, y|
-					Patient::STATUS_ORDER[x.patient.status] <=> Patient::STATUS_ORDER[y.patient.status]
+					x.patient.patient_status_type.id <=> y.patient.patient_status_type.id
 				}
 
 			else
@@ -75,6 +76,9 @@ class PatientRequestsController < ApplicationController
 				}
 			end
 		end
+
+		# Convertimos a array
+		@patient_requests = @patient_requests.to_a
 
 		# Hay que filtrar
 		if not params[:filter_by].nil?
@@ -90,7 +94,8 @@ class PatientRequestsController < ApplicationController
 
 		# Nos quedamos solo con los que tienen status esperando o contactado
 		@patient_requests.keep_if { | pat_req |
-			pat_req.patient.status == "uncontacted" or pat_req.patient.status == "waiting" or pat_req.patient.status == "contacted"
+			status_name = pat_req.patient.patient_status_type.name
+			status_name == "Sin contactar" or status_name == "Esperando respuesta"
 		}
 
 		# Panel para las tabs del workspace del terapeuta
@@ -149,7 +154,8 @@ class PatientRequestsController < ApplicationController
 		if @patient.valid? and @patient_request.valid?
 
 			# Estado en espera
-			@patient.status = "uncontacted"
+			@patient_status_type = PatientStatusType.find_by_name("Sin contactar")
+			@patient.patient_status_type = @patient_status_type
 
 			# Asignamos el paciente
 			@patient_request.patient = @patient
@@ -161,6 +167,7 @@ class PatientRequestsController < ApplicationController
 			@patient_request.request_date = Time.now
 
 			# Salvamos en la BD
+			@patient.save
 			@patient_request.save
 
 			# Mandamos a renderear de nuevo con mensaje

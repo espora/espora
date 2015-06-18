@@ -109,6 +109,9 @@ Espora::Application.routes.draw do
 	#  Egresos (Patient Dropout)  #
 	###############################
 
+	# Ver todas las bajas
+	get "/therapists/dropouts" => "patient_dropouts#index", as: "patient_dropouts_index"
+
 	# Salvar una canalizacion
 	post "/therapists/dropout/channelization" => "patient_dropouts#create_channelization", as: "patient_channelizations"
 

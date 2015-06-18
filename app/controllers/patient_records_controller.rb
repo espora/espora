@@ -62,6 +62,13 @@ class PatientRecordsController < ApplicationController
 			}
 		end
 
+		# Filtramos para solo los que estan en tratamiento
+		@patient_records = @patient_records.to_a
+		@patient_records.keep_if { | pat_record |
+			status = pat_record.patient.patient_status_type.name
+			status === "En tratamiento"
+		}
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 2
 	end
@@ -148,7 +155,7 @@ class PatientRecordsController < ApplicationController
 			}
 
 			# Redirigimos al havad
-			redirect_to havad_index_path(params[:id]) + "?tab=" + params[:tab]
+			redirect_to patient_index_path(params[:id]) + "?tab=" + params[:tab]
 		else
 
 			# Redirigimos al fosti

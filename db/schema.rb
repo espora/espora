@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617025407) do
+ActiveRecord::Schema.define(version: 20150618013949) do
 
   create_table "advise_level_types", force: true do |t|
     t.string   "name"
@@ -214,6 +214,12 @@ ActiveRecord::Schema.define(version: 20150617025407) do
   add_index "patient_signouts", ["condition_type_id"], name: "index_patient_signouts_on_condition_type_id"
   add_index "patient_signouts", ["patient_dropout_id"], name: "index_patient_signouts_on_patient_dropout_id"
 
+  create_table "patient_status_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "patients", force: true do |t|
     t.string   "p_last_name"
     t.string   "m_last_name"
@@ -230,8 +236,10 @@ ActiveRecord::Schema.define(version: 20150617025407) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
+    t.integer  "patient_status_type_id"
   end
+
+  add_index "patients", ["patient_status_type_id"], name: "index_patients_on_patient_status_type_id"
 
   create_table "personal_area_types", force: true do |t|
     t.string   "name"

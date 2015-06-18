@@ -56,7 +56,7 @@
 			<b>EDITAR SOLICITUD</b>
 		<% end %>
 
-		<% if patient.status == "uncontacted" %>
+		<% if patient.patient_status_type.name == "Sin contactar" %>
 
 			<!-- BOTON PARA MARCAR COMO ESPERANDO RESPUESTA -->
 			<%= link_to patient_mark_contacted_path(patient),
@@ -64,7 +64,7 @@
 				:data => { confirm: "¿Estás seguro?" } do %>
 				<b>CONTACTADO</b>
 			<% end %>
-		<% elsif patient.status == "waiting" %>
+		<% elsif patient.patient_status_type.name == "Esperando respuesta" %>
 
 			<!-- BOTON PARA COMENZAR A ATENDER -->
 			<%= link_to assign_patient_path(patient),

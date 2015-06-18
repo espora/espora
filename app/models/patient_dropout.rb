@@ -17,9 +17,9 @@ class PatientDropout < ActiveRecord::Base
 	belongs_to :patient_dropout_type
 
 	# Egreso
-	has_one :patient_signout
+	has_one :patient_signout, :dependent => :destroy
 
 	# Canalizacion
-	has_one :patient_channelization
+	has_one :patient_channelization, :dependent => :destroy
 	
 end

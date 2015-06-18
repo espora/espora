@@ -2,26 +2,28 @@
 #
 # Table name: patients
 #
-#  id              :integer          not null, primary key
-#  p_last_name     :string(255)
-#  m_last_name     :string(255)
-#  names           :string(255)
-#  account_number  :integer
-#  birth           :date
-#  age             :integer
-#  sex             :string(255)
-#  career          :string(255)
-#  init_school     :string(255)
-#  semester        :integer
-#  failed_subjects :integer
-#  telephone1      :string(255)
-#  telephone2      :string(255)
-#  email           :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
-#  status          :string(255)
+#  id                     :integer          not null, primary key
+#  p_last_name            :string(255)
+#  m_last_name            :string(255)
+#  names                  :string(255)
+#  account_number         :integer
+#  birth                  :date
+#  sex                    :string(255)
+#  career                 :string(255)
+#  init_school            :string(255)
+#  semester               :integer
+#  failed_subjects        :integer
+#  telephone1             :string(255)
+#  telephone2             :string(255)
+#  email                  :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  patient_status_type_id :integer
 #
 class Patient < ActiveRecord::Base
+
+	# Estatus
+	belongs_to :patient_status_type
 
 	# Solicitud del paciente
 	has_one :patient_request, :dependent => :destroy
@@ -49,30 +51,6 @@ class Patient < ActiveRecord::Base
 	NAME_SEX = {
 		"m" => "Masculino",
 		"f" => "Femenino"
-	}
-
-	# Mapeo de nombres de status
-	NAME_STATUS = {
-		"uncontacted" => "Sin contactar",
-		"waiting" => "Esperando respuesta",
-		"treatment" => "En tratamiento",
-		"uninterested" => "Ya no esta interesado",
-		"interrupted_treatment" => "Tratamiento interrumpido",
-		"redirected" => "Canalizado",
-		"ended" => "Finalizado",
-		"abandoned_treatment" => "Tratamiento abandonado"
-	}
-
-	# Mapeo para el orden del status
-	STATUS_ORDER = {
-		"uncontacted" => 0,
-		"waiting" => 1,
-		"treatment" => 2,
-		"uninterested" => 3,
-		"interrupted_treatment" => 4,
-		"redirected" => 5,
-		"ended" => 6,
-		"abandoned_treatment" => 7
 	}
 
 	# t.string   "p_last_name"

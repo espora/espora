@@ -29,7 +29,7 @@
 				<%= hidden_field_tag 'searchStr', params[:searchStr] %>
 			<% end %>
 
-			<%= label_tag 'filter_by', 'Filtrar por:' %>
+			<%= label_tag 'filter_by', 'Filtrar por:', :style => "font-weight: bold;" %>
 			<%= select_tag 'filter_by', lue_filter_options(params[:filter_by]).html_safe, :onchange => "this.form.submit();" %>
 		</form>
 	</div>
@@ -83,7 +83,7 @@
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
 						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= req.condition_type.name %></td>
-						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= Patient::NAME_STATUS[patient.status] %></td>
+						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= patient.patient_status_type.name %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 

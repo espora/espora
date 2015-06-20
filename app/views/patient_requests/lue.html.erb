@@ -4,7 +4,7 @@
 	
 		<!-- MENSAJES DEL LUE -->
 		<% flash[:notice].each do | key, notice | %>
-			<div class="alert-box success" style="width: 100%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
+			<div class="alert-box success" style="width: 99%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
 				<%= notice %>
 			</div>
 		<% end %>
@@ -29,7 +29,7 @@
 				<%= hidden_field_tag 'searchStr', params[:searchStr] %>
 			<% end %>
 
-			<%= label_tag 'filter_by', 'Filtrar por:' %>
+			<%= label_tag 'filter_by', 'Filtrar por:', :style => "font-weight: bold;" %>
 			<%= select_tag 'filter_by', lue_filter_options(params[:filter_by]).html_safe, :onchange => "this.form.submit();" %>
 		</form>
 	</div>
@@ -83,7 +83,7 @@
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
 						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= req.condition_type.name %></td>
-						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= Patient::NAME_STATUS[patient.status] %></td>
+						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= patient.patient_status_type.name %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 
@@ -94,7 +94,7 @@
 					</tr>
 				<% end %>
 
-				<% if @patient_requests.count == 0 %>
+				<% if @patient_requests.size == 0 %>
 					<tr>
 						<td colspan="8" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
 							NO SE HALLARON SOLICITUDES
@@ -172,7 +172,6 @@
 			});
 		</script>
 	<% end %>
-	
 <% end %>
 
 <%= render template: "patient_requests/lue_tab" %>

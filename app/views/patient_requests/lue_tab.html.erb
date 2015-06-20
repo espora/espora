@@ -11,10 +11,10 @@
 
 		<!-- PANELES -->
 		<div id="consultar" class="ter-panel">
-			<%= content_for?(:lue) ? yield(:lue) : "" %>
+			<%= yield(:lue) if content_for?(:lue) %>
 		</div>
 		<div id="nuevo" class="ter-panel">
-			<%= content_for?(:lue_new) ? yield(:lue_new) : "" %>
+			<%= yield(:lue_new) if content_for?(:lue_new) %>
 		</div>
 		
 	</div>
@@ -42,5 +42,4 @@
 			}
 		});
 	</script>
-
 <% end %>

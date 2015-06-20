@@ -7,7 +7,7 @@ class PatientRecordsController < ApplicationController
 	before_filter :authenticate_therapist!
 
 	# Layout de terapeuta
-	layout "therapist", :only => [ :fosti, :havad ]
+	layout "therapist", :only => [ :fosti, :havad, :patient ]
 
 	# GET
 	# Lista de los expedientes de un terapeuta.
@@ -61,6 +61,13 @@ class PatientRecordsController < ApplicationController
 				end
 			}
 		end
+
+		# Filtramos para solo los que estan en tratamiento
+		@patient_records = @patient_records.to_a
+		@patient_records.keep_if { | pat_record |
+			status = pat_record.patient.patient_status_type.name
+			status === "En tratamiento"
+		}
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 2
@@ -148,7 +155,7 @@ class PatientRecordsController < ApplicationController
 			}
 
 			# Redirigimos al havad
-			redirect_to havad_index_path(params[:id]) + "?tab=" + params[:tab]
+			redirect_to patient_index_path(params[:id]) + "?tab=" + params[:tab]
 		else
 
 			# Redirigimos al fosti
@@ -162,6 +169,25 @@ class PatientRecordsController < ApplicationController
 
 		# Encontramos el expediente
 		@patient_record = PatientRecord.find(params[:id])
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = params[:tab]
+
+		# Panel para las tabs del workspace del open record
+		@open_record_active_tab = 1
+	end
+
+	# GET
+	# Muestra la informacion del paciente
+	def patient
+
+		# Encontramos expediente y paciente
+		@patient_record = PatientRecord.find(params[:id])
+		@patient = @patient_record.patient
+		@patient_request = @patient.patient_request
+
+		# Creamos la canalización
+		@channelization = PatientChannelization.new
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = params[:tab]

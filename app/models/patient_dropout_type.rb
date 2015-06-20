@@ -8,4 +8,8 @@
 #  updated_at :datetime
 #
 class PatientDropoutType < ActiveRecord::Base
+
+	# Baja
+	has_many :patient_dropouts
+	
 end

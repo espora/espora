@@ -1,0 +1,24 @@
+// Place all the styles related to the PatientDropouts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.dropout-block {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+#dropout-table {
+	width: 90%;
+	table-layout: fixed;
+}
+
+#dropout-table .arrow-expand {
+	font-size: 18px;
+	display: block;
+}
+
+#dropout-table thead th {
+	padding-left: 0;
+	padding-right: 0;
+}

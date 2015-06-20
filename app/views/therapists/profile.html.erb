@@ -1,5 +1,4 @@
-<% content_for :profile_tab do %>
-
+<% content_for :profile do %>
 	<!-- Panel izquierdo -->
 	<div id="ter-profile-1">
 
@@ -18,6 +17,7 @@
 		<div>
 			<span><b>E-Mail: </b> <%= @therapist.email %></span>
 		</div>
-
 	</div>
 <% end %>
+
+<%= render template: "therapists/profile_tab" %>

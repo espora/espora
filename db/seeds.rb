@@ -1,6 +1,21 @@
 # coding: utf-8
 puts ":::: Poblando Espora BD...\n\n"
 
+# -----> CATALOGO ESTATUS DE PACIENTE <-----
+
+PatientStatusType.delete_all
+patient_satus_entries = [
+	{ id: "1", name: "Sin contactar" },
+	{ id: "2", name: "Esperando respuesta" },
+	{ id: "3", name: "En tratamiento" },
+	{ id: "4", name: "Ya no esta interesado" },
+	{ id: "5", name: "Baja" }
+]
+
+puts "\n--- Poblando catálogo de Estatus de Paciente (#{patient_satus_entries.count} inserciones)... "
+patient_satus_created = PatientStatusType.create(patient_satus_entries)
+puts "   #{PatientStatusType.all.count} inserciones hechas al catálogo de Estatus de Paciente."
+
 # -----> CATALOGO AREAS AFECTADAS <-----
 
 PersonalAreaType.delete_all

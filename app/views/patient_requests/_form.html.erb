@@ -138,8 +138,13 @@
 
 				<!-- MOTIVOS -->
 				<div style="margin-left: 2%; margin-top: 8px;">
-					<%= request_form.label :reasons do %>¿Cuáles son tus motivos de consulta?<% end %>
-					<%= request_form.text_area :reasons, autofocus: true, cols: 70, rows: 7 , :required => true, :maxlength => 400 %>
+					<div style="width: 100%; float: left; margin-bottom: -1px;">
+						¿Cuáles son tus motivos de consulta?
+					</div>
+
+					<div style="width: 30%; float: left; margin-left: 1.2%;">
+						<%= render partial: "reasons_input", locals: { form: request_form } %>
+					</div>
 				</div>
 
 				<!-- CONDICION -->

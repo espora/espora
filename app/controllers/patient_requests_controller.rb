@@ -127,6 +127,12 @@ class PatientRequestsController < ApplicationController
 		# Obtenemos la solicitud
 		@patient_request = PatientRequest.find(params[:id])
 
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 1
+
+		# Panel para las tabs del workspace del lue
+		@lue_active_tab = 1
+
 		# Rendereamos el formulario
 		render :new
 	end
@@ -202,9 +208,6 @@ class PatientRequestsController < ApplicationController
 			@patient.update(patient_params)
 			if @patient.valid?
 
-				# Calculamos la edad del paciente
-				@patient.age = age(@patient.birth)
-
 				# Mandamos a renderear de nuevo con mensaje
 				flash[:notice] = { :patient_request => "¡Ha guardado exitosamente la información de una solicitud!" }
 
@@ -263,7 +266,9 @@ class PatientRequestsController < ApplicationController
 		@patient_record.save
 
 		# Marcamos al paciente como en atencion
-		@patient.update_attributes(:status => "treatment")
+		@patient_status_type = PatientStatusType.find_by_name("En tratamiento")
+		@patient.patient_status_type = @patient_status_type
+		@patient.save
 
 		# Guardamos que estamos trabajando con el y enviamos al havad
 		redirect_to fosti_index_path

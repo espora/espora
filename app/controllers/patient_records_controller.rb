@@ -69,6 +69,9 @@ class PatientRecordsController < ApplicationController
 			status === "En tratamiento"
 		}
 
+		# Unico
+		@patient_records.uniq!
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 2
 	end

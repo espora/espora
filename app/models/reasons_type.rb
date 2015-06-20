@@ -1,23 +1,20 @@
 # == Schema Information
 #
-# Table name: personal_area_types
+# Table name: reasons_types
 #
 #  id         :integer          not null, primary key
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #
+class ReasonsType < ActiveRecord::Base
 
-class PersonalAreaType < ActiveRecord::Base
-
-	# Areas afectadas de una solicitud
-	has_many :affected_area
-
-	# Areas mejoradas de un egreso
-	has_many :improve_areas
+	# Motivos de consulta de una solicitud
+	has_many :reasons
 
 	# Devuelve true si el tipo es Otro
 	def is_other?
 		return self.name === "Otro"
 	end
+	
 end

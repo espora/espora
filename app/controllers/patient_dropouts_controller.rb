@@ -90,7 +90,7 @@ class PatientDropoutsController < ApplicationController
 				end
 			when "interrupted"
 				@dropouts.keep_if do | dropout |
-					s and dropout.patient_dropout_type.name == "Interrupción"
+					dropout.is_a?(PatientDropout) and dropout.patient_dropout_type.name == "Interrupción"
 				end
 			when "abandoned"
 				@dropouts.keep_if do | dropout |

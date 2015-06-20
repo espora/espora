@@ -49,6 +49,39 @@ puts "\n--- Poblando catálogo de Condición (#{condition_entries.count} inserci
 condition_created = ConditionType.create(condition_entries)
 puts "   #{ConditionType.all.count} inserciones hechas al catálogo de Condición."
 
+# -----> CATALOGO MOTIVOS DE CONSULTA <-----
+
+ReasonsType.delete_all
+reasons_entries = [
+	{ id: "1", name: "Adicciones" },
+	{ id: "2", name: "Alimentación" },
+	{ id: "3", name: "Ansiedad y angustia" },
+	{ id: "4", name: "Autoconocimiento" },
+	{ id: "5", name: "Autoestima" },
+	{ id: "6", name: "Ayuda, dudas y orientación" },
+	{ id: "7", name: "Depresión y tristeza" },
+	{ id: "8", name: "Deseo de sentirse bien" },
+	{ id: "9", name: "Elección de carrera" },
+	{ id: "10", name: "Emocionales y psicológicos" },
+	{ id: "11", name: "Escolares" },
+	{ id: "12", name: "Estrés" },
+	{ id: "13", name: "Familiares" },
+	{ id: "14", name: "Físicos" },
+	{ id: "15", name: "Fobias y miedos" },
+	{ id: "16", name: "Mejorar como persona" },
+	{ id: "17", name: "Pareja" },
+	{ id: "18", name: "Relacionarse" },
+	{ id: "19", name: "Separaciones, muertes y duelos" },
+	{ id: "20", name: "Sexuales" },
+	{ id: "21", name: "Sueño" },
+	{ id: "22", name: "Otros" },
+	{ id: "23", name: "Platicar" }
+]
+
+puts "\n--- Poblando catálogo de Motivos de consulta (#{reasons_entries.count} inserciones)... "
+reasons_created = ReasonsType.create(reasons_entries)
+puts "   #{ReasonsType.all.count} inserciones hechas al catálogo de Motivos de consulta."
+
 # -----> CATALOGO COMO CONOCIO <-----
 
 HowMetType.delete_all

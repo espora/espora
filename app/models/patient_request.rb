@@ -3,7 +3,6 @@
 # Table name: patient_requests
 #
 #  id                   :integer          not null, primary key
-#  reasons              :text
 #  money                :float
 #  pre_care             :boolean
 #  request_date         :date
@@ -15,6 +14,7 @@
 #  contact_therapist_id :integer
 #  condition_type_id    :integer
 #
+
 class PatientRequest < ActiveRecord::Base
 
 	# Paciente
@@ -25,6 +25,9 @@ class PatientRequest < ActiveRecord::Base
 
 	# Terapeuta que contacta la solicitud
 	belongs_to :contact_therapist,  :class_name => "Therapist"
+
+	# Motivos de consulta
+	has_and_belongs_to_many :reasons_types
 
 	# Areas afectadas
 	has_many :affected_areas, :dependent => :delete_all

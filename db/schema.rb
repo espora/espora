@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150620185449) do
+ActiveRecord::Schema.define(version: 20150620190154) do
 
   create_table "advise_level_types", force: true do |t|
     t.string   "name"
@@ -245,6 +245,17 @@ ActiveRecord::Schema.define(version: 20150620185449) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "reasons", force: true do |t|
+    t.string   "other_name"
+    t.integer  "patient_request_id"
+    t.integer  "reasons_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reasons", ["patient_request_id"], name: "index_reasons_on_patient_request_id"
+  add_index "reasons", ["reasons_type_id"], name: "index_reasons_on_reasons_type_id"
 
   create_table "reasons_types", force: true do |t|
     t.string   "name"

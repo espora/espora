@@ -13,6 +13,9 @@ class PersonalAreaType < ActiveRecord::Base
 	# Areas afectadas de una solicitud
 	has_many :affected_area
 
+	# Areas mejoradas de un egreso
+	has_many :improve_areas
+
 	# Devuelve true si el tipo es Otro
 	def is_other?
 		return self.name === "Otro"

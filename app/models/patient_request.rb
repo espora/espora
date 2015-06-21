@@ -27,7 +27,11 @@ class PatientRequest < ActiveRecord::Base
 	belongs_to :contact_therapist,  :class_name => "Therapist"
 
 	# Motivos de consulta
+<<<<<<< HEAD
 	has_and_belongs_to_many :reasons_types
+=======
+	has_many :reasons, :dependent => :delete_all
+>>>>>>> 5db6aa4c5cf297d7af59c8239a2a5f125df37d00
 
 	# Areas afectadas
 	has_many :affected_areas, :dependent => :delete_all

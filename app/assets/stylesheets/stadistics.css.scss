@@ -1,3 +1,50 @@
-// Place all the styles related to the Stadistics controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#statistics{
+    height: 500px;
+}
+
+#container {
+    position: relative;
+    height: 100%;
+	width: 80%;
+    float: right;
+}
+ 
+#sidebar-tab {
+    position: absolute;
+    background: #41775F;
+    width: 240px;
+    height: 100%;
+    float: right;
+    box-sizing: border-box;
+   -moz-box-sizing: border-box;
+}
+#sidebar-tab ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#sidebar-tab ul li {
+    margin: 0;
+}
+#sidebar-tab ul li a {
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 100;
+    color: white;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #41775F;
+    -webkit-transition:  background 0.3s ease-in-out;
+    -moz-transition:  background 0.3s ease-in-out;
+    -ms-transition:  background 0.3s ease-in-out;
+    -o-transition:  background 0.3s ease-in-out;
+    transition:  background 0.3s ease-in-out;
+}
+#sidebar-tab ul li:hover a {
+    background: #E6C84F;
+}
+
+#sidebar-tab ul li a {
+    background: #41775F;
+    margin-top: -1.3px;
+}

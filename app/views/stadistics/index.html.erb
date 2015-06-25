@@ -1,13 +1,57 @@
 <% content_for :statistics do %>
-	<div id="testgraph"></div>
+
+	    <div id="sidebar-header-tab">
+	     <div id="sidebar-tab">
+	        <ul id="sidebar-tabs-header">
+	            <li><a href="#SolicitudesVsAtendidos">SolicitudesVsAtendidos</a></li>
+	            <li><a href="#sexoSolicitudes">Sexo Solicitudes</a></li>
+	            <li><a href="#sexoAtendidos">Sexo Atendidos</a></li>
+	            <li><a href="#Familiar">Familiar</a></li>
+	            <li><a href="#carreraSolicitudes">Carrera Solicitudes</a></li>
+	            <li><a href="#carreraAtendidos">Carrera Atendidos</a></li>
+	            <li><a href="#semestreSolicitudes">Semestre Solicitudes</a></li>
+	            <li><a href="#materiasSolicitudes">Materias Solicitudes</a></li>
+	            <li><a href="#materiasAtendidas">Materias Atendidas</a></li>
+	            
+	            
+	        </ul>
+	    </div>
+	    <div id="container">
+		    	<div id="SolicitudesVsAtendidos"><div id="testgraph1"></div></div>
+	    		<div id="sexoSolicitudes"><div id="testgraph2"></div></div>
+	    		<div id="sexoAtendidos"><div id="testgraph3"></div></div>
+	    		<div id="Familiar"><div id="testgraph4"></div></div>
+	    		<div id="carreraSolicitudes">
+	    			<div id="testgraph5"></div>
+	    		</div>
+	    		<div id="carreraAtendidos">
+	    			<div id="testgraph6"></div>
+	    		</div>
+	    		<div id="semestreSolicitudes">
+	    			<div id="testgraph7"></div>
+	    		</div>
+	    		<div id="materiasSolicitudes">
+	    			<div id="testgraph8"></div>
+	    		</div>
+	    		<div id="materiasAtendidas">
+	    			<div id="testgraph9"></div>
+	    		</div>
+		    <!-- <div id="testgraph"></div> -->
+	    	</div>
+	    </div>
+
+
 
 	<script type="text/javascript">
+		$( "#sidebar-header-tab" ).tabs();
+
+
 		$.ajax({	
 			method: "GET",
 			url: "<%= graph_index_path('SolicitudesVsAtendidos') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph1").append(data);
 			}
 		});
 		$.ajax({	
@@ -15,7 +59,7 @@
 			url: "<%= graph_index_path('SexoSol') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph2").append(data);
 			}
 		});
 		$.ajax({	
@@ -23,7 +67,7 @@
 			url: "<%= graph_index_path('SexoAten') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph3").append(data);
 			}
 		});
 		$.ajax({	
@@ -31,7 +75,7 @@
 			url: "<%= graph_index_path('Familiar') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph4").append(data);
 			}
 		});
 		$.ajax({	
@@ -39,7 +83,7 @@
 			url: "<%= graph_index_path('CarreraSol') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph5").append(data);
 			}
 		});
 		$.ajax({	
@@ -47,7 +91,7 @@
 			url: "<%= graph_index_path('CarreraAten') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph6").append(data);
 			}
 		});
 		$.ajax({	
@@ -55,7 +99,7 @@
 			url: "<%= graph_index_path('SemestreSol') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph7").append(data);
 			}
 		});
 		$.ajax({	
@@ -63,7 +107,7 @@
 			url: "<%= graph_index_path('SemestreAten') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph8").append(data);
 			}
 		});
 		$.ajax({	
@@ -71,7 +115,7 @@
 			url: "<%= graph_index_path('MateriasSol') %>",
 			success: function(data) {
 				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				$("#testgraph9").append(data);
 			}
 		});
 		$.ajax({	
@@ -82,8 +126,6 @@
 				$("#testgraph").append(data);
 			}
 		});
-
-
 	</script>
 <% end %>
 

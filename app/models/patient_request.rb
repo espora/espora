@@ -29,6 +29,9 @@ class PatientRequest < ActiveRecord::Base
 	# Motivos de consulta
 	has_many :reasons, :dependent => :delete_all
 
+	# Motivos de consulta en formularios anidados
+	accepts_nested_attributes_for :reasons, :allow_destroy => true	
+
 	# Areas afectadas
 	has_many :affected_areas, :dependent => :delete_all
 

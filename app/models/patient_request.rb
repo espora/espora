@@ -53,13 +53,11 @@ class PatientRequest < ActiveRecord::Base
 	# Horarios solicitados en formularios anidados
 	accepts_nested_attributes_for :request_schedules, :allow_destroy => true
 
-	# t.text "reasons"
-	validates :reasons, presence: { :message => "Campo vacio" }
-	validates :reasons, length: { maximum: 400,
-	too_long: "%{count} es el maximo de caracteres que se pueden ingresar" }
+	# t.association "reasons"
+	validates :reasons, :length => { :minimum => 1 }
 
-	# t.string   "how_met"
-	validates :how_met, presence: { :message => "Campo vacio" }
+	# t.association "how_met"
+	validates :how_met, :length => { :minimum => 1}
 
 	# t.float "money"
 	validates :money, presence: { :message => "Campo vacio" }

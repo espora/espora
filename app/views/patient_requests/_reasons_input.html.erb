@@ -1,18 +1,128 @@
 <!-- OPCIONES -->
-<div id="reasonsOpts">
-	<% reasons_types = PersonalAreaType.all %>
-	<% reasons_types.each do | affarea | %>
+<div id="reasons-options">
+	<% reasons_types = ReasonsType.all %>
+	<% reasons_types.each do | reason | %>
 
-		<div style="width: 50%; float: left; margin-top: 7px; height: 16px;">
-			<input type="checkbox" id-area="<%= affarea.id %>" area="<%= affarea.name %>" onclick="changeAffectedArea(this);" >
-				<div style="display: inline-block; position: relative; top: -3px; left: 3px;">
-					<%= affarea.name %>
-				</div>
-
-				<% if affarea.is_other? %>
-					<input type="text" style="display: inline-block; position: relative; top: -3px; left: 8px;" autofocus="autofocus" size="10" disabled />
+		<div class="option-catalog">
+			<input type="checkbox" id-reason="<%= reason.id %>" reason="<%= reason.name %>" onclick="changeReason(this);">
+				<div class="option-name-catalog"><%= reason.name %></div>
+				<% if reason.is_other? %>
+					<input type="text" style="display: inline-block; position: relative; top: -3px; left: 8px;" autofocus="autofocus" size="15" disabled />
 				<% end %>
 			</input>
 		</div>
 	<% end %>
 </div>
+
+<!-- FIELDS ANIDADOS -->
+<div id="reasons-fields">
+	<%= form.fields_for :reasons do | reasons_form | %>
+		<%= reasons_form.hidden_field :other_name %>
+		<%= reasons_form.hidden_field :reasons_type_id %>
+		<%= reasons_form.link_to_remove "", :style => "display: none;" %>
+	<% end %>
+</div>
+
+<%= form.link_to_add "", :reasons, :style => "display: none;" %>
+
+<script type="text/javascript">
+
+	// Datos de areas afectadas
+	var reasonActive = undefined;
+	var reasonsData = new Object();
+
+	// Llenamos los datos de las areas
+	$("#reasons-options").find("input[type='checkbox']").each(function () {
+		var input = this;
+		var reasonName = $(this).attr("reason");
+		var reasonId = $(this).attr("id-reason");
+		reasonsData[reasonId] = {
+			name: reasonName,
+			id: reasonId,
+			checkbox: input,
+			field: undefined
+		};
+	});
+
+	// Llenamos las areas afectadas guardadas
+	$("#reasons-fields .fields").each(function () {
+
+		// Obtenemos el id
+		var reasonId = $(this).find("input:nth-child(2)").val();
+		reasonsData[reasonId].field = this;
+		$(reasonsData[reasonId].checkbox).prop("checked", true);
+
+		if(reasonsData[reasonId].name == "Otros") {
+			var text = $(this).find("input:nth-child(1)").val();
+			var textfield = $(reasonsData[reasonId].checkbox).parent().find("input[type='text']");
+			textfield.val(text);
+			textfield.prop("disabled", false);
+			textfield.prop("required", true);
+		}
+	});
+
+	function changeReason ( input ) {
+
+		// Obtenemos el nombre del area
+		var reasonName = $(input).attr("reason");
+		var reasonId = $(input).attr("id-reason");
+		var textfield = $(input).parent().find("input[type='text']");
+
+		// Si se eligió
+		if( input.checked ) {
+
+			// Si es "Otros", hacemos el texto requerido
+			if(reasonName == "Otros") {
+				textfield.prop("disabled", false);
+				textfield.prop("required", true);
+			}
+
+			// Seteamos las globales
+			reasonActive = reasonsData[reasonId];
+
+			// Creamos un area afectada
+			$(".add_nested_fields[data-association=reasons]").click();
+		}
+
+		// Se desmarca
+		else {
+
+			// Si es "Otros", quitamos el texto requerido
+			if(reasonName == "Otros") {
+				textfield.val("");
+				textfield.prop("disabled", true);
+				textfield.prop("required", false);
+			}
+
+			// Eliminamos el input
+			$(reasonsData[reasonId].field).find(".remove_nested_fields").click();
+		}
+	}
+
+	// Al agregar un area afectada
+	$(document).on("nested:fieldAdded:reasons", function( event ) {
+
+		// Seteamos el id
+		var idInput = event.field.find("input:nth-child(2)");
+		idInput.val(reasonActive.id);
+
+		// Si es "Otro"
+		if(reasonActive.name == "Otros") {
+
+			// Obtenemos el campo del texto
+			var textfield = $(reasonActive.checkbox).parent().find("input[type='text']");
+			var otherInput = event.field.find("input:nth-child(1)");
+
+			// Asociamos el evento de escritura
+			textfield.keypress(function ( event ) {
+				otherInput.val($(this).val() + String.fromCharCode(event.keyCode));
+			});
+		}
+
+		// Asignamos el field
+		reasonActive.field = event.field;
+
+		// Seteamos el activo
+		reasonActive = undefined;
+	});
+</script>

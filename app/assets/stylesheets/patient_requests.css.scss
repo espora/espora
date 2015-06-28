@@ -24,6 +24,22 @@
 	padding: 5px;
 }
 
+/******* OPCIONES DE CATALOGO PATIENT REQUEST *******/
+
+.option-catalog {
+	width: 50%;
+	float: left;
+	margin-top: 7px;
+	height: 16px;
+}
+
+.option-name-catalog {
+	display: inline-block;
+	position: relative;
+	top: -3px;
+	left: 3px;
+}
+
 /******* LUE *******/
 
 #lue-table {
@@ -131,3 +147,4 @@
 	border-bottom: none !important;
 	padding: 5px;
 }
+

@@ -14,7 +14,7 @@ class ReasonsType < ActiveRecord::Base
 
 	# Devuelve true si el tipo es Otro
 	def is_other?
-		return self.name === "Otro"
+		return self.name === "Otros"
 	end
 	
 end

@@ -20,7 +20,7 @@ class StadisticsController < ApplicationController
                     :size   => '600x400',
                     :title  => "Número de solicitudes vs alumnos atendidos",
                     :legend => ['Número de alumnos atendidos', 'Número de solucitudes recibidas'],
-                    :bar_colors => ['000000', 'AA88FF'],
+                    :bar_colors => ['000000', '0088FF'],
                     :data   => [[47, 55, 87, 85, 95],[47, 80, 129, 176, 202]],
                     :bg => 'EFEFEF',
                    	:legend_position => 'bottom',

@@ -40,6 +40,7 @@ class StadisticsController < ApplicationController
 				:labels => ["120", "245"],
 				:bg => 'EFEFEF'
 			)
+
 		when 'SexoAten'
 			@graph = Gchart.pie(
 				:size   => '600x400',
@@ -138,12 +139,18 @@ class StadisticsController < ApplicationController
 				:data   => [120, 45, 25, 55, 20]
 			)
 		when 'Motivos'
-			@graph = Gchart.pie(
+			# @graph = Gchart.pie(
+			# 	:size   => '600x400',
+			# 	:title  => "Grafica de Pastel- Carreras de la facultad",
+			# 	:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
+			# 	:custom => "chco=FFF110,FF0000",
+			# 	:data   => [120, 45, 25, 55, 20]
+			# )
+			@graph = Gchart.bar(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20]
+			 	:title  => "Motivos de Consulta",
+				:legend => [':D', ':)', ':|', ':(', ':C'],
+				:data => [300, 100, 30, 200, 225]
 			)
 		when 'Sintomas'
 			@graph = Gchart.bar(
@@ -217,7 +224,7 @@ class StadisticsController < ApplicationController
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
 			)
-		
+
 		end
 
 		render partial: "graph"

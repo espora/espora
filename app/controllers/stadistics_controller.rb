@@ -129,12 +129,6 @@ class StadisticsController < ApplicationController
 			)
 
 
-
-
-
-
-
-
 		when 'Eficiencia'
 			@graph = Gchart.bar(
 				:size   => '600x400',
@@ -153,19 +147,19 @@ class StadisticsController < ApplicationController
 			)
 		when 'Sintomas'
 			@graph = Gchart.bar(
-            :size => '800x00',
-            :bar_colors => ['000000'],
-            :title => "Signos y síntomas",
-            :bg => 'EFEFEF',
-            :legend => ['Tristeza ', 'Autoestima', 'Insatisfacción', 'Enojo', 'Estrés', 'Dif. estudiar', 'Ansiedad', 'Prob. para relacionarse', 'Exigencias elevadas', 'Desesperanza', 'Miedo a participar', 'Ideas suicidas', 'Intento de suicidio'],
-            :data => [83, 66, 65.7, 33.8, 60.8, 60.1, 55.5, 49.4, 29, 28.6, 20, 15.1, 3],
-            :encoding => 'simple',
-            :stacked => false,
-            :legend_position => 'bottom',
-            :axis_with_labels => [['x'], ['y']],            
-            :max_value => 84,
-            :min_value => 0,
-            :axis_labels => [["83%|66%|65.7%|33.8%|60.8%|60.1%|55.5%|49.4%|29%|28.6%|20%|15.1%|3%]"]]
+	            :size => '800x00',
+	            :bar_colors => ['000000'],
+	            :title => "Signos y síntomas",
+	            :bg => 'EFEFEF',
+	            :legend => ['Tristeza ', 'Autoestima', 'Insatisfacción', 'Enojo', 'Estrés', 'Dif. estudiar', 'Ansiedad', 'Prob. para relacionarse', 'Exigencias elevadas', 'Desesperanza', 'Miedo a participar', 'Ideas suicidas', 'Intento de suicidio'],
+	            :data => [83, 66, 65.7, 33.8, 60.8, 60.1, 55.5, 49.4, 29, 28.6, 20, 15.1, 3],
+	            :encoding => 'simple',
+	            :stacked => false,
+	            :legend_position => 'bottom',
+	            :axis_with_labels => [['x'], ['y']],            
+	            :max_value => 84,
+	            :min_value => 0,
+	            :axis_labels => [["83%|66%|65.7%|33.8%|60.8%|60.1%|55.5%|49.4%|29%|28.6%|20%|15.1%|3%]"]]
             )   
 		when 'AreasAfectadas'
 			@graph = Gchart.pie(
@@ -223,7 +217,7 @@ class StadisticsController < ApplicationController
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
 			)
-		else
+		
 		end
 
 		render partial: "graph"

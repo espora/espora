@@ -129,8 +129,29 @@ class StadisticsController < ApplicationController
 				:bg => 'EFEFEF'
 			)
 
+		when 'Status'
+			@graph = Gchart.pie(
+				:size   => '600x400',
+				:title  => "Adeudo de materias de atendidos",
+				:legend => ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+				:custom => "chco=FFF110,FF0000",
+				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
+				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
+				:bg => 'EFEFEF'
+			)
 
-		when 'Eficiencia'
+		when 'EficienciaS'
+			@graph = Gchart.pie(
+				:size   => '600x400',
+				:title  => "Adeudo de materias de atendidos",
+				:legend => ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+				:custom => "chco=FFF110,FF0000",
+				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
+				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
+				:bg => 'EFEFEF'
+			)
+
+		when 'EficienciaA'
 			@graph = Gchart.bar(
 				:size   => '600x400',
 				:title  => "Grafica de Pastel- Carreras de la facultad",
@@ -217,6 +238,15 @@ class StadisticsController < ApplicationController
 				:data   => [120, 45, 25, 55, 20]
 			)
 		when 'Recomendacion'
+			@graph = Gchart.pie(
+				:size   => '600x400',
+				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
+				:custom => "chco=FFF110,FF0000",
+				:data   => [120, 45, 25, 55, 20]
+			)
+
+		when 'Calificacion'
 			@graph = Gchart.pie(
 				:size   => '600x400',
 				:title  => "Grafica de Pastel- Carreras de la facultad",

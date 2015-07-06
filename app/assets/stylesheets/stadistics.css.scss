@@ -3,18 +3,25 @@
 }
 
 #container {
-    position: relative;
+    /*position: relative;*/
     height: 100%;
 	width: 80%;
-    float: right;
+    float: left;
 }
- 
+#sidebar-tab ul li {
+    margin-left: 12px;
+    width: 100%;
+} 
+
 #sidebar-tab {
-    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    float: left;
+    font-size: 10vh;
+    /*position: absolute;*/
     background: #41775F;
-    width: 240px;
-    height: 100%;
-    float: right;
+    width: 220px;
+    height: 400px;
     box-sizing: border-box;
    -moz-box-sizing: border-box;
 }
@@ -23,8 +30,9 @@
     padding: 0;
     list-style: none;
 }
-#sidebar-tab ul li {
-    margin: 0;
+
+.ui-tabs-anchor{
+    width: 100% !important;
 }
 #sidebar-tab ul li a {
     padding: 15px 20px;

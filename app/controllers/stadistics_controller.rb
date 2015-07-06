@@ -132,7 +132,7 @@ class StadisticsController < ApplicationController
 		when 'Status'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Adeudo de materias de atendidos",
+				:title  => "Status del Paciente",
 				:legend => ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
@@ -143,7 +143,7 @@ class StadisticsController < ApplicationController
 		when 'EficienciaS'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Adeudo de materias de atendidos",
+				:title  => "Eficiencia del programa ESPORA de alumnos solicitantes",
 				:legend => ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
@@ -154,25 +154,20 @@ class StadisticsController < ApplicationController
 		when 'EficienciaA'
 			@graph = Gchart.bar(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Eficiencia del programa ESPORA de alumnos atendidos",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
 			)
 		when 'Motivos'
-			# @graph = Gchart.pie(
-			# 	:size   => '600x400',
-			# 	:title  => "Grafica de Pastel- Carreras de la facultad",
-			# 	:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-			# 	:custom => "chco=FFF110,FF0000",
-			# 	:data   => [120, 45, 25, 55, 20]
-			# )
-			@graph = Gchart.bar(
+			@graph = Gchart.pie(
 				:size   => '600x400',
-			 	:title  => "Motivos de Consulta",
-				:legend => [':D', ':)', ':|', ':(', ':C'],
-				:data => [300, 100, 30, 200, 225]
+				:title  => "Motivos de Consultas",
+				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
+				:custom => "chco=FFF110,FF0000",
+				:data   => [120, 45, 25, 55, 20]
 			)
+			
 		when 'Sintomas'
 			@graph = Gchart.bar(
 	            :size => '800x00',
@@ -192,7 +187,7 @@ class StadisticsController < ApplicationController
 		when 'AreasAfectadas'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Areas Afectadas",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -200,7 +195,7 @@ class StadisticsController < ApplicationController
 		when 'AreasBeneficiadas'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Áreas Beneficiadas",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -208,7 +203,7 @@ class StadisticsController < ApplicationController
 		when 'EdoEmocionalAntes'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Estado Emocional Antes",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -216,7 +211,7 @@ class StadisticsController < ApplicationController
 		when 'EdoEmocionalDespues'
 			@graph= Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Estado Emocional Despues",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -224,7 +219,7 @@ class StadisticsController < ApplicationController
 		when 'Ayudo'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Que tanto a ayudado ESPORA",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -232,7 +227,7 @@ class StadisticsController < ApplicationController
 		when 'Difusion'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "De que manera se enteran nuestros pacientes",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -240,7 +235,7 @@ class StadisticsController < ApplicationController
 		when 'Recomendacion'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Que tan recomendable es ESPORA",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
@@ -249,7 +244,7 @@ class StadisticsController < ApplicationController
 		when 'Calificacion'
 			@graph = Gchart.pie(
 				:size   => '600x400',
-				:title  => "Grafica de Pastel- Carreras de la facultad",
+				:title  => "Calificacion de ESPORA",
 				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]

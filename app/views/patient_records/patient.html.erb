@@ -87,7 +87,15 @@
 
 				<div class="patient-info-field" style="width: 90%; margin-top: 0px;">
 					<div>Motivos de consulta:</div>
-					<div><p style="margin: 0;"><%= @patient_request.reasons %></p></div>
+					<div>
+						<% reasons = @patient_request.reasons %>
+						<% reasons.each do | reason | %>
+							<% reasons_type = reason.reasons_type %>
+							<div style="width: 100%; float: left; font-weight: normal; margin-left: 0;">
+								<%= reasons_type.is_other? ? reason.other_name : reasons_type.name %>
+							</div>
+						<% end %>
+					</div>
 				</div>
 
 				<div class="patient-info-field" style="width: 90%;">
@@ -135,7 +143,15 @@
 				<div class="info-title">BAJA:</div>
 
 				<!-- CANALIZACION -->
-				<div style="width: 73%; margin-top: 10px; margin-left: 10%;" >
+				<div align="center" style="width: 99%; margin-top: 10px;" >
+					<div class="pure-button pure-button-active patient-dropout-action"
+					style="background: #4B8DF9; color: #FFF;" onclick="openChanneledForm();">
+						CANALIZAR PACIENTE
+					</div>
+				</div>
+
+				<!-- FORMULARIO -->
+				<div id="form-channel">
 					<%= form_for @channelization, :html => { :class => "pure-form pure-form-stacked" } do |f| %>
 						<%= f.hidden_field "patient_id", :value => @patient.id %>
 						<div>
@@ -143,8 +159,12 @@
 							<%= f.text_field :where, :required => true, :style => "width: 100%; font-size: 11px;" %>
 						</div>
 
-						<div style="width: 48%; margin-left: 52%;">
-							<%= f.submit "PACIENTE CANALIZADO",
+						<div class="pure-button pure-button-active patient-dropout-action"
+						style="width: 85px; float: right; margin: 8px 4px 0 0;" onclick="$('#form-channel').dialog('close');">
+							CANCELAR
+						</div>
+						<div style="width: 100px; float: right; margin: 8px 4px 0 0;">
+							<%= f.submit "CANALIZAR",
 								:class => "pure-button pure-button-active patient-dropout-action",
 								:style => "width: 100%; background: #4B8DF9; color: #FFF;",
 								:data => { confirm: "¿Estás seguro?" } %>
@@ -188,6 +208,21 @@
 		<div style="width: 41.8%; height: 238px; margin-left: 10px; margin-top: 10px;">
 		</div>
 	</div>
+
+	<script type="text/javascript">
+
+		// Hacemos un dialogo del formulario
+		$("#form-channel").dialog({
+			autoOpen: false,
+			modal: true,
+			closeText: "hide",
+			minWidth: 375
+		});
+
+		function openChanneledForm () {
+			$("#form-channel").dialog("open");
+		}
+	</script>
 
 <% end %>
 

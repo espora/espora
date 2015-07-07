@@ -61,7 +61,8 @@ gem 'annotate', '~> 2.6.6'
 
 #Charts
 gem 'googlecharts'
-gem 'raphael-rails', '~> 2.1.2'
+# gem 'raphael-rails', '~> 2.1.2'
+# gem 'chart-js-rails'
 
 # Para poblar la base
 gem 'faker'

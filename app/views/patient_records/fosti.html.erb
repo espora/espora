@@ -17,16 +17,9 @@
 	<div class="fosti-block" style="width: 98%; padding-left: 2%;">
 
 		<table id="fosti-table" class="pure-table pure-table-bordered">
-			<col width="80px"/>
-			<col width="150px"/>
-			<col width="40px"/>
-			<col width="60px"/>
-			<col width="100px"/>
-			<col width="50px"/>
-			<col width="45px"/>
-			<col width="75px"/>
-			<col width="65px"/>
-			<col width="65px"/>
+			<% [80, 150, 40, 60, 100, 50, 45, 75, 65, 65].each do | w | %>
+				<col width="<%= w %>px"/>
+			<% end %>
 
 			<thead>
 				<tr align="center">
@@ -68,7 +61,12 @@
 						<td><%= patient.email %></td>
 						<td><%= (patient.telephone1.nil? or patient.telephone1.blank?) ? patient.telephone2 : patient.telephone1 %></td>
 						<td><%= record.appointments.count %></td>
-						<td><%= record.missed_appointments.count %></td>
+
+						<% missed_count = record.missed_appointments.count %>
+						<% color = (missed_count >= 3) ? "color: #FF0000;" : "color: #000000;" %>
+						<td style="<%= color %>">
+							<%= missed_count %>
+						</td>
 						<td class="<%= (params[:order_by] == 'admission_date')? 'c-order-active' : '' %>">
 							<%= record.created_at.strftime("%d-%m-%y") %>
 						</td>

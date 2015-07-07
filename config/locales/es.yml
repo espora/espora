@@ -4,6 +4,8 @@ es:
       models:
         patient_request:
           attributes:
+            reasons:
+              too_short: "No se selecciono ningún motivo de consulta"
             request_schedules:
               too_short: "No selecciono ningún horario disponible"
             affected_areas:

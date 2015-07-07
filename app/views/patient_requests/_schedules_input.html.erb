@@ -37,7 +37,8 @@
 						<td id="<%= id_td %>" class="available-schedule"
 							day="<%= (day + 1) %>"
 							hour="<%= hour %>" minutes="<%= minutes %>"
-							next-hour="<%= next_hour %>" next-minutes="<%= next_minutes %>">
+							next-hour="<%= next_hour.to_s.length == 1 ? '0' + next_hour.to_s : next_hour.to_s %>"
+							next-minutes="<%= next_minutes.to_s.length == 1 ? '0' + next_minutes.to_s : next_minutes.to_s  %>">
 						</td>
 					<% end %>
 				</tr>

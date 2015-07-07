@@ -2,14 +2,16 @@
 
 <% @open_records.each do | open_record | %>
 	<% patient = open_record.patient %>
-
 	<li class="open-record-tab">
-		<a href="#open_record_<%= open_record.id %>" style="padding-right: 1px;">
-			<div style="margin-left: 0px;"><%= patient.names + " " + patient.p_last_name %></div>
-		</a>
-		<%= link_to close_record_path(open_record), :style => "padding-left: 0; padding-right: 0; float: right; margin: 0 5px 0 8px; cursor: pointer;" do %>
-			<i class="fa fa-times"></i>
-		<% end %>
+		<div>
+			<a href="#open_record_<%= open_record.id %>" style="padding-right: 1px;">
+				<%= patient.names + " " + patient.p_last_name %>
+			</a>
+
+			<%= link_to close_record_path(open_record), :style => "padding-left: 0; padding-right: 0; float: right; margin: -23px 5px 0 8px; cursor: pointer;" do %>
+				<i class="fa fa-times"></i>
+			<% end %>
+		</div>
 	</li>
 <% end %>
 

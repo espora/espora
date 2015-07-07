@@ -87,7 +87,15 @@
 
 				<div class="patient-info-field" style="width: 90%; margin-top: 0px;">
 					<div>Motivos de consulta:</div>
-					<div><p style="margin: 0;"><%= @patient_request.reasons %></p></div>
+					<div>
+						<% reasons = @patient_request.reasons %>
+						<% reasons.each do | reason | %>
+							<% reasons_type = reason.reasons_type %>
+							<div style="width: 100%; float: left; font-weight: normal; margin-left: 0;">
+								<%= reasons_type.is_other? ? reason.other_name : reasons_type.name %>
+							</div>
+						<% end %>
+					</div>
 				</div>
 
 				<div class="patient-info-field" style="width: 90%;">

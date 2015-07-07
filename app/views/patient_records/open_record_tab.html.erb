@@ -6,29 +6,31 @@
 		<!-- PESTANAS -->
 		<ul>
 			<li><a href="#patient">
-				<div align="center">Paciente</div>
+				<div>Paciente</div>
 			</a></li>
 
 			<li><a href="#havad">
-				<div align="center">HAVAD</div>
+				<div>HAVAD</div>
 			</a></li>
 
 			<li><a href="#appointments">
-				<div align="center">Citas</div>
+				<div>Citas</div>
 			</a></li>
 
 			<!-- HEADER - CITAS ABIERTAS -->
 			<% @open_appointments = open_appointments(@patient_record) %>
-
 			<li style="width: 10px;"></li>
 			<% @open_appointments.each do | appointment | %>
 				<li class="open-appointment-tab">
-					<a href="#open_appointment_<%= appointment.id %>" style="padding-right: 1px;">
-						<div style="margin-left: 0px;">Cita <%= appointment.number %></div>
-					</a>
-					<%= link_to close_appointment_path(@patient_record, appointment) + "?tab=" + params[:tab], :style => "padding-left: 0; padding-right: 0; float: right; margin: 0 5px 0 8px; cursor: pointer;" do %>
-						<i class="fa fa-times"></i>
-					<% end %>
+					<div>
+						<a href="#open_appointment_<%= appointment.id %>" style="padding-right: 1px;">
+							Cita <%= appointment.number %>
+						</a>
+
+						<%= link_to close_appointment_path(@patient_record, appointment) + "?tab=" + params[:tab], :style => "padding-left: 0; padding-right: 0; float: right; margin: -23px 5px 0 8px;" do %>
+							<i class="fa fa-times"></i>
+						<% end %>
+					</div>
 				</li>
 			<% end %>
 		</ul>

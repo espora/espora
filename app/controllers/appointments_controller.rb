@@ -58,10 +58,14 @@ class AppointmentsController < ApplicationController
 
 				# La ponemos en sesion
 				session[:open_records][params[:id]][:open_appointments] << params[:appointment_id]
-			end
 
-			# Redirigimos al show
-			redirect_to show_appointment_path(params[:id], params[:appointment_id]) + "?tab=" + params[:tab] + "&app_tab=" + params[:app_tab]
+				# Redirigimos al show
+				redirect_to show_appointment_path(params[:id], params[:appointment_id]) + "?tab=" + params[:tab] + "&app_tab=" + params[:app_tab]
+			else
+
+				# Redirigimos al show
+				redirect_to show_appointment_path(params[:id], params[:appointment_id]) + "?tab=" + params[:tab] + "&app_tab=" + (params[:app_tab].to_i - 1).to_s
+			end
 		end
 	end
 

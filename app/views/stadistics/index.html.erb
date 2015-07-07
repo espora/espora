@@ -10,10 +10,21 @@
 	            <li><a href="#carreraSolicitudes">Carrera Solicitudes</a></li>
 	            <li><a href="#carreraAtendidos">Carrera Atendidos</a></li>
 	            <li><a href="#semestreSolicitudes">Semestre Solicitudes</a></li>
+	            <li><a href="#semestreAtendidas">Semestre Atendidas</a></li>
 	            <li><a href="#materiasSolicitudes">Materias Solicitudes</a></li>
 	            <li><a href="#materiasAtendidas">Materias Atendidas</a></li>
-	            
-	            
+	            <li><a href="#eficiencia">Eficiencia</a></li>
+	            <li><a href="#motivos">Motivos</a></li>
+	            <li><a href="#sintomas">Síntomas</a></li>
+	            <li><a href="#areasAfectadas">Áreas Afectadas</a></li>
+	            <li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>
+	            <li><a href="#edoEmocionalAntes">Estado Emocional Antes</a></li>
+	            <li><a href="#edoEmocionalDespues">Estado Emocional Despues</a></li>
+	            <li><a href="#ayudo">¿Ayudó?</a></li>
+	            <li><a href="#difusion">Difusión</a></li>
+	            <li><a href="#recomendacion">Recomendación</a></li>
+	            <!-- <li><a href="#calificacion">Calificación</a></li> -->
+	            	            
 	        </ul>
 	    </div>
 	    <div id="container">
@@ -21,22 +32,23 @@
 	    		<div id="sexoSolicitudes"><div id="testgraph2"></div></div>
 	    		<div id="sexoAtendidos"><div id="testgraph3"></div></div>
 	    		<div id="Familiar"><div id="testgraph4"></div></div>
-	    		<div id="carreraSolicitudes">
-	    			<div id="testgraph5"></div>
-	    		</div>
-	    		<div id="carreraAtendidos">
-	    			<div id="testgraph6"></div>
-	    		</div>
-	    		<div id="semestreSolicitudes">
-	    			<div id="testgraph7"></div>
-	    		</div>
-	    		<div id="materiasSolicitudes">
-	    			<div id="testgraph8"></div>
-	    		</div>
-	    		<div id="materiasAtendidas">
-	    			<div id="testgraph9"></div>
-	    		</div>
-		    <!-- <div id="testgraph"></div> -->
+	    		<div id="carreraSolicitudes"><div id="testgraph5"></div></div>
+	    		<div id="carreraAtendidos"><div id="testgraph6"></div></div>
+	    		<div id="semestreSolicitudes"><div id="testgraph7"></div></div>
+	    		<div id="semestreAtendidas"><div id="testgraph8"></div></div>
+	    		<div id="materiasSolicitudes"><div id="testgraph9"></div></div>
+	    		<div id="materiasAtendidas"><div id="testgraph10"></div></div>
+	    		<div id="eficiencia"><div id="testgraph11"></div></div>
+	    		<div id="motivos"><div id="testgraph12"></div></div>
+	    		<div id="sintomas"><div id="testgraph13"></div></div>
+	    		<div id="areasAfectadas"><div id="testgraph14"></div></div>
+	    		<div id="areasBeneficiadas"><div id="testgraph15"></div></div>
+	    		<div id="edoEmocionalAntes"><div id="testgraph16"></div></div>
+	    		<div id="edoEmocionalDespues"><div id="testgraph17"></div></div>
+	    		<div id="ayudo"><div id="testgraph18"></div></div>
+	    		<div id="difusion"><div id="testgraph19"></div></div>
+	    		<div id="recomendacion"><div id="testgraph20"></div></div>
+	    		<!-- <div id="calificacion"><div id="testgraph21"></div></div> -->
 	    	</div>
 	    </div>
 
@@ -50,7 +62,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('SolicitudesVsAtendidos') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph1").append(data);
 			}
 		});
@@ -58,7 +70,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('SexoSol') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph2").append(data);
 			}
 		});
@@ -66,7 +78,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('SexoAten') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph3").append(data);
 			}
 		});
@@ -74,7 +86,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('Familiar') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph4").append(data);
 			}
 		});
@@ -82,7 +94,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('CarreraSol') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph5").append(data);
 			}
 		});
@@ -90,7 +102,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('CarreraAten') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph6").append(data);
 			}
 		});
@@ -98,7 +110,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('SemestreSol') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph7").append(data);
 			}
 		});
@@ -106,7 +118,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('SemestreAten') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph8").append(data);
 			}
 		});
@@ -114,7 +126,7 @@
 			method: "GET",
 			url: "<%= graph_index_path('MateriasSol') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
+				// console.log(data);
 				$("#testgraph9").append(data);
 			}
 		});
@@ -122,8 +134,88 @@
 			method: "GET",
 			url: "<%= graph_index_path('MateriasAten') %>",
 			success: function(data) {
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data);
-				$("#testgraph").append(data);
+				// console.log(data);
+				$("#testgraph10").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Eficiencia') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph11").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Motivos') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph12").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Sintomas') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph12").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('AreasAfectadas') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph13").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('AreasBeneficiadas') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph14").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('EdoEmocionalAntes') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph15").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('EdoEmocionalDespues') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph16").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Ayudo') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph17").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Difusion') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph18").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Recomendacion') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph19").append(data);
 			}
 		});
 	</script>

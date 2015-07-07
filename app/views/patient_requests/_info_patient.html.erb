@@ -14,11 +14,13 @@
 		<div><span>CORREO</span><span><%= patient.email %></span></div>
 
 		<div style="margin-top: 10px;"><span>MOTIVOS DE CONSULTA</span>
-			<span>
-			<p style="margin-top: 4px; width: 90%; height: auto; text-align: justify;">
-				<%= patient_request.reasons %>
-			</p>
-			</span>
+			<% reasons = patient_request.reasons %>
+			<% reasons.each do | reason | %>
+				<% reasons_type = reason.reasons_type %>
+				<span style="margin-left: 3%;">
+					<%= reasons_type.is_other? ? reason.other_name : reasons_type.name %>
+				</span>
+			<% end %>
 		</div>
 	</div>
 

@@ -181,6 +181,13 @@ class PatientRequestsController < ApplicationController
 
 			redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
 		else
+
+			# Panel para las tabs del workspace del terapeuta
+			@therapist_active_tab = 1
+
+			# Panel para las tabs del workspace del lue
+			@lue_active_tab = 1
+
 			render :new
 		end
 	end
@@ -279,6 +286,7 @@ class PatientRequestsController < ApplicationController
 		# Ecapsula los parametros permitidos para una solicitud
 		def patient_requets_params
 			params.require(:patient_request).permit(:reasons, :condition_type_id, :money, :pre_care,
+				:reasons_attributes => [ :reasons_type_id, :other_name, :_destroy, :id ],
 				:affected_areas_attributes => [ :personal_area_type_id, :other_name, :_destroy, :id ],
 				:request_schedules_attributes => [ :day, :beginH, :endH, :_destroy, :id ])
 		end

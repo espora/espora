@@ -48,6 +48,14 @@
 	padding-right: 8px !important;
 }
 
+.ui-dialog-titlebar {
+	height: 16px !important;
+}
+
+.ui-dialog-titlebar-close {
+	visibility: hidden;
+}
+
 /************ PESTAÑAS **************/
 
 #ter-tabs {

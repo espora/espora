@@ -1,5 +1,15 @@
 <% content_for :appointments do %>
 
+	<% if not flash[:notice].nil? and flash[:notice].is_a?(Hash) %>
+	
+		<!-- MENSAJES DEL HAVAD -->
+		<% flash[:notice].each do | key, notice | %>
+			<div class="alert-box success" style="width: 99%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
+				<%= notice %>
+			</div>
+		<% end %>
+	<% end %>
+
 	<!-- CITAS CONTAINER -->
 	<div style="padding-bottom: 20px;">
 

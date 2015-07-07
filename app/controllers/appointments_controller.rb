@@ -143,7 +143,7 @@ class AppointmentsController < ApplicationController
 			flash[:notice] = { :appointment => "¡Información de cita guardada éxitosamente!" }
 
 			# Redirigimos al expediente
-			redirect_to havad_index_path(@appointment.patient_record.id) + "?tab=" + params[:tab]
+			redirect_to appointments_path(@appointment.patient_record.id) + "?tab=" + params[:tab]
 		else
 
 			# Redirigimos al show

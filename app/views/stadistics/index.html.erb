@@ -13,15 +13,16 @@
 	            <li><a href="#semestreAtendidas">Semestre Atendidas</a></li>
 	            <li><a href="#materiasSolicitudes">Materias Solicitudes</a></li>
 	            <li><a href="#materiasAtendidas">Materias Atendidas</a></li>
-	            <li><a href="#eficiencia">Eficiencia</a></li>
-	            <li><a href="#motivos">Motivos</a></li>
-	            <li><a href="#sintomas">Síntomas</a></li>
-	            <li><a href="#areasAfectadas">Áreas Afectadas</a></li>
-	            <li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>
+	            <li><a href="#status">Status</a></li>
+	            <li><a href="#eficienciaA">Eficiencia</a></li>
+	            <!--<li><a href="#motivos">Motivos</a></li>-->
+	            <!--<li><a href="#sintomas">Síntomas</a></li>-->
+	            <!--<li><a href="#areasAfectadas">Áreas Afectadas</a></li>-->
+	            <!--<li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>-->
 	            <li><a href="#edoEmocionalAntes">Estado Emocional Antes</a></li>
 	            <li><a href="#edoEmocionalDespues">Estado Emocional Despues</a></li>
-	            <li><a href="#ayudo">¿Ayudó?</a></li>
-	            <li><a href="#difusion">Difusión</a></li>
+	            <!--<li><a href="#ayudo">¿Ayudó?</a></li>-->
+	            <!--<li><a href="#difusion">Difusión</a></li>-->
 	            <li><a href="#recomendacion">Recomendación</a></li>
 	            <!-- <li><a href="#calificacion">Calificación</a></li> -->
 	            	            
@@ -38,17 +39,18 @@
 	    		<div id="semestreAtendidas"><div id="testgraph8"></div></div>
 	    		<div id="materiasSolicitudes"><div id="testgraph9"></div></div>
 	    		<div id="materiasAtendidas"><div id="testgraph10"></div></div>
-	    		<div id="eficiencia"><div id="testgraph11"></div></div>
-	    		<div id="motivos"><div id="testgraph12"></div></div>
-	    		<div id="sintomas"><div id="testgraph13"></div></div>
-	    		<div id="areasAfectadas"><div id="testgraph14"></div></div>
-	    		<div id="areasBeneficiadas"><div id="testgraph15"></div></div>
-	    		<div id="edoEmocionalAntes"><div id="testgraph16"></div></div>
-	    		<div id="edoEmocionalDespues"><div id="testgraph17"></div></div>
-	    		<div id="ayudo"><div id="testgraph18"></div></div>
-	    		<div id="difusion"><div id="testgraph19"></div></div>
-	    		<div id="recomendacion"><div id="testgraph20"></div></div>
-	    		<!-- <div id="calificacion"><div id="testgraph21"></div></div> -->
+	    		<div id="status"><div id="testgraph11"></div></div>
+	    		<div id="eficienciaA"><div id="testgraph12"></div></div>
+	    		<!--<div id="motivos"><div id="testgraph13"></div></div>-->
+	    		<!--<div id="sintomas"><div id="testgraph14"></div></div>-->
+	    		<!--<div id="areasAfectadas"><div id="testgraph15"></div></div>-->
+	    		<!--<div id="areasBeneficiadas"><div id="testgraph16"></div></div>-->
+	    		<div id="edoEmocionalAntes"><div id="testgraph17"></div></div>
+	    		<div id="edoEmocionalDespues"><div id="testgraph18"></div></div>
+	    		<!--<div id="ayudo"><div id="testgraph19"></div></div>-->
+	    		<!--<div id="difusion"><div id="testgraph20"></div></div>-->
+	    		<div id="recomendacion"><div id="testgraph21"></div></div>
+	    		<!-- <div id="calificacion"><div id="testgraph22"></div></div> -->
 	    	</div>
 	    </div>
 
@@ -140,7 +142,7 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('Eficiencia') %>",
+			url: "<%= graph_index_path('Status') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph11").append(data);
@@ -148,23 +150,15 @@
 		});
 		$.ajax({	
 			method: "GET",
+			url: "<%= graph_index_path('EficienciaA') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph12").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
 			url: "<%= graph_index_path('Motivos') %>",
-			success: function(data) {
-				// console.log(data);
-				$("#testgraph12").append(data);
-			}
-		});
-		$.ajax({	
-			method: "GET",
-			url: "<%= graph_index_path('Sintomas') %>",
-			success: function(data) {
-				// console.log(data);
-				$("#testgraph12").append(data);
-			}
-		});
-		$.ajax({	
-			method: "GET",
-			url: "<%= graph_index_path('AreasAfectadas') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph13").append(data);
@@ -172,7 +166,7 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('AreasBeneficiadas') %>",
+			url: "<%= graph_index_path('Sintomas') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph14").append(data);
@@ -180,7 +174,7 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('EdoEmocionalAntes') %>",
+			url: "<%= graph_index_path('AreasAfectadas') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph15").append(data);
@@ -188,7 +182,7 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('EdoEmocionalDespues') %>",
+			url: "<%= graph_index_path('AreasBeneficiadas') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph16").append(data);
@@ -196,7 +190,7 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('Ayudo') %>",
+			url: "<%= graph_index_path('EdoEmocionalAntes') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph17").append(data);
@@ -204,7 +198,7 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('Difusion') %>",
+			url: "<%= graph_index_path('EdoEmocionalDespues') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph18").append(data);
@@ -212,10 +206,26 @@
 		});
 		$.ajax({	
 			method: "GET",
-			url: "<%= graph_index_path('Recomendacion') %>",
+			url: "<%= graph_index_path('Ayudo') %>",
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph19").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Difusion') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph20").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Recomendacion') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph21").append(data);
 			}
 		});
 	</script>

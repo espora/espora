@@ -5,6 +5,7 @@
 require 'faker'
 
 # Numero de pacientes que se crearan
+<<<<<<< HEAD
 n_patients = 100
 
 # Creamos los arreglos que necesitamos para las entradas de los pacientes
@@ -14,9 +15,10 @@ patient_entries = Array.new
 # Iteramos la cantidad de veces que queremos crear información de pacientes
 n_patients.times do |n|
 
-	# Guardamos la información de los números de cuenta en el arreglo de entradas para pacientes
+	# Generamos un numero de cuenta y lo guardamos
 	account_numbers << Faker::Number.number(9)
 
+	# Generamos una entrada de paciente y lo guardamos
 	entry = {
 		account_number: account_numbers.last,
 		p_last_name: Faker::Name.last_name,
@@ -31,10 +33,9 @@ n_patients.times do |n|
 		telephone1: Faker::Number.number(8),
 		telephone2: Faker::Number.number(10),
 		email: Faker::Internet.free_email,
-		patient_status_type_id: Faker::Number.between(from=1, to=5)
+		#patient_status_type_id: Faker::Number.between(from=1, to=5)
+		patient_status_type_id: [1, 2].sample
 	}
-
-	# Guardamos todas las entradas en el arreglo original 
 	patient_entries << entry
 end
 
@@ -57,22 +58,23 @@ patient_entries.each do | entry |
 	end
 end
 
-# Mensaje que describe la acción realizada
-puts "   #{Patient.count - before_count} inserciones hechas al catálogo de Estatus de Paciente."
+puts "   #{Patient.count - before_count} inserciones hechas a la tabla de Pacientes."
 
 # -----> SOLICITUDES DE PACIENTE <-----
 
 request_entries = Array.new
+n_patients.times do |i|
 
-n_patients.times do |n|
+	# Obtenemos al paciente
+	patient = Patient.find_by_account_number(account_numbers[i])
 
-	
-entry = {
+	# Generamos la entrada de la solicitud
+	entry = {
 		money: Faker::Number.between(from=0, to=500),
 		pre_care: [true, false].sample,
 		request_date: Faker::Date.between(30.days.ago, Date.today),
 		attention_date: Faker::Date.forward(10),
-		patient_id: Patient.find_by_account_number(account_numbers).id,
+		patient_id: patient.id,
 		contact_therapist_id: Therapist.last.id,
 		receive_therapist_id: Therapist.last.id,
 		condition_type_id: Faker::Number.between(from=1, to=5),
@@ -88,12 +90,11 @@ entry = {
 		]
 	}
 
-request_entries << entry
-
+	# Guardamos la entrada
+	request_entries << entry
 end
 
 puts "\n--- Poblando tabla Solicitudes con (#{request_entries.count} inserciones)... "
-
 
 before_count = PatientRequest.count
 request_entries.each do | entry |
@@ -105,9 +106,7 @@ request_entries.each do | entry |
 		if patient_request.valid?
 			patient_request.save
 		end
-
-		if not patient_request.valid?
-			ap patient_request.errors
-		end
 	end
 end
+
+puts "   #{PatientRequest.count - before_count} inserciones hechas a la tabla de Solicitudes."

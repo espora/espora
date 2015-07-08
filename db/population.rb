@@ -5,7 +5,7 @@
 require 'faker'
 
 # Numero de pacientes que se crearan
-n_patients = 1
+n_patients = 100
 
 # Creamos los arreglos que necesitamos para las entradas de los pacientes
 account_numbers = Array.new

@@ -1,0 +1,131 @@
+
+<!-- OPCIONES -->
+<div id="improveAreasOpts">
+	<% areas_type = PersonalAreaType.all %>
+	<% areas_type.each do | area | %>
+
+		<div class="option-catalog" <% if area.is_other? %>style="margin-top: 0px;"<% end %>>
+			<input type="checkbox" id-area="<%= area.id %>" area="<%= area.name %>" onclick="changeArea(this);" >
+				<div class="option-name-catalog"><%= area.name %></div>
+
+				<% if area.is_other? %>
+					<input type="text" style="display: inline-block; position: relative; top: -3px; left: 8px;" autofocus="autofocus" size="15" disabled />
+				<% end %>
+			</input>
+		</div>
+	<% end %>
+</div>
+
+<!-- FIELDS ANIDADOS -->
+<div id="improve-areas-fields">
+	<%= form.fields_for :improve_areas do | aarea_form | %>
+		<%= aarea_form.hidden_field :other_name %>
+		<%= aarea_form.hidden_field :personal_area_type_id %>
+		<%= aarea_form.link_to_remove "", :style => "display: none;" %>
+	<% end %>
+</div>
+
+<%= form.link_to_add "", :improve_areas, :style => "display: none;" %>
+
+<script type="text/javascript">
+
+	// Datos de areas afectadas
+	var areaActive = undefined;
+	var areasData = new Object();
+
+	// Llenamos los datos de las areas
+	$("#improveAreasOpts").find("input[type='checkbox']").each(function () {
+		var input = this;
+		var areaName = $(this).attr("area");
+		var areaId = $(this).attr("id-area");
+		areasData[areaId] = {
+			name: areaName,
+			id: areaId,
+			checkbox: input,
+			field: undefined
+		};
+	});
+
+	// Llenamos las areas afectadas guardadas
+	$("#improve-areas-fields .fields").each(function () {
+
+		// Obtenemos el id
+		var areaId = $(this).find("input:nth-child(2)").val();
+		areasData[areaId].field = this;
+		$(areasData[areaId].checkbox).prop("checked", true);
+
+		if(areasData[areaId].name === "Otro") {
+			var text = $(this).find("input:nth-child(1)").val();
+			var textfield = $(areasData[areaId].checkbox).parent().find("input[type='text']");
+			textfield.val(text);
+			textfield.prop("disabled", false);
+			textfield.prop("required", true);
+		}
+	});
+
+	function changeArea ( input ) {
+
+		// Obtenemos el nombre del area
+		var areaName = $(input).attr("area");
+		var areaId = $(input).attr("id-area");
+		var textfield = $(input).parent().find("input[type='text']");
+
+		// Si se eligió
+		if( input.checked ) {
+
+			// Si es "Otro", hacemos el texto requerido
+			if(areaName == "Otro") {
+				textfield.prop("disabled", false);
+				textfield.prop("required", true);
+			}
+
+			// Seteamos las globales
+			areaActive = areasData[areaId];
+
+			// Creamos un area afectada
+			$(".add_nested_fields[data-association=improve_areas]").click();
+		}
+
+		// Se desmarca
+		else {
+
+			// Si es "Otro", quitamos el texto requerido
+			if(areaName == "Otro") {
+				textfield.val("");
+				textfield.prop("disabled", true);
+				textfield.prop("required", false);
+			}
+
+			// Eliminamos el input
+			$(areasData[areaId].field).find(".remove_nested_fields").click();
+		}
+	}
+
+	// Al agregar un area afectada
+	
+	$(document).on("nested:fieldAdded:improve_areas", function( event ) {
+
+		// Seteamos el id
+		var idInput = event.field.find("input:nth-child(2)");
+		idInput.val(areaActive.id);
+
+		// Si es "Otro"
+		if(areaActive.name == "Otro") {
+
+			// Obtenemos el campo del texto
+			var textfield = $(areaActive.checkbox).parent().find("input[type='text']");
+			var otherInput = event.field.find("input:nth-child(1)");
+
+			// Asociamos el evento de escritura
+			textfield.keypress(function ( event ) {
+				otherInput.val($(this).val() + String.fromCharCode(event.keyCode));
+			});
+		}
+
+		// Asignamos el field
+		areaActive.field = event.field;
+
+		// Seteamos el activo
+		areaActive = undefined;
+	});
+</script>

@@ -121,8 +121,8 @@ Espora::Application.routes.draw do
 	# Dar de baja por abandono
 	get "/therapists/dropout/abandonment/:id" => "patient_dropouts#create_abandonment", as: "patient_abandonment"
 
-	# Llenar egreso
-	get "/therapists/dropout/fill_signout/:id" => "patient_dropouts#fill_signout", as: "patient_fill_signout"
+	# Salvar egreso
+	post "/therapists/dropout/signout/:id" => "patient_dropouts#create_signout", as: "patient_signouts"
 
 	##################
 	#  Estadisticas  #

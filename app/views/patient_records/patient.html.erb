@@ -172,14 +172,18 @@
 					<% end %>
 				</div>
 
-				<!-- MARCAR INTERRUPCION -->
+				<!-- LLENAR EGRESO -->
 				<div align="center" style="width: 99%; margin-top: 8px;">
-					<%= link_to patient_fill_signout_path(@patient_record.patient),
-						:class => "pure-button pure-button-active patient-dropout-action",
-						:style => "background: #4B8DF9; color: #FFF;",
-						:data => { confirm: "¿Estás seguro?" } do %>
+					<%= button_tag :class => "pure-button pure-button-active patient-dropout-action",
+					:style => "width: 45%; background: #4B8DF9; color: #FFF;",
+					:onclick => "openFillOutForm();" do %>
 						LLENAR EGRESO
 					<% end %>
+				</div>
+
+				<!-- FORMULARIO EGRESO -->
+				<div id="form-signout">
+					<%= render partial: "patient_dropouts/signout_form", locals: { signout: @signout } %>
 				</div>
 
 				<!-- MARCAR INTERRUPCION -->
@@ -219,8 +223,20 @@
 			minWidth: 375
 		});
 
+		$("#form-signout").dialog({
+			autoOpen: false,
+			modal: true,
+			closeText: "hide",
+			title: "Formato de Egreso",
+			minWidth: 1000
+		});
+
 		function openChanneledForm () {
 			$("#form-channel").dialog("open");
+		}
+
+		function openFillOutForm() {
+			$("#form-signout").dialog("open");
 		}
 	</script>
 

@@ -192,6 +192,9 @@ class PatientRecordsController < ApplicationController
 		# Creamos la canalización
 		@channelization = PatientChannelization.new
 
+		# Creamos el egreso
+		@signout = PatientSignout.new
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = params[:tab]
 

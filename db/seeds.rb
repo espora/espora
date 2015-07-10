@@ -5,7 +5,6 @@ puts ":::: Poblando Espora BD...\n\n"
 # -----> POBLANDO LA BASE <-----
 
 load "#{Rails.root}/db/population.rb"
-exit
 
 # -----> CATALOGO ESTATUS DE PACIENTE <-----
 

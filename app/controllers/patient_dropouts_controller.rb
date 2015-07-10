@@ -207,6 +207,47 @@ class PatientDropoutsController < ApplicationController
 		redirect_to patient_dropouts_index_path + "?account_number=" + @patient.account_number.to_s
 	end
 
-	def patient_fill_signout
+	def create_signout
+
+		# Obtenemos al paciente
+		@patient = PatientRecord.find(params[:id]).patient
+
+		# Obtenemos el tipo de baja
+		@dropout_type = PatientDropoutType.find_by_name("Finalizado")
+
+		# Creamos la baja con su tipo y paciente
+		@patient_dropout = PatientDropout.new
+		@patient_dropout.patient = @patient
+		@patient_dropout.patient_dropout_type = @dropout_type
+
+		# Creamos el egreso
+		@patient_signout = PatientSignout.new(patient_signout_params)
+		@patient_signout.patient_dropout = @patient_dropout
+
+		# Alteramos el estado del paciente
+		@patient_status_type = PatientStatusType.find_by_name("Baja")
+		@patient.patient_status_type = @patient_status_type
+
+		# Salvamos a base
+		@patient.save
+		@patient_dropout.save
+		@patient_signout.save
+
+		# Quitamos la variable de sesion del paciente elegido
+		if not session[:open_records][params[:id]].nil?
+			session[:open_records].delete(params[:id])
+		end
+
+		# Redirigimos a las bajas
+		redirect_to patient_dropouts_index_path + "?account_number=" + @patient.account_number.to_s		
 	end
+
+	private
+
+		# Ecapsula los parametros permitidos para un egreso
+		def patient_signout_params
+			params.require(:patient_signout).permit(:aid_level_type_id, :condition_type_id,
+				:rating, :advise_level_type_id, :satisfactions, :claims, :observations,
+				:improve_areas_attributes => [ :personal_area_type_id, :other_name, :_destroy, :id ])
+		end
 end

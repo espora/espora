@@ -30,5 +30,22 @@ class PatientSignout < ActiveRecord::Base
 
 	# Areas mejoradas
 	has_many :improve_areas, :dependent => :delete_all
+	
+	# Areas mejoradas en formularios anidados
+	accepts_nested_attributes_for :improve_areas, :allow_destroy => true
+
+	# Devuelve las opciones de calificacion
+	def self.select_rating
+
+		# Creamos el arreglo
+		options = Array.new
+
+		# Iteramos
+		10.times do | n |
+			options << [(n + 1).to_s, (n + 1).to_s]
+		end
+
+		return options
+	end
 
 end

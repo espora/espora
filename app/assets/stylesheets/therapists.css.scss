@@ -56,6 +56,10 @@
 	visibility: hidden;
 }
 
+.ui-dialog-title {
+	font-size: 14px !important;
+}
+
 /************ PESTAÑAS **************/
 
 #ter-tabs {
@@ -136,6 +140,24 @@
 }
 
 .form-radio-opt label input {
+	float: left;
+}
+
+.form-inputs .form-question {
+	margin-left: 1.5%;
+	margin-top: 8px;
+}
+
+.form-inputs .form-question > div {
+	width: 30%;
+	float: left;
+	margin-left: 1.2%;
+}
+
+.form-inputs .radio-option {
+	width: 90%;
+	position: relative;
+	margin-bottom: 10px;
 	float: left;
 }
 

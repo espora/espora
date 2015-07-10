@@ -5,7 +5,7 @@
 require 'faker'
 
 # Numero de pacientes que se crearan
-n_patients = 2
+n_patients = 3
 
 # Creamos los arreglos que necesitamos para las entradas de los pacientes
 account_numbers = Array.new
@@ -32,7 +32,6 @@ n_patients.times do |n|
 		telephone1: Faker::Number.number(8),
 		telephone2: Faker::Number.number(10),
 		email: Faker::Internet.free_email,
-		#patient_status_type_id: Faker::Number.between(from=1, to=5)
 		patient_status_type_id: [1, 2].sample
 	}
 	patient_entries << entry
@@ -53,6 +52,9 @@ patient_entries.each do | entry |
 
 		if patient.valid?
 			patient.save
+		else
+			ap patient.errors
+			ap entry
 		end
 	end
 end

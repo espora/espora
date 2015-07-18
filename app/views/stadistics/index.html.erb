@@ -4,10 +4,7 @@
 
 		/////////////////////////////////////////////////MOTIVOS DE CONSULTA
 
-	      // Load the Visualization API and the piechart package.
 	      google.load('visualization', '1.0', {'packages':['corechart']});
-
-	      // Set a callback to run when the Google Visualization API is loaded.
 	      google.setOnLoadCallback(motivosConsulta);
 
 	      function motivosConsulta() {
@@ -24,7 +21,6 @@
 
 	              ]);
 
-	        // Set chart options
 	        var options = {'title':'Motivos de Consultas',
 	                       'width':900,
 	                       'height':400,
@@ -32,7 +28,6 @@
 
 	                   };
 
-	        // Instantiate and draw our chart, passing in some options.
 	        var chart = new google.visualization.ColumnChart(document.getElementById('motivosConsulta'));
 	        chart.draw(data, options);
 	      }
@@ -76,7 +71,6 @@
 
 	       // //////////////////////////////AREAS AFECTADAS
 
-	       // Set a callback to run when the Google Visualization API is loaded.
 	       google.setOnLoadCallback(areasAfectadas);
 
 	       function areasAfectadas() {
@@ -92,7 +86,6 @@
 
 	               ]);
 
-	         // Set chart options
 	         var options = {'title':'Areas Afectadas',
 	                        width : 1000,
 	                        height :400,
@@ -100,14 +93,12 @@
 
 	                    };
 
-	         // Instantiate and draw our chart, passing in some options.
 	         var chart = new google.visualization.ColumnChart(document.getElementById('areasAfectadas'));
 	         chart.draw(data, options);
 	       }
 
 	       ///////////////////////////////////// AREAS BENEFICIADAS
 
-	              // Set a callback to run when the Google Visualization API is loaded.
 	              google.setOnLoadCallback(areasBeneficiadas);
 
 	              function areasBeneficiadas() {
@@ -123,7 +114,6 @@
 
 	                      ]);
 
-	                // Set chart options
 	                var options = {'title':'Areas Beneficiadas',
 	                               width : 1000,
 	                               height :400,
@@ -131,12 +121,41 @@
 
 	                           };
 
-	                // Instantiate and draw our chart, passing in some options.
 	                var chart = new google.visualization.ColumnChart(document.getElementById('areasBeneficiadas'));
 	                chart.draw(data, options);
 	              }
 
+	    //////////////////////////////////////// SOLICITUDES VS ATENDIDOS
+
+	    google.setOnLoadCallback(solicitudVsAtendidos);
+
+	    function solicitudVsAtendidos() {
+	      var data = google.visualization.arrayToDataTable([
+	        ['String', 'Numero de Solicitudes Recibidas', 'Numero de Alumnos Atendidos'],
+	        ['Semestre 2011-2',  20, 40],
+	        ['Semestre 2012-1',  70, 46],
+	        ['Semestre 2012-2',  60, 20],
+	        ['Semestre 2013-1',  30, 54],
+	        ['Semestre 2013-2',  30, 50],
+	        ['Semestre 2014-1',  10, 40],
+	        ['Semestre 2014-2',  13, 45],
+	      ]);
+
+	      var options = {
+	        width: 900,
+	        height: 400,	
+	        title: 'Numero de Solicitudes y Alumnos Atendidos',
+	        curveType: 'function',
+	        legend: { position: 'bottom' }
+	      };
+
+	      var chart = new google.visualization.LineChart(document.getElementById('SolicitudesVsAtendidos'));
+
+	      chart.draw(data, options);
+	    }
+
 	   </script>
+
 
 	    <div id="sidebar-header-tab">
 	     <div id="sidebar-tab">
@@ -167,7 +186,7 @@
 	        </ul>
 	    </div>
 	    <div id="container">
-		    	<div id="SolicitudesVsAtendidos"><div id="testgraph1"></div></div>
+		    	<div id="SolicitudesVsAtendidos"><div id="SolicitudesVsAtendidos"></div></div>
 	    		<div id="sexoSolicitudes"><div id="testgraph2"></div></div>
 	    		<div id="sexoAtendidos"><div id="testgraph3"></div></div>
 	    		<div id="Familiar"><div id="testgraph4"></div></div>
@@ -364,6 +383,14 @@
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph21").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Calificacion') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph22").append(data);
 			}
 		});
 	</script>

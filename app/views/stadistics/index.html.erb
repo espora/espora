@@ -1,4 +1,142 @@
 <% content_for :statistics do %>
+    <script type="text/javascript" src="assets/js/jsapi.js"></script>
+	<script type="text/javascript">
+
+		/////////////////////////////////////////////////MOTIVOS DE CONSULTA
+
+	      // Load the Visualization API and the piechart package.
+	      google.load('visualization', '1.0', {'packages':['corechart']});
+
+	      // Set a callback to run when the Google Visualization API is loaded.
+	      google.setOnLoadCallback(motivosConsulta);
+
+	      function motivosConsulta() {
+	        var data = new google.visualization.arrayToDataTable([
+	                ['Motivos', 'Porcentaje', { role: 'style' } ],
+	                ['Depresion', 10, 'color: #F8F8F8'],
+	                ['Emocionales', 14, 'color: #76A7FA'],
+	                ['Escolares', 16, 'opacity: 0.2'],
+	                ['Autoestima', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	                ['Familiares', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	                ['Ansiedad', 25, 'color: #123456'],
+	                ['Eleccion de Carrera', 16, 'color: #ABCDEF'],
+	                ['Otra', 8, 'color: #987654'],
+
+	              ]);
+
+	        // Set chart options
+	        var options = {'title':'Motivos de Consultas',
+	                       'width':900,
+	                       'height':400,
+					        legend: { position: "none" },
+
+	                   };
+
+	        // Instantiate and draw our chart, passing in some options.
+	        var chart = new google.visualization.ColumnChart(document.getElementById('motivosConsulta'));
+	        chart.draw(data, options);
+	      }
+
+	      /////////////////////// SIGNOS Y SINTOMAS 
+		     google.setOnLoadCallback(sintomas);
+	     function sintomas() {
+	       var data = google.visualization.arrayToDataTable([
+	              ['Sintomas', 'Porcentaje', { role: 'style' } ],
+	              ['Tristeza', 10, 'color: gray'],
+	              ['Problemas de Autoestima', 14, 'color: #76A7FA'],
+	              ['Insatisfacción', 16, 'opacity: 0.2'],
+	              ['Enojo', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	              ['Estrés', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	              ['Dificultad para Estudiar', 29, 'color: #456789'],
+	              ['Ansiedad', 22, 'color: #ABCDEF'],
+	              ['Problemas para relacionarse', 22, 'color: #987654'],
+	              ['Miedo a Participar', 19, 'color: #657483'],
+	              ['Idea Suicida', 15, 'color: #105647'],
+	              ['Intento de Suicidio', 3, 'color: #A1B2C3'],
+	            ]);
+
+	       var view = new google.visualization.DataView(data);
+	       view.setColumns([0, 1,
+	                        { calc: "stringify",
+	                          sourceColumn: 1,
+	                          type: "string",
+	                          role: "annotation" },
+	                        2]);
+
+	       var options = {
+	         title: "Signos y Síntomas más frecuentes en los estudiantes",
+	         width: 900,
+	         height: 400,
+	         bar: {groupWidth: "95%"},
+	         legend: { position: "none" },
+	       };
+	       var chart = new google.visualization.BarChart(document.getElementById("sintoma"));
+	       chart.draw(view, options);
+	   }
+
+	       // //////////////////////////////AREAS AFECTADAS
+
+	       // Set a callback to run when the Google Visualization API is loaded.
+	       google.setOnLoadCallback(areasAfectadas);
+
+	       function areasAfectadas() {
+	         var data = new google.visualization.arrayToDataTable([
+	                 ['Areas Afectadas', 'Porcentaje', { role: 'style' } ],
+	                 ['Escolar', 10, 'color: #F8F8F8'],
+	                 ['Familiar', 14, 'color: #76A7FA'],
+	                 ['Social', 16, 'opacity: 0.2'],
+	                 ['Pareja', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	                 ['Emocional', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	                 ['Sexual', 25, 'color: #123456'],
+	                 ['Total', 16, 'color: #ABCDEF'],
+
+	               ]);
+
+	         // Set chart options
+	         var options = {'title':'Areas Afectadas',
+	                        width : 1000,
+	                        height :400,
+					        legend: { position: "none" },
+
+	                    };
+
+	         // Instantiate and draw our chart, passing in some options.
+	         var chart = new google.visualization.ColumnChart(document.getElementById('areasAfectadas'));
+	         chart.draw(data, options);
+	       }
+
+	       ///////////////////////////////////// AREAS BENEFICIADAS
+
+	              // Set a callback to run when the Google Visualization API is loaded.
+	              google.setOnLoadCallback(areasBeneficiadas);
+
+	              function areasBeneficiadas() {
+	                var data = new google.visualization.arrayToDataTable([
+	                        ['Areas Beneficiadas', 'Porcentaje', { role: 'style' } ],
+	                        ['Escolar', 25, 'color: #F8F8F8'],
+	                        ['Familiar', 21, 'color: #76A7FA'],
+	                        ['Social', 16, 'opacity: 0.2'],
+	                        ['Pareja', 11, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	                        ['Emocional', 19, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	                        ['Sexual', 23, 'color: #123456'],
+	                        ['Total', 28	, 'color: #ABCDEF'],
+
+	                      ]);
+
+	                // Set chart options
+	                var options = {'title':'Areas Beneficiadas',
+	                               width : 1000,
+	                               height :400,
+	       				        legend: { position: "none" },
+
+	                           };
+
+	                // Instantiate and draw our chart, passing in some options.
+	                var chart = new google.visualization.ColumnChart(document.getElementById('areasBeneficiadas'));
+	                chart.draw(data, options);
+	              }
+
+	   </script>
 
 	    <div id="sidebar-header-tab">
 	     <div id="sidebar-tab">
@@ -15,16 +153,16 @@
 	            <li><a href="#materiasAtendidas">Materias Atendidas</a></li>
 	            <li><a href="#status">Status</a></li>
 	            <li><a href="#eficienciaA">Eficiencia</a></li>
-	            <!--<li><a href="#motivos">Motivos</a></li>-->
-	            <!--<li><a href="#sintomas">Síntomas</a></li>-->
-	            <!--<li><a href="#areasAfectadas">Áreas Afectadas</a></li>-->
-	            <!--<li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>-->
+	            <li><a href="#motivosConsulta">Motivos</a></li>
+	            <li><a href="#sintomas">Síntomas</a></li>
+	            <li><a href="#areasAfectadas">Áreas Afectadas</a></li>
+	            <li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>
 	            <li><a href="#edoEmocionalAntes">Estado Emocional Antes</a></li>
 	            <li><a href="#edoEmocionalDespues">Estado Emocional Despues</a></li>
-	            <!--<li><a href="#ayudo">¿Ayudó?</a></li>-->
+	            <li><a href="#ayudo">¿Ayudó?</a></li>
 	            <!--<li><a href="#difusion">Difusión</a></li>-->
 	            <li><a href="#recomendacion">Recomendación</a></li>
-	            <!-- <li><a href="#calificacion">Calificación</a></li> -->
+	            <li><a href="#calificacion">Calificación</a></li>
 	            	            
 	        </ul>
 	    </div>
@@ -41,16 +179,16 @@
 	    		<div id="materiasAtendidas"><div id="testgraph10"></div></div>
 	    		<div id="status"><div id="testgraph11"></div></div>
 	    		<div id="eficienciaA"><div id="testgraph12"></div></div>
-	    		<!--<div id="motivos"><div id="testgraph13"></div></div>-->
-	    		<!--<div id="sintomas"><div id="testgraph14"></div></div>-->
-	    		<!--<div id="areasAfectadas"><div id="testgraph15"></div></div>-->
-	    		<!--<div id="areasBeneficiadas"><div id="testgraph16"></div></div>-->
+	    		<div id="motivosConsulta"><div id="motivosConsulta"></div></div>
+	    		<div id="sintomas"><div id="sintoma"></div></div>
+	    		<div id="areasAfectadas"><div id="testgraph15"></div></div>
+	    		<div id="areasBeneficiadas"><div id="testgraph16"></div></div>
 	    		<div id="edoEmocionalAntes"><div id="testgraph17"></div></div>
 	    		<div id="edoEmocionalDespues"><div id="testgraph18"></div></div>
-	    		<!--<div id="ayudo"><div id="testgraph19"></div></div>-->
+	    		<div id="ayudo"><div id="testgraph19"></div></div>
 	    		<!--<div id="difusion"><div id="testgraph20"></div></div>-->
 	    		<div id="recomendacion"><div id="testgraph21"></div></div>
-	    		<!-- <div id="calificacion"><div id="testgraph22"></div></div> -->
+	    		<div id="calificacion"><div id="testgraph22"></div></div>
 	    	</div>
 	    </div>
 
@@ -172,22 +310,22 @@
 				$("#testgraph14").append(data);
 			}
 		});
-		$.ajax({	
-			method: "GET",
-			url: "<%= graph_index_path('AreasAfectadas') %>",
-			success: function(data) {
-				// console.log(data);
-				$("#testgraph15").append(data);
-			}
-		});
-		$.ajax({	
-			method: "GET",
-			url: "<%= graph_index_path('AreasBeneficiadas') %>",
-			success: function(data) {
-				// console.log(data);
-				$("#testgraph16").append(data);
-			}
-		});
+		// $.ajax({	
+		// 	method: "GET",
+		// 	url: "<%= graph_index_path('AreasAfectadas') %>",
+		// 	success: function(data) {
+		// 		// console.log(data);
+		// 		$("#testgraph15").append(data);
+		// 	}
+		// });
+		// $.ajax({	
+		// 	method: "GET",
+		// 	url: "<%= graph_index_path('AreasBeneficiadas') %>",
+		// 	success: function(data) {
+		// 		// console.log(data);
+		// 		$("#testgraph16").append(data);
+		// 	}
+		// });
 		$.ajax({	
 			method: "GET",
 			url: "<%= graph_index_path('EdoEmocionalAntes') %>",

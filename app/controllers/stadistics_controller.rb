@@ -166,22 +166,22 @@ class StadisticsController < ApplicationController
 				:bg => 'EFEFEF'
 			)
 
-		when 'Motivos'
-			@graph = Gchart.bar(
-				:size   => '600x400',
-				:title  => "Motivos de Consultas",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20], 
-				:bg => 'EFEFEF'
-			)
+		# when 'Motivos'
+		# 	@graph = Gchart.bar(
+		# 		:size   => '600x400',
+		# 		:title  => "Motivos de Consultas",
+		# 		:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
+		# 		:custom => "chco=FFF110,FF0000",
+		# 		:data   => [120, 45, 25, 55, 20], 
+		# 		:bg => 'EFEFEF'
+		# 	)
 			
 		when 'Sintomas'
 			@graph = Gchart.bar(
 	            :size => '600x400',
-	            :bar_colors => ['000000', '000000','000000','000000','000000','000000','000000','000000','000000','000000','000000','000000','000000'],
+	            :bar_colors => ['E33083', 'FFF110','DB1661','A316DB','3316DB','1678DB','16DBD4','16DB6B','16DB2D','9EE330','E3E030','E3AA30','E33630'],
+
 	            :title => "Signos y síntomas",
-	            :bg => 'EFEFEF',
 	            :legend => ['Tristeza ', 'Autoestima', 'Insatisfacción', 'Enojo', 'Estrés', 'Dif. estudiar', 'Ansiedad', 'Prob. para relacionarse', 'Exigencias elevadas', 'Desesperanza', 'Miedo a participar', 'Ideas suicidas', 'Intento de suicidio'],
 	            :data => [[83], [66], [65.7], [33.8], [60.8], [60.1], [55.5], [49.4], [29], [28.6], [20], [15.1], [3]],
 	            :encoding => 'simple',
@@ -190,7 +190,8 @@ class StadisticsController < ApplicationController
 	            :axis_with_labels => [['x'], ['y']],            
 	            :max_value => 84,
 	            :min_value => 0,
-	            :axis_labels => [["83%|66%|65.7%|33.8%|60.8%|60.1%|55.5%|49.4%|29%|28.6%|20%|15.1%|3%]"]]
+	            :axis_labels => [["83%|66%|65.7%|33.8%|60.8%|60.1%|55.5%|49.4%|29%|28.6%|20%|15.1%|3%]"]],
+	            :bg => 'EFEFEF',
             )   
 
 		when 'AreasAfectadas'
@@ -236,7 +237,7 @@ class StadisticsController < ApplicationController
 			@graph = Gchart.pie(
 				:size   => '600x400',
 				:title  => "Que tanto a ayudado ESPORA",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
+				:legend => ['Nada', 'Medianamente', 'Poco', 'Totalmente', 'Mucho'],
 				:custom => "chco=FFF110,FF0000",
 				:data   => [120, 45, 25, 55, 20]
 			)
@@ -263,9 +264,11 @@ class StadisticsController < ApplicationController
 			@graph = Gchart.pie(
 				:size   => '600x400',
 				:title  => "Calificacion de ESPORA",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
+				:legend => ['5', '6', '7', '8', '9', '10'],
 				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20]
+				:data   => [120, 45, 25, 55, 20, 70],
+				:labels => ["1%", "23%", "27%", "49%"],
+				:bg => 'EFEFEF'
 			)
 
 		end

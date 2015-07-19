@@ -269,8 +269,6 @@
 	        height: 400,  
 	      };
 
-	      // chartArea.width: 20;
-
 	      var chart = new google.visualization.PieChart(document.getElementById('CarreraSol'));
 
 	      chart.draw(data, options);
@@ -296,9 +294,7 @@
 	        height: 400,  
 	      };
 
-	      // chartArea.width: 20;
-
-	      var chart = new google.visualization.PieChart(document.getElementById('CarreraAten'));
+	      var chart = new google.visualization.PieChart(document.getElementById('carreraAtendidos'));
 
 	      chart.draw(data, options);
 	    }
@@ -324,14 +320,238 @@
 	        height: 400,  
 	      };
 
-	      // chartArea.width: 20;
-
 	      var chart = new google.visualization.PieChart(document.getElementById('SemestreSol'));
 
 	      chart.draw(data, options);
 	    }
-	    
+
 	    //////////////////////////////////SEMESTRE DE PROCEDENCIA SOLICITUDES
+	    google.setOnLoadCallback(SemestreAten);
+	    function SemestreAten() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Semestre', 'Personas'],
+	        ['1o',      11],
+	        ['2o',      63],
+	        ['3o',      82],
+	        ['4o',      28],
+	        ['5o',      29],
+	        ['6o',      14],
+	        ['7o',      28],
+	        ['8o',      117],
+	      ]);
+
+	      var options = {
+	        title: 'Semestre de Procedencia de Alumnos Atendidos',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SemestreAten'));
+
+	      chart.draw(data, options);
+	    }
+
+	    /////////////////////////////MATERIAS ADEUDAS SOLICITUDES
+	    google.setOnLoadCallback(MateriasSol);
+	    function MateriasSol() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Materias', 'Adeudo'],
+	        ['0',      11],
+	        ['1',      63],
+	        ['2',      82],
+	        ['3',      28],
+	        ['4',      29],
+	        ['5',      14],
+	        ['6',      28],
+	        ['7',      17],
+	        ['8',      117],
+	        ['9',      46],
+	        ['mas',    83],
+	      ]);
+
+	      var options = {
+	        title: 'Adeudo de materias de solicitantes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('MateriasSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////ATERIAS ADEUDAS ADEUDAS ATENDIDOS
+	    google.setOnLoadCallback(MateriasAten);
+	    function MateriasAten() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Materias', 'Adeudo'],
+	        ['0',      24],
+	        ['1',      113],
+	        ['2',      42],
+	        ['3',      82],
+	        ['4',      92],
+	        ['5',      41],
+	        ['6',      82],
+	        ['7',      17],
+	        ['8',      17],
+	        ['9',      46],
+	        ['mas',    83],
+	      ]);
+
+	      var options = {
+	        title: 'Adeudo de materias de solicitantes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('MateriasAten'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////EFICIENCIA
+	    google.setOnLoadCallback(Eficiencia);
+	    function Eficiencia() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Concluyeron',      24],
+	        ['Abandonaron tratamiento',      113],
+	        ['En tratamiento al terminar el semestre',      42],
+	        ['Fueron canalizados',      82],
+	      ]);
+
+	      var options = {
+	        title: 'Alumnos que concluyeron psicoterapia breve en los ultimos 4 semestres',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Eficiencia'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////////////////ESTADO EMOCIONAL ANTES
+	    google.setOnLoadCallback(EdoEmocionalAntes);
+	    function EdoEmocionalAntes() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Mal',      24],
+	        ['Regular',  113],
+	        ['No se',    42],
+	        ['Muy Bien', 82],
+	        ['Muy Mal',  28],
+	        ['Bien',     12],
+	      ]);
+
+	      var options = {
+	        title: 'Estado Emocional Antes del Tratamiento',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('EdoEmocionalAntes'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////////////////ESTADO EMOCIONAL DESPUES
+	    google.setOnLoadCallback(EdoEmocionalDespues);
+	    function EdoEmocionalDespues() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Mal',      42],
+	        ['Regular',  131],
+	        ['No se',    24],
+	        ['Muy Bien', 28],
+	        ['Muy Mal',  82],
+	        ['Bien',     21],
+	      ]);
+
+	      var options = {
+	        title: 'Estado Emocional Despues del Tratamiento',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('EdoEmocionalDespues'));
+
+	      chart.draw(data, options);
+	    }
+	    ////////////////////////////////////////AYUDO
+	    google.setOnLoadCallback(Ayudo);
+	    function Ayudo() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Nada',      42],
+	        ['Medianamente',  131],
+	        ['Poco',    24],
+	        ['Totalmente', 28],
+	        ['Mucho',  82],
+	      ]);
+
+	      var options = {
+	        title: 'Progreso Gracias a ESPORA',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Ayudo'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////RECOMENDABLE
+	    google.setOnLoadCallback(Recomendacion);
+	    function Recomendacion() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Poco recomendable',      42],
+	        ['Recomendable',  131],
+	        ['Muy recomendable',    24],
+	        ['Completamente recomendable', 28],
+	      ]);
+
+	      var options = {
+	        title: '¿Que tan recomendable es ESPORA?',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Recomendacion'));
+
+	      chart.draw(data, options);
+	    }
+
+	    //////////////////////////////CALIFICACION
+	    google.setOnLoadCallback(Calificacion);
+	    function Calificacion() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['5',  12],
+	        ['6',  131],
+	        ['7',  24],
+	        ['8',  28],
+	        ['9',  76],
+	        ['10', 97],
+	      ]);
+
+	      var options = {
+	        title: 'Calificacion que le dan a ESPORA',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Calificacion'));
+
+	      chart.draw(data, options);
+	    }
 	   </script>
 
 
@@ -371,21 +591,21 @@
 	    		<div id="carreraSolicitudes"><div id="CarreraSol"></div></div>
 	    		<div id="carreraAtendidos"><div id="carreraAtendidos"></div></div>
 	    		<div id="semestreSolicitudes"><div id="SemestreSol"></div></div>
-	    		<div id="semestreAtendidas"><div id="testgraph8"></div></div>
-	    		<div id="materiasSolicitudes"><div id="testgraph9"></div></div>
-	    		<div id="materiasAtendidas"><div id="testgraph10"></div></div>
+	    		<div id="semestreAtendidas"><div id="SemestreAten"></div></div>
+	    		<div id="materiasSolicitudes"><div id="MateriasSol"></div></div>
+	    		<div id="materiasAtendidas"><div id="MateriasAten"></div></div>
 	    		<div id="status"><div id="testgraph11"></div></div>
-	    		<div id="eficienciaA"><div id="testgraph12"></div></div>
+	    		<div id="eficienciaA"><div id="Eficiencia"></div></div>
 	    		<div id="motivosConsulta"><div id="motivosConsulta"></div></div>
 	    		<div id="sintomas"><div id="sintoma"></div></div>
 	    		<div id="areasAfectadas"><div id="testgraph15"></div></div>
 	    		<div id="areasBeneficiadas"><div id="testgraph16"></div></div>
-	    		<div id="edoEmocionalAntes"><div id="testgraph17"></div></div>
-	    		<div id="edoEmocionalDespues"><div id="testgraph18"></div></div>
-	    		<div id="ayudo"><div id="testgraph19"></div></div>
+	    		<div id="edoEmocionalAntes"><div id="EdoEmocionalAntes"></div></div>
+	    		<div id="edoEmocionalDespues"><div id="EdoEmocionalDespues"></div></div>
+	    		<div id="ayudo"><div id="Ayudo"></div></div>
 	    		<!--<div id="difusion"><div id="testgraph20"></div></div>-->
-	    		<div id="recomendacion"><div id="testgraph21"></div></div>
-	    		<div id="calificacion"><div id="testgraph22"></div></div>
+	    		<div id="recomendacion"><div id="Recomendacion"></div></div>
+	    		<div id="calificacion"><div id="Calificacion"></div></div>
 	    	</div>
 	    </div>
 
@@ -507,22 +727,22 @@
 				$("#testgraph14").append(data);
 			}
 		});
-		// $.ajax({	
-		// 	method: "GET",
-		// 	url: "<%= graph_index_path('AreasAfectadas') %>",
-		// 	success: function(data) {
-		// 		// console.log(data);
-		// 		$("#testgraph15").append(data);
-		// 	}
-		// });
-		// $.ajax({	
-		// 	method: "GET",
-		// 	url: "<%= graph_index_path('AreasBeneficiadas') %>",
-		// 	success: function(data) {
-		// 		// console.log(data);
-		// 		$("#testgraph16").append(data);
-		// 	}
-		// });
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('AreasAfectadas') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph15").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('AreasBeneficiadas') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph16").append(data);
+			}
+		});
 		$.ajax({	
 			method: "GET",
 			url: "<%= graph_index_path('EdoEmocionalAntes') %>",

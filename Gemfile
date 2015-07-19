@@ -60,13 +60,12 @@ gem 'tod'
 gem 'annotate', '~> 2.6.6'
 
 #Charts
-gem 'googlecharts'
+# gem 'googlecharts'
 # gem 'raphael-rails', '~> 2.1.2'
 # gem 'chart-js-rails'
 
 # Para poblar la base
 gem 'faker'
-
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

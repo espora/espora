@@ -1,5 +1,8 @@
 class StadisticsController < ApplicationController
 
+	# Incluir las funciones de ayuda de estadisticas
+	include StadisticsHelper
+
 	# Layout de terapeuta
 	layout "therapist", :only => [ :index ]
 
@@ -12,267 +15,81 @@ class StadisticsController < ApplicationController
 		@profile_active_tab = 1
 	end
 
-	def graph
+	def chart
 
-		case params[:graph]
-		when 'SolicitudesVsAtendidos'
-			@graph = Gchart.line(
-                    :size   => '600x400',
-                    :title  => "Número de solicitudes vs alumnos atendidos",
-                    :legend => ['Número de alumnos atendidos', 'Número de solucitudes recibidas'],
-                    :bar_colors => ['000000', '0088FF'],
-                    :data   => [[47, 55, 87, 85, 95],[47, 80, 129, 176, 202]],
-                    :bg => 'EFEFEF',
-                   	:legend_position => 'bottom',
-                   	:axis_with_labels => [['x'], ['y']],
-                   	:max_value => 202,
-                   	:min_value => 0,
-                   	:axis_labels => [["Semestre 2011-2|Semestre 2012-1|Semestre 2012-2|Semestre 2013-1|Semestre 2013-2"]]
-            )
+		# Se construye el nombre del metodo
+		method_name = params[:chart] + "_data"
+		puts method_name
 
-		when 'SexoSol'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Sexo de Solicitantes",
-				:legend => ['Hombres', 'Mujeres'],
-				:custom => "chco=8856a7,9ebcda",
-				:data   => [120, 245],
-				:labels => ["120", "245"],
-				:bg => 'EFEFEF'
-			)
+		# Checamos que solo nos pregunten graficas que
+		# podemos responder
+		if respond_to?(method_name, true)
 
-		when 'SexoAten'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Sexo de Atendidos",
-				:legend => ['Hombres', 'Mujeres'],
-				:custom => "chco=8856a7,9ebcda",
-				:data   => [34, 80],
-				:labels => ["34", "80"],
-				:bg => 'EFEFEF'
-			)
+			# Se manda a llamar el metodo y se obtienen los datos
+			data = send(method_name)
 
-		when 'Familiar'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Estructura Familiar",
-				:legend => ['Con ambos padres', 'Solo con madre','Solo padre', 'Otros familiares', 'Amigos', 'Pareja'],
-				:custom => "chco=fa9fb5fa9fb5, c51b8ac51b8a",
-				:data   => [53, 33, 3, 5, 5, 1],
-				:labels => ["53%", "33%", "3%", "5%", "5%", "1%"],
-				:bg => 'EFEFEF'
-			)
+			# Se renderean como json
+			render json: data.to_json
+		else
 
-		when 'CarreraSol'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Carrera de precedencia de alumnos solicitantes",
-				:legend => ['Bilogia', 'Actuaría', 'Física', 'Matemáticas', 'Ciencias de la Computación', 'Ciencias de la Tierra'],
-				:custom => "chco=43a2ca,e0f3db",
-				:data   => [53, 33, 3, 5, 5, 1],
-				:labels => ["53%", "33%", "3%", "5%", "5%", "1%"],
-				:bg => 'EFEFEF'
-			)
+			# Se renderea un json con el mensaje que no existe la grafica
+			render json: "undefined chart".to_json
+		end
+	end
 
-		when 'CarreraAten'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Carrera de precedencia de alumnos atendidos",
-				:legend => ['Bilogia', 'Actuaría', 'Física', 'Matemáticas', 'Ciencias de la Computación', 'Ciencias de la Tierra'],
-				:custom => "chco=43a2ca,e0f3db",
-				:data   => [39, 21, 18, 12, 4, 7],
-				:labels => ["39%", "21%", "18%", "12%", "4%", "7%"],
-				:bg => 'EFEFEF'
-			)
+	private
 
-		when 'SemestreSol'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Semestre de precedencia de alumnos solicitantes",
-				:legend => ['1°', '2°', '3°', '4°', '5°', '6°', '7°', '8°'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
-				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
-				:bg => 'EFEFEF'
-			)
+		def request_on_attended_data
 
-		when 'SemestreAten'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Semestre de precedencia de alumnos atendidos",
-				:legend => ['1°', '2°', '3°', '4°', '5°', '6°', '7°', '8°'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
-				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
-				:bg => 'EFEFEF'
-			)
+			# Todas las solicitudes
+			patient_requests = PatientRequest.all
 
-		when 'MateriasSol'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Adeudo de materias de solicitantes",
-				:legend => ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
-				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
-				:bg => 'EFEFEF'
-			)
+			# Creamos el hash de datos
+			data = Hash.new
 
-		when 'MateriasAten'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Adeudo de materias de atendidos",
-				:legend => ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
-				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
-				:bg => 'EFEFEF'
-			)
+			# Iteramos las solicitudes
+			patient_requests.each do | request |
 
-		when 'Status'
-			@graph = Gchart.line(
-                    :size   => '600x400',
-                    :title  => "Status del Paciente",
-                    :legend => ['Sin Contactar', 'No interesado', 'En Espera de Respuesta', 'Tratamiento', 'Interrupción', 'Canalizado', 'Finalizado', 'Abandono'],
-                    :bar_colors => ['000000', '0088FF', 'BF00FF', 'FF8000', '00FF00', 'FE2EC8', 'F7FE2E', 'DF013A'],
-                    :data   => [[47, 55, 87, 85, 95],[47, 80, 129, 176, 202], [47, 40, 50, 20, 30], [47, 42, 56, 60, 70], [0, 3, 4, 1, 2], [0, 1, 0, 2, 0], [47, 33, 45, 46, 59], [0, 5, 7, 11, 9]],
-                    :bg => 'EFEFEF',
-                   	:legend_position => 'bottom',
-                   	:axis_with_labels => [['x'], ['y']],
-                   	:max_value => 202,
-                   	:min_value => 0,
-                   	:axis_labels => [["Semestre 2011-2|Semestre 2012-1|Semestre 2012-2|Semestre 2013-1|Semestre 2013-2"]]
-            )
-            
-		when 'EficienciaS'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Eficiencia del programa ESPORA de alumnos solicitantes",
-				:legend => ['1°', '2°', '3°', '4°', '5°', '6°', '7°', '8°'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [39, 21, 18, 12, 4, 3, 2, 1],
-				:labels => ["39%", "21%", "18%", "12%", "4%", "3%", "2%", "1%"],
-				:bg => 'EFEFEF'
-			)
+				# Obtenemos el semestre en que fue hecha la solicitud
+				semester = get_semester(request.request_date)
 
-		when 'EficienciaA'
-			@graph = Gchart.pie(
-				:size   => '700x400',
-				:title  => "Eficiencia del programa ESPORA de alumnos atendidos",
-				:legend => ['Concluyeron', 'Abandonaron tratamiento o fueron canalizados', 'En tratamiento al terminar el semestre', 'Fueron canalizados'],
-				:bar_colors => ['BF00FF', 'FF8000', '00FF00', 'FE2EC8', 'F7FE2E', 'DF013A'],
-				:data   => [67, 15, 16, 1],
-				:labels => ["67%", "15%", "16%", "1%"],
-				:bg => 'EFEFEF'
-			)
+				# Creamos si no esta
+				if data[semester].nil?
+					data[semester] = Hash.new
+					data[semester][:request] = 0
+					data[semester][:attended] = 0
+				end
 
-		# when 'Motivos'
-		# 	@graph = Gchart.bar(
-		# 		:size   => '600x400',
-		# 		:title  => "Motivos de Consultas",
-		# 		:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-		# 		:custom => "chco=FFF110,FF0000",
-		# 		:data   => [120, 45, 25, 55, 20], 
-		# 		:bg => 'EFEFEF'
-		# 	)
-			
-		when 'Sintomas'
-			@graph = Gchart.bar(
-	            :size => '600x400',
-	            :bar_colors => ['E33083', 'FFF110','DB1661','A316DB','3316DB','1678DB','16DBD4','16DB6B','16DB2D','9EE330','E3E030','E3AA30','E33630'],
+				# Sumamos en 1 el contador de solicitudes
+				data[semester][:request] += 1
 
-	            :title => "Signos y síntomas",
-	            :legend => ['Tristeza ', 'Autoestima', 'Insatisfacción', 'Enojo', 'Estrés', 'Dif. estudiar', 'Ansiedad', 'Prob. para relacionarse', 'Exigencias elevadas', 'Desesperanza', 'Miedo a participar', 'Ideas suicidas', 'Intento de suicidio'],
-	            :data => [[83], [66], [65.7], [33.8], [60.8], [60.1], [55.5], [49.4], [29], [28.6], [20], [15.1], [3]],
-	            :encoding => 'simple',
-	            :stacked => false,
-	            :legend_position => 'bottom',
-	            :axis_with_labels => [['x'], ['y']],            
-	            :max_value => 84,
-	            :min_value => 0,
-	            :axis_labels => [["83%|66%|65.7%|33.8%|60.8%|60.1%|55.5%|49.4%|29%|28.6%|20%|15.1%|3%]"]],
-	            :bg => 'EFEFEF',
-            )   
+				# Si ya tiene una fecha de atencion es que fue atendido
+				if not request.attention_date.nil?
 
-		when 'AreasAfectadas'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Areas Afectadas",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20]
-			)
+					# Obtenemos el semestre en que fue atendida la solicitud
+					semester = get_semester(request.request_date)
 
-		when 'AreasBeneficiadas'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Áreas Beneficiadas",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20]
-			)
+					# Creamos si no esta
+					if data[semester].nil?
+						data[semester] = Hash.new
+						data[semester][:request] = 0
+						data[semester][:attended] = 0
+					end
 
-		when 'EdoEmocionalAntes'
-     		@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Estado Emocional Antes del Tratamiento",
-				:legend => ['Mal', 'Regular', 'No sé', 'Muy bien', 'Muy mal', 'Bien'],
-				:bar_colors => ['0088FF', 'BF00FF', 'FF8000', '00FF00', 'F7FE2E', 'DF013A'],
-                :data   => [29, 36, 10, 2, 11, 12],
-				:labels => ["29%", "26%", "10%", "2%", "11%", "12%"],
-				:bg => 'EFEFEF'
-			)
+					# Sumamos en 1 el contador de solicitudes
+					data[semester][:attended] += 1
+				end
+			end
 
-		when 'EdoEmocionalDespues'
-     		@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Estado Emocional Después del Tratamiento",
-				:legend => ['Mal', 'Regular', 'No sé', 'Muy bien', 'Muy mal', 'Bien'],
-				:bar_colors => ['0088FF', 'BF00FF', 'FF8000', '00FF00', 'F7FE2E', 'DF013A'],
-                :data   => [1, 19, 2, 23, 1, 54],
-				:labels => ["1%", "19%", "2%", "23%", "1%", "54%"],
-				:bg => 'EFEFEF'
-			)
-		when 'Ayudo'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Que tanto a ayudado ESPORA",
-				:legend => ['Nada', 'Medianamente', 'Poco', 'Totalmente', 'Mucho'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20]
-			)
-		when 'Difusion'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "De que manera se enteran nuestros pacientes",
-				:legend => ['Biologia', 'Matematicas', 'Ciencias de la computacion', 'Actuaria', 'Fisica'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20]
-			)
-		when 'Recomendacion'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Que tan recomendable es ESPORA",
-                :legend => [' Poco recomendable', 'Recomendable', 'Muy recomendable', 'completamente recomendable'],
-				:bar_colors => ['0088FF', 'BF00FF', 'F7FE2E', '00FF00'],
-                :data   => [1, 23, 27, 49],
-				:labels => ["1%", "23%", "27%", "49%"],
-				:bg => 'EFEFEF'
-			)
-
-		when 'Calificacion'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Calificacion de ESPORA",
-				:legend => ['5', '6', '7', '8', '9', '10'],
-				:custom => "chco=FFF110,FF0000",
-				:data   => [120, 45, 25, 55, 20, 70],
-				:labels => ["1%", "23%", "27%", "49%"],
-				:bg => 'EFEFEF'
-			)
-
+			# Regresamos los datos
+			return data
 		end
 
-		render partial: "graph"
-	end
+		def sex_requests_data
+
+			# Consultamos la base
+			data = PatientRequest.joins(:patient).group(:sex).count
+
+			return data
+		end
 end

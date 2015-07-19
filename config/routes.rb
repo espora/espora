@@ -132,6 +132,6 @@ Espora::Application.routes.draw do
 	get "/therapists/stadistics" => "stadistics#index", as: "stadistics_index"
 
 	# Grafica de estadistica
-	get "/therapists/stadistics/:graph" => "stadistics#graph", as: "graph_index"
+	get "/therapists/stadistics/chart" => "stadistics#chart", as: "chart"
 
 end

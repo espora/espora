@@ -154,6 +154,184 @@
 	      chart.draw(data, options);
 	    }
 
+	    ///////////////////////////////////////////STATUS
+	    google.setOnLoadCallback(status);
+
+	    function status() {
+	      var data = google.visualization.arrayToDataTable([
+	        ['String', 'Sin Contactar', 'No interesado', 'En Espera de Respuesta', 'Tratamiento', 'Interrupción', 'Canalizado', 'Finalizado', 'Abandono'],
+	        ['Semestre 2011-2',  12, 4, 23, 27, 10, 34, 9, 12],
+	        ['Semestre 2012-1',  7, 24, 14, 37, 8, 40, 19, 2],
+	        ['Semestre 2012-2',  16, 2, 4, 17, 10, 34, 29, 21],
+	        ['Semestre 2013-1',  3, 15, 24, 26, 15, 43, 18, 11],
+	        ['Semestre 2013-2',  13, 11, 21, 27, 19, 4, 9, 12],
+	        ['Semestre 2014-1',  9, 16, 41, 18, 31, 43, 19, 42],
+	        ['Semestre 2014-2',  14, 21, 62, 27, 20, 3, 9, 32],
+	      ]);
+
+	      var options = {
+	        width: 1000,
+	        height: 400,	
+	        title: 'Status del Paciente',
+	        curveType: 'function',
+	      };
+
+	      var chart = new google.visualization.LineChart(document.getElementById('status'));
+
+	      chart.draw(data, options);
+	    }
+	    /////////////////////////////////////////SEXO SOLICITUDES
+
+	    google.setOnLoadCallback(sexoSolicitudes);
+	    function sexoSolicitudes() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Hombre',     90],
+	        ['Mujer',      10]
+	      ]);
+
+	      var options = {
+			  title: 'Sexo de Solicitudes Recibidas',
+	          width: 800,
+	          height: 400,  
+	        
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SexoSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ////////////////////////////////////////SEXO ATENDIDAS
+	    google.setOnLoadCallback(sexoAtendidos);
+	    function sexoAtendidos() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Hombre',     111],
+	        ['Mujer',      82]
+	      ]);
+
+	      var options = {
+	        title: 'Sexo de Personas Atendidas',
+	        width: 800,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SexoAten'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ////////////////////////////////////FAMILIAR
+	    google.setOnLoadCallback(Familiar);
+	    function Familiar() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Con ambos padres',     111],
+	        ['Solo con madre',      63],
+	        ['Solo con padre',      82],
+	        ['Otros familiares',      29],
+	        ['Amigos',      17],
+	        ['Pareja',      86],
+	      ]);
+
+	      var options = {
+	        title: 'Estructura Familiar',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('familiar'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////////CARRERA SOLICITUDES
+	    google.setOnLoadCallback(CarreraSol);
+	    function CarreraSol() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Bilogia',     111],
+	        ['Actuaria',      63],
+	        ['Fisica',      82],
+	        ['Matematicas',      29],
+	        ['Ciencias de la Computacion',      17],
+	        ['Ciencias de la Tierra',      86],
+	      ]);
+
+	      var options = {
+	        title: 'Carrera de Procedencia de Solicitudes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      // chartArea.width: 20;
+
+	      var chart = new google.visualization.PieChart(document.getElementById('CarreraSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    //////////////////////////////////////////////CARRERA ATENDIDOS
+	    google.setOnLoadCallback(CarreraAten);
+	    function CarreraAten() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Bilogia',     11],
+	        ['Actuaria',      63],
+	        ['Fisica',      82],
+	        ['Matematicas',      29],
+	        ['Ciencias de la Computacion',      17],
+	        ['Ciencias de la Tierra',      86],
+	      ]);
+
+	      var options = {
+	        title: 'Carrera de Procedencia de Alumnos Atendidos',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      // chartArea.width: 20;
+
+	      var chart = new google.visualization.PieChart(document.getElementById('CarreraAten'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////////SEMESTRE DE PROCEDENCIA SOLICITUDES
+	    google.setOnLoadCallback(SemestreSol);
+	    function SemestreSol() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Semestre', 'Personas'],
+	        ['1o',     111],
+	        ['2o',      63],
+	        ['3o',      82],
+	        ['4o',      15],
+	        ['5o',      29],
+	        ['6o',      81],
+	        ['7o',      28],
+	        ['8o',      7],
+	      ]);
+
+	      var options = {
+	        title: 'Semestre de Procedencia de Alumnos Solicitantes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      // chartArea.width: 20;
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SemestreSol'));
+
+	      chart.draw(data, options);
+	    }
+	    
+	    //////////////////////////////////SEMESTRE DE PROCEDENCIA SOLICITUDES
 	   </script>
 
 
@@ -187,12 +365,12 @@
 	    </div>
 	    <div id="container">
 		    	<div id="SolicitudesVsAtendidos"><div id="SolicitudesVsAtendidos"></div></div>
-	    		<div id="sexoSolicitudes"><div id="testgraph2"></div></div>
-	    		<div id="sexoAtendidos"><div id="testgraph3"></div></div>
-	    		<div id="Familiar"><div id="testgraph4"></div></div>
-	    		<div id="carreraSolicitudes"><div id="testgraph5"></div></div>
-	    		<div id="carreraAtendidos"><div id="testgraph6"></div></div>
-	    		<div id="semestreSolicitudes"><div id="testgraph7"></div></div>
+	    		<div id="sexoSolicitudes"><div id="SexoSol"></div></div>
+	    		<div id="sexoAtendidos"><div id="SexoAten"></div></div>
+	    		<div id="Familiar"><div id="familiar"></div></div>
+	    		<div id="carreraSolicitudes"><div id="CarreraSol"></div></div>
+	    		<div id="carreraAtendidos"><div id="carreraAtendidos"></div></div>
+	    		<div id="semestreSolicitudes"><div id="SemestreSol"></div></div>
 	    		<div id="semestreAtendidas"><div id="testgraph8"></div></div>
 	    		<div id="materiasSolicitudes"><div id="testgraph9"></div></div>
 	    		<div id="materiasAtendidas"><div id="testgraph10"></div></div>

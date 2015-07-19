@@ -22,3 +22,50 @@
 	padding-left: 0;
 	padding-right: 0;
 }
+
+.dropout-pat > div {
+	display: inline-block;
+	float: left;
+	padding-bottom: 5px;
+}
+
+.dropout-pat > div > div {
+	width: 100%;
+	float: left;
+	margin-top: 7px;
+}
+
+#dropouts-search, #dropouts-filter {
+	width: 20%;
+	margin-left: 2%;
+	margin-top: 15px;
+	float: left;
+}
+
+.info-dropout {
+	width: 82%;
+	margin-left: 9%;
+	border-left: 1px solid #d3d3d3;
+	border-right: 1px solid #d3d3d3;
+}
+
+.info-dropout div {
+	width: 100%;
+	float: left;
+	position: relative;
+}
+
+.info-dropout div > span {
+	width: 100%;
+	float: left;
+}
+
+.info-dropout div > span:nth-child(2) {
+	margin-left: 3%;
+}
+
+.info-dropout div > span:nth-child(1) {
+	font-weight: bold;
+	margin-top: 6px;
+}
+

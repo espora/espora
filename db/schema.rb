@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150620190154) do
+ActiveRecord::Schema.define(version: 20150711200440) do
 
   create_table "advise_level_types", force: true do |t|
     t.string   "name"
@@ -196,20 +196,20 @@ ActiveRecord::Schema.define(version: 20150620190154) do
   add_index "patient_requests", ["patient_id"], name: "index_patient_requests_on_patient_id"
 
   create_table "patient_signouts", force: true do |t|
-    t.integer  "aid_level_id"
     t.integer  "condition_type_id"
     t.integer  "rating"
-    t.integer  "advise_level_id"
     t.text     "satisfactions"
     t.text     "claims"
     t.text     "observations"
     t.integer  "patient_dropout_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "aid_level_type_id"
+    t.integer  "advise_level_type_id"
   end
 
-  add_index "patient_signouts", ["advise_level_id"], name: "index_patient_signouts_on_advise_level_id"
-  add_index "patient_signouts", ["aid_level_id"], name: "index_patient_signouts_on_aid_level_id"
+  add_index "patient_signouts", ["advise_level_type_id"], name: "index_patient_signouts_on_advise_level_type_id"
+  add_index "patient_signouts", ["aid_level_type_id"], name: "index_patient_signouts_on_aid_level_type_id"
   add_index "patient_signouts", ["condition_type_id"], name: "index_patient_signouts_on_condition_type_id"
   add_index "patient_signouts", ["patient_dropout_id"], name: "index_patient_signouts_on_patient_dropout_id"
 

@@ -1,0 +1,100 @@
+<div class="info-dropout">
+	<% patient_request = patient.patient_request %>
+
+	<!-- INGRESO -->
+	<div style="width: 45%; margin-left: 1%;">
+		<div style="font-size: 13px; font-weight: bolder;">INGRESO</div>
+
+		<div style="width: 47%; margin-left: 2%;">
+			<div><span>Edad</span><span><%= patient.age %></span></div>
+			<div><span>Carrera</span><span><%= Patient::NAME_CAREER[ patient.career ] %></span></div>
+			<div><span>Teléfono</span>
+				<span><%= (patient.telephone1.blank? or patient.telephone1.nil?) ? "No especificado" : patient.telephone1 %></span>
+			</div>
+			<div><span>Celular</span>
+				<span><%= (patient.telephone2.blank? or patient.telephone2.nil?) ? "No especificado" : patient.telephone2 %></span>
+			</div>
+			<div><span>Correo</span><span><%= patient.email %></span></div>
+			<div><span>Ciclo de inicio</span><span><%= patient.init_school %>-1</span></div>
+			<div><span>Materias adeudadas</span><span><%= patient.failed_subjects %></span></div>
+			<div><span>Dinero disponible</span><span>$ <%= patient_request.money %></span></div>
+		</div>
+
+		<div style="width: 47%; margin-left: 2%;">
+			<div><span>Atencion previa</span><span><%= (patient_request.pre_care) ? "Si" : "No" %></span></div>
+			<div><span>Como se sentía</span><span><%= patient_request.condition_type.name %></span></div>
+			<div><span>Motivos de consulta</span>
+				<% reasons = patient_request.reasons %>
+				<% reasons.each do | reason | %>
+					<% reasons_type = reason.reasons_type %>
+					<span><%= reasons_type.is_other? ? reason.other_name : reasons_type.name %></span>
+				<% end %>
+			</div>
+			<div><span>Áreas afectadas</span>
+				<% affareas = patient_request.affected_areas %>
+				<% affareas.each do | aff_area | %>
+					<% area = aff_area.personal_area_type %>
+					<span><%= (area.is_other?) ? aff_area.other_name : area.name %></span>
+				<% end %>
+			</div>
+			<div><span>Terapeuta que recibió</span><span><%= patient_request.receive_therapist.full_name %></span></div>
+		</div>
+	</div>
+
+	<!-- INGRESO -->
+	<div style="width: 45%; margin-left: 1%;">
+		<div style="font-size: 13px; font-weight: bolder;">EGRESO</div>
+
+		<% if patient_dropout.nil? %>
+		<div style="width: 47%; margin-left: 2%;">
+			
+		</div>
+		<% else %>
+		<% missed = patient.patient_record.missed_appointments.count %>
+		<% case dropout_type.name %>
+		<% when "Canalizado" %>
+			<% channelization = patient_dropout.patient_channelization %>
+			<div style="width: 47%; margin-left: 2%;">
+				<div><span>Lugar a donde fue canalizado</span><span><%= channelization.where %></span></div>
+				<div><span>Citas asistidas</span><span><%= patient.patient_record.appointments.count - missed %></span></div>
+				<div><span>Citas inasistidas</span><span><%= missed %></span></div>
+			</div>
+
+		<% when "Interrupción" %>
+			<div style="width: 47%; margin-left: 2%;">
+				<div><span>Citas asistidas</span><span><%= patient.patient_record.appointments.count - missed %></span></div>
+				<div><span>Citas inasistidas</span><span><%= missed %></span></div>
+			</div>
+
+		<% when "Abandono" %>
+			<div style="width: 47%; margin-left: 2%;">
+				<div><span>Citas asistidas</span><span><%= patient.patient_record.appointments.count - missed %></span></div>
+				<div><span>Citas inasistidas</span><span><%= missed %></span></div>
+			</div>
+
+		<% when "Finalizado" %>
+			<% signout = patient_dropout.patient_signout %>
+			<div style="width: 47%; margin-left: 2%;">
+				<div><span>¿Qué tanto le ayudo?</span><span><%= signout.aid_level_type.name %></span></div>
+				<div><span>Áreas mejoradas</span>
+					<% impareas = signout.improve_areas %>
+					<% impareas.each do | imp_area | %>
+						<% area = imp_area.personal_area_type %>
+						<span style="margin-left: 3%;"><%= (area.is_other?) ? imp_area.other_name : area.name %></span>
+					<% end %>
+				</div>
+				<div><span>¿Cómo se sintió al final?</span><span><%= signout.condition_type.name %></span></div>
+				<div><span>Calificación</span><span><%= signout.rating %></span></div>
+				<div><span>¿Qué tanto lo recomendaría?</span><span><%= signout.advise_level_type.name %></span></div>
+			</div>
+
+			<div style="width: 47%; margin-left: 2%;">
+				<div><span>Satisfacciones</span><p><%= signout.satisfactions %></p></div>
+				<div><span>Reclamos</span><p><%= signout.claims %></p></div>
+				<div><span>Observaciones</span><p><%= signout.observations %></p></div>
+			</div>
+		<% end %>
+		<% end %>
+		</div>
+	</div>
+</div>

@@ -1,19 +1,3 @@
-# == Schema Information
-#
-# Table name: patient_signouts
-#
-#  id                 :integer          not null, primary key
-#  aid_level_id       :integer
-#  condition_type_id  :integer
-#  rating             :integer
-#  advise_level_id    :integer
-#  satisfactions      :text
-#  claims             :text
-#  observations       :text
-#  patient_dropout_id :integer
-#  created_at         :datetime
-#  updated_at         :datetime
-#
 class PatientSignout < ActiveRecord::Base
 
 	# Nivel de ayuda (Que tanto te ayudo)

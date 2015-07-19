@@ -3,15 +3,15 @@
 
 		<!-- QUE TANTO AYUDO -->
 		<div class="form-question">
-			<%= f.label :aid_level_type do %>
+			<%= f.label :aid_level_type_id do %>
 				¿Qué tanto te ayudó el tratamiento en relación a tu motivo de consulta?
 			<% end %>
 
 			<div style="width: 65%;">
 				<% AidLevelType.all.each do | aid_level | %>
 					<div style="width: 27%; margin-bottom: 8px;" class="radio-option">
-						<%= f.radio_button :aid_level_type, aid_level.id.to_s, :style => "float: left;", :required => true %>
-						<%= f.label :aid_level_type, aid_level.name, :value => aid_level.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
+						<%= f.radio_button :aid_level_type_id, aid_level.id.to_s, :style => "float: left;", :required => true %>
+						<%= f.label :aid_level_type_id, aid_level.name, :value => aid_level.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
 					</div>
 				<% end %>
 			</div>
@@ -41,12 +41,12 @@
 
 		<!-- RECOMENDARIAS -->
 		<div class="form-question">
-			<%= f.label :advise_level_type do %>¿Qué tanto recomendarías el servicio a otros estudiantes?<% end %>
+			<%= f.label :advise_level_type_id do %>¿Qué tanto recomendarías el servicio a otros estudiantes?<% end %>
 			<div style="width: 96%;">
 				<% AdviseLevelType.all.each do | advise | %>
 					<div style="width: 8%; margin-bottom: 0px;" class="radio-option">
-						<%= f.radio_button :advise_level_type, advise.id.to_s, :style => "float: left;", :required => true %>
-						<%= f.label :advise_level_type, advise.name, :value => advise.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
+						<%= f.radio_button :advise_level_type_id, advise.id.to_s, :style => "float: left;", :required => true %>
+						<%= f.label :advise_level_type_id, advise.name, :value => advise.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
 					</div>
 				<% end %>
 			</div>

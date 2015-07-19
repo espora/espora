@@ -12,8 +12,11 @@
 			<span><%= (patient.telephone2.blank? or patient.telephone2.nil?) ? "No especificado" : patient.telephone2 %></span>
 		</div>
 		<div><span>CORREO</span><span><%= patient.email %></span></div>
+		<div><span>MATERIAS ADEUDADAS</span><span><%= patient.failed_subjects %></span></div>
+		<div><span>DINERO DISPONIBLE</span><span>$ <%= patient_request.money %></span></div>
+		<div><span>ATENCION PREVIA</span><span><%= (patient_request.pre_care) ? "Si" : "No" %></span></div>
 
-		<div style="margin-top: 10px;"><span>MOTIVOS DE CONSULTA</span>
+		<div style="margin-top: 30px;"><span>MOTIVOS DE CONSULTA</span>
 			<% reasons = patient_request.reasons %>
 			<% reasons.each do | reason | %>
 				<% reasons_type = reason.reasons_type %>

@@ -1,4 +1,559 @@
 <% content_for :statistics do %>
+    <script type="text/javascript" src="assets/js/jsapi.js"></script>
+	<script type="text/javascript">
+
+		/////////////////////////////////////////////////MOTIVOS DE CONSULTA
+
+	      google.load('visualization', '1.0', {'packages':['corechart']});
+	      google.setOnLoadCallback(motivosConsulta);
+
+	      function motivosConsulta() {
+	        var data = new google.visualization.arrayToDataTable([
+	                ['Motivos', 'Porcentaje', { role: 'style' } ],
+	                ['Depresion', 10, 'color: #F8F8F8'],
+	                ['Emocionales', 14, 'color: #76A7FA'],
+	                ['Escolares', 16, 'opacity: 0.2'],
+	                ['Autoestima', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	                ['Familiares', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	                ['Ansiedad', 25, 'color: #123456'],
+	                ['Eleccion de Carrera', 16, 'color: #ABCDEF'],
+	                ['Otra', 8, 'color: #987654'],
+
+	              ]);
+
+	        var options = {'title':'Motivos de Consultas',
+	                       'width':900,
+	                       'height':400,
+					        legend: { position: "none" },
+
+	                   };
+
+	        var chart = new google.visualization.ColumnChart(document.getElementById('motivosConsulta'));
+	        chart.draw(data, options);
+	      }
+
+	      /////////////////////// SIGNOS Y SINTOMAS 
+		     google.setOnLoadCallback(sintomas);
+	     function sintomas() {
+	       var data = google.visualization.arrayToDataTable([
+	              ['Sintomas', 'Porcentaje', { role: 'style' } ],
+	              ['Tristeza', 10, 'color: gray'],
+	              ['Problemas de Autoestima', 14, 'color: #76A7FA'],
+	              ['Insatisfacción', 16, 'opacity: 0.2'],
+	              ['Enojo', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	              ['Estrés', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	              ['Dificultad para Estudiar', 29, 'color: #456789'],
+	              ['Ansiedad', 22, 'color: #ABCDEF'],
+	              ['Problemas para relacionarse', 22, 'color: #987654'],
+	              ['Miedo a Participar', 19, 'color: #657483'],
+	              ['Idea Suicida', 15, 'color: #105647'],
+	              ['Intento de Suicidio', 3, 'color: #A1B2C3'],
+	            ]);
+
+	       var view = new google.visualization.DataView(data);
+	       view.setColumns([0, 1,
+	                        { calc: "stringify",
+	                          sourceColumn: 1,
+	                          type: "string",
+	                          role: "annotation" },
+	                        2]);
+
+	       var options = {
+	         title: "Signos y Síntomas más frecuentes en los estudiantes",
+	         width: 900,
+	         height: 400,
+	         bar: {groupWidth: "95%"},
+	         legend: { position: "none" },
+	       };
+	       var chart = new google.visualization.BarChart(document.getElementById("sintoma"));
+	       chart.draw(view, options);
+	   }
+
+	       // //////////////////////////////AREAS AFECTADAS
+
+	       google.setOnLoadCallback(areasAfectadas);
+
+	       function areasAfectadas() {
+	         var data = new google.visualization.arrayToDataTable([
+	                 ['Areas Afectadas', 'Porcentaje', { role: 'style' } ],
+	                 ['Escolar', 10, 'color: #F8F8F8'],
+	                 ['Familiar', 14, 'color: #76A7FA'],
+	                 ['Social', 16, 'opacity: 0.2'],
+	                 ['Pareja', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	                 ['Emocional', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	                 ['Sexual', 25, 'color: #123456'],
+	                 ['Total', 16, 'color: #ABCDEF'],
+
+	               ]);
+
+	         var options = {'title':'Areas Afectadas',
+	                        width : 1000,
+	                        height :400,
+					        legend: { position: "none" },
+
+	                    };
+
+	         var chart = new google.visualization.ColumnChart(document.getElementById('areasAfectadas'));
+	         chart.draw(data, options);
+	       }
+
+	       ///////////////////////////////////// AREAS BENEFICIADAS
+
+	              google.setOnLoadCallback(areasBeneficiadas);
+
+	              function areasBeneficiadas() {
+	                var data = new google.visualization.arrayToDataTable([
+	                        ['Areas Beneficiadas', 'Porcentaje', { role: 'style' } ],
+	                        ['Escolar', 25, 'color: #F8F8F8'],
+	                        ['Familiar', 21, 'color: #76A7FA'],
+	                        ['Social', 16, 'opacity: 0.2'],
+	                        ['Pareja', 11, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+	                        ['Emocional', 19, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 4; fill-color: #BC5679; fill-opacity: 0.2'],
+	                        ['Sexual', 23, 'color: #123456'],
+	                        ['Total', 28	, 'color: #ABCDEF'],
+
+	                      ]);
+
+	                var options = {'title':'Areas Beneficiadas',
+	                               width : 1000,
+	                               height :400,
+	       				        legend: { position: "none" },
+
+	                           };
+
+	                var chart = new google.visualization.ColumnChart(document.getElementById('areasBeneficiadas'));
+	                chart.draw(data, options);
+	              }
+
+	    //////////////////////////////////////// SOLICITUDES VS ATENDIDOS
+
+	    google.setOnLoadCallback(solicitudVsAtendidos);
+
+	    function solicitudVsAtendidos() {
+	      var data = google.visualization.arrayToDataTable([
+	        ['String', 'Numero de Solicitudes Recibidas', 'Numero de Alumnos Atendidos'],
+	        ['Semestre 2011-2',  20, 40],
+	        ['Semestre 2012-1',  70, 46],
+	        ['Semestre 2012-2',  60, 20],
+	        ['Semestre 2013-1',  30, 54],
+	        ['Semestre 2013-2',  30, 50],
+	        ['Semestre 2014-1',  10, 40],
+	        ['Semestre 2014-2',  13, 45],
+	      ]);
+
+	      var options = {
+	        width: 900,
+	        height: 400,	
+	        title: 'Numero de Solicitudes y Alumnos Atendidos',
+	        curveType: 'function',
+	        legend: { position: 'bottom' }
+	      };
+
+	      var chart = new google.visualization.LineChart(document.getElementById('SolicitudesVsAtendidos'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////////////////////STATUS
+	    google.setOnLoadCallback(status);
+
+	    function status() {
+	      var data = google.visualization.arrayToDataTable([
+	        ['String', 'Sin Contactar', 'No interesado', 'En Espera de Respuesta', 'Tratamiento', 'Interrupción', 'Canalizado', 'Finalizado', 'Abandono'],
+	        ['Semestre 2011-2',  12, 4, 23, 27, 10, 34, 9, 12],
+	        ['Semestre 2012-1',  7, 24, 14, 37, 8, 40, 19, 2],
+	        ['Semestre 2012-2',  16, 2, 4, 17, 10, 34, 29, 21],
+	        ['Semestre 2013-1',  3, 15, 24, 26, 15, 43, 18, 11],
+	        ['Semestre 2013-2',  13, 11, 21, 27, 19, 4, 9, 12],
+	        ['Semestre 2014-1',  9, 16, 41, 18, 31, 43, 19, 42],
+	        ['Semestre 2014-2',  14, 21, 62, 27, 20, 3, 9, 32],
+	      ]);
+
+	      var options = {
+	        width: 1000,
+	        height: 400,	
+	        title: 'Status del Paciente',
+	        curveType: 'function',
+	      };
+
+	      var chart = new google.visualization.LineChart(document.getElementById('status'));
+
+	      chart.draw(data, options);
+	    }
+	    /////////////////////////////////////////SEXO SOLICITUDES
+
+	    google.setOnLoadCallback(sexoSolicitudes);
+	    function sexoSolicitudes() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Hombre',     90],
+	        ['Mujer',      10]
+	      ]);
+
+	      var options = {
+			  title: 'Sexo de Solicitudes Recibidas',
+	          width: 800,
+	          height: 400,  
+	        
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SexoSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ////////////////////////////////////////SEXO ATENDIDAS
+	    google.setOnLoadCallback(sexoAtendidos);
+	    function sexoAtendidos() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Hombre',     111],
+	        ['Mujer',      82]
+	      ]);
+
+	      var options = {
+	        title: 'Sexo de Personas Atendidas',
+	        width: 800,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SexoAten'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ////////////////////////////////////FAMILIAR
+	    google.setOnLoadCallback(Familiar);
+	    function Familiar() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Con ambos padres',     111],
+	        ['Solo con madre',      63],
+	        ['Solo con padre',      82],
+	        ['Otros familiares',      29],
+	        ['Amigos',      17],
+	        ['Pareja',      86],
+	      ]);
+
+	      var options = {
+	        title: 'Estructura Familiar',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('familiar'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////////CARRERA SOLICITUDES
+	    google.setOnLoadCallback(CarreraSol);
+	    function CarreraSol() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Bilogia',     111],
+	        ['Actuaria',      63],
+	        ['Fisica',      82],
+	        ['Matematicas',      29],
+	        ['Ciencias de la Computacion',      17],
+	        ['Ciencias de la Tierra',      86],
+	      ]);
+
+	      var options = {
+	        title: 'Carrera de Procedencia de Solicitudes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('CarreraSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    //////////////////////////////////////////////CARRERA ATENDIDOS
+	    google.setOnLoadCallback(CarreraAten);
+	    function CarreraAten() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Genero', 'Personas'],
+	        ['Bilogia',     11],
+	        ['Actuaria',      63],
+	        ['Fisica',      82],
+	        ['Matematicas',      29],
+	        ['Ciencias de la Computacion',      17],
+	        ['Ciencias de la Tierra',      86],
+	      ]);
+
+	      var options = {
+	        title: 'Carrera de Procedencia de Alumnos Atendidos',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('carreraAtendidos'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////////SEMESTRE DE PROCEDENCIA SOLICITUDES
+	    google.setOnLoadCallback(SemestreSol);
+	    function SemestreSol() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Semestre', 'Personas'],
+	        ['1o',     111],
+	        ['2o',      63],
+	        ['3o',      82],
+	        ['4o',      15],
+	        ['5o',      29],
+	        ['6o',      81],
+	        ['7o',      28],
+	        ['8o',      7],
+	      ]);
+
+	      var options = {
+	        title: 'Semestre de Procedencia de Alumnos Solicitantes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SemestreSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    //////////////////////////////////SEMESTRE DE PROCEDENCIA SOLICITUDES
+	    google.setOnLoadCallback(SemestreAten);
+	    function SemestreAten() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Semestre', 'Personas'],
+	        ['1o',      11],
+	        ['2o',      63],
+	        ['3o',      82],
+	        ['4o',      28],
+	        ['5o',      29],
+	        ['6o',      14],
+	        ['7o',      28],
+	        ['8o',      117],
+	      ]);
+
+	      var options = {
+	        title: 'Semestre de Procedencia de Alumnos Atendidos',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('SemestreAten'));
+
+	      chart.draw(data, options);
+	    }
+
+	    /////////////////////////////MATERIAS ADEUDAS SOLICITUDES
+	    google.setOnLoadCallback(MateriasSol);
+	    function MateriasSol() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Materias', 'Adeudo'],
+	        ['0',      11],
+	        ['1',      63],
+	        ['2',      82],
+	        ['3',      28],
+	        ['4',      29],
+	        ['5',      14],
+	        ['6',      28],
+	        ['7',      17],
+	        ['8',      117],
+	        ['9',      46],
+	        ['mas',    83],
+	      ]);
+
+	      var options = {
+	        title: 'Adeudo de materias de solicitantes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('MateriasSol'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////ATERIAS ADEUDAS ADEUDAS ATENDIDOS
+	    google.setOnLoadCallback(MateriasAten);
+	    function MateriasAten() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Materias', 'Adeudo'],
+	        ['0',      24],
+	        ['1',      113],
+	        ['2',      42],
+	        ['3',      82],
+	        ['4',      92],
+	        ['5',      41],
+	        ['6',      82],
+	        ['7',      17],
+	        ['8',      17],
+	        ['9',      46],
+	        ['mas',    83],
+	      ]);
+
+	      var options = {
+	        title: 'Adeudo de materias de solicitantes',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('MateriasAten'));
+
+	      chart.draw(data, options);
+	    }
+
+	    ///////////////////////////EFICIENCIA
+	    google.setOnLoadCallback(Eficiencia);
+	    function Eficiencia() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Concluyeron',      24],
+	        ['Abandonaron tratamiento',      113],
+	        ['En tratamiento al terminar el semestre',      42],
+	        ['Fueron canalizados',      82],
+	      ]);
+
+	      var options = {
+	        title: 'Alumnos que concluyeron psicoterapia breve en los ultimos 4 semestres',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Eficiencia'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////////////////ESTADO EMOCIONAL ANTES
+	    google.setOnLoadCallback(EdoEmocionalAntes);
+	    function EdoEmocionalAntes() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Mal',      24],
+	        ['Regular',  113],
+	        ['No se',    42],
+	        ['Muy Bien', 82],
+	        ['Muy Mal',  28],
+	        ['Bien',     12],
+	      ]);
+
+	      var options = {
+	        title: 'Estado Emocional Antes del Tratamiento',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('EdoEmocionalAntes'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////////////////ESTADO EMOCIONAL DESPUES
+	    google.setOnLoadCallback(EdoEmocionalDespues);
+	    function EdoEmocionalDespues() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Mal',      42],
+	        ['Regular',  131],
+	        ['No se',    24],
+	        ['Muy Bien', 28],
+	        ['Muy Mal',  82],
+	        ['Bien',     21],
+	      ]);
+
+	      var options = {
+	        title: 'Estado Emocional Despues del Tratamiento',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('EdoEmocionalDespues'));
+
+	      chart.draw(data, options);
+	    }
+	    ////////////////////////////////////////AYUDO
+	    google.setOnLoadCallback(Ayudo);
+	    function Ayudo() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Nada',      42],
+	        ['Medianamente',  131],
+	        ['Poco',    24],
+	        ['Totalmente', 28],
+	        ['Mucho',  82],
+	      ]);
+
+	      var options = {
+	        title: 'Progreso Gracias a ESPORA',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Ayudo'));
+
+	      chart.draw(data, options);
+	    }
+	    //////////////////////////////RECOMENDABLE
+	    google.setOnLoadCallback(Recomendacion);
+	    function Recomendacion() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['Poco recomendable',      42],
+	        ['Recomendable',  131],
+	        ['Muy recomendable',    24],
+	        ['Completamente recomendable', 28],
+	      ]);
+
+	      var options = {
+	        title: '¿Que tan recomendable es ESPORA?',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Recomendacion'));
+
+	      chart.draw(data, options);
+	    }
+
+	    //////////////////////////////CALIFICACION
+	    google.setOnLoadCallback(Calificacion);
+	    function Calificacion() {
+
+	      var data = google.visualization.arrayToDataTable([
+	        ['Estado', 'Personas'],
+	        ['5',  12],
+	        ['6',  131],
+	        ['7',  24],
+	        ['8',  28],
+	        ['9',  76],
+	        ['10', 97],
+	      ]);
+
+	      var options = {
+	        title: 'Calificacion que le dan a ESPORA',
+	        width: 900,
+	        height: 400,  
+	      };
+
+	      var chart = new google.visualization.PieChart(document.getElementById('Calificacion'));
+
+	      chart.draw(data, options);
+	    }
+	   </script>
+
 
 	    <div id="sidebar-header-tab">
 	     <div id="sidebar-tab">
@@ -15,42 +570,42 @@
 	            <li><a href="#materiasAtendidas">Materias Atendidas</a></li>
 	            <li><a href="#status">Status</a></li>
 	            <li><a href="#eficienciaA">Eficiencia</a></li>
-	            <!--<li><a href="#motivos">Motivos</a></li>-->
-	            <!--<li><a href="#sintomas">Síntomas</a></li>-->
-	            <!--<li><a href="#areasAfectadas">Áreas Afectadas</a></li>-->
-	            <!--<li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>-->
+	            <li><a href="#motivosConsulta">Motivos</a></li>
+	            <li><a href="#sintomas">Síntomas</a></li>
+	            <li><a href="#areasAfectadas">Áreas Afectadas</a></li>
+	            <li><a href="#areasBeneficiadas">Áreas Beneficiadas</a></li>
 	            <li><a href="#edoEmocionalAntes">Estado Emocional Antes</a></li>
 	            <li><a href="#edoEmocionalDespues">Estado Emocional Despues</a></li>
-	            <!--<li><a href="#ayudo">¿Ayudó?</a></li>-->
+	            <li><a href="#ayudo">¿Ayudó?</a></li>
 	            <!--<li><a href="#difusion">Difusión</a></li>-->
 	            <li><a href="#recomendacion">Recomendación</a></li>
-	            <!-- <li><a href="#calificacion">Calificación</a></li> -->
+	            <li><a href="#calificacion">Calificación</a></li>
 	            	            
 	        </ul>
 	    </div>
 	    <div id="container">
-		    	<div id="SolicitudesVsAtendidos"><div id="testgraph1"></div></div>
-	    		<div id="sexoSolicitudes"><div id="testgraph2"></div></div>
-	    		<div id="sexoAtendidos"><div id="testgraph3"></div></div>
-	    		<div id="Familiar"><div id="testgraph4"></div></div>
-	    		<div id="carreraSolicitudes"><div id="testgraph5"></div></div>
-	    		<div id="carreraAtendidos"><div id="testgraph6"></div></div>
-	    		<div id="semestreSolicitudes"><div id="testgraph7"></div></div>
-	    		<div id="semestreAtendidas"><div id="testgraph8"></div></div>
-	    		<div id="materiasSolicitudes"><div id="testgraph9"></div></div>
-	    		<div id="materiasAtendidas"><div id="testgraph10"></div></div>
+		    	<div id="SolicitudesVsAtendidos"><div id="SolicitudesVsAtendidos"></div></div>
+	    		<div id="sexoSolicitudes"><div id="SexoSol"></div></div>
+	    		<div id="sexoAtendidos"><div id="SexoAten"></div></div>
+	    		<div id="Familiar"><div id="familiar"></div></div>
+	    		<div id="carreraSolicitudes"><div id="CarreraSol"></div></div>
+	    		<div id="carreraAtendidos"><div id="carreraAtendidos"></div></div>
+	    		<div id="semestreSolicitudes"><div id="SemestreSol"></div></div>
+	    		<div id="semestreAtendidas"><div id="SemestreAten"></div></div>
+	    		<div id="materiasSolicitudes"><div id="MateriasSol"></div></div>
+	    		<div id="materiasAtendidas"><div id="MateriasAten"></div></div>
 	    		<div id="status"><div id="testgraph11"></div></div>
-	    		<div id="eficienciaA"><div id="testgraph12"></div></div>
-	    		<!--<div id="motivos"><div id="testgraph13"></div></div>-->
-	    		<!--<div id="sintomas"><div id="testgraph14"></div></div>-->
-	    		<!--<div id="areasAfectadas"><div id="testgraph15"></div></div>-->
-	    		<!--<div id="areasBeneficiadas"><div id="testgraph16"></div></div>-->
-	    		<div id="edoEmocionalAntes"><div id="testgraph17"></div></div>
-	    		<div id="edoEmocionalDespues"><div id="testgraph18"></div></div>
-	    		<!--<div id="ayudo"><div id="testgraph19"></div></div>-->
+	    		<div id="eficienciaA"><div id="Eficiencia"></div></div>
+	    		<div id="motivosConsulta"><div id="motivosConsulta"></div></div>
+	    		<div id="sintomas"><div id="sintoma"></div></div>
+	    		<div id="areasAfectadas"><div id="testgraph15"></div></div>
+	    		<div id="areasBeneficiadas"><div id="testgraph16"></div></div>
+	    		<div id="edoEmocionalAntes"><div id="EdoEmocionalAntes"></div></div>
+	    		<div id="edoEmocionalDespues"><div id="EdoEmocionalDespues"></div></div>
+	    		<div id="ayudo"><div id="Ayudo"></div></div>
 	    		<!--<div id="difusion"><div id="testgraph20"></div></div>-->
-	    		<div id="recomendacion"><div id="testgraph21"></div></div>
-	    		<!-- <div id="calificacion"><div id="testgraph22"></div></div> -->
+	    		<div id="recomendacion"><div id="Recomendacion"></div></div>
+	    		<div id="calificacion"><div id="Calificacion"></div></div>
 	    	</div>
 	    </div>
 
@@ -226,6 +781,14 @@
 			success: function(data) {
 				// console.log(data);
 				$("#testgraph21").append(data);
+			}
+		});
+		$.ajax({	
+			method: "GET",
+			url: "<%= graph_index_path('Calificacion') %>",
+			success: function(data) {
+				// console.log(data);
+				$("#testgraph22").append(data);
 			}
 		});
 	</script>

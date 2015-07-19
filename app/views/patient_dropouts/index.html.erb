@@ -1,10 +1,10 @@
 <% content_for :dropouts_tab do %>
-	
+
 	<!-- FILTRO Y BUSQUEDA -->
 	<div class="dropout-block" style="height: 60px;">
 		
 		<!-- BUSQUEDA -->
-		<form action="<%= patient_dropouts_index_path %>" method="get" class="pure-form" id="lue-search">
+		<form action="<%= patient_dropouts_index_path %>" method="get" class="pure-form" id="dropouts-search">
 			<% if not params[:filter_by].nil? %>
 				<%= hidden_field_tag 'filter_by', params[:filter_by] %>
 			<% end %>
@@ -14,7 +14,7 @@
 		</form>
 
 		<!-- FILTRAR -->
-		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="lue-filter">
+		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="dropouts-filter">
 			<% if not params[:searchStr].nil? %>
 				<%= hidden_field_tag 'searchStr', params[:searchStr] %>
 			<% end %>
@@ -27,28 +27,31 @@
 	<!-- REGISTROS -->
 	<div class="dropout-block" style="width: 98%; padding-left: 2%;">
 		<table id="dropout-table" class="pure-table pure-table-bordered">
-			<col width="110px"/><!-- No. DE CUENTA -->
-			<col width="155px"/><!-- APELLIDO PATERNO -->
-			<col width="155px"/><!-- APELLIDO MATERNO -->
-			<col width="150px"/><!-- NOMBRE(S) -->
-			<col width="130px"/><!-- CARRERA -->
-			<col width="125px"/><!-- EMAIL -->
-			<col width="120px"/><!-- TELÉFONO -->
-			<col width="115px"/><!-- FECHA DE BAJA -->
-			<col width="120px"/><!-- TIPO DE BAJA -->
-			<col width="40px"/>
+			<% [155, 155, 155, 155, 155, 155, 155, 60].each do | w | %><col width="<%= w %>px"/><% end %>
 
 			<thead>
 				<tr align="center">
-					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">No. DE CUENTA</th>
-					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">APELLIDO PATERNO</th>
-					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">APELLIDO MATERNO</th>
-					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
-					<th class="order<%= (params[:order_by] == 'career')? ' order-active' : '' %>" orderby="career">CARRERA</th>
-					<th>EMAIL</th>
-					<th>TELÉFONO</th>
-					<th class="order<%= (params[:order_by] == 'dropout_date')? ' order-active' : '' %>" orderby="dropout_date">FECHA DE BAJA</th>
-					<th>TIPO DE BAJA</th>
+					<th class="order<%= (params[:order_by] == 'account_number')? ' order-active' : '' %>" orderby="account_number">
+						No. DE CUENTA
+					</th>
+					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">
+						APELLIDO PATERNO
+					</th>
+					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">
+						APELLIDO MATERNO
+					</th>
+					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">
+						NOMBRE(S)
+					</th>
+					<th class="order<%= (params[:order_by] == 'request_date')? ' order-active' : '' %>" orderby="request_date">
+						FECHA DE SOLICITUD
+					</th>
+					<th class="order<%= (params[:order_by] == 'dropout_date')? ' order-active' : '' %>"	orderby="dropout_date">
+						FECHA DE BAJA
+					</th>
+					<th class="order<%= (params[:order_by] == 'dropout_type')? ' order-active' : '' %>"	orderby="dropout_type">
+						TIPO DE BAJA
+					</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -72,25 +75,32 @@
 					<% patient = isDropout ? dropout.patient : dropout %>
 					<% dropout_type = isDropout ? dropout.patient_dropout_type : nil %>
 
+					<!-- REGISTRO -->
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>" align="center">
 						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
 						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= patient.p_last_name %></td>
 						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
-						<td class="<%= (params[:order_by] == 'career')? 'c-order-active' : '' %>"><%= Patient::NAME_CAREER[patient.career] %></td>
-						<td><%= patient.email %></td>
-						<td><%= (patient.telephone1.nil? or patient.telephone1.blank?) ? patient.telephone2 : patient.telephone1 %></td>
+						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= patient.patient_request.request_date %></td>
 						<td class="<%= (params[:order_by] == 'dropout_date')? 'c-order-active' : '' %>">
 							<%= isDropout ? dropout.created_at.strftime("%d-%m-%y") : dropout.updated_at.strftime("%d-%m-%y") %>
 						</td>
-						<td><%= isDropout ? dropout_type.name : "Desinteresado" %></td>
+						<td class="<%= (params[:order_by] == 'dropout_type')? 'c-order-active' : '' %>"><%= isDropout ? dropout_type.name : "Desinteresado" %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+					</tr>
+					<!-- FIN REGISTRO -->
+
+					<!-- INFORMACION -->
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+						<td colspan="8" class="dropout-pat" style="padding: 0 0 0 0; margin: 0 0 0 0;">
+							<%= render partial: "info_dropout", locals: { patient: patient, patient_dropout: dropout, dropout_type: dropout_type } %>
+						</td>
 					</tr>
 				<% end %>
 
 				<% if @dropouts.size == 0 %>
 					<tr>
-						<td colspan="10" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
+						<td colspan="8" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
 							NO SE HALLARON BAJAS
 						</td>
 					</tr>
@@ -110,7 +120,20 @@
 			// Envia el formulario
 			$("#orderby-form").submit();
 		});
+
+		$("#dropout-table").expandTable({
+			toggle: "#dropout-table .arrow-expand i",
+			beforeExpand: function(tr) {},
+			afterExpand: function(tr) {
+				var icon = $(tr).find(".arrow-expand i");
+				if(icon.hasClass("fa-caret-down")) {
+					icon.removeClass("fa-caret-down");
+					icon.addClass("fa-caret-up");
+				} else {
+					icon.removeClass("fa-caret-up");
+					icon.addClass("fa-caret-down");
+				}
+			}
+		});
 	</script>
-
-
 <% end %>

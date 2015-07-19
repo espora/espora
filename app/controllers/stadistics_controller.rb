@@ -12,6 +12,14 @@ class StadisticsController < ApplicationController
 		@profile_active_tab = 1
 	end
 
+
+	masculinoAtent = Patient.find_by(sex: 'Masculino')
+	pacienteSex = Patient.group(:sex).count
+
+	def patientSex_sql
+		@@db.execute("SELECT COUNT(*) AS count_all, sex AS sex FROM "patients" GROUP BY sex == '#{@patientSex_sql}'").flatten
+	end
+
 	def graph
 
 		case params[:graph]
@@ -47,7 +55,7 @@ class StadisticsController < ApplicationController
 				:title  => "Sexo de Atendidos",
 				:legend => ['Hombres', 'Mujeres'],
 				:custom => "chco=8856a7,9ebcda",
-				:data   => [34, 80],
+				:data   => [patientSex_sql],
 				:labels => ["34", "80"],
 				:bg => 'EFEFEF'
 			)

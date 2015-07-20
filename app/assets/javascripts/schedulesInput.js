@@ -35,17 +35,13 @@ function initSchedulesInput ( config ) {
 		$(beginCell).removeClass("available-schedule");
 		$(beginCell).addClass("selected-schedule");
 
-		activeDay = day;
 		handleRange({
 			range: [beginCell, endCell],
 			daySchedules: schedules[day - 1],
 			dayCells: scheduleCells[day - 1],
 			field: $(this)[0]
 		});
-
 		fillRange(beginCell, endCell, scheduleCells[day - 1]);
-
-		console.log(this);
 	});
 
 	/********* INTERACCION ***********/

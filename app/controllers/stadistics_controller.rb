@@ -173,9 +173,12 @@ class StadisticsController < ApplicationController
         	return data	
         end
 
-        #def improved_areas_data
+        def improved_areas_data
         	
-        #end
+        	data = ImproveArea.joins(:personal_area_type).group(:name).count
+	
+			return data
+        end
 
         def condition_before_data
         
@@ -184,17 +187,26 @@ class StadisticsController < ApplicationController
         	return data	
         end
 
-        #def condition_after_data
-        	
-        #end
+        def condition_after_data
 
-        #def aid_data
-        	
-        #end
+        	data = PatientSignout.joins(:condition_type).group(:name).count
 
-        #def advise_data
+        	return data
+        end
+
+        def aid_data
+        
+        	data = PatientSignout.joins(:aid_level_type).group(:name).count
+
+        	return data	
+        end
+
+        def advise_data
         	
-        #end
+        	data = PatientSignout.joins(:advise_level_type).group(:name).count
+
+        	return data	
+        end
 
         def how_met_data
         
@@ -203,8 +215,11 @@ class StadisticsController < ApplicationController
         	return data	
         end
 
-        #def rating_data
-        	
-        #end
+        def rating_data
+        
+        	data = PatientSignout.group(:rating).count
+
+        	return data	
+        end
 
 end

@@ -155,25 +155,34 @@ class StadisticsController < ApplicationController
 
         #end
 
-        #def reasons_data
+        def reasons_data
         	
-        #end
+        	data = Reason.joins(:reasons_type).group(:name).count
+
+        	return data
+        end
 
         #def symptoms_data
         	
         #end
 
-        #def affected_areas_data
-        	
-        #end
+        def affected_areas_data
+        
+        	data = AffectedArea.joins(:personal_area_type).group(:name).count
+
+        	return data	
+        end
 
         #def improved_areas_data
         	
         #end
 
-        #def condition_before_data
-        	
-        #end
+        def condition_before_data
+        
+        	data = PatientRequest.joins(:condition_type).group(:name).count
+
+        	return data	
+        end
 
         #def condition_after_data
         	
@@ -187,9 +196,12 @@ class StadisticsController < ApplicationController
         	
         #end
 
-        #def how_met_data
-        	
-        #end
+        def how_met_data
+        
+        	data = HowMet.joins(:how_met_type).group(:name).count
+
+        	return data	
+        end
 
         #def rating_data
         	

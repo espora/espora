@@ -151,9 +151,12 @@ class StadisticsController < ApplicationController
         	
         #end
 
-        #def dropouts_data
+        def dropouts_data
 
-        #end
+        	data = PatientDropout.joins(:patient_dropout_type).group(:name).count
+
+        	return data
+        end
 
         def reasons_data
         	

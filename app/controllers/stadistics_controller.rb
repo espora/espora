@@ -15,19 +15,7 @@ class StadisticsController < ApplicationController
 		@profile_active_tab = 1
 	end
 
-<<<<<<< HEAD
-
-	masculinoAtent = Patient.find_by(sex: 'Masculino')
-	pacienteSex = Patient.group(:sex).count
-
-	def patientSex_sql
-		@@db.execute("SELECT COUNT(*) AS count_all, sex AS sex FROM "patients" GROUP BY sex == '#{@patientSex_sql}'").flatten
-	end
-
-	def graph
-=======
 	def chart
->>>>>>> e658faab3d2cba1538408f1a47364980a92dc6e3
 
 		# Se construye el nombre del metodo
 		method_name = params[:chart] + "_data"
@@ -37,21 +25,8 @@ class StadisticsController < ApplicationController
 		# podemos responder
 		if respond_to?(method_name, true)
 
-<<<<<<< HEAD
-		when 'SexoAten'
-			@graph = Gchart.pie(
-				:size   => '600x400',
-				:title  => "Sexo de Atendidos",
-				:legend => ['Hombres', 'Mujeres'],
-				:custom => "chco=8856a7,9ebcda",
-				:data   => [patientSex_sql],
-				:labels => ["34", "80"],
-				:bg => 'EFEFEF'
-			)
-=======
 			# Se manda a llamar el metodo y se obtienen los datos
 			data = send(method_name)
->>>>>>> e658faab3d2cba1538408f1a47364980a92dc6e3
 
 			# Se renderean como json
 			render json: data.to_json
@@ -117,4 +92,107 @@ class StadisticsController < ApplicationController
 
 			return data
 		end
+
+		def sex_attended_data
+			
+			# Consultamos la base
+			data = PatientRecord.joins(:patient).group(:sex).count
+
+			return data
+		end
+
+		#def family_structure
+
+		#end
+
+		def career_requests_data
+			
+			data = PatientRequest.joins(:patient).group(:career).count
+
+			return data
+		end
+
+		def career_attended_data
+			
+			data = PatientRecord.joins(:patient).group(:career).count
+
+			return data
+		end
+
+        def semester_requests_data
+        	
+        	data = PatientRequest.joins(:patient).group(:semester).count
+
+        	return data
+        end
+
+        def semester_attended_data
+
+        	data = PatientRecord.joins(:patient).group(:semester).count
+
+        	return data
+        end
+
+        def failed_subjects_requests_data
+        	
+        	data = PatientRequest.joins(:patient).group(:failed_subjects).count
+
+        	return data
+        end
+
+        def failed_subjects_attended_data
+        	
+        	data = PatientRecord.joins(:patient).group(:failed_subjects).count
+
+        	return data
+        end
+
+        #def dropouts_semester_data
+        	
+        #end
+
+        #def dropouts_data
+
+        #end
+
+        #def reasons_data
+        	
+        #end
+
+        #def symptoms_data
+        	
+        #end
+
+        #def affected_areas_data
+        	
+        #end
+
+        #def improved_areas_data
+        	
+        #end
+
+        #def condition_before_data
+        	
+        #end
+
+        #def condition_after_data
+        	
+        #end
+
+        #def aid_data
+        	
+        #end
+
+        #def advise_data
+        	
+        #end
+
+        #def how_met_data
+        	
+        #end
+
+        #def rating_data
+        	
+        #end
+
 end

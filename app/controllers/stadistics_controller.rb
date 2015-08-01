@@ -101,7 +101,7 @@ class StadisticsController < ApplicationController
 			return data
 		end
 
-		#def family_structure
+		#def family_structure_data
 
 		#end
 

@@ -100,7 +100,137 @@
 					];
 					return google.visualization.arrayToDataTable(dataTable);
 				}
-			}
+			},
+			"sex_attended": {
+				options: {
+					title: 'Sexo de Solicitudes Atendidas',
+					width: 800,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Genero', 'Personas'],
+						['Hombre',  data.m],
+						['Mujer' ,  data.f]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			/**"family_structure":{
+
+			}**/
+			"career_requests": {
+				options: {
+					title: 'Carrera de Procedencia de Alumnos Solicitantes',
+	        		width: 900,
+	        		height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Carrera', 'Personas'],
+						['Actuaria', data.actuaria],
+						['Biologia', data.biologia],
+						['Ciencias Ambientales', data.ciencias_ambientales],
+						['Ciencias de la Computación', data.ciencias_de_la_computacion],
+						['Ciencias de la Tierra', data.ciencias_de_la_tierra],
+						['Física', data.fisica],
+						['Física Biomédica', data.fisica_biomedica],
+						['Manejo Sustentable de Zonas Costeras', data.manejo_sustentable_de_zonas_costeras],
+						['Matemáticas', data.matematicas]
+					];
+
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"career_attended": {
+				options: {
+					title: 'Carrera de Procedencia de Alumnos Atendidos',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Carrera', 'Personas'],
+						['Actuaria', data.actuaria],
+						['Biologia', data.biologia],
+						['Ciencias Ambientales', data.ciencias_ambientales],
+						['Ciencias de la Computación', data.ciencias_de_la_computacion],
+						['Ciencias de la Tierra', data.ciencias_de_la_tierra],
+						['Física', data.fisica],
+						['Física Biomédica', data.fisica_biomedica],
+						['Manejo Sustentable de Zonas Costeras', data.manejo_sustentable_de_zonas_costeras],
+						['Matemáticas', data.matematicas]
+					];
+
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			/**"semester_requests": {
+
+			},**/
+			/**"semester_attended": {
+	
+			},**/
+			/**"failed_subjects_requests": {
+
+			},**/
+			/**"failed_subjects_attended": {
+
+			},**/
+			/**"dropouts_semester": {
+
+			},**/
+			"dropouts": {
+				options: {
+					title: 'Reporte de Bajas',
+					width: 900,
+					height: 400,					
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Baja','Personas'],
+						['Abandono', data.Abandono],
+						['Canalizado', data.Canalizado],
+						['Finalizado', data.Finalizado],
+						['Interrupción', data.Interrupción]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			/**"reasons": {
+
+			},**/
+			/**"symptoms": {
+
+			}**/
+			/**"affected_areas": {
+
+			},**/
+			/**"improved_areas": {
+
+			},**/
+			/**"condition_before": {
+	
+			},**/
+			/**"condition_after": {
+
+			},
+			"aid": {
+
+			},
+			"advise": {
+
+			},
+			"how_met": {
+
+			},
+			"rating": {
+
+			}**/
 		};
 
 		/**

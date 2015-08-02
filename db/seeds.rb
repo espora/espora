@@ -2,10 +2,6 @@
 
 puts ":::: Poblando Espora BD...\n\n"
 
-# -----> POBLANDO LA BASE <-----
-
-load "#{Rails.root}/db/population.rb"
-
 # -----> CATALOGO ESTATUS DE PACIENTE <-----
 
 PatientStatusType.delete_all
@@ -316,3 +312,54 @@ advise_level_entries = [
 puts "\n--- Poblando catálogo de Como lo recomendarias (#{advise_level_entries.count} inserciones)... "
 advise_level_created = AdviseLevelType.create(advise_level_entries)
 puts "   #{AdviseLevelType.all.count} inserciones hechas al catálogo de Como lo recomendarias."
+
+# -----> CATALOGO TIPO DE SEDE <-----
+
+BranchType.delete_all
+branch_type_entries = [
+	{ id: "1", name: "Preparatoria" },
+	{ id: "2", name: "Facultad" },
+	{ id: "3", name: "Escuela" }
+]
+
+puts "\n--- Poblando catálogo de Tipo de Sedes (#{branch_type_entries.count} inserciones)... "
+branch_type_created = BranchType.create(branch_type_entries)
+puts "   #{BranchType.all.count} inserciones hechas al catálogo de Tipo de Sedes."
+
+# -----> CATALOGO DE SEDES <-----
+
+Branch.delete_all
+branch_entries = [
+	{ id: "1", name: "Facultad de Ciencias", branch_type_id: 2},
+	{ id: "2", name: "Facultad de Medicina Veterinaria y Zootecnia", branch_type_id: 2},
+	{ id: "3", name: "Preparatoria No. 5", branch_type_id: 1},
+]
+
+puts "\n--- Poblando catálogo de Sedes (#{branch_entries.count} inserciones)... "
+branch_created = Branch.create(branch_entries)
+puts "   #{Branch.all.count} inserciones hechas al catálogo de Sedes."
+
+# -----> CATALOGO DE CARRERAS <-----
+
+Career.delete_all
+career_entries = [
+	{ id: "1", name: "Actuaria", branch_id: 1},
+	{ id: "2", name: "Ciencias de la Computación", branch_id: 1},
+	{ id: "3", name: "Física", branch_id: 1},
+	{ id: "4", name: "Matemáticas", branch_id: 1},
+	{ id: "5", name: "Ciencias de la Tierra", branch_id: 1},
+	{ id: "6", name: "Física Biomédica", branch_id: 1},
+	{ id: "7", name: "Biología", branch_id: 1},
+	{ id: "8", name: "Manejo Sustentable de Zonas Costeras", branch_id: 1},
+	{ id: "9", name: "Medicina Veterinaria y Zootecnia", branch_id: 2},
+	{ id: "10", name: "Alumno de Preparatoria", branch_id: 3},
+]
+
+puts "\n--- Poblando catálogo de Carreras (#{career_entries.count} inserciones)... "
+career_created = Career.create(career_entries)
+puts "   #{Career.all.count} inserciones hechas al catálogo de Carreras."
+
+# -----> POBLANDO LA BASE <-----
+unless ENV["minimal"]
+	load "#{Rails.root}/db/population.rb"
+end

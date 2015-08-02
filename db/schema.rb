@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150711200440) do
+ActiveRecord::Schema.define(version: 20150802174355) do
 
   create_table "advise_level_types", force: true do |t|
     t.string   "name"
@@ -47,6 +47,30 @@ ActiveRecord::Schema.define(version: 20150711200440) do
   end
 
   add_index "appointments", ["patient_record_id"], name: "index_appointments_on_patient_record_id"
+
+  create_table "branch_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "branches", force: true do |t|
+    t.string   "name"
+    t.integer  "branch_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branches", ["branch_type_id"], name: "index_branches_on_branch_type_id"
+
+  create_table "careers", force: true do |t|
+    t.string   "name"
+    t.integer  "branch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "careers", ["branch_id"], name: "index_careers_on_branch_id"
 
   create_table "cie10_types", force: true do |t|
     t.string   "name"
@@ -226,7 +250,6 @@ ActiveRecord::Schema.define(version: 20150711200440) do
     t.integer  "account_number"
     t.date     "birth"
     t.string   "sex"
-    t.string   "career"
     t.string   "init_school"
     t.integer  "semester"
     t.integer  "failed_subjects"
@@ -236,8 +259,10 @@ ActiveRecord::Schema.define(version: 20150711200440) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "patient_status_type_id"
+    t.integer  "career_id"
   end
 
+  add_index "patients", ["career_id"], name: "index_patients_on_career_id"
   add_index "patients", ["patient_status_type_id"], name: "index_patients_on_patient_status_type_id"
 
   create_table "personal_area_types", force: true do |t|
@@ -273,6 +298,17 @@ ActiveRecord::Schema.define(version: 20150711200440) do
   end
 
   add_index "request_schedules", ["patient_request_id"], name: "index_request_schedules_on_patient_request_id"
+
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
+  add_index "roles", ["name"], name: "index_roles_on_name"
 
   create_table "symptom_types", force: true do |t|
     t.string   "name"
@@ -316,7 +352,6 @@ ActiveRecord::Schema.define(version: 20150711200440) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "scholar_grade"
-    t.string   "role"
     t.string   "telephone1"
     t.string   "telephone2"
     t.string   "p_last_name"
@@ -326,5 +361,12 @@ ActiveRecord::Schema.define(version: 20150711200440) do
 
   add_index "therapists", ["email"], name: "index_therapists_on_email", unique: true
   add_index "therapists", ["reset_password_token"], name: "index_therapists_on_reset_password_token", unique: true
+
+  create_table "therapists_roles", id: false, force: true do |t|
+    t.integer "therapist_id"
+    t.integer "role_id"
+  end
+
+  add_index "therapists_roles", ["therapist_id", "role_id"], name: "index_therapists_roles_on_therapist_id_and_role_id"
 
 end

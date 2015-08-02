@@ -9,7 +9,6 @@
 #  account_number         :integer
 #  birth                  :date
 #  sex                    :string(255)
-#  career                 :string(255)
 #  init_school            :string(255)
 #  semester               :integer
 #  failed_subjects        :integer
@@ -19,7 +18,9 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  patient_status_type_id :integer
+#  career_id              :integer
 #
+
 class Patient < ActiveRecord::Base
 
 	# Estatus
@@ -33,6 +34,9 @@ class Patient < ActiveRecord::Base
 
 	# Baja
 	has_one :patient_dropout, :dependent => :destroy
+
+	# Carrera
+	belongs_to :career
 
 	# Mapeo condicion a nombre en formulario
 	NAME_CAREER = {

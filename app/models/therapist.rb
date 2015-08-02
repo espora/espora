@@ -16,7 +16,6 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  scholar_grade          :string(255)
-#  role                   :string(255)
 #  telephone1             :string(255)
 #  telephone2             :string(255)
 #  p_last_name            :string(255)
@@ -24,6 +23,9 @@
 #  names                  :string(255)
 #
 class Therapist < ActiveRecord::Base
+
+	# Roles
+	rolify
 
 	# Sistema de login
 	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable

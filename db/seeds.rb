@@ -316,4 +316,3 @@ advise_level_entries = [
 puts "\n--- Poblando catálogo de Como lo recomendarias (#{advise_level_entries.count} inserciones)... "
 advise_level_created = AdviseLevelType.create(advise_level_entries)
 puts "   #{AdviseLevelType.all.count} inserciones hechas al catálogo de Como lo recomendarias."
-

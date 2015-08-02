@@ -7,6 +7,17 @@ class TherapistsController < ApplicationController
 	layout "therapist"
 
 	# GET
+	# Administracion de terapeutas
+	def index
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 4
+
+		# Panel para las tabs del workspace de la administracion de terapeutas
+		@therapist_admin_active_tab = 0
+	end
+
+	# GET
 	# Perfil del terapeuta
 	def profile
 
@@ -28,7 +39,10 @@ class TherapistsController < ApplicationController
 		@therapist = Therapist.new
 
 		# Panel para las tabs del workspace del terapeuta
-		@therapist_active_tab = 3
+		@therapist_active_tab = 4
+
+		# Panel para las tabs del workspace de la administracion de terapeutas
+		@therapist_admin_active_tab = 1
 	end
 
 	# POST

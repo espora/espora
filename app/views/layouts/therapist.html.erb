@@ -34,31 +34,32 @@
 			
 				<!-- OPCIONES PESTAÑA -->
 				<ul id="ter-tabs-header" class="tabs-header">
-					<li><a href="#profile" style="margin-top: 8px;">
+					
+					<li><a href="#profile">
 						<i class="fa fa-user-md"></i>
 						<div style="margin-left: 8px;">Perfil</div>
 					</a></li>
 
-					<li><a href="#lue">
+					<li><a href="#lue" style="padding-top: 5px !important;">
 						<i class="fa fa-list" style="margin-top: 8px;"></i>
 						<div style="margin-left: 8px;">Lista Única de<br>Espera (LUE)</div>
 					</a></li>
 
-					<li><a href="#fosti">
+					<li><a href="#fosti" style="padding-top: 5px !important;">
 						<i class="fa fa-archive" style="margin-top: 8px;"></i>
 						<div style="margin-left: 8px;">Expedientes<br>(FOSTI)</div>
 					</a></li>
 
-					<li><a href="#dropouts" style="margin-top: 8px;">
+					<li><a href="#dropouts">
 						<i class="fa fa-user-times"></i>
 						<div style="margin-left: 8px;">Bajas</div>
 					</a></li>
 
-					<% if current_therapist.role == "Coordinator" %>
-						<li><a href="#add_therapist">
-						<i class="fa fa-users" style="margin-top: 8px;"></i>
-						<div align="center">Terapeutas</div>
-					</a></li>
+					<% if current_therapist.has_role? :coordinator %>
+						<li><a href="#adminstration-therapists">
+							<i class="fa fa-users"></i>
+							<div style="margin-left: 8px;">Terapeutas</div>
+						</a></li>
 					<% end %>
 
 					<% @open_records = open_records %>
@@ -103,11 +104,11 @@
 					<% end %>
 				<% end %>
 
-				<% if current_therapist.role == "Coordinator" %>
+				<% if current_therapist.has_role? :coordinator %>
 
 					<!-- REGISTRAR TERAPEUTA -->
-					<div id="add_therapist">
-						<%= yield(:new_therapist_tab) if content_for?(:new_therapist_tab) %>
+					<div id="adminstration-therapists">
+						<%= yield(:therapists_tab) if content_for?(:therapists_tab) %>
 					</div>
 				<% end %>
 			</div>
@@ -162,8 +163,8 @@
 						}
 
 						// Agregar terapeuta
-						if(newPanelId === "add_therapist") {
-							window.location = "<%= (current_therapist.role == 'Coordinator') ? new_therapist_path : '' %>"
+						if(newPanelId === "adminstration-therapists") {
+							window.location = "<%= (current_therapist.has_role? :coordinator) ? therapists_path : '' %>"
 						}
 					}
 				});

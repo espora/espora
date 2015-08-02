@@ -1,3 +1,5 @@
-<% content_for :new_therapist_tab do %>
+<% content_for :new_therapist do %>
 	<%= render partial: "form", locals: { therapist: @therapist } %>
 <% end %>
+
+<%= render template: "therapists/therapists_tab" %>

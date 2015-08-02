@@ -1,5 +1,5 @@
 <div style="height: 617px;">
-	<%= form_for(therapist, url: create_therapists_path, remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
+	<%= form_for(therapist, url: create_therapist_path, remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
 
 		<div class="form-inputs" style="width: 38%; float: left;">
 			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
@@ -60,12 +60,6 @@
 				<div style="margin-left: 4%; margin-top: 5px;">
 					<%= f.label :scholar_grade, "Grado Escolar: " %>
 					<%= f.select :scholar_grade, [["Licenciatura", "licenciatura"], ["Maestría", "maestria"], ["Doctorado", "doctorado"]] %>
-				</div>
-
-				<!-- ROL -->
-				<div style="margin-left: 4%; margin-top: 9px;">
-					<%= f.label :role, "Rol: " %>
-					<%= f.select :role, [["Terapeuta", "terapeuta"], ["Administrador", "administrador"]] %>
 				</div>
 			</div>
 

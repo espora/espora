@@ -1,0 +1,60 @@
+<% content_for :therapists_tab do %>
+
+	<!-- PESTAÑAS ADMINISTRACION DE TERAPEUTAS -->
+	<div id="therapists-tabs">
+		<ul id="therapists-tabs-header" class="tabs-header">
+
+			<!-- CONSULTAR TERAPEUTAS -->
+			<li><a href="#therapists">
+				<i class="fa fa-list-alt"></i>
+				<div style="margin-left: 8px;">Consultar Terapeutas</div>
+			</a></li>
+
+			<!-- AGREGAR NUEVO TERAPEUTA -->
+			<li><a href="#new-therapist">
+				<i class="fa fa-user-plus"></i>
+				<div style="margin-left: 8px;">Nuevo Terapeuta</div>
+			</a></li>
+		</ul>
+
+		<!-- PANEL - CONSULTAR TERAPEUTAS -->
+		<div id="therapists" class="ter-panel">
+			<%= yield(:therapists) if content_for?(:therapists) %>
+		</div>
+
+		<!-- PANEL - AGREGAR NUEVO TERAPEUTA -->
+		<div id="new-therapist" class="ter-panel">
+			<%= yield(:new_therapist) if content_for?(:new_therapist) %>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#therapists-tabs").tabs({
+				active: parseInt("<%= @therapist_admin_active_tab %>"),
+				beforeActivate: function( event, ui ) {
+
+					// Siguiente panel
+					var newPanel = ui.newPanel;
+					var newPanelId = newPanel.attr("id");
+					console.log(newPanelId);
+
+					// PANEL AL WORKSPACE
+
+					switch(newPanelId) {
+
+						// Consultar terapeutas
+						case "therapists":
+							window.location = "<%= therapists_path %>";
+							break;
+
+						// Nuevo terapeuta
+						case "new-therapist":
+							window.location = "<%= new_therapist_path %>";
+							break;
+					}
+				}
+			});
+		});
+	</script>
+<% end %>

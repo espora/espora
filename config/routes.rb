@@ -14,14 +14,21 @@ Espora::Application.routes.draw do
 	# Perfil del terapeuta
 	get "/therapists/profile/:id" => "therapists#profile", as: "therapist_profile"
 
+	# Horarios
+	get "/therapists/schedules/:id" => "therapists#schedules", as: "therapist_schedules"
+
+	##################################
+	#  Administracion de Terapeutas  #
+	##################################
+
+	# Consultar terapeutas
+	get "/therapists/therapists" => "therapists#index", as: "therapists"
+
 	# Nuevo terapeuta
 	get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
 
 	# Crea terapeuta
-	post "/therapists/create" => "therapists#create", as: "create_therapists"
-
-	# Horarios
-	get "/therapists/schedules/:id" => "therapists#schedules", as: "therapist_schedules"
+	post "/therapists/create" => "therapists#create", as: "create_therapist"
 
 	##################################################
 	#  Solicitudes de ingreso Patient Request (LUE)  #

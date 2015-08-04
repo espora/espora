@@ -104,14 +104,14 @@ class StadisticsController < ApplicationController
 		#def family_structure_data
 
 		#end
-
+###
 		def career_requests_data
 			
 			data = PatientRequest.joins(:patient).group(:career).count
 
 			return data
 		end
-
+###
 		def career_attended_data
 			
 			data = PatientRecord.joins(:patient).group(:career).count
@@ -165,6 +165,7 @@ class StadisticsController < ApplicationController
         	return data
         end
 
+        # es una gráfica
         #def symptoms_data
         	
         #end

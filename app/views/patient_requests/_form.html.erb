@@ -132,110 +132,117 @@
 
 		<!-- SOLICIUD -->
 		<div style="width: 100%; float: left;">
-
 			<div class="form-inputs" style="width: 98.5%; float: left;">
-				<div class="form-inputs-title">DATOS DE INGRESO</div>
 
-				<!-- MOTIVOS -->
-				<div style="margin-left: 2%; margin-top: 8px;">
-					<div style="width: 100%; float: left; margin-bottom: -1px;">
-						¿Cuáles son tus motivos de consulta?
+				<!-- COLUMNA IZQUIERDA -->
+				<div style="width: 50%; float: left;" class="colum-form-inputs">
+					<div class="form-inputs-title">DATOS DE INGRESO</div>
+
+					<!-- MOTIVOS -->
+					<div style="margin-left: 4%; margin-top: 8px;">
+						<div style="width: 100%; float: left; margin-bottom: -1px;">
+							¿Cuáles son tus motivos de consulta?
+						</div>
+
+						<div style="width: 68%; float: left; margin-left: 2.4%;">
+							<%= render partial: "reasons_input", locals: { form: request_form } %>
+						</div>
 					</div>
 
-					<div style="width: 34%; float: left; margin-left: 1.2%;">
-						<%= render partial: "reasons_input", locals: { form: request_form } %>
-					</div>
-				</div>
-
-				<!-- CONDICION -->
-				<div style="margin-left: 2%; margin-top: 10px;">
-					<%= request_form.label :condition_type_id do %>¿Cómo te sientes actualmente?<% end %>
-					<%= request_form.select :condition_type_id, ConditionType::options_for_select %>
-				</div>
-
-				<!-- DINERO -->
-				<div style="margin-left: 2%; margin-top: 10px;">
-					<%= request_form.label :money do %>¿Cuánto dinero dispones para gastos personales (por semana)?<% end %>
-					<%= request_form.text_field :money, autofocus: true, :size => 6 , :required => true, class: "num-field"%>
-				</div>
-
-				<!-- ATENCION PREVIA -->
-				<div style="width: 100%; margin-left: 2%; margin-top: 10px; height: 57px;">
-					<%= request_form.label :pre_care do %>¿Anteriormente habías asistido a algún espacio de atención psicológica?<% end %>
-
-					<div style="width: 100%; margin-top: 3px; margin-left: 1.2%; float: left;">
-						<%= request_form.radio_button :pre_care, 's', :style => "float: left;" %>
-						<%= request_form.label :pre_care, 'Si', :value => 's', :style => "float: left; margin-left: 3px;" %>
+					<!-- CONDICION -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= request_form.label :condition_type_id do %>¿Cómo te sientes actualmente?<% end %>
+						<%= request_form.select :condition_type_id, ConditionType::options_for_select %>
 					</div>
 
-					<div style="width: 15%; margin-top: 3px; margin-left: 1.2%; float: left;">
-						<%= request_form.radio_button :pre_care, 'n', :style => "float: left;", :checked => true %>
-						<%= request_form.label :pre_care, 'No', :value => 'n', :style => "float: left; margin-left: 3px;" %>
+					<!-- DINERO -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= request_form.label :money do %>¿Cuánto dinero dispones para gastos personales (por semana)?<% end %>
+						<%= request_form.text_field :money, autofocus: true, :size => 6 , :required => true, class: "num-field"%>
 					</div>
-				</div>
 
-				<!-- COMO CONOCIO -->
-				<div style="margin-left: 2%; margin-top: 10px;">
-					<%= request_form.label :how_met, :style => "margin-bottom: 6px;" do %>
-						¿Cómo te enteraste de los servicios que ofrecemos?
-					<% end %>
+					<!-- ATENCION PREVIA -->
+					<div style="width: 100%; margin-left: 4%; margin-top: 10px; height: 57px;">
+						<%= request_form.label :pre_care do %>¿Anteriormente habías asistido a algún espacio de atención psicológica?<% end %>
 
-					<div style="width: 30%; float: left; margin-left: 1.2%;">
+						<div style="width: 100%; margin-top: 3px; margin-left: 2.4%; float: left;">
+							<%= request_form.radio_button :pre_care, 's', :style => "float: left;" %>
+							<%= request_form.label :pre_care, 'Si', :value => 's', :style => "float: left; margin-left: 3px;" %>
+						</div>
 
-						<!-- PRIMERA VEZ -->
-						<% if patient_request.how_met.nil? %>
-							<%= fields_for :how_met do | how_met_f | %>
-								<% HowMetType.all.each do | how_met_type | %>
-									<div style="width: 90%; position: relative; margin-bottom: 10px; float: left;">
+						<div style="width: 30%; margin-top: 3px; margin-left: 2.4%; float: left;">
+							<%= request_form.radio_button :pre_care, 'n', :style => "float: left;", :checked => true %>
+							<%= request_form.label :pre_care, 'No', :value => 'n', :style => "float: left; margin-left: 3px;" %>
+						</div>
+					</div>
 
-										<%= how_met_f.radio_button :how_met_type_id, how_met_type.id.to_s, :style => "float: left;", :onclick => "howMetSelected(this);", "data-other" => how_met_type.is_other?, :required => true %>
-										<%= how_met_f.label :how_met_type_id, how_met_type.name, :value => how_met_type.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
-
-										<% if how_met_type.is_other? %>
-											<%= how_met_f.text_field :other_name, autofocus: true, :size => 10, :style => "position: absolute; top: -9px; left: 40px;", :disabled => true %>
-										<% end %>
-									</div>
-								<% end %>
-							<% end %>
-
-						<!-- YA PUESTO -->
-						<% else %>
-							<%= fields_for patient_request.how_met do | how_met_f | %>
-								<% HowMetType.all.each do | how_met_type | %>
-									<div style="width: 90%; position: relative; margin-bottom: 10px; float: left;">
-
-										<%= how_met_f.radio_button :how_met_type_id, how_met_type.id.to_s, :style => "float: left;", :onclick => "howMetSelected(this);", "data-other" => how_met_type.is_other?, :required => true %>
-										<%= how_met_f.label :how_met_type_id, how_met_type.name, :value => how_met_type.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
-
-										<% if how_met_type.is_other? %>
-											<%= how_met_f.text_field :other_name, autofocus: true, :size => 10, :style => "position: absolute; top: -9px; left: 40px;", :disabled => true %>
-										<% end %>
-									</div>
-								<% end %>
-							<% end %>
+					<!-- COMO CONOCIO -->
+					<div style="margin-left: 4%; margin-top: 10px;">
+						<%= request_form.label :how_met, :style => "margin-bottom: 6px;" do %>
+							¿Cómo te enteraste de los servicios que ofrecemos?
 						<% end %>
+
+						<div style="width: 60%; float: left; margin-left: 2.4%;">
+
+							<!-- PRIMERA VEZ -->
+							<% if patient_request.how_met.nil? %>
+								<%= fields_for :how_met do | how_met_f | %>
+									<% HowMetType.all.each do | how_met_type | %>
+										<div style="width: 90%; position: relative; margin-bottom: 10px; float: left;">
+
+											<%= how_met_f.radio_button :how_met_type_id, how_met_type.id.to_s, :style => "float: left;", :onclick => "howMetSelected(this);", "data-other" => how_met_type.is_other?, :required => true %>
+											<%= how_met_f.label :how_met_type_id, how_met_type.name, :value => how_met_type.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
+
+											<% if how_met_type.is_other? %>
+												<%= how_met_f.text_field :other_name, autofocus: true, :size => 10, :style => "position: absolute; top: -9px; left: 40px;", :disabled => true %>
+											<% end %>
+										</div>
+									<% end %>
+								<% end %>
+
+							<!-- YA PUESTO -->
+							<% else %>
+								<%= fields_for patient_request.how_met do | how_met_f | %>
+									<% HowMetType.all.each do | how_met_type | %>
+										<div style="width: 90%; position: relative; margin-bottom: 10px; float: left;">
+
+											<%= how_met_f.radio_button :how_met_type_id, how_met_type.id.to_s, :style => "float: left;", :onclick => "howMetSelected(this);", "data-other" => how_met_type.is_other?, :required => true %>
+											<%= how_met_f.label :how_met_type_id, how_met_type.name, :value => how_met_type.id.to_s, :style => "position: absolute; left: 15px; top: -2px;" %>
+
+											<% if how_met_type.is_other? %>
+												<%= how_met_f.text_field :other_name, autofocus: true, :size => 10, :style => "position: absolute; top: -9px; left: 40px;", :disabled => true %>
+											<% end %>
+										</div>
+									<% end %>
+								<% end %>
+							<% end %>
+						</div>
 					</div>
 				</div>
 
-				<!-- AREAS AFECTADAS -->
-				<div style="margin-left: 2%; margin-top: 12px;">
-					<div style="width: 100%; float: left; margin-bottom: -1px;">
-						¿Cuáles de las siguientes áreas se han visto afectadas en tu vida en relación con tu motivo de consulta?
+				<!-- COLUMNA DERECHA -->
+				<div style="width: 50%; float: left;" class="colum-form-inputs">
+
+					<!-- AREAS AFECTADAS -->
+					<div style="margin-left: 4%; margin-top: 12px;">
+						<div style="width: 100%; float: left; margin-bottom: -1px;">
+							¿Cuáles de las siguientes áreas se han visto afectadas en tu vida en relación con tu motivo de consulta?
+						</div>
+
+						<div style="width: 60%; float: left; margin-left: 2.4%;">
+							<%= render partial: "affected_areas_input", locals: { form: request_form } %>
+						</div>
 					</div>
 
-					<div style="width: 30%; float: left; margin-left: 1.2%;">
-						<%= render partial: "affected_areas_input", locals: { form: request_form } %>
-					</div>
-				</div>
+					<!-- HORARIOS -->
+					<div style="margin-left: 4%; margin-top: 12px;">
+						<div style="width: 100%; float: left;">
+							¿Cuáles son tus horarios disponibles para asistir a las sesiones? (Seleccione los rangos)
+						</div>
 
-				<!-- HORARIOS -->
-				<div style="margin-left: 2%; margin-top: 25px;">
-					<div style="width: 100%; float: left;">
-						¿Cuáles son tus horarios disponibles para asistir a las sesiones? (Seleccione los rangos)
-					</div>
-
-					<div style="margin-top: -2px; margin-left: 1.2%;">
-						<%= render partial: "schedules_input", locals: { form: request_form, patient_request: patient_request } %>
+						<div style="margin-top: -2px; margin-left: 2.4%;">
+							<%= render partial: "schedules_input", locals: { form: request_form, patient_request: patient_request } %>
+						</div>
 					</div>
 				</div>
 			</div>

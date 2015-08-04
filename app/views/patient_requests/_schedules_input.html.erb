@@ -16,33 +16,28 @@
 
 	<tbody>
 		<% (10..22).each do |hour| %>
-			<% ["00", "30"].each do |minutes| %>
-				<% next_minutes = (minutes.to_i + 30) % 60 %>
-				<% next_hour = (next_minutes == 0)? (hour + 1) : hour %>
-				<tr>
-					<td align="center">
-						<% hour_str = "" %>
-						<% hour_str += "0" if hour.to_s.length == 1 %>
-						<% hour_str += hour.to_s + ":" + minutes + " - " %>
-						<% hour_str += "0" if next_hour.to_s.length == 1 %>
-						<% hour_str += next_hour.to_s + ":" %>
-						<% hour_str += "0" if next_minutes.to_s.length == 1 %>
-						<% hour_str += next_minutes.to_s + " hrs." %>
+			<% next_hour = hour + 1 %>
+			<tr>
+				<td align="center">
+					<% hour_str = "" %>
+					<% hour_str += "0" if hour.to_s.length == 1 %>
+					<% hour_str += hour.to_s + ":00 - " %>
+					<% hour_str += "0" if next_hour.to_s.length == 1 %>
+					<% hour_str += next_hour.to_s + ":00 hrs." %>
 
-						<%= hour_str %>
+					<%= hour_str %>
+				</td>
+
+				<% 5.times do | day | %>
+					<% id_td = (day + 1).to_s + hour.to_s + "00" %>
+					<td id="<%= id_td %>" class="available-schedule"
+						day="<%= (day + 1) %>"
+						hour="<%= hour.to_s.length == 1 ? '0' + hour.to_s : hour.to_s %>" minutes="00"
+						next-hour="<%= next_hour.to_s.length == 1 ? '0' + next_hour.to_s : next_hour.to_s %>"
+						next-minutes="00">
 					</td>
-
-					<% 5.times do | day | %>
-						<% id_td = (day + 1).to_s + hour.to_s + minutes %>
-						<td id="<%= id_td %>" class="available-schedule"
-							day="<%= (day + 1) %>"
-							hour="<%= hour %>" minutes="<%= minutes %>"
-							next-hour="<%= next_hour.to_s.length == 1 ? '0' + next_hour.to_s : next_hour.to_s %>"
-							next-minutes="<%= next_minutes.to_s.length == 1 ? '0' + next_minutes.to_s : next_minutes.to_s  %>">
-						</td>
-					<% end %>
-				</tr>
-			<% end %>
+				<% end %>
+			</tr>
 		<% end %>
 	</tbody>
 </table>

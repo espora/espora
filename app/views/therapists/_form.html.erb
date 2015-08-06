@@ -1,89 +1,20 @@
-<div style="height: 617px;">
-	<%= form_for(therapist, url: create_therapist_path, remote: true, :html => { :class => "pure-form pure-form-stacked" }) do |f| %>
+<div style="width: 98%;">
 
-		<div class="form-inputs" style="width: 38%; float: left;">
-			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
-				DATOS PERSONALES
-			</div>
+	<!-- FORMULARIO NUEVO TERAPEUTA -->
+	<%= nested_form_for therapist, :html => { :id => "form-new-therapist", :class => "pure-form pure-form-stacked" } do |f| %>
 
-			<!-- NOMBRES -->
-			<div style="margin-left: 4%; margin-top: 5px;">
-				<%= f.label :names do %>Nombre(s): <% end %>
-				<%= f.text_field :names, autofocus: true, :size => 50 %>
-			</div>
-
-			<!-- A PATERNO -->
-			<div style="margin-left: 4%; margin-top: 9px;">
-				<%= f.label :p_last_name do %>Apellido Paterno: <% end %>
-				<%= f.text_field :p_last_name, autofocus: true, :size => 50 %>
-			</div>
-
-			<!-- A MATERNO -->
-			<div style="margin-left: 4%; margin-top: 9px;">
-				<%= f.label :m_last_name do %>Apellido Materno: <% end %>
-				<%= f.text_field :m_last_name, autofocus: true, :size => 50 %>
-			</div>
-		</div>
-
-		<div class="form-inputs" style="width: 38%; float: left; margin-left: 1.5%;">
-			<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
-				CONTACTOS
-			</div>
-
-			<!-- TELEFONO 1 -->
-			<div style="margin-left: 4%; margin-top: 5px;">
-				<%= f.label :telephone1 do %>Telefono: <% end %>
-				<%= f.text_field :telephone1, autofocus: true %>
-			</div>
-
-			<!-- TELEFONO 2 -->
-			<div style="margin-left: 4%; margin-top: 9px;">
-				<%= f.label :telephone2 do %>Celular: <% end %>
-				<%= f.text_field :telephone2, autofocus: true %>
-			</div>
-
-			<!-- EMAIL -->
-			<div style="margin-left: 4%; margin-top: 9px;">
-				<%= f.label :email %>
-				<%= f.email_field :email, autofocus: true %>
-			</div>
-		</div>
-
-		<div style="width: 48%; position: relative; float: left;">
-			
-			<div class="form-inputs" style="width: 100%; float: left;">
-				<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
-					DATOS LABORALES
-				</div>
-
-				<!-- GRADO ESCOLAR -->
-				<div style="margin-left: 4%; margin-top: 5px;">
-					<%= f.label :scholar_grade, "Grado Escolar: " %>
-					<%= f.select :scholar_grade, [["Licenciatura", "licenciatura"], ["Maestría", "maestria"], ["Doctorado", "doctorado"]] %>
-				</div>
-			</div>
-
-			<div class="form-inputs" style="width: 40%; float: left;">
-				<div style="font-weight: bold; font-size: 13px; margin-bottom: 17px;">
-					ACCESO
-				</div>
-
-				<!-- PASSWORD -->
-				<div style="margin-left: 4%; margin-top: 5px;">
-					<%= f.label :password %>
-					<%= f.password_field :password, autocomplete: "off" %>
-				</div>
-
-				<!-- CONFIRMACION PASSWORD -->
-				<div style="margin-left: 4%; margin-top: 9px;">
-					<%= f.label :password_confirmation do %>Confirme password:<% end %>
-					<%= f.password_field :password_confirmation, autocomplete: "off" %>
-				</div>
-			</div>
-		</div>
-
+		<!-- DATOS PERSONALES Y ESCOLARES -->
 		<div style="width: 100%; float: left;">
-			<%= f.submit "GUARDAR", id: "submit_form", :class => "pure-button pure-button-primary", :style => "font-weight: bold; margin-top: 25px;" %>
+			<div class="form-inputs" style="width: 48%; height: 100%; float: left;">
+				<div class="form-inputs-title">DATOS PERSONALES</div>
+
+				<!-- NOMBRES -->
+				<div style="margin-left: 4%; margin-top: 8px;">
+					<%= f.label :names do %>Nombre(s): <% end %>
+					<%= f.text_field :names, autofocus: true, :size => 50, :maxlength => 25, :required => true %>
+				</div>
+				
+			</div>
 		</div>
 
 	<% end %>

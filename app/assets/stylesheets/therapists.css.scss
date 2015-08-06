@@ -88,31 +88,23 @@
 	float: left;
 }
 
-.open-record-tab {
+.open-record-tab, .open-appointment-tab {
 	max-width: 14% !important;
 	height: 25px !important;
 	font-size: 11px;
 	margin-top: 12px !important;
 }
 
-.open-record-tab .open-record-tab-name {
+.open-record-tab .open-record-tab-name,
+.open-appointment-tab .open-appointment-tab-name {
 	padding-top: 6px !important;
 	padding-right: 0px !important;
 }
 
-.open-record-tab .close-record-link {
+.open-record-tab .close-record-link,
+.open-appointment-tab .close-appointment-link {
 	padding: 6px 6px 0px 6px !important;
 	cursor: pointer !important;
-}
-
-.open-appointment-tab {
-	height: 25px !important;
-	font-size: 10px;
-	margin-top: 1px !important;
-}
-
-.open-appointment-tab i {
-	font-size: 14px;
 }
 
 /************ PERFIL **************/

@@ -23,14 +23,16 @@
 			<!-- HEADER - CITAS ABIERTAS -->
 			<% @open_appointments = open_appointments(@patient_record) %>
 			<li style="width: 10px;"></li>
+
 			<% @open_appointments.each do | appointment | %>
 				<li class="open-appointment-tab">
 					<div>
-						<a href="#open_appointment_<%= appointment.id %>" style="padding-right: 1px;">
+						<a href="#open_appointment_<%= appointment.id %>" class="open-appointment-tab-name">
 							Cita <%= appointment.number %>
 						</a>
-
-						<%= link_to close_appointment_path(@patient_record, appointment) + "?tab=" + params[:tab], :style => "padding-left: 0; padding-right: 0; float: right; margin: -23px 5px 0 8px;" do %>
+					</div>
+					<div>
+						<%= link_to close_appointment_path(@patient_record, appointment) + "?tab=" + params[:tab], class: "close-appointment-link" do %>
 							<i class="fa fa-times"></i>
 						<% end %>
 					</div>

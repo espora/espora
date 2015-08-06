@@ -1,0 +1,63 @@
+<table id="schedules-input-table" class="pure-table pure-table-bordered pat-schedule-table noselect">
+	<% ["115", "40", "40", "40", "40", "40"].each do | w | %>
+	<col width="<%= w %>px"/>
+	<% end %>
+
+	<thead>
+		<tr align="center">
+			<th style="width: 55px;">Hora</th>
+			<th>Lun.</th>
+			<th>Mar.</th>
+			<th>Mié.</th>
+			<th>Jue.</th>
+			<th>Vie.</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% (10..22).each do |hour| %>
+			<% next_hour = hour + 1 %>
+			<tr>
+				<td align="center">
+					<% hour_str = "" %>
+					<% hour_str += "0" if hour.to_s.length == 1 %>
+					<% hour_str += hour.to_s + ":00 - " %>
+					<% hour_str += "0" if next_hour.to_s.length == 1 %>
+					<% hour_str += next_hour.to_s + ":00 hrs." %>
+
+					<%= hour_str %>
+				</td>
+
+				<% 5.times do | day | %>
+					<% id_td = (day + 1).to_s + hour.to_s + "00" %>
+					<td id="<%= id_td %>" class="available-schedule"
+						day="<%= (day + 1) %>"
+						hour="<%= hour.to_s.length == 1 ? '0' + hour.to_s : hour.to_s %>" minutes="00"
+						next-hour="<%= next_hour.to_s.length == 1 ? '0' + next_hour.to_s : next_hour.to_s %>"
+						next-minutes="00">
+					</td>
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<!-- FIELDS ANIDADOS -->
+<div id="schedules-input-fields">
+	<%= form.fields_for target_association do | schedule_form | %>
+		<%= schedule_form.hidden_field :day %>
+		<%= schedule_form.hidden_field :beginH %>
+		<%= schedule_form.hidden_field :endH %>
+		<%= schedule_form.link_to_remove "", :style => "display: none;" %>
+	<% end %>
+</div>
+
+<%= form.link_to_add "", target_association, :style => "display: none;" %>
+
+<script type="text/javascript">
+	initSchedulesInput({
+		table: $("#schedules-input-table")[0],
+		fields: $("#schedules-input-fields")[0],
+		associationName: "<%= target_association %>"
+	});
+</script>

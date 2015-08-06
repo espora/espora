@@ -106,12 +106,12 @@ function initSchedulesInput ( config ) {
 			activeRange = fillRange(activeRange[0], activeRange[activeRange.length - 1], scheduleCells[activeDay - 1]);
 
 			// Creamos el rango
-			$(".add_nested_fields[data-association=request_schedules]").click();
+			$(".add_nested_fields[data-association=" + config.associationName + "]").click();
 		}
 	});
 
 	// Al agregar un horario
-	$(document).on("nested:fieldAdded:request_schedules", function( event ) {
+	$(document).on("nested:fieldAdded:" + config.associationName, function( event ) {
 
 		// Manejamos el rango
 		handleRange({

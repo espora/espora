@@ -2,6 +2,10 @@ es:
   activerecord:
     errors:
       models:
+        therapist:
+          attributes:
+            password_confirmation:
+              confirmation: "Las contraseñas no coinciden"
         patient_request:
           attributes:
             reasons:

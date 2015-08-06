@@ -88,21 +88,23 @@
 	float: left;
 }
 
-.open-record-tab {
-	max-width: 14%;
+.open-record-tab, .open-appointment-tab {
+	max-width: 14% !important;
 	height: 25px !important;
-	font-size: 10px;
+	font-size: 11px;
 	margin-top: 12px !important;
 }
 
-.open-appointment-tab {
-	height: 25px !important;
-	font-size: 10px;
-	margin-top: 1px !important;
+.open-record-tab .open-record-tab-name,
+.open-appointment-tab .open-appointment-tab-name {
+	padding-top: 6px !important;
+	padding-right: 0px !important;
 }
 
-.open-appointment-tab i {
-	font-size: 14px;
+.open-record-tab .close-record-link,
+.open-appointment-tab .close-appointment-link {
+	padding: 6px 6px 0px 6px !important;
+	cursor: pointer !important;
 }
 
 /************ PERFIL **************/
@@ -129,7 +131,7 @@
 	margin-top: 10px;
 }
 
-.form-inputs > div {
+.form-inputs > div, .colum-form-inputs > div {
 	width: 100%;
 	float: left;
 }
@@ -167,4 +169,29 @@
 
 textarea {
 	resize: none;
+}
+
+/************ ADMIN TERAPETUAS **************/
+
+.ther-block {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+#ther-search {
+	width: 20%;
+	margin-left: 2%;
+	margin-top: 15px;
+	float: left;
+}
+
+#ther-table {
+	width: 90%;
+	table-layout: fixed;
+}
+
+#ther-table .arrow-expand {
+	font-size: 18px;
+	display: block;
 }

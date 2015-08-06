@@ -28,7 +28,7 @@ Espora::Application.routes.draw do
 	get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
 
 	# Crea terapeuta
-	post "/therapists/create" => "therapists#create", as: "create_therapist"
+	post "/therapists/therapists" => "therapists#create", as: "create_therapist"
 
 	##################################################
 	#  Solicitudes de ingreso Patient Request (LUE)  #

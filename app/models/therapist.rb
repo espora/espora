@@ -21,6 +21,7 @@
 #  p_last_name            :string(255)
 #  m_last_name            :string(255)
 #  names                  :string(255)
+#  branch_id              :integer
 #
 class Therapist < ActiveRecord::Base
 
@@ -31,7 +32,10 @@ class Therapist < ActiveRecord::Base
 	devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
 	# Horarios de los terapeutas
-	has_many :therapist_schedules
+	has_many :therapist_schedules, :dependent => :delete_all
+
+	# Horarios de los terapeutas en formularios anidados
+	accepts_nested_attributes_for :therapist_schedules, :allow_destroy => true
 
 	# Solicitudes de paciente
 	has_many :requests_received,  :class_name => 'PatientRequest', :foreign_key => 'receive_therapist_id'
@@ -39,6 +43,9 @@ class Therapist < ActiveRecord::Base
 
 	# Expediente que atiende
 	has_many :patient_records
+
+	# Sede a la que pertenece
+	belongs_to :branch
 
 	# Verifica si un terapeuta tiene en común algún horario
 	# de una solicitud. Es decir, si algún horario solicitado
@@ -101,5 +108,19 @@ class Therapist < ActiveRecord::Base
 	#  ApellidoPaterno ApellidoMaterno Nombres
 	def full_name
 		self.p_last_name + " " + self.m_last_name + " " + self.names
+	end
+
+	# Regresa el numero de pestañas que existen
+	# en la interfaz
+	def tabs_count
+
+		# Coordinador
+		if self.has_role? :coordinator
+			return 5
+
+		# Terapeuta
+		else
+			return 4
+		end
 	end
 end

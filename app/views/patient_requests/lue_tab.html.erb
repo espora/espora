@@ -4,9 +4,19 @@
 	<div id="lue-tab">
 
 		<!-- PESTANAS -->
-		<ul>
-			<li><a href="#consultar">Consultar Solicitudes</a></li>
-			<li><a href="#nuevo">Nueva Solicitud</a></li>
+		<ul class="tabs-header">
+
+			<!-- CONSULTAR SOLICITUDES -->
+			<li><a href="#consultar">
+				<i class="fa fa-list-alt"></i>
+				<div style="margin-left: 8px;">Consultar Solicitudes</div>
+			</a></li>
+
+			<!-- AGREGAR NUEVA SOLICITUD -->
+			<li><a href="#nuevo">
+				<i class="fa fa-plus"></i>
+				<div style="margin-left: 8px;">Nueva Solicitud</div>
+			</a></li>
 		</ul>
 
 		<!-- PANELES -->
@@ -16,7 +26,6 @@
 		<div id="nuevo" class="ter-panel">
 			<%= yield(:lue_new) if content_for?(:lue_new) %>
 		</div>
-		
 	</div>
 
 	<script type="text/javascript">

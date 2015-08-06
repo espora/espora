@@ -10,6 +10,16 @@ class TherapistsController < ApplicationController
 	# Administracion de terapeutas
 	def index
 
+		# Obtenemos el id del terapeuta actual
+		curr_id = current_therapist.id
+
+		# Obtenemos el id de la sede del terapeuta actual
+		curr_branch = current_therapist.branch_id
+
+		# Obtenemos todos los terapeutas de la sede del coordinador
+		@therapists = Therapist.where(branch_id: curr_branch).where.not(id: curr_id)
+		puts @therapists.count
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 4
 
@@ -48,6 +58,35 @@ class TherapistsController < ApplicationController
 	# POST
 	# Crea un registro de terapeuta
 	def create
+
+		# Creamos el terapeuta
+		@therapist = Therapist.new(therapist_params)
+
+		# Checamos si es valido
+		if @therapist.valid?
+
+			# La sede es la misma del que lo creo
+			@therapist.branch = current_therapist.branch
+
+			# Guardamos
+			@therapist.save
+
+			# Mandamos a renderear de nuevo con mensaje
+			flash[:notice] = { :therapist => "¡Ha registrado exitosamente un terapeuta!" }
+
+			# Redirigimos a la lista de terapeutas
+			redirect_to therapists_path
+		else
+
+			# Panel para las tabs del workspace del terapeuta
+			@therapist_active_tab = 4
+
+			# Panel para las tabs del workspace de la administracion de terapeutas
+			@therapist_admin_active_tab = 1
+
+			# Rendereamos de nuevo el formulario
+			render :new
+		end
 	end
 
 	# GET
@@ -62,4 +101,13 @@ class TherapistsController < ApplicationController
 
 		render json: therapist_schedules
 	end
+
+	private
+
+		# Ecapsula los parametros permitidos para un terapeuta
+		def therapist_params
+			params.require(:therapist).permit(:names, :p_last_name, :m_last_name,
+				:scholar_grade, :telephone1, :telephone2, :email, :password, :password_confirmation,
+				:therapist_schedules_attributes => [ :day, :beginH, :endH, :_destroy, :id ])
+		end
 end

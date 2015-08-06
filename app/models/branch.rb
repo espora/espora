@@ -18,4 +18,7 @@ class Branch < ActiveRecord::Base
 
 	# Carreras
 	has_many :careers
+
+	# Terapeutas
+	has_many :therapists
 end

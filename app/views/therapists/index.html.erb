@@ -1,5 +1,117 @@
 <% content_for :therapists do %>
-	HOLA 123
+
+	<% if not flash[:notice].nil? and flash[:notice].is_a?(Hash) %>
+	
+		<!-- MENSAJES DEL TERAPEUTA -->
+		<% flash[:notice].each do | key, notice | %>
+			<div class="alert-box success" style="width: 99%; position: relative; float: left; padding: 10px 0px 10px 10px;" onclick="$(this).remove();">
+				<%= notice %>
+			</div>
+		<% end %>
+	<% end %>
+
+	<!-- BUSQUEDA -->
+	<div class="ther-block" style="height: 60px;">
+
+		<!-- BUSQUEDA -->
+		<form action="<%= therapists_path %>" method="get" class="pure-form" id="ther-search">
+			<%= text_field_tag :searchStr,  nil, placeholder: 'Escriba búsqueda...' %>
+			<%= submit_tag "Buscar",  name: nil, class: "pure-button pure-button-primary" %>
+		</form>
+	</div>
+
+	<!-- TERAPEUTAS -->
+	<div class="ther-block" style="width: 98%; padding-left: 2%;">
+
+		<table id="ther-table" class="pure-table pure-table-bordered">
+			<% [60, 155, 155, 155, 155, 155, 155, 60, 60].each do |w| %>	
+				<col width="<%= w %>px"/>
+			<% end %>
+
+			<thead>
+				<tr align="center">
+					<th class="order<%= (params[:order_by] == 'id')? ' order-active' : '' %>" orderby="id">ID</th>
+					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">APELLIDO PATERNO</th>
+					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">APELLIDO MATERNO</th>
+					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
+					<th>EMAIL</th>
+					<th class="order<%= (params[:order_by] == 'scholar_grade')? ' order-active' : '' %>" orderby="scholar_grade">ESCOLARIDAD</th>
+					<th class="order<%= (params[:order_by] == 'branch')? ' order-active' : '' %>" orderby="branch">SEDE</th>
+					<th class="order<%= (params[:order_by] == 'records')? ' order-active' : '' %>" orderby="records">PACIENTES</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<!-- FORMULARIO PARA ORDENAR -->
+			<form action="<%= request.fullpath %>" method="get" id="orderby-form">
+				<% if not params[:searchStr].nil? %>
+					<%= hidden_field_tag 'searchStr', params[:searchStr] %>
+				<% end %>
+
+				<%= hidden_field_tag 'order_by', '' %>
+			</form>
+
+			<tbody>
+				<% @therapists.each_with_index do | ther, index | %>
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>" align="center">
+						<td class="<%= (params[:order_by] == 'id')? 'c-order-active' : '' %>"><%= ther.id %></td>
+						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= ther.p_last_name %></td>
+						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= ther.m_last_name %></td>
+						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= ther.names %></td>
+						<td><%= ther.email %></td>
+						<td class="<%= (params[:order_by] == 'scholar_grade')? 'c-order-active' : '' %>"><%= ther.scholar_grade %></td>
+						<td class="<%= (params[:order_by] == 'branch')? 'c-order-active' : '' %>"><%= ther.branch.name %></td>
+						<td class="<%= (params[:order_by] == 'records')? 'c-order-active' : '' %>"><%= ther.patient_records.count %></td>
+						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+					</tr>
+
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+						<td colspan="9" class="ther-info" style="padding: 0 0 0 0; margin: 0 0 0 0;">
+							<%= render partial: "info_therapist", locals: { therapists: ther } %>
+						</td>
+					</tr>
+				<% end %>
+
+				<% if @therapists.size == 0 %>
+					<tr>
+						<td colspan="9" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
+							NO SE HALLARON TERAPEUTAS
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		$(".order").click(function() {
+
+			var orderbyValue = $(this).attr("orderby");
+
+			// Seleccionamos el input del formulario de ordenamiento
+			var input = $("input#order_by");
+			input.attr("value", orderbyValue);
+
+			// Envia el formulario
+			$("#orderby-form").submit();
+		});
+
+		$("#ther-table").expandTable({
+			toggle: "#ther-table .arrow-expand i",
+			beforeExpand: function(tr) {},
+			afterExpand: function(tr) {
+				var icon = $(tr).find(".arrow-expand i");
+				if(icon.hasClass("fa-caret-down")) {
+					icon.removeClass("fa-caret-down");
+					icon.addClass("fa-caret-up");
+				} else {
+					icon.removeClass("fa-caret-up");
+					icon.addClass("fa-caret-down");
+				}
+			}
+		});
+	</script>
+
 <% end %>
 
 <%= render template: "therapists/therapists_tab" %>

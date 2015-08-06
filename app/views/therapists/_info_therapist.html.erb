@@ -40,5 +40,20 @@
 
 	<!-- COLUMNA ACCIONES -->
 	<div style="width: 16%; margin-left: 5%; margin-top: 30px;">
+
+		<!-- BOTON PARA EDITAR INFORMACION -->
+		<%= link_to edit_therapist_path(therapist),
+			:class => "pure-button pure-button-active ther-action",
+			:style => "margin-top: 15px;" do %>
+			<b>EDITAR TERAPEUTA</b>
+		<% end %>
+
+		<!-- BOTON PARA ELIMINAR TERAPEUTA -->
+		<%= link_to delete_therapist_path(therapist),
+			:class => "pure-button pure-button-active ther-action",
+			:style => "background: rgb(202, 60, 60); color: #FFF;",
+			:data => { confirm: "¿Estás seguro?" } do %>
+			<b>ELIMINAR TERAPEUTA</b>
+		<% end %>
 	</div>
 </div>

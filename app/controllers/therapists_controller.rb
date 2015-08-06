@@ -154,6 +154,16 @@ class TherapistsController < ApplicationController
 	end
 
 	# GET
+	# Formulario para editar a un terapeuta
+	def edit
+	end
+
+	# DELETE
+	# Elimina un terapeuta
+	def delete
+	end
+
+	# GET
 	# Obtiene los horarios de un terapeuta
 	def schedules
 

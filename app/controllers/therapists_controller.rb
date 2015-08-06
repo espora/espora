@@ -10,6 +10,16 @@ class TherapistsController < ApplicationController
 	# Administracion de terapeutas
 	def index
 
+		# Obtenemos el id del terapeuta actual
+		curr_id = current_therapist.id
+
+		# Obtenemos el id de la sede del terapeuta actual
+		curr_branch = current_therapist.branch_id
+
+		# Obtenemos todos los terapeutas de la sede del coordinador
+		@therapists = Therapist.where(branch_id: curr_branch).where.not(id: curr_id)
+		puts @therapists.count
+
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 4
 
@@ -48,7 +58,6 @@ class TherapistsController < ApplicationController
 	# POST
 	# Crea un registro de terapeuta
 	def create
-		ap params
 
 		# Creamos el terapeuta
 		@therapist = Therapist.new(therapist_params)

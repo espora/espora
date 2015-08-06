@@ -178,3 +178,28 @@
 textarea {
 	resize: none;
 }
+
+/************ ADMIN TERAPETUAS **************/
+
+.ther-block {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+#ther-search {
+	width: 20%;
+	margin-left: 2%;
+	margin-top: 15px;
+	float: left;
+}
+
+#ther-table {
+	width: 90%;
+	table-layout: fixed;
+}
+
+#ther-table .arrow-expand {
+	font-size: 18px;
+	display: block;
+}

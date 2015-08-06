@@ -241,7 +241,7 @@
 						</div>
 
 						<div style="margin-top: -2px; margin-left: 2.4%;">
-							<%= render partial: "schedules_input", locals: { form: request_form, patient_request: patient_request } %>
+							<%= render partial: "shared/schedules_input", locals: { form: request_form, :target_association  => :request_schedules } %>
 						</div>
 					</div>
 				</div>

@@ -42,12 +42,12 @@
 
 					<li><a href="#lue" style="padding-top: 5px !important;">
 						<i class="fa fa-list" style="margin-top: 8px;"></i>
-						<div style="margin-left: 8px;">Lista Única de<br>Espera (LUE)</div>
+						<div style="margin-left: 8px;">Lista Única de<br>Espera (L.U.E.)</div>
 					</a></li>
 
 					<li><a href="#fosti" style="padding-top: 5px !important;">
 						<i class="fa fa-archive" style="margin-top: 8px;"></i>
-						<div style="margin-left: 8px;">Expedientes<br>(FOSTI)</div>
+						<div style="margin-left: 8px;">Expedientes<br>(F.O.S.T.I.)</div>
 					</a></li>
 
 					<li><a href="#dropouts">
@@ -150,7 +150,7 @@
 						if(newPanelId.lastIndexOf("open_record") != -1) {
 
 							// Encontramos el numero de tab
-							var tabindex = 4;
+							var tabindex = parseInt("<%= current_therapist.tabs_count %>");
 							var panels = $(".open-record-panel");
 							for (var i = 0; i < panels.length; i++) {
 								if(newPanelId === $(panels[i]).attr("id")) {

@@ -20,7 +20,6 @@
 #  patient_status_type_id :integer
 #  career_id              :integer
 #
-
 class Patient < ActiveRecord::Base
 
 	# Estatus

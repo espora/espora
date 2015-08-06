@@ -1,4 +1,4 @@
-<table id="req-schedules-input" class="pure-table pure-table-bordered pat-schedule-table noselect">
+<table id="schedules-input-table" class="pure-table pure-table-bordered pat-schedule-table noselect">
 	<% ["115", "40", "40", "40", "40", "40"].each do | w | %>
 	<col width="<%= w %>px"/>
 	<% end %>
@@ -43,8 +43,8 @@
 </table>
 
 <!-- FIELDS ANIDADOS -->
-<div id="request-schedules-fields">
-	<%= form.fields_for :request_schedules do | schedule_form | %>
+<div id="schedules-input-fields">
+	<%= form.fields_for target_association do | schedule_form | %>
 		<%= schedule_form.hidden_field :day %>
 		<%= schedule_form.hidden_field :beginH %>
 		<%= schedule_form.hidden_field :endH %>
@@ -52,11 +52,12 @@
 	<% end %>
 </div>
 
-<%= form.link_to_add "", :request_schedules, :style => "display: none;" %>
+<%= form.link_to_add "", target_association, :style => "display: none;" %>
 
 <script type="text/javascript">
 	initSchedulesInput({
-		table: $("#req-schedules-input")[0],
-		fields: $("#request-schedules-fields")[0]
+		table: $("#schedules-input-table")[0],
+		fields: $("#schedules-input-fields")[0],
+		associationName: "<%= target_association %>"
 	});
 </script>

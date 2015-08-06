@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150802174355) do
+ActiveRecord::Schema.define(version: 20150804195707) do
 
   create_table "advise_level_types", force: true do |t|
     t.string   "name"
@@ -357,8 +357,10 @@ ActiveRecord::Schema.define(version: 20150802174355) do
     t.string   "p_last_name"
     t.string   "m_last_name"
     t.string   "names"
+    t.integer  "branch_id"
   end
 
+  add_index "therapists", ["branch_id"], name: "index_therapists_on_branch_id"
   add_index "therapists", ["email"], name: "index_therapists_on_email", unique: true
   add_index "therapists", ["reset_password_token"], name: "index_therapists_on_reset_password_token", unique: true
 

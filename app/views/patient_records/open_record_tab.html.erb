@@ -1,20 +1,23 @@
 <% content_for "open_record" + @patient_record.id.to_s do %>
 	
 	<!-- WORKSPACE OPEN RECORD -->
-	<div id="open-record-tab">
+	<div id="open-record-tabs">
 
 		<!-- PESTANAS -->
-		<ul>
+		<ul class="tabs-header">
 			<li><a href="#patient">
-				<div>Paciente</div>
+				<i class="fa fa-male"></i>
+				<div style="margin-left: 8px;">Paciente</div>
 			</a></li>
 
 			<li><a href="#havad">
-				<div>HAVAD</div>
+				<i class="fa fa-book"></i>
+				<div style="margin-left: 8px;">H.A.V.A.D.</div>
 			</a></li>
 
 			<li><a href="#appointments">
-				<div>Citas</div>
+				<i class="fa fa-comments"></i>
+				<div style="margin-left: 8px;">Citas</div>
 			</a></li>
 
 			<!-- HEADER - CITAS ABIERTAS -->
@@ -59,7 +62,7 @@
 	</div>
 
 	<script type="text/javascript">
-		$( "#open-record-tab" ).tabs({
+		$( "#open-record-tabs" ).tabs({
 			active: parseInt("<%= @open_record_active_tab %>"),
 			beforeActivate: function( event, ui ) {
 

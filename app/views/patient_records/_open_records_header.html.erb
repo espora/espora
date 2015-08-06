@@ -4,25 +4,24 @@
 	<% patient = open_record.patient %>
 	<li class="open-record-tab">
 		<div>
-			<a href="#open_record_<%= open_record.id %>" style="padding-right: 1px;">
+			<a href="#open_record_<%= open_record.id %>" class="open-record-tab-name">
 				<%= patient.names + " " + patient.p_last_name %>
 			</a>
-
-			<%= link_to close_record_path(open_record), :style => "padding-left: 0; padding-right: 0; float: right; margin: -23px 5px 0 8px; cursor: pointer;" do %>
-				<i class="fa fa-times"></i>
-			<% end %>
 		</div>
+		<div><%= link_to close_record_path(open_record), class: "close-record-link" do %>
+			<i class="fa fa-times"></i>
+		<% end %></div>
 	</li>
 <% end %>
 
 <script type="text/javascript">
 
 	// Recorremos los divs del li
-	$(".open-record-tab a div").each(function () {
+	$(".open-record-tab-name").each(function () {
 		var str = this.innerHTML;
 		var idx = str.length;
-		while (this.innerHTML.length > 25) {
-			this.innerHTML = str.substring(0, idx) + "...";
+		while (this.innerHTML.trim().length > 15) {
+			this.innerHTML = (str.substring(0, idx) + "...").trim();
 			idx--;
 		}
 	});

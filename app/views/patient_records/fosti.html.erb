@@ -71,7 +71,7 @@
 							<%= record.created_at.strftime("%d-%m-%y") %>
 						</td>
 						<td>
-							<% tab_index = open_records.count + 4 %>
+							<% tab_index = open_records.count + current_therapist.tabs_count %>
 							<%= link_to open_record_path(record) + "?tab=" + tab_index.to_s do %>
 								<i class="fa fa-folder-open-o" style="font-size: 14px;"></i>
 							<% end %>
@@ -91,6 +91,8 @@
 	</div>
 
 	<script type="text/javascript">
+
+		// Click para ordenar las columnas
 		$("table .order").click(function() {
 
 			var orderbyValue = $(this).attr("orderby");

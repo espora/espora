@@ -4,20 +4,20 @@
 
 /******* TABLA HORARIOS DE SOLICITUD *******/
 
-#req-schedules-input {
+#schedules-input-table {
 	table-layout: fixed;
 }
 
-#req-schedules-input th td {
+#schedules-input-table th td {
 	overflow: hidden;
 }
 
-#req-schedules-input .available-schedule {
+#schedules-input-table .available-schedule {
 	background: #FFF;
 	cursor: pointer;
 }
 
-#req-schedules-input .selected-schedule {
+#schedules-input-table .selected-schedule {
 	background: rgba(58,135,173,0.8);
 	border-top: none;
 	border-bottom: none;

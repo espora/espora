@@ -1,5 +1,14 @@
 <div style="width: 98%; height: 300px;">
 
+	<!-- Mensajes de Error -->
+	<% if therapist.errors.any? %>
+		<% therapist.errors.messages.each do | field, message | %>
+			<div class="alert-box error" style="width: 75%; color: #FFF;" onclick="$(this).remove();">
+				<b style="margin-right: 5px;">Terapeuta no registrado:</b> <%= message[0] %>
+			</div>
+		<% end %>
+	<% end %>
+
 	<!-- FORMULARIO NUEVO TERAPEUTA -->
 	<%= nested_form_for therapist, :html => { :id => "form-new-therapist", :class => "pure-form pure-form-stacked" } do |f| %>
 
@@ -36,7 +45,7 @@
 			</div>
 
 			<!-- CONTACTO -->
-			<div class="form-inputs" style="width: 54%; height: 100%; float: left; margin-left: 1.5%;">
+			<div class="form-inputs" style="width: 52.5%; height: 100%; float: left; margin-left: 1.5%;">
 				<div class="form-inputs-title">DATOS DE CONTACTO</div>
 
 				<!-- TELEFONO 1 -->
@@ -59,25 +68,42 @@
 			</div>
 		</div>
 
-		<!-- HORARIOS Y ACCESO -->
-		<div style="width: 100%; height: 250px; margin-top: 39px; float: left;">
+		<!-- HORARIOS -->
+		<div class="form-inputs" style="width: 97%; float: left; margin-top: 49px;">
+			<div class="form-inputs-title">Horarios</div>
 
-			<!-- ACCESO -->
-			<div class="form-inputs" style="width: 42%; float: left;">
-				<div class="form-inputs-title">ACCESO</div>
-
-				<!-- PASSWORD -->
-				<div style="margin-left: 4%; margin-top: 5px;">
-					<%= f.label :password %>
-					<%= f.password_field :password, autocomplete: "off", :size => 40, :maxlength => 25, :autofocus => true %>
+			<!-- HORARIOS -->
+			<div style="margin-left: 2%; margin-top: 12px;">
+				<div style="width: 100%; float: left;">
+					Horarios disponibles para atender alumnos.
 				</div>
 
-				<!-- CONFIRMACION PASSWORD -->
-				<div style="margin-left: 4%; margin-top: 9px;">
-					<%= f.label :password_confirmation do %>Confirme password:<% end %>
-					<%= f.password_field :password_confirmation, autocomplete: "off", :size => 40, :maxlength => 25, :autofocus => true %>
+				<div style="margin-top: -2px; margin-left: 2.4%;">
+					<%= render partial: "shared/schedules_input", locals: { form: f, :target_association => :therapist_schedules } %>
 				</div>
 			</div>
+		</div>
+
+		<!-- ACCESO -->
+		<div class="form-inputs" style="width: 97%; float: left;">
+			<div class="form-inputs-title">ACCESO</div>
+
+			<!-- PASSWORD -->
+			<div style="margin-left: 2%; margin-top: 5px;">
+				<%= f.label :password %>
+				<%= f.password_field :password, autocomplete: "off", :size => 40, :maxlength => 25, :autofocus => true %>
+			</div>
+
+			<!-- CONFIRMACION PASSWORD -->
+			<div style="margin-left: 2%; margin-top: 9px;">
+				<%= f.label :password_confirmation do %>Confirme password:<% end %>
+				<%= f.password_field :password_confirmation, autocomplete: "off", :size => 40, :maxlength => 25, :autofocus => true %>
+			</div>
+		</div>
+
+		<!-- ENVIAR -->
+		<div style="width: 18%; float: left; margin-top: 22px;">
+			<%= f.submit "GUARDAR TERAPEUTA", :class => "pure-button pure-button-primary" %>
 		</div>
 	<% end %>
 </div>

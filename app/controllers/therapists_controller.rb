@@ -16,9 +16,73 @@ class TherapistsController < ApplicationController
 		# Obtenemos el id de la sede del terapeuta actual
 		curr_branch = current_therapist.branch_id
 
-		# Obtenemos todos los terapeutas de la sede del coordinador
-		@therapists = Therapist.where(branch_id: curr_branch).where.not(id: curr_id)
-		puts @therapists.count
+		# El Array que se ira llenando
+		@therapists = Array.new
+
+		# Nos pasaron un id?
+		if not params[:id].nil?
+
+			# Buscamos el terapeuta con el id
+			@therapists.concat([ Therapist.find(params[:id]) ])
+		end
+
+		# Estan buscando algo?
+		if not params[:searchStr].nil?
+			if params[:searchStr] == ""
+
+				# Viene vacio, entonces mandamos todas
+				@therapists = Therapist.where(branch_id: curr_branch).where.not(id: curr_id)
+			else
+
+				# BUSQUEDA
+
+				# Por apellido paterno
+				@therapists.concat(Therapist.where("p_last_name LIKE ?", "%#{params[:searchStr]}%"))
+
+				# Por apellido materno
+				@therapists.concat(Therapist.where("m_last_name LIKE ?", "%#{params[:searchStr]}%"))
+
+				# Por nombres
+				@therapists.concat(Therapist.where("names LIKE ?", "%#{params[:searchStr]}%"))
+
+				# Por id
+				@therapists.concat(Therapist.where(id: params[:searchStr]))
+
+				# Eliminamos repetidos
+				@therapists.uniq!
+			end
+		end
+
+		# Si no hubo ninguno hay que solicitar todos
+		if params[:id].nil? and params[:searchStr].nil?
+			@therapists = Therapist.where(branch_id: curr_branch).where.not(id: curr_id)
+		end
+
+		# Hay que ordenar
+		if not params[:order_by].nil? and @therapists.size > 0
+			case params[:order_by]
+			when "branch"
+				@therapists.sort! do |x, y|
+					x.branch.name <=> y.branch.name
+				end
+			when "records"
+				@therapists.sort! do |x, y|
+					x.patient_records.count <=> y.patient_records.count
+				end
+			else
+				@therapists.sort! do |x, y|
+					x.attributes[params[:order_by]] <=> y.attributes[params[:order_by]]
+				end
+			end
+		end
+
+		# Convertimos a array
+		@therapists = @therapists.to_a
+
+		# Evitamos quedarnos con el que tenga id del terapeuta actual
+		@therapists.keep_if do | ther |
+			ther.id != curr_id
+		end
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 4

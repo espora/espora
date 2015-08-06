@@ -1,1 +1,44 @@
-123
+<div class="info-ther">
+
+	<!-- COLUMNA DATOS -->
+	<div style="width: 30%; margin-left: 1%;">
+		<div style="margin-top: 22px;"><span>CARGO</span><span><%= therapist.role %></span></div>
+		<div style="margin-top: 10px;"><span>TELÉFONO</span>
+			<span><%= (therapist.telephone1.blank? or therapist.telephone1.nil?) ? "No especificado" : therapist.telephone1 %></span>
+		</div>
+		<div><span>CELULAR</span>
+			<span><%= (therapist.telephone2.blank? or therapist.telephone2.nil?) ? "No especificado" : therapist.telephone2 %></span>
+		</div>
+		<div><span>ÚLTIMA CONEXIÓN</span>
+			<span><%= therapist.last_sign_in_at.strftime("%d-%m-%y %H:%M") %></span>
+		</div>
+
+		<div style="margin-top: 22px;"><span>SOLICITUDES RECIBIDAS</span><span><%= therapist.role %></span></div>
+		<div><span>SOLICITUDES ATENDIDAS</span><span><%= therapist.role %></span></div>
+		<div><span>BAJAS</span><span><%= therapist.role %></span></div>
+	</div>
+
+	<!-- COLUMNA HORARIOS -->
+	<div style="width: 40%; margin-left: 2%;">
+		<div style="width: 100%; float: left;" align="center">
+			<span>HORARIO</span>
+		</div>
+
+		<div style="width: 100%; float: left; margin-top: 6px;" align="center">
+			<%= render partial: "shared/schedules_info", locals: {
+				scheduler: therapist,
+				scheduler_name: "therapist",
+				schedules_url: therapist_schedules_path(therapist)
+			} %>
+		</div>
+
+		<div style="float: left; margin-left: 4%; margin-top: 8px;">
+			<div style="width: 10px; height: 10px; background: rgb(58,135,173); float: left;"></div>
+			<div style="float: left; margin-left: 5px;">Horario terapeuta</div><br>
+		</div>
+	</div>
+
+	<!-- COLUMNA ACCIONES -->
+	<div style="width: 16%; margin-left: 5%; margin-top: 30px;">
+	</div>
+</div>

@@ -107,6 +107,40 @@
 	cursor: pointer !important;
 }
 
+/********** TABLAS DE HORARIOS ********/
+.schedules-info-table {
+	table-layout: fixed;
+}
+
+.schedules-info-table th td {
+	overflow: hidden;
+}
+
+.schedules-info-table td {
+	border-bottom: 1px solid #cbcbcb !important;
+}
+
+.schedules-info-table .selected-schedule {
+	background: rgb(58,135,173);
+	border-top: none;
+	border-bottom: none !important;
+	padding: 5px;
+}
+
+.schedules-info-table .ther-active-schedule {
+	background: rgb(26,61,78);
+	border-top: none;
+	border-bottom: none !important;
+	padding: 5px;
+}
+
+.schedules-info-table .overlap-active-schedule {
+	background: rgb(178,14,255);
+	border-top: none;
+	border-bottom: none !important;
+	padding: 5px;
+}
+
 /************ PERFIL **************/
 
 #ter-profile-1 {
@@ -194,4 +228,44 @@ textarea {
 #ther-table .arrow-expand {
 	font-size: 18px;
 	display: block;
+}
+
+.ther > div {
+	display: inline-block;
+	float: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.ther > div > div {
+	width: 100%;
+	float: left;
+	margin-top: 7px;
+}
+
+.info-ther {
+	width: 82%;
+	margin-left: 9%;
+	border-left: 1px solid #d3d3d3;
+	border-right: 1px solid #d3d3d3;
+}
+
+.info-ther > div, .info-ther > div > div {
+	width: 100%;
+	float: left;
+	position: relative;
+}
+
+.info-ther div > span {
+	width: 100%;
+	float: left;
+}
+
+.info-ther div > span:nth-child(2) {
+	margin-left: 3%;
+}
+
+.info-ther div > span:nth-child(1) {
+	font-weight: bold;
+	margin-top: 4px;
 }

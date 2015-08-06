@@ -123,4 +123,17 @@ class Therapist < ActiveRecord::Base
 			return 4
 		end
 	end
+
+	# Regresa el nombre del rol que tiene
+	def role
+
+		# Coordinador
+		if self.has_role? :coordinator
+			return "Coordinador"
+
+		# Terapeuta
+		else
+			return "Terapeuta"
+		end
+	end
 end

@@ -69,3 +69,20 @@ function displaySchedule (table, schedule, scheduleCell) {
 			break;
 	}
 }
+
+function trimSchedulesTable (table) {
+
+	// Iteramos las filas
+	var rows = $(table).find("tbody tr");
+	for (var i = 0; i < rows.length; i++) {
+		var oneSelected = false;
+		var cells = $(rows[i]).find("td");
+		for (var j = 0; j < cells.length; j++) {
+			oneSelected = oneSelected || $(cells[j]).hasClass("selected-schedule");
+		}
+
+		if(!oneSelected) {
+			$(rows[i]).hide();
+		}
+	}
+}

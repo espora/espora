@@ -61,19 +61,19 @@ class PatientRequestsController < ApplicationController
 		if not params[:order_by].nil? and @patient_requests.size > 0
 			
 			if params[:order_by] == "condition"
-				@patient_requests.sort! { |x, y|
+				@patient_requests.sort! do |x, y|
 					x.condition_type.id <=> y.condition_type.id
-				}
+				end
 
 			elsif params[:order_by] == "status"
-				@patient_requests.sort! { |x, y|
+				@patient_requests.sort! do |x, y|
 					x.patient.patient_status_type.id <=> y.patient.patient_status_type.id
-				}
+				end
 
 			else
-				@patient_requests.sort! { |x, y|
+				@patient_requests.sort! do |x, y|
 					x.patient.attributes[params[:order_by]] <=> y.patient.attributes[params[:order_by]]
-				}
+				end
 			end
 		end
 
@@ -86,17 +86,17 @@ class PatientRequestsController < ApplicationController
 			# Nos quedamos solo los que coinciden en horario con el 
 			# terapeuta
 			if params[:filter_by] == "schedule"
-				@patient_requests.keep_if { | pat_req |
+				@patient_requests.keep_if do | pat_req |
 					current_therapist.match_schedule?(pat_req)
-				}
+				end
 			end
 		end
 
 		# Nos quedamos solo con los que tienen status esperando o contactado
-		@patient_requests.keep_if { | pat_req |
+		@patient_requests.keep_if do | pat_req |
 			status_name = pat_req.patient.patient_status_type.name
 			status_name == "Sin contactar" or status_name == "Esperando respuesta"
-		}
+		end
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 1

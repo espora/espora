@@ -104,39 +104,45 @@ class StadisticsController < ApplicationController
 			data = PatientRecord.group(:lives_with).count
 			return data
 		end
-##
+
 		def career_requests_data
 			
-			data = PatientRequest.joins(:patient).group(:career).count
+			# Consultamos la base
+			data = PatientRequest.joins(patient: :career).group(:name).count
 			return data
 		end
-###
+
 		def career_attended_data
 			
-			data = PatientRecord.joins(:patient).group(:career).count
+			# Consultamos la base
+			data = PatientRecord.joins(patient: :career).group(:name).count
 			return data
 		end
 
         def semester_requests_data
         	
+        	# Consultamos la base
         	data = PatientRequest.joins(:patient).group(:semester).count
         	return data
         end
 
         def semester_attended_data
 
+        	# Consultamos la base
         	data = PatientRecord.joins(:patient).group(:semester).count
         	return data
         end
 
         def failed_subjects_requests_data
         	
+        	# Consultamos la base
         	data = PatientRequest.joins(:patient).group(:failed_subjects).count
         	return data
         end
 
         def failed_subjects_attended_data
         	
+        	# Consultamos la base
         	data = PatientRecord.joins(:patient).group(:failed_subjects).count
         	return data
         end
@@ -147,65 +153,77 @@ class StadisticsController < ApplicationController
 
         def dropouts_data
 
+        	# Consultamos la base
         	data = PatientDropout.joins(:patient_dropout_type).group(:name).count
         	return data
         end
 
         def reasons_data
         	
+        	# Consultamos la base
         	data = Reason.joins(:reasons_type).group(:name).count
         	return data
         end
 
-        # es una gráfica
-        #def symptoms_data
-        	
-        #end
+        def symptoms_data
+        
+        	# Consultamos la base
+        	data = Symptom.joins(:symptom_type).group(:name).count
+			return data	
+        end
 
         def affected_areas_data
         
+        	# Consultamos la base
         	data = AffectedArea.joins(:personal_area_type).group(:name).count
         	return data	
         end
 
         def improved_areas_data
         	
+        	# Consultamos la base
         	data = ImproveArea.joins(:personal_area_type).group(:name).count
 			return data
         end
 
         def condition_before_data
         
+        	# Consultamos la base
         	data = PatientRequest.joins(:condition_type).group(:name).count
         	return data	
         end
 
         def condition_after_data
 
+        	# Consultamos la base
         	data = PatientSignout.joins(:condition_type).group(:name).count
         	return data
         end
 
         def aid_data
         
+        	# Consultamos la base
         	data = PatientSignout.joins(:aid_level_type).group(:name).count
         	return data	
         end
 
         def advise_data
         	
+        	# Consultamos la base
         	data = PatientSignout.joins(:advise_level_type).group(:name).count
         	return data	
         end
 
         def how_met_data
         
+        	# Consultamos la base
         	data = HowMet.joins(:how_met_type).group(:name).count
         	return data	
         end
 
         def rating_data
         
+        	# Consultamos la base
         	data = PatientSignout.group(:rating).count
         	return data	
         end

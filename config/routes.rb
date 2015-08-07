@@ -27,8 +27,14 @@ Espora::Application.routes.draw do
 	# Nuevo terapeuta
 	get "/therapists/new_therapist" => "therapists#new", as: "new_therapist"
 
+	# Editar un terapeuta desde administrador
+	get "/therapists/therapists/edit/:id" => "therapists#edit", as: "edit_therapist"
+
 	# Crea terapeuta
 	post "/therapists/therapists" => "therapists#create", as: "create_therapist"
+
+	# Elimina un terapeuta
+	delete "/therapists/therapists/delete/:id" => "therapists#delete", as: "delete_therapist"
 
 	##################################################
 	#  Solicitudes de ingreso Patient Request (LUE)  #

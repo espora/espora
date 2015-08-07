@@ -1,6 +1,6 @@
 <div class="info-pat">
 
-	<!-- PRIMERA COLUMNA -->
+	<!-- COLUMNA DATOS -->
 	<div style="width: 30%; margin-left: 1%;">
 
 		<div style="margin-top: 22px;"><span>EDAD</span><span><%= patient.age %></span></div>
@@ -27,7 +27,7 @@
 		</div>
 	</div>
 
-	<!-- SEGUNDO COLUMNA -->
+	<!-- COLUMNA HORARIOS -->
 	<div style="width: 40%; margin-left: 2%;">
 
 		<div style="width: 100%; float: left;" align="center">
@@ -35,7 +35,11 @@
 		</div>
 
 		<div style="width: 100%; float: left; margin-top: 6px;" align="center">
-			<%= render partial: "request_schedules_info", locals: { patient_request: patient_request } %>
+			<%= render partial: "shared/schedules_info", locals: {
+				scheduler: patient_request,
+				scheduler_name: "patient_request",
+				schedules_url: request_schedules_path(patient_request)
+			} %>
 		</div>
 
 		<div style="float: left; margin-left: 4%; margin-top: 8px;">
@@ -51,7 +55,7 @@
 		</div>
 	</div>
 
-	<!-- TERCERA COLUMNA -->
+	<!-- COLUMNA ACCIONES -->
 	<div style="width: 16%; margin-left: 5%; margin-top: 30px;">
 
 		<!-- BOTON PARA EDITAR INFORMACION -->

@@ -24,7 +24,7 @@
 	<div class="ther-block" style="width: 98%; padding-left: 2%;">
 
 		<table id="ther-table" class="pure-table pure-table-bordered">
-			<% [60, 155, 155, 155, 155, 155, 155, 60, 60].each do |w| %>	
+			<% [50, 155, 155, 155, 155, 155, 155, 80, 60].each do |w| %>	
 				<col width="<%= w %>px"/>
 			<% end %>
 
@@ -66,8 +66,8 @@
 					</tr>
 
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
-						<td colspan="9" class="ther-info" style="padding: 0 0 0 0; margin: 0 0 0 0;">
-							<%= render partial: "info_therapist", locals: { therapists: ther } %>
+						<td colspan="9" class="ther" style="padding: 0 0 0 0; margin: 0 0 0 0;">
+							<%= render partial: "info_therapist", locals: { therapist: ther } %>
 						</td>
 					</tr>
 				<% end %>

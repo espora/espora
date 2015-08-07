@@ -20,7 +20,7 @@
 	$(".open-record-tab-name").each(function () {
 		var str = this.innerHTML;
 		var idx = str.length;
-		while (this.innerHTML.trim().length > 15) {
+		while (this.innerHTML.trim().length > 18) {
 			this.innerHTML = (str.substring(0, idx) + "...").trim();
 			idx--;
 		}

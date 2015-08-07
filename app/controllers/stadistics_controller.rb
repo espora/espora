@@ -19,7 +19,6 @@ class StadisticsController < ApplicationController
 
 		# Se construye el nombre del metodo
 		method_name = params[:chart] + "_data"
-		puts method_name
 
 		# Checamos que solo nos pregunten graficas que
 		# podemos responder

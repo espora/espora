@@ -1,0 +1,67 @@
+<table id="schedules-info-<%= scheduler.id %>" class="pure-table-bordered pure-table noselect schedules-info-table">
+	<% [130, 40, 40, 40, 40, 40].each do | w | %>
+		<col width="<%= w %>px"/>
+	<% end %>
+
+	<thead>
+		<tr align="center">
+			<th>Hora</th>
+			<th>Lun.</th>
+			<th>Mar.</th>
+			<th>Mié.</th>
+			<th>Jue.</th>
+			<th>Vie.</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% (10..22).each do |hour| %>
+			<% next_hour = hour + 1 %>
+			<tr>
+				<td align="center" style="padding: 5px 0 5px 0; margin: 0 0 0 0;">
+					<%= "0" if hour.to_s.length == 1 %><%= hour.to_s %>:00 - 
+					<%= "0" if next_hour.to_s.length == 1 %><%= next_hour.to_s %>:00 hrs.
+				</td>
+
+				<% 5.times do | day | %>
+					<% id_td = (day + 1).to_s + hour.to_s + "00" %>
+					<td day="<%= (day + 1) %>"
+						hour="<%= hour %>" minutes="00"
+						next-hour="<%= next_hour %>" next-minutes="00">
+					</td>
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+
+	// Pedimos los datos de los horarios
+	$.ajax({
+		type: "GET",
+		url: "<%= schedules_url %>",
+		dataType: "json",
+		success: function( data ) {
+
+			// Obtenemos el id de la tabla
+			var tableId = "schedules-info-" + data[0]["<%= scheduler_name %>_id"];
+			var table = $("#" + tableId)[0];
+
+			// Iteramos los horarios
+			for (var i = 0; i < data.length; i++) {
+
+				// Obtenemos el horario
+				var schedule = data[i];
+
+				// Mostramos el horario en la tabla
+				displaySchedule(table, schedule, function (scheduleCell) {
+					$(scheduleCell).addClass("selected-schedule");
+				});
+			}
+
+			// Comprimimos la tabla
+			trimSchedulesTable(table);
+		}
+	});
+</script>

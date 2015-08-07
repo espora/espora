@@ -114,37 +114,3 @@
 	font-weight: bold;
 	margin-top: 6px;
 }
-
-.req-schedules-info {
-	table-layout: fixed;
-}
-
-.req-schedules-info th td {
-	overflow: hidden;
-}
-
-.req-schedules-info td {
-	border-bottom: 1px solid #cbcbcb !important;
-}
-
-.req-schedules-info .selected-schedule {
-	background: rgb(58,135,173);
-	border-top: none;
-	border-bottom: none !important;
-	padding: 5px;
-}
-
-.req-schedules-info .ther-active-schedule {
-	background: rgb(26,61,78);
-	border-top: none;
-	border-bottom: none !important;
-	padding: 5px;
-}
-
-.req-schedules-info .overlap-active-schedule {
-	background: rgb(178,14,255);
-	border-top: none;
-	border-bottom: none !important;
-	padding: 5px;
-}
-

@@ -35,11 +35,12 @@ function initSchedulesInput ( config ) {
 		$(beginCell).removeClass("available-schedule");
 		$(beginCell).addClass("selected-schedule");
 
+		activeDay = day;
 		handleRange({
 			range: [beginCell, endCell],
 			daySchedules: schedules[day - 1],
 			dayCells: scheduleCells[day - 1],
-			field: $(this)[0]
+			field: $(this)
 		});
 		fillRange(beginCell, endCell, scheduleCells[day - 1]);
 	});
@@ -163,7 +164,7 @@ function initSchedulesInput ( config ) {
 
 	// Maneja un rango creado
 	function handleRange (attr) {
-		
+
 		// Obtenemos el principio y final
 		var begin = attr.range[0];
 		var end = attr.range[attr.range.length - 1];

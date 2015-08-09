@@ -156,11 +156,64 @@ class TherapistsController < ApplicationController
 	# GET
 	# Formulario para editar a un terapeuta
 	def edit
+
+		# Creamos el objeto
+		@therapist = Therapist.find(params[:id])
+
+		# Panel para las tabs del workspace del terapeuta
+		@therapist_active_tab = 4
+
+		# Panel para las tabs del workspace de la administracion de terapeutas
+		@therapist_admin_active_tab = 1
+
+		# Rendereamos el formulario
+		render :new
+	end
+
+	# PATCH
+	# Actualiza la información de una solicitud
+	def update
+
+		# Pasamos los blanks a nils
+		params[:therapist].each do | key, value |
+			if value.blank?
+				params[:therapist][key] = nil
+			end
+		end
+
+		ap params
+
+		# Obtenemos el terapeuta
+		@therapist = Therapist.find(params[:id])
+
+		@therapist.update(therapist_params)
+		if @therapist.valid?
+			
+			# Mandamos a renderear de nuevo con mensaje
+			flash[:notice] = { :therapist => "¡Ha registrado exitosamente un terapeuta!" }
+
+			# Redirigimos a la lista de terapeutas
+			redirect_to therapists_path
+		else
+			render :new
+		end
 	end
 
 	# DELETE
 	# Elimina un terapeuta
 	def delete
+
+		# Encontramos al teraputa
+		@therapist = Therapist.find(params[:id])
+
+		# Y muere
+		@therapist.destroy
+
+		# Mandamos a renderear de nuevo con mensaje
+		flash[:notice] = { :therapist => "¡Ha eliminado exitosamente un terapeuta!" }
+
+		# Redirigimos a la lista de terapeutas
+		redirect_to therapists_path
 	end
 
 	# GET

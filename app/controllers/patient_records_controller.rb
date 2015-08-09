@@ -50,7 +50,7 @@ class PatientRecordsController < ApplicationController
 
 		# Hay que ordenar
 		if not params[:order_by].nil? and @patient_records.count > 0
-			@patient_records.sort! { |x, y|
+			@patient_records.sort! do |x, y|
 				case params[:order_by]
 				when "full_name"
 					x.patient.full_name <=> y.patient.full_name
@@ -59,15 +59,15 @@ class PatientRecordsController < ApplicationController
 				else
 					x.patient.attributes[params[:order_by]] <=> y.patient.attributes[params[:order_by]]
 				end
-			}
+			end
 		end
 
 		# Filtramos para solo los que estan en tratamiento
 		@patient_records = @patient_records.to_a
-		@patient_records.keep_if { | pat_record |
+		@patient_records.keep_if do | pat_record |
 			status = pat_record.patient.patient_status_type.name
 			status === "En tratamiento"
-		}
+		end
 
 		# Unico
 		@patient_records.uniq!

@@ -2,6 +2,11 @@
 
 puts ":::: Poblando Espora BD...\n\n"
 
+# -----> POBLANDO LA BASE <-----
+unless ENV["minimal"]
+	load "#{Rails.root}/db/population.rb"
+end
+
 # -----> CATALOGO ESTATUS DE PACIENTE <-----
 
 PatientStatusType.delete_all
@@ -358,8 +363,3 @@ career_entries = [
 puts "\n--- Poblando catálogo de Carreras (#{career_entries.count} inserciones)... "
 career_created = Career.create(career_entries)
 puts "   #{Career.all.count} inserciones hechas al catálogo de Carreras."
-
-# -----> POBLANDO LA BASE <-----
-unless ENV["minimal"]
-	load "#{Rails.root}/db/population.rb"
-end

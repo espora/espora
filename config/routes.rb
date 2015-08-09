@@ -33,6 +33,9 @@ Espora::Application.routes.draw do
 	# Crea terapeuta
 	post "/therapists/therapists" => "therapists#create", as: "create_therapist"
 
+	# Salvar informacion de terapeuta
+	patch "/therapists/therapists/update/:id" => "therapists#update", as: "therapist"
+
 	# Elimina un terapeuta
 	delete "/therapists/therapists/delete/:id" => "therapists#delete", as: "delete_therapist"
 
@@ -53,7 +56,7 @@ Espora::Application.routes.draw do
 	get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "edit_patient_request"
 
 	# Salvar solicitud
-	patch "/therapists/lue/create" => "patient_requests#update", as: "patient_request"
+	patch "/therapists/lue/update" => "patient_requests#update", as: "patient_request"
 
 	# Editar solicitud paciente
 	get "/therapists/lue/edit/:id" => "patient_requests#edit", as: "patient_request_edit"

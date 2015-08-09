@@ -37,19 +37,6 @@ class Patient < ActiveRecord::Base
 	# Carrera
 	belongs_to :career
 
-	# Mapeo condicion a nombre en formulario
-	NAME_CAREER = {
-		"actuaria" => "Actuaría", 
-		"biologia" => "Biología", 
-		"ciencias_ambientales" => "Ciencias Ambientales", 
-		"ciencias_de_la_computacion" => "Ciencias de la Computación",
-		"ciencias_de_la_tierra" => "Ciencias de la Tierra", 
-		"fisica" => "Física",
-		"fisica_biomedica" => "Fisica Biomédica",
-		"manejo_sustentable_de_zonas_costeras" => "Manejo Sustentable de Zonas Costeras",
-		"matematicas" => "Matemáticas"
-	}
-
 	# Mapeo del sexo
 	NAME_SEX = {
 		"m" => "Masculino",
@@ -108,40 +95,6 @@ class Patient < ActiveRecord::Base
 	VALID_CARACTERS = /\A([0-9A-Za-z\-\.\_]+)\@[a-z]+\.[a-z]+\z/
 	validates :email, format: { :with => VALID_CARACTERS , message: "Formato de correo invalido" }
 	validates :email, uniqueness: { case_sensitive: true, message: "Correo electrónico ya registrado" }
-
-	# Devuelve las opciones disponibles para
-	# carrera
-	def self.carrer_options
-
-		# Creamos el arreglo
-		options = Array.new
-
-		# Metemos las carreras
-		Patient::NAME_CAREER.each do |key, value|
-			options << [value, key]
-		end
-
-		return options
-	end
-
-	# Devuelve las opciones disponibles para inicio
-	# de año escolar
-	def self.init_school_years
-
-		# Año de inicio y final
-		bYear = 1990
-		eYear = 2015
-
-		# Creamos el arreglo
-		options = Array.new
-
-		# Iteramos los años y lo llenamos
-		(bYear..eYear).each do |year|
-			options << [year.to_s, year.to_s]
-		end
-
-		return options
-	end
 
 	# Regresa el nombre completo del paciente:
 	#  ApellidoPaterno ApellidoMaterno Nombres

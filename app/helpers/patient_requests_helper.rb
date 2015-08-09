@@ -1,5 +1,42 @@
 module PatientRequestsHelper
 
+	# Devuelve las opciones disponibles para
+	# carrera en base a la sede del terapeuta
+	def carrer_options
+
+		# Creamos el arreglo
+		options = Array.new
+
+		# Obtenemos las carreras de la sede del terapeuta actual
+		careers = current_therapist.branch.careers
+
+		# Metemos las carreras
+		careers.each do | career |
+			options << [career.name, career.id]
+		end
+
+		return options
+	end
+
+	# Devuelve las opciones disponibles para inicio
+	# de año escolar
+	def init_school_years
+
+		# Año de inicio y final
+		bYear = 1990
+		eYear = 2015
+
+		# Creamos el arreglo
+		options = Array.new
+
+		# Iteramos los años y lo llenamos
+		(bYear..eYear).each do |year|
+			options << [year.to_s, year.to_s]
+		end
+
+		return options
+	end
+
 	# Devuelve las opciones para filtrar las
 	# solicitudes (LUE)
 	def lue_filter_options (param_filter)

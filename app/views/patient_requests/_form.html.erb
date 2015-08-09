@@ -83,13 +83,13 @@
 					<!-- CARRERA -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :career, "Carrera: " %>
-						<%= patient_form.select :career, Patient::carrer_options %>
+						<%= patient_form.select :career, carrer_options %>
 					</div>
 
 					<!-- AÑO DE INICIO -->
 					<div style="margin-left: 4%; margin-top: 10px;">
 						<%= patient_form.label :init_school do %>Año de inicio: <% end %>
-						<%= patient_form.select :init_school, Patient::init_school_years %>
+						<%= patient_form.select :init_school, init_school_years %>
 					</div>
 
 					<!-- SEMESTRE -->

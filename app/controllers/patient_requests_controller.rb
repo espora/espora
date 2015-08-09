@@ -298,7 +298,7 @@ class PatientRequestsController < ApplicationController
 
 		# Ecapsula los parametros permitidos para un paciente
 		def patient_params
-			params.require(:patient).permit(:names, :p_last_name, :m_last_name, :birth, :age, :sex, :account_number, :career,
+			params.require(:patient).permit(:names, :p_last_name, :m_last_name, :birth, :age, :sex, :account_number, :career_id,
 				:init_school, :semester, :failed_subjects, :telephone1, :telephone2, :email)
 		end
 end

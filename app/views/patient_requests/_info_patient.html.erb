@@ -4,7 +4,7 @@
 	<div style="width: 30%; margin-left: 1%;">
 
 		<div style="margin-top: 22px;"><span>EDAD</span><span><%= patient.age %></span></div>
-		<div><span>CARRERA</span><span><%= Patient::NAME_CAREER[ patient.career ] %></span></div>
+		<div><span>CARRERA</span><span><%= patient.career.name %></span></div>
 		<div><span>TELÉFONO</span>
 			<span><%= (patient.telephone1.blank? or patient.telephone1.nil?) ? "No especificado" : patient.telephone1 %></span>
 		</div>

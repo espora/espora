@@ -57,7 +57,7 @@
 						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
 						<td class="<%= (params[:order_by] == 'full_name')? 'c-order-active' : '' %>"><%= patient.full_name %></td>
 						<td class="<%= (params[:order_by] == 'age')? 'c-order-active' : '' %>"><%= patient.age %></td>
-						<td class="<%= (params[:order_by] == 'career')? 'c-order-active' : '' %>"><%= Patient::NAME_CAREER[patient.career] %></td>
+						<td class="<%= (params[:order_by] == 'career')? 'c-order-active' : '' %>"><%= patient.career.name %></td>
 						<td><%= patient.email %></td>
 						<td><%= (patient.telephone1.nil? or patient.telephone1.blank?) ? patient.telephone2 : patient.telephone1 %></td>
 						<td><%= record.appointments.count %></td>

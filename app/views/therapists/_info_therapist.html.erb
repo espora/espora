@@ -10,7 +10,7 @@
 			<span><%= (therapist.telephone2.blank? or therapist.telephone2.nil?) ? "No especificado" : therapist.telephone2 %></span>
 		</div>
 		<div><span>ÚLTIMA CONEXIÓN</span>
-			<span><%= therapist.last_sign_in_at.strftime("%d-%m-%y %H:%M") %></span>
+			<span><%= therapist.last_sign_in_at.nil? ? "No se ha conectado nunca." : therapist.last_sign_in_at.strftime("%d-%m-%y %H:%M") %></span>
 		</div>
 
 		<div style="margin-top: 22px;"><span>SOLICITUDES RECIBIDAS</span><span><%= therapist.role %></span></div>

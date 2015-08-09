@@ -10,11 +10,13 @@
 				<div style="margin-left: 8px;">Mis Datos</div>
 			</a></li>
 
-			<!-- ESTADISTICAS -->
-			<li><a href="#statistics">
-				<i class="fa fa-pie-chart"></i>
-				<div style="margin-left: 8px;">Estadisticas</div>
-			</a></li>
+			<% if current_therapist.has_role? :coordinator %>
+				<!-- ESTADISTICAS -->
+				<li><a href="#statistics">
+					<i class="fa fa-pie-chart"></i>
+					<div style="margin-left: 8px;">Estadisticas</div>
+				</a></li>
+			<% end %>
 		</ul>
 
 		<!-- PERFIL -->
@@ -22,10 +24,12 @@
 			<%= yield(:profile) if content_for?(:profile) %>
 		</div>
 
-		<!-- ESTADISTICAS -->
-		<div id="statistics" class="ter-panel">
-			<%= yield(:statistics) if content_for?(:statistics) %>
-		</div>
+		<% if current_therapist.has_role? :coordinator %>
+			<!-- ESTADISTICAS -->
+			<div id="statistics" class="ter-panel">
+				<%= yield(:statistics) if content_for?(:statistics) %>
+			</div>
+		<% end %>
 	</div>
 
 	<script type="text/javascript">
@@ -47,7 +51,7 @@
 
 					// Estadisticas
 					if(newPanelId === "statistics") {
-						window.location = "<%= stadistics_index_path %>";
+						window.location = "<%= (current_therapist.has_role? :coordinator) ? stadistics_index_path : '' %>"
 					}
 				}
 			});

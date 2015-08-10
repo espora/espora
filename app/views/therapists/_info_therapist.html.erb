@@ -10,12 +10,13 @@
 			<span><%= (therapist.telephone2.blank? or therapist.telephone2.nil?) ? "No especificado" : therapist.telephone2 %></span>
 		</div>
 		<div><span>ÚLTIMA CONEXIÓN</span>
-			<span><%= therapist.last_sign_in_at.strftime("%d-%m-%y %H:%M") %></span>
+			<span><%= therapist.last_sign_in_at.nil? ? "No se ha conectado nunca." : therapist.last_sign_in_at.strftime("%d-%m-%y %H:%M") %></span>
 		</div>
 
-		<div style="margin-top: 22px;"><span>SOLICITUDES RECIBIDAS</span><span><%= therapist.role %></span></div>
-		<div><span>SOLICITUDES ATENDIDAS</span><span><%= therapist.role %></span></div>
-		<div><span>BAJAS</span><span><%= therapist.role %></span></div>
+		<div style="margin-top: 22px;"><span>SOLICITUDES RECIBIDAS</span><span><%= therapist.requests_received.count %></span></div>
+		<div><span>SOLICITUDES CONTACTADAS</span><span><%= therapist.requests_contacted.count %></span></div>
+		<div><span>PACIENTES ATENDIDOS (TOTAL)</span><span><%= therapist.patient_records.count %></span></div>
+		<div><span>BAJAS</span><span><%= therapist.dropout_records.count %></span></div>
 	</div>
 
 	<!-- COLUMNA HORARIOS -->
@@ -52,6 +53,7 @@
 		<%= link_to delete_therapist_path(therapist),
 			:class => "pure-button pure-button-active ther-action",
 			:style => "background: rgb(202, 60, 60); color: #FFF;",
+			:method => :delete,
 			:data => { confirm: "¿Estás seguro?" } do %>
 			<b>ELIMINAR TERAPEUTA</b>
 		<% end %>

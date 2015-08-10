@@ -61,7 +61,7 @@
 						<td><%= ther.email %></td>
 						<td class="<%= (params[:order_by] == 'scholar_grade')? 'c-order-active' : '' %>"><%= ther.scholar_grade %></td>
 						<td class="<%= (params[:order_by] == 'branch')? 'c-order-active' : '' %>"><%= ther.branch.name %></td>
-						<td class="<%= (params[:order_by] == 'records')? 'c-order-active' : '' %>"><%= ther.patient_records.count %></td>
+						<td class="<%= (params[:order_by] == 'records')? 'c-order-active' : '' %>"><%= ther.on_treatment_records.count %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 

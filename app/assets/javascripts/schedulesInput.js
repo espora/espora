@@ -1,4 +1,4 @@
-function initSchedulesInput ( config ) {
+function initSchedulesInput (config) {
 
 	// Aqui vamos a guardar los horarios
 	var schedules     = [ new Array(), new Array(), new Array(), new Array(), new Array() ];
@@ -35,11 +35,12 @@ function initSchedulesInput ( config ) {
 		$(beginCell).removeClass("available-schedule");
 		$(beginCell).addClass("selected-schedule");
 
+		activeDay = day;
 		handleRange({
 			range: [beginCell, endCell],
 			daySchedules: schedules[day - 1],
 			dayCells: scheduleCells[day - 1],
-			field: $(this)[0]
+			field: $(this)
 		});
 		fillRange(beginCell, endCell, scheduleCells[day - 1]);
 	});
@@ -163,7 +164,7 @@ function initSchedulesInput ( config ) {
 
 	// Maneja un rango creado
 	function handleRange (attr) {
-		
+
 		// Obtenemos el principio y final
 		var begin = attr.range[0];
 		var end = attr.range[attr.range.length - 1];
@@ -386,8 +387,16 @@ function initSchedulesInput ( config ) {
 
 	// Parsea una hora
 	function parseHour(hour) {
-		if(hour.lastIndexOf("2000-01-01") == -1) {
-			hour = "2000-01-01 " + hour;
+
+		// Preparamos la hora
+		while(hour.lastIndexOf("-") != -1) {
+			hour = hour.replace("-", "/");
+		}
+		if(hour.lastIndexOf("2000/01/01") == -1) {
+			hour = "2000/01/01 " + hour;
+		}
+		if(hour.lastIndexOf(".000000") != -1) {
+			hour = hour.replace(".000000", "");
 		}
 
 		var date = new Date(hour);

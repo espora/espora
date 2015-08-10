@@ -59,8 +59,8 @@ class Patient < ActiveRecord::Base
 	# t.integer  "account_number"
 	validates :account_number, presence: { :message => "Ingresar el numero de cuenta"}
 	validates :account_number, numericality: { only_integer: true, :message => "Tipo de dato invalido" } 
-	validates :account_number, length: { is: 9 }
-	validates :account_number, uniqueness: { message: "Número de Cuenta ya registrado" }
+	validates :account_number, length: { is: 9, message: "Faltan dígitos en el número de cuenta" }
+	validates :account_number, uniqueness: { message: "Número de cuenta ya registrado" }
 
 	# t.date "birth"
 	validates :birth, presence: { :message => "Campo vacio" }

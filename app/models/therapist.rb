@@ -110,6 +110,28 @@ class Therapist < ActiveRecord::Base
 		self.p_last_name + " " + self.m_last_name + " " + self.names
 	end
 
+	# Regresa los expedientes que estan actualmente
+	# en tratamiento
+	def on_treatment_records
+		return PatientRecord.joins(
+				:therapist,
+				patient: :patient_status_type
+			).where(
+				patient_status_types: { name: "En tratamiento" },
+				therapists: { id: self.id }
+			)
+	end
+
+	# Regresa los expedientes que ya estan dados de baja
+	# que les dio tratamiento
+	def dropout_records
+		return PatientDropout.joins(
+				patient: { patient_record: :therapist }
+			).where(
+				therapists: { id: self.id }
+			)
+	end
+
 	# Regresa el numero de pestañas que existen
 	# en la interfaz
 	def tabs_count

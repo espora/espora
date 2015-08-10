@@ -31,6 +31,7 @@ class StadisticsController < ApplicationController
 			render json: data.to_json
 		else
 
+
 			# Se renderea un json con el mensaje que no existe la grafica
 			render json: "undefined chart".to_json
 		end
@@ -147,9 +148,25 @@ class StadisticsController < ApplicationController
         	return data
         end
 
-        #def dropouts_semester_data
+        def dropouts_semester_data
+
+        	# Consulto todas las bajas
+        	# Abandono
+        	dropouts_abandonment = PatientDropoutType.where(name:"Abandono")
+        	# Canalizado
+        	dropouts_channeled = PatientDropoutType.where(name: "Canalizado")
+        	# Finalizado
+        	dropouts_finalized = PatientDropoutType.where(name: "Finalizado")
+        	# Interrupción
+        	dropouts_interruption = PatientDropoutType.where(name: "Interrupción")
+
+        	# Creamos el hash de datos
+        	data = Hash.new 
+
+        	# Iteramos las so
+
         	
-        #end
+        end
 
         def dropouts_data
 

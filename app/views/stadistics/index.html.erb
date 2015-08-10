@@ -87,7 +87,7 @@
 			},
 			"sex_requests": {
 				options: {
-					title: 'Sexo de Solicitudes Recibidas',
+					title: 'Sexo de solicitudes recibidas',
 					width: 800,
 					height: 400,
 				},
@@ -103,7 +103,7 @@
 			},
 			"sex_attended": {
 				options: {
-					title: 'Sexo de Solicitudes Atendidas',
+					title: 'Sexo de solicitudes atendidas',
 					width: 800,
 					height: 400,
 				},
@@ -122,7 +122,7 @@
 			}**/
 			"career_requests": {
 				options: {
-					title: 'Carrera de Procedencia de Alumnos Solicitantes',
+					title: 'Carrera de procedencia de alumnos solicitantes',
 	        		width: 900,
 	        		height: 400,
 				},
@@ -130,15 +130,14 @@
 				buildDataTable: function (data) {
 					var dataTable = [
 						['Carrera', 'Personas'],
-						['Actuaria', data.actuaria],
-						['Biologia', data.biologia],
-						['Ciencias Ambientales', data.ciencias_ambientales],
-						['Ciencias de la Computación', data.ciencias_de_la_computacion],
-						['Ciencias de la Tierra', data.ciencias_de_la_tierra],
-						['Física', data.fisica],
-						['Física Biomédica', data.fisica_biomedica],
-						['Manejo Sustentable de Zonas Costeras', data.manejo_sustentable_de_zonas_costeras],
-						['Matemáticas', data.matematicas]
+						['Actuaria', data["Actuaria"]],
+						['Biologia', data["Biología"]],
+						['Ciencias de la Computación', data["Ciencias de la Computación"]],
+						['Ciencias de la Tierra', data["Ciencias de la Tierra"]],
+						['Física', data["Física"]],
+						['Física Biomédica', data["Física Biomédica"]],
+						['Manejo Sustentable de Zonas Costeras', data["Manejo Sustentable de Zonas Costeras"]],
+						['Matemáticas', data["Matemáticas"]]
 					];
 
 					return google.visualization.arrayToDataTable(dataTable);
@@ -146,7 +145,7 @@
 			},
 			"career_attended": {
 				options: {
-					title: 'Carrera de Procedencia de Alumnos Atendidos',
+					title: 'Carrera de procedencia de alumnos atendidos',
 					width: 900,
 					height: 400,
 				},
@@ -154,15 +153,14 @@
 				buildDataTable: function (data) {
 					var dataTable = [
 						['Carrera', 'Personas'],
-						['Actuaria', data.actuaria],
-						['Biologia', data.biologia],
-						['Ciencias Ambientales', data.ciencias_ambientales],
-						['Ciencias de la Computación', data.ciencias_de_la_computacion],
-						['Ciencias de la Tierra', data.ciencias_de_la_tierra],
-						['Física', data.fisica],
-						['Física Biomédica', data.fisica_biomedica],
-						['Manejo Sustentable de Zonas Costeras', data.manejo_sustentable_de_zonas_costeras],
-						['Matemáticas', data.matematicas]
+						['Actuaria', data["Actuaria"]],
+						['Biologia', data["Biología"]],
+						['Ciencias de la Computación', data["Ciencias de la Computación"]],
+						['Ciencias de la Tierra', data["Ciencias de la Tierra"]],
+						['Física', data["Física"]],
+						['Física Biomédica', data["Física Biomédica"]],
+						['Manejo Sustentable de Zonas Costeras', data["Manejo Sustentable de Zonas Costeras"]],
+						['Matemáticas', data["Matemáticas"]]
 					];
 
 					return google.visualization.arrayToDataTable(dataTable);
@@ -185,7 +183,7 @@
 			},**/
 			"dropouts": {
 				options: {
-					title: 'Reporte de Bajas',
+					title: 'Reporte de bajas',
 					width: 900,
 					height: 400,					
 				},
@@ -213,15 +211,69 @@
 			/**"improved_areas": {
 
 			},**/
-			/**"condition_before": {
+			"condition_before": {
+				options: {
+					title: 'Estado emocional de los pacientes antes del tratamiento',
+					width: 900,
+					height: 400,
+
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Estado', 'Personas'],
+						['Muy mal', data["Muy mal"]],
+						['Mal', data["Mal"]],
+						['Regular', data["Regular"]],
+						['Bien', data["Bien"]],
+						['Muy bien', data["Muy bien"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
 	
-			},**/
-			/**"condition_after": {
-
 			},
+			"condition_after": {
+				options: {
+					title: 'Estado emocional de los pacientes después de final el tratamiento',
+					width: 900,
+					height: 400,
+
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Estado', 'Personas'],
+						['Muy mal', data["Muy mal"]],
+						['Mal', data["Mal"]],
+						['Regular', data["Regular"]],
+						['Bien', data["Bien"]],
+						['Muy bien', data["Muy bien"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			
 			"aid": {
+				options: {
+					title: 'Ayuda que recibió el paciente con relación a su motivo de consulta',
+					width: 900,
+					height: 400,
 
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Ayuda', 'Personas'],
+						['No me ayudó', data["No me ayudó"]],
+						['Me ayudó poco', data["Me ayudó poco"]],
+						['Me ayudó moderadamente', data["Me ayudó moderadamente"]],
+						['Me ayudó mucho', data["Me ayudó mucho"]],
+						['Me ayudó totalmente', data["Me ayudó totalmente"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
 			},
+			/**
 			"advise": {
 
 			},

@@ -1,4 +1,4 @@
-function initSchedulesInput ( config ) {
+function initSchedulesInput (config) {
 
 	// Aqui vamos a guardar los horarios
 	var schedules     = [ new Array(), new Array(), new Array(), new Array(), new Array() ];
@@ -387,8 +387,16 @@ function initSchedulesInput ( config ) {
 
 	// Parsea una hora
 	function parseHour(hour) {
-		if(hour.lastIndexOf("2000-01-01") == -1) {
-			hour = "2000-01-01 " + hour;
+
+		// Preparamos la hora
+		while(hour.lastIndexOf("-") != -1) {
+			hour = hour.replace("-", "/");
+		}
+		if(hour.lastIndexOf("2000/01/01") == -1) {
+			hour = "2000/01/01 " + hour;
+		}
+		if(hour.lastIndexOf(".000000") != -1) {
+			hour = hour.replace(".000000", "");
 		}
 
 		var date = new Date(hour);

@@ -55,9 +55,11 @@
 <%= form.link_to_add "", target_association, :style => "display: none;" %>
 
 <script type="text/javascript">
-	initSchedulesInput({
-		table: $("#schedules-input-table")[0],
-		fields: $("#schedules-input-fields")[0],
-		associationName: "<%= target_association %>"
+	$(document).ready(function () {
+		initSchedulesInput({
+			table: $("#schedules-input-table")[0],
+			fields: $("#schedules-input-fields")[0],
+			associationName: "<%= target_association %>"
+		});
 	});
 </script>

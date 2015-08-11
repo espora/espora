@@ -87,7 +87,7 @@
 			},
 			"sex_requests": {
 				options: {
-					title: 'Sexo de solicitudes recibidas',
+					title: 'Sexo de los alumnos que han solicitado el servicio',
 					width: 800,
 					height: 400,
 				},
@@ -103,7 +103,7 @@
 			},
 			"sex_attended": {
 				options: {
-					title: 'Sexo de solicitudes atendidas',
+					title: 'Sexo de los alumnos que se han atendido en ESPORA',
 					width: 800,
 					height: 400,
 				},
@@ -221,7 +221,7 @@
 				chartType: "piechart",
 				buildDataTable: function (data) {
 					var dataTable = [
-						['Estado', 'Personas'],
+						['Estado', 'Datos'],
 						['Muy mal', data["Muy mal"]],
 						['Mal', data["Mal"]],
 						['Regular', data["Regular"]],
@@ -234,7 +234,7 @@
 			},
 			"condition_after": {
 				options: {
-					title: 'Estado emocional de los pacientes después de final el tratamiento',
+					title: 'Estado emocional de los pacientes después de finalizar el tratamiento',
 					width: 900,
 					height: 400,
 
@@ -242,7 +242,7 @@
 				chartType: "piechart",
 				buildDataTable: function (data) {
 					var dataTable = [
-						['Estado', 'Personas'],
+						['Estado', 'Datos'],
 						['Muy mal', data["Muy mal"]],
 						['Mal', data["Mal"]],
 						['Regular', data["Regular"]],
@@ -263,7 +263,7 @@
 				chartType: "piechart",
 				buildDataTable: function (data) {
 					var dataTable = [
-						['Ayuda', 'Personas'],
+						['Ayuda', 'Datos'],
 						['No me ayudó', data["No me ayudó"]],
 						['Me ayudó poco', data["Me ayudó poco"]],
 						['Me ayudó moderadamente', data["Me ayudó moderadamente"]],
@@ -273,16 +273,73 @@
 					return google.visualization.arrayToDataTable(dataTable);
 				}
 			},
-			/**
-			"advise": {
-
+		
+			"advise": {				
+				options: {
+					title: 'Los alumnos atendidos en ESPORA, ¿qué tanto recimiendan el servicio que brinda ESPORA?',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Recomenacion', 'Datos'],
+						['Nada', data["Nada"]],
+						['Poco', data["Poco"]],
+						['Medio', data["Medio"]],
+						['Mucho', data["Mucho"]],
+						['Completamente', data["Completamente"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
 			},
-			"how_met": {
 
+			"how_met": {
+				options: {
+					title: 'Los alumnos solicitantes, ¿cómo se enteraron del servicio que brinda ESPORA?',
+					width: 900,
+					height: 400,
+
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Medio', 'Datos'],
+						['Cartel', data["Cartel"]],
+						['Amigos y/o conocidos', data["Amigos y/o conocidos"]],
+						['Página de la Facultad', data["Página de la Facultad"]],
+						['Maestros o Tutores', data["Maestros o Tutores"]],
+						['Platica Informativa o Bienvenida', data["Platica Informativa o Bienvenida"]],
+						['Otro', data["Otro"]],
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
 			},
 			"rating": {
+				options: {
+					title: 'Calificación que le ponen al servicio que brinda ESPORA los alumnos que finalizaron el tratamiento (llenaron el formato de egreso)',
+					width: 900,
+					height: 400,
 
-			}**/
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Calificacion', 'Datos'],
+						['1', data["1"]],
+						['2', data["2"]],
+						['3', data["3"]],
+						['4', data["4"]],
+						['5', data["5"]],
+						['6', data["6"]],
+						['7', data["7"]],
+						['8', data["8"]],
+						['9', data["9"]],
+						['10', data["10"]],
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			}
 		};
 
 		/**

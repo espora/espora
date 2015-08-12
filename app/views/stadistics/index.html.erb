@@ -205,12 +205,53 @@
 			/**"symptoms": {
 
 			}**/
-			/**"affected_areas": {
+			"affected_areas": {
+				options: {
+					title: 'Areas afectadas del alumno con relación al motivo de consulta',
+					width: 1000,
+					height: 400,
+					legend: {position: "none"},
+				},
+				chartType: "columnchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Areas','Cantidad'],
+						['Escolar', data["Escolar"]],
+						['Familiar', data["Familiar"]],
+						['Social', data["Social"]],
+						['Laboral', data["Laboral"]],
+						['Pareja', data["Pareja"]],
+						['Sexual', data["Sexual"]],
+						['Emocional', data["Emocional"]],
+						['Otro', data["Otro"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"improved_areas": {
+				options: {
+					title: 'Areas beneficiadas del alumno con relación al motivo de consulta',
+					width: 1000,
+					height: 400,
+					legend: {position: "none"},
+				},
+				chartType: "columnchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Areas','Cantidad'],
+						['Escolar', data["Escolar"]],
+						['Familiar', data["Familiar"]],
+						['Social', data["Social"]],
+						['Laboral', data["Laboral"]],
+						['Pareja', data["Pareja"]],
+						['Sexual', data["Sexual"]],
+						['Emocional', data["Emocional"]],
+						['Otro', data["Otro"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
 
-			},**/
-			/**"improved_areas": {
-
-			},**/
 			"condition_before": {
 				options: {
 					title: 'Estado emocional de los pacientes antes del tratamiento',
@@ -255,7 +296,7 @@
 			
 			"aid": {
 				options: {
-					title: 'Ayuda que recibió el paciente con relación a su motivo de consulta',
+					title: 'Opinión del paciente con relación a su motivo de consulta',
 					width: 900,
 					height: 400,
 
@@ -276,7 +317,7 @@
 		
 			"advise": {				
 				options: {
-					title: 'Los alumnos atendidos en ESPORA, ¿qué tanto recimiendan el servicio que brinda ESPORA?',
+					title: 'Recomendación de los pacientes que finalizaron el tratamiento',
 					width: 900,
 					height: 400,
 				},
@@ -296,7 +337,7 @@
 
 			"how_met": {
 				options: {
-					title: 'Los alumnos solicitantes, ¿cómo se enteraron del servicio que brinda ESPORA?',
+					title: 'Medios de difusión del espacio',
 					width: 900,
 					height: 400,
 
@@ -317,7 +358,7 @@
 			},
 			"rating": {
 				options: {
-					title: 'Calificación que le ponen al servicio que brinda ESPORA los alumnos que finalizaron el tratamiento (llenaron el formato de egreso)',
+					title: 'Calificación del espacio según los alumnos que finalizaron',
 					width: 900,
 					height: 400,
 
@@ -362,6 +403,9 @@
 					break;
 				case "piechart":
 					chart = new google.visualization.PieChart(element[0]);
+					break;
+				case "columnchart":
+					chart = new google.visualization.ColumnChart(element[0]);
 					break;
 			}
 

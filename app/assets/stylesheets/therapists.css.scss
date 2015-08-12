@@ -43,7 +43,7 @@
 
 .ter-panel {
 	display: block;
-	overflow: auto;
+	overflow: hidden;
 	padding-left: 8px !important;
 	padding-right: 8px !important;
 }
@@ -143,14 +143,67 @@
 
 /************ PERFIL **************/
 
-#ter-profile-1 {
-	width: 50%;
+.ter-profile-block {
+	width: 99%;
+	position: relative;
+	float: left;
+	display: block;
+
+	border: 1px solid #d3d3d3;
+	border-radius: 3px;
+	padding: 10px 0px 10px 10px;
 }
 
-#ter-profile-1 div {
+.ter-profile-block .field-ter {
 	width: 100%;
 	float: left;
 	display: block;
+}
+
+.ter-profile-block .field-ter > span {
+	width: 100%;
+	float: left;
+}
+
+.ter-profile-block .field-ter > span:nth-child(2) {
+	margin-left: 10px;
+}
+
+.ter-profile-block .field-ter > span:nth-child(1) {
+	font-weight: bold;
+	margin-top: 4px;
+}
+
+.ter-profile-block:nth-child(1),
+.ter-profile-block:nth-child(2) {
+	width: 48.5%;
+}
+
+.ter-profile-block:nth-child(2) {
+	margin-left: 1%;
+}
+
+.ter-profile-block:nth-child(3) {
+	margin-top: 10px;
+}
+
+#appointments-calendar-container {
+	width: 100%;
+	float: left;
+	position: relative;
+	font-size: 12px;
+}
+
+#appointments-calendar {
+	margin-left: 73px;
+	margin-top: 20px;
+	max-width: 88%;
+}
+
+#appointment-calendar-input {
+	margin-left: 33px;
+	max-width: 95%;
+	font-size: 11px;
 }
 
 /************ FORMULARIOS **************/

@@ -153,17 +153,16 @@ class PatientRecordsController < ApplicationController
 				# Id del expediente
 				:id => params[:id],
 
+				# Pestaña donde esta abierta
+				:tab => params[:tab].to_i,
+
 				# Citas abiertas
 				:open_appointments => Array.new
 			}
-
-			# Redirigimos al havad
-			redirect_to patient_index_path(params[:id]) + "?tab=" + params[:tab]
-		else
-
-			# Redirigimos al fosti
-			redirect_to fosti_index_path
 		end
+
+		# Redirigimos al havad del paciente
+		redirect_to patient_index_path(params[:id]) + "?tab=" + session[:open_records][params[:id]][:tab].to_s
 	end
 
 	# GET
@@ -205,6 +204,22 @@ class PatientRecordsController < ApplicationController
 	# GET
 	# Cierra un expedientede la sesion
 	def close
+
+		# Corrigiendo las pestañas
+
+		# Obtenemos los id ordenados
+		open_records_ids = session[:open_records].keys.sort do |x,y| 
+			session[:open_records][x][:tab] <=> session[:open_records][y][:tab]
+		end
+
+		# Obtenemos el indice del id que se va a cerrar
+		idx_to_delete = open_records_ids.index(params[:id]) + 1
+
+		# Le restamos un tab a las demas
+		(idx_to_delete ... open_records_ids.size).each do |i|
+			record_id = open_records_ids[i]
+			session[:open_records][record_id][:tab] = session[:open_records][record_id][:tab].to_i - 1
+		end
 
 		# Quitamos la variable de sesion del paciente elegido
 		if not session[:open_records][params[:id]].nil?

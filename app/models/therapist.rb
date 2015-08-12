@@ -104,7 +104,7 @@ class Therapist < ActiveRecord::Base
 		return false
 	end
 
-	# Regresa el nombre completo del paciente:
+	# Regresa el nombre completo del terapeuta:
 	#  ApellidoPaterno ApellidoMaterno Nombres
 	def full_name
 		self.p_last_name + " " + self.m_last_name + " " + self.names
@@ -156,6 +156,70 @@ class Therapist < ActiveRecord::Base
 		# Terapeuta
 		else
 			return "Terapeuta"
+		end
+	end
+
+	# Regresa un arreglo con las
+	# proximas citas
+	def next_appointments
+
+		# Obtenemos los expedientes en tratamiento
+		next_appointments = self.on_treatment_records.to_a
+		next_appointments = next_appointments.map do |e|
+			e.next_appointment
+		end
+
+		# Nos quedamos con los que no sean nil
+		next_appointments.delete_if do |e|
+			e.nil?
+		end
+
+		# Obtenemos su siguiente cita que no sean nil
+		return next_appointments
+	end
+
+	# Regresa los datos de la siguiente cita
+	# de un terapeuta
+	def next_appointment_data
+
+		# Obtenemos las siguientes citas
+		next_appointments = self.next_appointments
+
+		# Si hay
+		if next_appointments.size == 0
+			return "No tienes agendada ninguna cita."
+		else
+
+			# Obtenemos la hora y fecha actual
+			now = Time.now
+
+			# Iteramos buscando la minima diferencia
+			next_appointment = nil
+			min_diff = -1
+			next_appointments.each do | appointment |
+
+				# Obtenemos la diferencia en el tiempo
+				diff = appointment.date - now
+
+				# Tomamos las diferencias positivas
+				if diff >= 0
+
+					# y nos quedamos con la menor
+					if next_appointment.nil? or diff < min_diff
+						next_appointment = appointment
+						min_diff = diff
+					end
+				end
+			end
+
+			# Obtenemos el nombre del paciente
+			patient_name = next_appointment.patient_record.patient.full_name
+
+			# Obtenemos la fecha y hora
+			date = next_appointment.date.strftime("%d-%m-%y")
+			time = next_appointment.date.strftime("%H:%M")
+
+			return "Próxima cita con " + patient_name + ", el " + date + " a las " + time + "hrs."
 		end
 	end
 end

@@ -10,7 +10,8 @@
 	</thead>
 
 	<tbody align="center">
-		<% tab_index = open_appointments(patient_record).count + 3 %>
+		<% tab_index = open_appointments(patient_record).count + 3 %>		
+
 		<% appointments.each do | appointment | %>
 			<tr class="pure-table-odd">
 				<td><%= appointment.number %></td>

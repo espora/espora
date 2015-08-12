@@ -229,6 +229,33 @@ class TherapistsController < ApplicationController
 		render json: therapist_schedules
 	end
 
+	# GET
+	# Obtiene los eventod para el fullcallendar
+	def appointments_events
+
+		# Obtenemos las citas
+		appointments = Appointment.joins(
+			:patient_record => [
+				:therapist,
+				:patient => :patient_status_type
+			]
+		).where(
+			therapists: { id: params[:id] },
+			patient_status_types: { name: "En tratamiento" }
+		).to_a
+
+		# Ponemos la informacion como va
+		appointments.map! do |e|
+			{
+				"id" => e.id.to_s,
+				"title" => "Cita " + e.number.to_s + ". " + e.patient_record.patient.full_name,
+				"start" => e.date.strftime("%Y-%m-%d") + "T" + e.date.strftime("%H:%M")
+			}
+		end
+
+		render json: appointments
+	end
+
 	private
 
 		# Ecapsula los parametros permitidos para un terapeuta

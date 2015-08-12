@@ -14,11 +14,21 @@
 	<div style="padding-bottom: 20px;">
 
 		<!-- CITAS -->
-		<div class="pat-record-field">
-			<div id="appointment-table-container">
-				<%= render partial: "appointment_table", locals: { patient_record: @patient_record, appointments: @appointments } %>
-			</div>
+		<div class="pat-record-field" style="margin-top: 0px;">
+			<div id="appointment-calendar-input"></div>
 		</div>
+
+		<script type="text/javascript">
+			$("#appointment-calendar-input").fullCalendar({
+				lang: "es",
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				weekends: false
+			});
+		</script>
 	</div>
 <% end %>
 

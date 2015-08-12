@@ -1,23 +1,74 @@
 <% content_for :profile do %>
-	<!-- Panel izquierdo -->
-	<div id="ter-profile-1">
 
-		<div>
-			<span><b>ID: </b> <%= @therapist.id %></span>
+	<!-- DATOS -->
+	<div class="ter-profile-block">
+		<div class="field-ter">
+			<span>ID</span><span><%= @therapist.id %></span>
 		</div>
-
-		<div>
-			<span><b>Nombre: </b> <%= @therapist.p_last_name + " " + @therapist.m_last_name + " " + @therapist.names %></span>
+		<div class="field-ter">
+			<span>NOMBRE</span><span><%= @therapist.full_name %></span>
 		</div>
-
-		<div>
-			<span><b>Teléfono: </b> <%= @therapist.telephone1 %></span>
+		<div class="field-ter">
+			<span>TELÉFONO</span>
+			<span><%= (@therapist.telephone1.blank? or @therapist.telephone1.nil?) ? "No especificado" : @therapist.telephone1 %></span>
 		</div>
-
-		<div>
-			<span><b>E-Mail: </b> <%= @therapist.email %></span>
+		<div class="field-ter">
+			<span>CELULAR</span>
+			<span><%= (@therapist.telephone2.blank? or @therapist.telephone2.nil?) ? "No especificado" : @therapist.telephone2 %></span>
+		</div>
+		<div class="field-ter">
+			<span>EMAIL</span><span><%= @therapist.email %></span>
 		</div>
 	</div>
+
+	<!-- ESTADISTICAS GENERALES -->
+	<div class="ter-profile-block" style="">
+		<div class="field-ter">
+			<span>PACIENTES EN TRATAMIENTO</span>
+			<span><%= @therapist.on_treatment_records.count %></span>
+		</div>
+		<div class="field-ter">
+			<span>SOLICITUDES RECIBIDAS</span>
+			<span><%= @therapist.requests_received.count %></span>
+		</div>
+		<div class="field-ter">
+			<span>SOLICITUDES CONTACTADAS</span>
+			<span><%= @therapist.requests_contacted.count %></span>
+		</div>
+		<div class="field-ter">
+			<span>PACIENTES ATENDIDOS (TOTAL)</span>
+			<span><%= @therapist.patient_records.count %></span>
+		</div>
+		<div class="field-ter">
+			<span>BAJAS</span>
+			<span><%= @therapist.dropout_records.count %></span>
+		</div>
+	</div>
+
+	<!-- CALENDARIO -->
+	<div class="ter-profile-block">
+		<div class="field-ter">
+			<span>AGENDA</span><span><%= @therapist.next_appointment_data %></span>
+		</div>
+		<div id="appointments-calendar-container">
+			<div id="appointments-calendar"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$("#appointments-calendar").fullCalendar({
+			lang: "es",
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			events: {
+				url: "<%= therapist_appointments_events_path(@therapist) %>"
+			},
+			weekends: false
+		});
+	</script>
 <% end %>
 
 <%= render template: "therapists/profile_tab" %>

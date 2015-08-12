@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require jquery-ui
 //= require jquery_nested_form
+//= require moment
 //= require_tree .
 
 /**

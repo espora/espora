@@ -31,42 +31,37 @@ class AppointmentsController < ApplicationController
 	# Abre una cita (la pone en sesion)
 	def open
 
+		# Guardamos en variables los parametros
+		id = params[:id]
+		appoint_id = params[:appointment_id]
+
 		# Si no hemos creado la variable de sesion
 		if session[:open_records].nil?
 			session[:open_records] = Hash.new
 		end
 
 		# Si el expediente no está abierto
-		if session[:open_records][params[:id]].nil?
+		if session[:open_records][id].nil?
 
 			# Pone en sesion al expediente activo
-			session[:open_records][params[:id]] = {
+			session[:open_records][id] = {
 
 				# Id del expediente
-				:id => params[:id],
+				:id => id,
 
 				# Citas abiertas
-				:open_appointments => Array.new
+				:open_appointments => [ appoint_id ]
 			}
 
-			# Redirigimos al havad
-			redirect_to havad_index_path(params[:id]) + "?tab=" + params[:tab]
-		else
-
-			# Si la cita no esta abierta
-			if session[:open_records][params[:id]][:open_appointments].index(params[:appointment_id]).nil?
-
-				# La ponemos en sesion
-				session[:open_records][params[:id]][:open_appointments] << params[:appointment_id]
-
-				# Redirigimos al show
-				redirect_to show_appointment_path(params[:id], params[:appointment_id]) + "?tab=" + params[:tab] + "&app_tab=" + params[:app_tab]
-			else
-
-				# Redirigimos al show
-				redirect_to show_appointment_path(params[:id], params[:appointment_id]) + "?tab=" + params[:tab] + "&app_tab=" + (params[:app_tab].to_i - 1).to_s
-			end
+		# Si la cita no esta abierta
+		elsif session[:open_records][id][:open_appointments].index(appoint_id).nil?
+			
+			# La ponemos en sesion
+			session[:open_records][id][:open_appointments] << appoint_id
 		end
+
+		# Redirigimos al show
+		redirect_to show_appointment_path(id, appoint_id) + "?tab=" + params[:tab]
 	end
 
 	# GET

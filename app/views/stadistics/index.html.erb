@@ -6,17 +6,17 @@
 				<li><a href="#request_on_attended">Número de solicitudes y de alumnos atendidos</a></li>
 				<li><a href="#sex_requests">Sexo de solicitantes</a></li>
 				<li><a href="#sex_attended">Sexo de atendidos</a></li>
-				<li><a href="#family_structure">Estructura Familiar</a></li>
+				<!--<li><a href="#family_structure">Estructura Familiar</a></li>-->
 				<li><a href="#career_requests">Carrera de solicitantes</a></li>
 				<li><a href="#career_attended">Carrera de atendidos</a></li>
 				<li><a href="#semester_requests">Semestre de solicitantes</a></li>
 				<li><a href="#semester_attended">Semestre de atendidos</a></li>
 				<li><a href="#failed_subjects_requests">Materias reprobadas de solicitudes</a></li>
 				<li><a href="#failed_subjects_attended">Materias reprobadas de atendidas</a></li>
-				<li><a href="#dropouts_semester">Bajas al semestre</a></li>
+				<!--<li><a href="#dropouts_semester">Bajas al semestre</a></li>-->
 				<li><a href="#dropouts">Bajas</a></li>
-				<li><a href="#reasons">Motivos de consulta</a></li>
-				<li><a href="#symptoms">Signos y síntomas</a></li>
+				<!--<li><a href="#reasons">Motivos de consulta</a></li>-->
+				<!--<li><a href="#symptoms">Signos y síntomas</a></li>-->
 				<li><a href="#affected_areas">Áreas afectadas</a></li>
 				<li><a href="#improved_areas">Áreas mejoradas</a></li>
 				<li><a href="#condition_before">Estado emocional al comenzar</a></li>
@@ -166,18 +166,104 @@
 					return google.visualization.arrayToDataTable(dataTable);
 				}
 			},
-			/**"semester_requests": {
+			"semester_requests": {
+				options: {
+					title: 'Semestre que estan cursando los alumnos solicitantes',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Semestre', 'Cantidad'],
+						['1er', data["1"]],
+						['2°', data["2"]],
+						['3°', data["3"]],
+						['4°', data["4"]],
+						['5°', data["5"]],
+						['6°', data["6"]],
+						['7°', data["7"]],
+						['8°', data["8"]],
+						['9°', data["9"]]
+					];
 
-			},**/
-			/**"semester_attended": {
-	
-			},**/
-			/**"failed_subjects_requests": {
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"semester_attended": {
+				options: {
+					title: 'Semestre que estan cursando los alumnos atendidos',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Semestre', 'Cantidad'],
+						['1er', data["1"]],
+						['2°', data["2"]],
+						['3°', data["3"]],
+						['4°', data["4"]],
+						['5°', data["5"]],
+						['6°', data["6"]],
+						['7°', data["7"]],
+						['8°', data["8"]],
+						['9°', data["9"]]
+					];
 
-			},**/
-			/**"failed_subjects_attended": {
+					return google.visualization.arrayToDataTable(dataTable);
+				}	
+			},
+			"failed_subjects_requests": {
+				options: {
+					title: 'Cantidad de materias reprobadas por los alumnos solicitantes',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Materias', 'Cantidad'],
+						['1', data["1"]],
+						['2', data["2"]],
+						['3', data["3"]],
+						['4', data["4"]],
+						['5', data["5"]],
+						['6', data["6"]],
+						['7', data["7"]],
+						['8', data["8"]],
+						['9', data["9"]],
+						['10', data["10"]]
+					];
 
-			},**/
+					return google.visualization.arrayToDataTable(dataTable);
+				}	
+			},
+			"failed_subjects_attended": {
+				options: {
+					title: 'Cantidad de materias reprobadas por los alumnos atendidos',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Materias', 'Cantidad'],
+						['1', data["1"]],
+						['2', data["2"]],
+						['3', data["3"]],
+						['4', data["4"]],
+						['5', data["5"]],
+						['6', data["6"]],
+						['7', data["7"]],
+						['8', data["8"]],
+						['9', data["9"]],
+						['10', data["10"]]
+					];
+
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
 			/**"dropouts_semester": {
 
 			},**/
@@ -199,18 +285,163 @@
 					return google.visualization.arrayToDataTable(dataTable);
 				}
 			},
-			/**"reasons": {
+			"reasons": {
+				options: {
+					title: 'Motivos de consulta señalados por los alumnos',
+					chartArea: { width: 900,
+								 height: 400},
+					hAxis: {
+						title: 'Cantidad de alumnos'
+					},
+					vAxis: {
+						title: 'Motivos de consulta'
+					}
+				},
+				chartType: "barchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Motivo', 'Cantidad'],
+						['Adicciones', data["Adicciones"]],
+						['Alimentación', data["Alimentación"]],
+						['Ansiedad y angustia', data["Ansiedad y angustia"]],
+						['Autoconocimiento', data["Autoconocimiento"]],
+						['Autoestima', data["Autoestima"]],
+						['Ayuda, dudas y orientación', data["Ayuda, dudas y orientación"]],
+						['Depresión y tristeza', data["Depresión y tristeza"]],
+						['Deseo de sentirse bien', data["Deseo de sentirse bien"]],
+						['Elección de carrera', data["Elección de carrera"]],
+						['Emocionales y psicológicos', data["Emocionales y psicológicos"]],
+						['Escolares', data["Escolares"]],
+						['Estrés', data["Estrés"]],
+						['Familiares', data["Familiares"]],
+						['Físicos', data["Físicos"]],
+						['Fobias y miedos', data["Fobias y miedos"]],
+						['Mejorar como persona', data["Mejorar como persona"]],
+						['Pareja', data["Pareja"]],
+						['Relacionarse', data["Relacionarse"]],
+						['Separaciones, muertes y duelos', data["Separaciones, muertes y duelos"]],
+						['Sexuales', data["Sexuales"]],
+						['Sueño', data["Sueño"]],
+						['Otros', data["Otros"]],
+						['Platicar', data["Platicar"]]			
+					];
 
-			},**/
-			/**"symptoms": {
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"symptoms": {
+				options: {
+					title: 'Signos y síntomas más frecuentes en los pacientes',
+					chartArea: { width: 900,
+								 height: 400},
+					hAxis: {
+						title: 'Cantidad de alumnos'
+					},
+					vAxis: {
+						title: 'Signos y sintomas'
+					}
+				},
+				chartType: "barchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Sintoma', 'Cantidad'],
+						['Agresividad', data["Agresividad"]],
+						['Aislamiento', data["Aislamiento"]],
+						['Alcoholismo', data["Alcoholismo"]],
+						['Alucinaciones', data["Alucinaciones"]],
+						['Ansiedad y Estrés', data["Ansiedad y Estrés"]],
+						['Ataque de pánico', data["Ataque de pánico"]],
+						['Atracones', data["Atracones"]],
+						['Auto sabotaje', data["Auto sabotaje"]],
+						['Autolesiones', data["Autolesiones"]],
+						['Autorreproches', data["Autorreproches"]],
+						['Celos', data["Celos"]],
+						['Confusión', data["Confusión"]],
+						['Culpa', data["Culpa"]],
+						['Dependencia', data["Dependencia"]],
+						['Desesperación', data["Desesperación"]],
+						['Desesperanza', data["Desesperanza"]],
+						['Desinterés', data["Desinterés"]],
+						['Dificultad adaptación', data["Dificultad adaptación"]],
+						['Dificultad para estudiar', data["Dificultad para estudiar"]],
+						['Enojo', data["Enojo"]],
+						['Envidia', data["Envidia"]],
+						['Exigencias elevadas', data["Exigencias elevadas"]],
+						['Falta de apetito', data["Falta de apetito"]],
+						['Flojera', data["Flojera"]],
+						['Fobias', data["Fobias"]],
+						['Hiperactividad', data["Hiperactividad"]],
+						['Hipocondría', data["Hipocondría"]],
+						['Ideación suicida', data["Ideación suicida"]],
+						['Ideas obsesivas', data["Ideas obsesivas"]],
+						['Ideas paranoides', data["Ideas paranoides"]],
+						['Identidad sexual', data["Identidad sexual"]],
+						['Inestabilidad emocional', data["Inestabilidad emocional"]],
+						['Insatisfacción', data["Insatisfacción"]],
+						['Insomnio', data["Insomnio"]],
+						['Intento de suicidio', data["Intento de suicidio"]],
+						['Miedo a participar', data["Miedo a participar"]],
+						['Preocupación calorías', data["Preocupación calorías"]],
+						['Problemas de autoestima', data["Problemas de autoestima"]],
+						['Problemas para relacionarse', data["Problemas para relacionarse"]],
+						['Rituales', data["Rituales"]],
+						['Soledad', data["Soledad"]],
+						['Somatización', data["Somatización"]],
+						['Taquicardia', data["Taquicardia"]],
+						['Tristeza', data["Tristeza"]],
+						['Vómito', data["Vómito"]]					
+					];
 
-			}**/
-			/**"affected_areas": {
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"affected_areas": {
+				options: {
+					title: 'Areas afectadas del alumno con relación al motivo de consulta',
+					width: 1000,
+					height: 400,
+					legend: {position: "none"},
+				},
+				chartType: "columnchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Areas','Cantidad'],
+						['Escolar', data["Escolar"]],
+						['Familiar', data["Familiar"]],
+						['Social', data["Social"]],
+						['Laboral', data["Laboral"]],
+						['Pareja', data["Pareja"]],
+						['Sexual', data["Sexual"]],
+						['Emocional', data["Emocional"]],
+						['Otro', data["Otro"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"improved_areas": {
+				options: {
+					title: 'Areas beneficiadas del alumno con relación al motivo de consulta',
+					width: 1000,
+					height: 400,
+					legend: {position: "none"},
+				},
+				chartType: "columnchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Areas','Cantidad'],
+						['Escolar', data["Escolar"]],
+						['Familiar', data["Familiar"]],
+						['Social', data["Social"]],
+						['Laboral', data["Laboral"]],
+						['Pareja', data["Pareja"]],
+						['Sexual', data["Sexual"]],
+						['Emocional', data["Emocional"]],
+						['Otro', data["Otro"]]
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
 
-			},**/
-			/**"improved_areas": {
-
-			},**/
 			"condition_before": {
 				options: {
 					title: 'Estado emocional de los pacientes antes del tratamiento',
@@ -255,7 +486,7 @@
 			
 			"aid": {
 				options: {
-					title: 'Ayuda que recibió el paciente con relación a su motivo de consulta',
+					title: 'Opinión del paciente con relación a su motivo de consulta',
 					width: 900,
 					height: 400,
 
@@ -276,7 +507,7 @@
 		
 			"advise": {				
 				options: {
-					title: 'Los alumnos atendidos en ESPORA, ¿qué tanto recimiendan el servicio que brinda ESPORA?',
+					title: 'Recomendación de los pacientes que finalizaron el tratamiento',
 					width: 900,
 					height: 400,
 				},
@@ -296,7 +527,7 @@
 
 			"how_met": {
 				options: {
-					title: 'Los alumnos solicitantes, ¿cómo se enteraron del servicio que brinda ESPORA?',
+					title: 'Medios de difusión del espacio',
 					width: 900,
 					height: 400,
 
@@ -317,7 +548,7 @@
 			},
 			"rating": {
 				options: {
-					title: 'Calificación que le ponen al servicio que brinda ESPORA los alumnos que finalizaron el tratamiento (llenaron el formato de egreso)',
+					title: 'Calificación del espacio según los alumnos que finalizaron',
 					width: 900,
 					height: 400,
 
@@ -362,6 +593,12 @@
 					break;
 				case "piechart":
 					chart = new google.visualization.PieChart(element[0]);
+					break;
+				case "columnchart":
+					chart = new google.visualization.ColumnChart(element[0]);
+					break;
+				case "barchart":
+					chart = new google.visualization.BarChart(element[0]);
 					break;
 			}
 

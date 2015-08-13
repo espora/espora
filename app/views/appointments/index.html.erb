@@ -67,8 +67,22 @@
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
-				events: {
-					url: "<%= record_appointments_events_path(@patient_record) %>"
+				events: function(start, end, timezone, callback) {
+					$.ajax({
+						url: "<%= record_appointments_events_path(@patient_record) + '?tab=' + params[:tab] %>",
+						dataType: "json",
+						success: function(data) {
+							var events = [];
+							for (var i = 0; i < data.length; i++) {
+								events.push({
+									title: data[i].title,
+									start: data[i].start,
+									openUrl: data[i].open
+								});
+							}
+							callback(events);
+						}
+					});
 				},
 				dayClick: function(date, jsEvent, view) {
 
@@ -97,6 +111,11 @@
 					}
 
 					$("#form-appointment-dialog").dialog("open");
+				},
+				eventClick: function(calEvent, jsEvent, view) {
+
+					// Abrimos la cita con el link dado
+					window.location = calEvent.openUrl;
 				},
 				weekends: false
 			});

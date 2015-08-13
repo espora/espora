@@ -212,11 +212,13 @@ class PatientRecordsController < ApplicationController
 		appointments = @patient_record.appointments.to_a
 
 		# Ponemos la informacion como va
+		tab_index = open_appointments(@patient_record).count + 3
 		appointments.map! do |e|
 			{
 				"id" => e.id.to_s,
 				"title" => "Cita " + e.number.to_s + ". " + e.patient_record.patient.full_name,
-				"start" => e.date.strftime("%Y-%m-%d") + "T" + e.date.strftime("%H:%M")
+				"start" => e.date.strftime("%Y-%m-%d") + "T" + e.date.strftime("%H:%M"),
+				"open" => open_appointment_path(@patient_record, e) + "?tab=" + params[:tab] + "&app_tab=" + tab_index.to_s
 			}
 		end
 

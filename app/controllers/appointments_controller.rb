@@ -61,7 +61,7 @@ class AppointmentsController < ApplicationController
 		end
 
 		# Redirigimos al show
-		redirect_to show_appointment_path(id, appoint_id) + "?tab=" + params[:tab]
+		redirect_to show_appointment_path(id, appoint_id) + "?tab=" + params[:tab] + "&app_tab=" + params[:app_tab]
 	end
 
 	# GET

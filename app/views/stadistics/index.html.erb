@@ -166,18 +166,104 @@
 					return google.visualization.arrayToDataTable(dataTable);
 				}
 			},
-			/**"semester_requests": {
+			"semester_requests": {
+				options: {
+					title: 'Semestre que estan cursando los alumnos solicitantes',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Semestre', 'Cantidad'],
+						['1er', data["1"]],
+						['2°', data["2"]],
+						['3°', data["3"]],
+						['4°', data["4"]],
+						['5°', data["5"]],
+						['6°', data["6"]],
+						['7°', data["7"]],
+						['8°', data["8"]],
+						['9°', data["9"]]
+					];
 
-			},**/
-			/**"semester_attended": {
-	
-			},**/
-			/**"failed_subjects_requests": {
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
+			"semester_attended": {
+				options: {
+					title: 'Semestre que estan cursando los alumnos atendidos',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Semestre', 'Cantidad'],
+						['1er', data["1"]],
+						['2°', data["2"]],
+						['3°', data["3"]],
+						['4°', data["4"]],
+						['5°', data["5"]],
+						['6°', data["6"]],
+						['7°', data["7"]],
+						['8°', data["8"]],
+						['9°', data["9"]]
+					];
 
-			},**/
-			/**"failed_subjects_attended": {
+					return google.visualization.arrayToDataTable(dataTable);
+				}	
+			},
+			"failed_subjects_requests": {
+				options: {
+					title: 'Cantidad de materias reprobadas por los alumnos solicitantes',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Materias', 'Cantidad'],
+						['1', data["1"]],
+						['2', data["2"]],
+						['3', data["3"]],
+						['4', data["4"]],
+						['5', data["5"]],
+						['6', data["6"]],
+						['7', data["7"]],
+						['8', data["8"]],
+						['9', data["9"]],
+						['10', data["10"]]
+					];
 
-			},**/
+					return google.visualization.arrayToDataTable(dataTable);
+				}	
+			},
+			"failed_subjects_attended": {
+				options: {
+					title: 'Cantidad de materias reprobadas por los alumnos atendidos',
+					width: 900,
+					height: 400,
+				},
+				chartType: "piechart",
+				buildDataTable: function (data) {
+					var dataTable = [
+						['Materias', 'Cantidad'],
+						['1', data["1"]],
+						['2', data["2"]],
+						['3', data["3"]],
+						['4', data["4"]],
+						['5', data["5"]],
+						['6', data["6"]],
+						['7', data["7"]],
+						['8', data["8"]],
+						['9', data["9"]],
+						['10', data["10"]]
+					];
+
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
 			/**"dropouts_semester": {
 
 			},**/
@@ -202,9 +288,67 @@
 			/**"reasons": {
 
 			},**/
-			/**"symptoms": {
-
-			}**/
+			"symptoms": {
+				options: {
+					title: 'Signos y síntomas más frecuentes en los pacientes',
+					width: 900,
+					height: 400,
+					bar: {groupWidth: "95%"},
+					legend: {position: "none"},
+				},
+				chartType: "barchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Sintoma', 'Cantidad'],
+						['Agresividad', data["Agresividad"]],
+						['Aislamiento', data["Aislamiento"]],
+						['Alcoholismo', data["Alcoholismo"]],
+						['Alucinaciones', data["Alucinaciones"]],
+						['Ansiedad y Estrés', data["Ansiedad y Estrés"]],
+						['Ataque de pánico', data["Ataque de pánico"]],
+						['Atracones', data["Atracones"]],
+						['Auto sabotaje', data["Auto sabotaje"]],
+						['Autolesiones', data["Autolesiones"]],
+						['Autorreproches', data["Autorreproches"]],
+						['Celos', data["Celos"]],
+						['Confusión', data["Confusión"]],
+						['Culpa', data["Culpa"]],
+						['Dependencia', data["Dependencia"]],
+						['Desesperación', data["Desesperación"]],
+						['Desesperanza', data["Desesperanza"]],
+						['Desinterés', data["Desinterés"]],
+						['Dificultad adaptación', data["Dificultad adaptación"]],
+						['Dificultad para estudiar', data["Dificultad para estudiar"]],
+						['Enojo', data["Enojo"]],
+						['Envidia', data["Envidia"]],
+						['Exigencias elevadas', data["Exigencias elevadas"]],
+						['Falta de apetito', data["Falta de apetito"]],
+						['Flojera', data["Flojera"]],
+						['Fobias', data["Fobias"]],
+						['Hiperactividad', data["Hiperactividad"]],
+						['Hipocondría', data["Hipocondría"]],
+						['Ideación suicida', data["Ideación suicida"]],
+						['Ideas obsesivas', data["Ideas obsesivas"]],
+						['Ideas paranoides', data["Ideas paranoides"]],
+						['Identidad sexual', data["Identidad sexual"]],
+						['Inestabilidad emocional', data["Inestabilidad emocional"]],
+						['Insatisfacción', data["Insatisfacción"]],
+						['Insomnio', data["Insomnio"]],
+						['Intento de suicidio', data["Intento de suicidio"]],
+						['Miedo a participar', data["Miedo a participar"]],
+						['Preocupación calorías', data["Preocupación calorías"]],
+						['Problemas de autoestima', data["Problemas de autoestima"]],
+						['Problemas para relacionarse', data["Problemas para relacionarse"]],
+						['Rituales', data["Rituales"]],
+						['Soledad', data["Soledad"]],
+						['Somatización', data["Somatización"]],
+						['Taquicardia', data["Taquicardia"]],
+						['Tristeza', data["Tristeza"]],
+						['Vómito', data["Vómito"]]					
+					];
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
 			"affected_areas": {
 				options: {
 					title: 'Areas afectadas del alumno con relación al motivo de consulta',
@@ -406,6 +550,9 @@
 					break;
 				case "columnchart":
 					chart = new google.visualization.ColumnChart(element[0]);
+					break;
+				case "barchart":
+					chart = new google.visualization.BarChart(element[0]);
 					break;
 			}
 

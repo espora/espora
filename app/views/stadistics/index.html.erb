@@ -6,17 +6,17 @@
 				<li><a href="#request_on_attended">Número de solicitudes y de alumnos atendidos</a></li>
 				<li><a href="#sex_requests">Sexo de solicitantes</a></li>
 				<li><a href="#sex_attended">Sexo de atendidos</a></li>
-				<li><a href="#family_structure">Estructura Familiar</a></li>
+				<!--<li><a href="#family_structure">Estructura Familiar</a></li>-->
 				<li><a href="#career_requests">Carrera de solicitantes</a></li>
 				<li><a href="#career_attended">Carrera de atendidos</a></li>
 				<li><a href="#semester_requests">Semestre de solicitantes</a></li>
 				<li><a href="#semester_attended">Semestre de atendidos</a></li>
 				<li><a href="#failed_subjects_requests">Materias reprobadas de solicitudes</a></li>
 				<li><a href="#failed_subjects_attended">Materias reprobadas de atendidas</a></li>
-				<li><a href="#dropouts_semester">Bajas al semestre</a></li>
+				<!--<li><a href="#dropouts_semester">Bajas al semestre</a></li>-->
 				<li><a href="#dropouts">Bajas</a></li>
-				<li><a href="#reasons">Motivos de consulta</a></li>
-				<li><a href="#symptoms">Signos y síntomas</a></li>
+				<!--<li><a href="#reasons">Motivos de consulta</a></li>-->
+				<!--<li><a href="#symptoms">Signos y síntomas</a></li>-->
 				<li><a href="#affected_areas">Áreas afectadas</a></li>
 				<li><a href="#improved_areas">Áreas mejoradas</a></li>
 				<li><a href="#condition_before">Estado emocional al comenzar</a></li>
@@ -285,16 +285,61 @@
 					return google.visualization.arrayToDataTable(dataTable);
 				}
 			},
-			/**"reasons": {
+			"reasons": {
+				options: {
+					title: 'Motivos de consulta señalados por los alumnos',
+					chartArea: { width: 900,
+								 height: 400},
+					hAxis: {
+						title: 'Cantidad de alumnos'
+					},
+					vAxis: {
+						title: 'Motivos de consulta'
+					}
+				},
+				chartType: "barchart",
+				buildDataTable: function (data){
+					var dataTable = [
+						['Motivo', 'Cantidad'],
+						['Adicciones', data["Adicciones"]],
+						['Alimentación', data["Alimentación"]],
+						['Ansiedad y angustia', data["Ansiedad y angustia"]],
+						['Autoconocimiento', data["Autoconocimiento"]],
+						['Autoestima', data["Autoestima"]],
+						['Ayuda, dudas y orientación', data["Ayuda, dudas y orientación"]],
+						['Depresión y tristeza', data["Depresión y tristeza"]],
+						['Deseo de sentirse bien', data["Deseo de sentirse bien"]],
+						['Elección de carrera', data["Elección de carrera"]],
+						['Emocionales y psicológicos', data["Emocionales y psicológicos"]],
+						['Escolares', data["Escolares"]],
+						['Estrés', data["Estrés"]],
+						['Familiares', data["Familiares"]],
+						['Físicos', data["Físicos"]],
+						['Fobias y miedos', data["Fobias y miedos"]],
+						['Mejorar como persona', data["Mejorar como persona"]],
+						['Pareja', data["Pareja"]],
+						['Relacionarse', data["Relacionarse"]],
+						['Separaciones, muertes y duelos', data["Separaciones, muertes y duelos"]],
+						['Sexuales', data["Sexuales"]],
+						['Sueño', data["Sueño"]],
+						['Otros', data["Otros"]],
+						['Platicar', data["Platicar"]]			
+					];
 
-			},**/
+					return google.visualization.arrayToDataTable(dataTable);
+				}
+			},
 			"symptoms": {
 				options: {
 					title: 'Signos y síntomas más frecuentes en los pacientes',
-					width: 900,
-					height: 400,
-					bar: {groupWidth: "95%"},
-					legend: {position: "none"},
+					chartArea: { width: 900,
+								 height: 400},
+					hAxis: {
+						title: 'Cantidad de alumnos'
+					},
+					vAxis: {
+						title: 'Signos y sintomas'
+					}
 				},
 				chartType: "barchart",
 				buildDataTable: function (data){
@@ -346,6 +391,7 @@
 						['Tristeza', data["Tristeza"]],
 						['Vómito', data["Vómito"]]					
 					];
+
 					return google.visualization.arrayToDataTable(dataTable);
 				}
 			},

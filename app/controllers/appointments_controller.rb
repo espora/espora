@@ -104,6 +104,9 @@ class AppointmentsController < ApplicationController
 		# Obtenemos el expediente del paciente actual
 		patient_record = PatientRecord.find(params[:id])
 
+		# Armamos la fecha
+		params[:date] = params[:day] + " " + params[:hour]
+
 		# Creamos la cita
 		appointment = Appointment.new(create_appointment_params)
 		appointment.number = patient_record.new_appointment_number
@@ -112,8 +115,8 @@ class AppointmentsController < ApplicationController
 		patient_record.appointments << appointment
 		appointment.save
 
-		# Rendereamos la tabla de citas
-		render partial: "appointment_table", locals: { patient_record: patient_record, appointments: patient_record.appointments }
+		# Redirigimos a las citas
+		redirect_to appointments_path(patient_record) + "?tab=" + params[:tab]
 	end
 
 	# PUT

@@ -202,6 +202,28 @@ class PatientRecordsController < ApplicationController
 	end
 
 	# GET
+	# Obtiene los eventos para el fullcallendar
+	def appointments_events
+
+		# Obtenemos el expediente
+		@patient_record = PatientRecord.find(params[:id])
+
+		# Obtenemos las citas
+		appointments = @patient_record.appointments.to_a
+
+		# Ponemos la informacion como va
+		appointments.map! do |e|
+			{
+				"id" => e.id.to_s,
+				"title" => "Cita " + e.number.to_s + ". " + e.patient_record.patient.full_name,
+				"start" => e.date.strftime("%Y-%m-%d") + "T" + e.date.strftime("%H:%M")
+			}
+		end
+
+		render json: appointments
+	end
+
+	# GET
 	# Cierra un expedientede la sesion
 	def close
 

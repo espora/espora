@@ -230,7 +230,7 @@ class TherapistsController < ApplicationController
 	end
 
 	# GET
-	# Obtiene los eventod para el fullcallendar
+	# Obtiene los eventos para el fullcallendar
 	def appointments_events
 
 		# Obtenemos las citas

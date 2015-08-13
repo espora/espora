@@ -18,13 +18,85 @@
 			<div id="appointment-calendar-input"></div>
 		</div>
 
+		<!-- FORMULARIO PARA CREAR UNA CITA -->
+		<div id="form-appointment-dialog">
+			<%= form_tag create_appointment_path + "?tab=" + params[:tab], :id => "form-appointment", :class => "pure-form pure-form-stacked" do | appointment_form |%>
+
+				<!-- FECHA -->
+				<div style="width: 100%; position: relative; float: left; margin-left: 15px;">
+					<%= label_tag "day" do %>Fecha:<% end %>
+					<%= text_field_tag "day", "", id: "new-appointment-day", :required => true %>
+				</div>
+
+				<!-- HORA -->
+				<div style="width: 100%; position: relative; float: left; margin-left: 15px;">
+					<%= label_tag "hour" do %>Hora:<% end %>
+					<%= text_field_tag "hour", "", id: "new-appointment-hour", :required => true %>
+				</div>
+
+				<!-- AÑADIR -->
+				<div style="width: 100%; position: relative; float: left;">
+					<%= submit_tag "Añadir Cita", :class => "pure-button pure-button-primary", :style => "float: right; margin-top: 10px; margin-right: 4%;" %>
+				</div>
+			<% end %>
+		</div>
+
 		<script type="text/javascript">
+
+			// Hacemos dialogo 
+			$("#form-appointment-dialog").dialog({
+				autoOpen: false,
+				modal: true,
+				closeText: "hide",
+				title: "Agregar cita",
+				minWidth: 200
+			});
+
+			// Hacemos timepicker al input
+			$("#new-appointment-hour").datetimepicker({
+				lang: "es",
+				datepicker: false,
+				format: "H:i"
+			});
+
+			// Calendario
 			$("#appointment-calendar-input").fullCalendar({
 				lang: "es",
 				header: {
 					left: 'prev,next today',
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
+				},
+				events: {
+					url: "<%= record_appointments_events_path(@patient_record) %>"
+				},
+				dayClick: function(date, jsEvent, view) {
+
+					// Fecha y hora para nueva cita
+					var appointmentDate = undefined;
+					var appointmentHour = undefined;
+					$("#new-appointment-day").val("");
+					$("#new-appointment-hour").val("");
+
+					// Armamos los datos para la cita
+					if(date._ambigTime) {
+						var date = new Date(date._d);
+						appointmentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() + 1);
+					}
+					else {
+						appointmentDate = date._i[0] + "-" + (date._i[1] + 1) + "-" + date._i[2];
+						appointmentHour = date._i[3] + ":" + date._i[4];
+					}
+
+					// Agregamos el dia
+					$("#new-appointment-day").val(appointmentDate);
+
+					// Hora
+					if(appointmentHour) {
+						$("#new-appointment-hour").val(appointmentHour);
+					}
+
+					$("#form-appointment-dialog").dialog("open");
 				},
 				weekends: false
 			});

@@ -17,7 +17,7 @@ Espora::Application.routes.draw do
 	# Horarios
 	get "/therapists/schedules/:id" => "therapists#schedules", as: "therapist_schedules"
 
-	# Todas las citas
+	# Eventos de citas para calendario
 	get "/therapists/appointments_events/:id" => "therapists#appointments_events", as: "therapist_appointments_events"
 
 	##################################
@@ -101,6 +101,9 @@ Espora::Application.routes.draw do
 
 	# Datos del paciente
 	get "/therapists/havad/:id/patient" => "patient_records#patient", as: "patient_index"
+
+	# Eventos de citas para calendario
+	get "/therapists/havad/:id/appointments_events" => "patient_records#appointments_events", as: "record_appointments_events"
 
 	###########
 	#  Citas  #

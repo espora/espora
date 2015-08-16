@@ -149,6 +149,30 @@ class AppointmentsController < ApplicationController
 		end
 	end
 
+	# POST
+	# Actualiza la fecha de una cita
+	def update_date
+
+		# Obtenemos la cita
+		@appointment = Appointment.find(params[:id])
+
+		# Actualizamos la fecha
+		@appointment.update_attributes(:date => params[:date])
+
+		# Rendereamos un ok
+		render json: "updated".to_json
+	end
+
+	# POST
+	# Elimina una cita
+	def delete
+
+		# Obtenemos la cita y la eliminamos
+		Appointment.find(params[:id]).destroy
+
+		render json: "deleted".to_json
+	end
+
 	private
 
 		# Ecapsula los parametros permitidos para actualizar citas

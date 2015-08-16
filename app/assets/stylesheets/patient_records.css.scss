@@ -89,18 +89,6 @@ div.pat-record-section {
 	margin-top: 10px;
 }
 
-table#appointment-table {
-	width: 45%;
-}
-
-table#appointment-table th, table#appointment-table td {
-	text-align: center;
-}
-
-table#appointment-table i {
-	font-size: 18px;
-}
-
 div#appointment-container {
 	width: 100%;
 	height: 484px;
@@ -163,4 +151,16 @@ div.patient-info-field div:nth-child(2) {
 
 #form-channel, #form-signout {
 	font-size: 12px !important;
+}
+
+/*** CALENDARIO ***/
+
+.fc-time {
+	font-weight: normal !important;
+	font-size: 11px !important;
+}
+
+.fc-remove {
+	float: right;
+	margin-right: 1%;
 }

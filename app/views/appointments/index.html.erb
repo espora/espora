@@ -41,6 +41,21 @@
 			<% end %>
 		</div>
 
+		<!-- FORMULARIOS DE CITAS -->
+		<div style="display: none;">
+
+			<!-- FORMULARIOS DE CITAS -->
+			<%= form_tag appointment_update_date_path, :id => "form-update-appointment", :remote => true do |f| %>
+				<%= hidden_field_tag "id", "", id: "id-update-appointment" %>
+				<%= hidden_field_tag "date", "", id: "date-update-appointment" %>
+			<% end %>
+
+			<!-- FORMULARIO PARA ELIMINAR -->
+			<%= form_tag appointment_delete_path, :id => "form-delete-appointment", :remote => true do |f| %>
+				<%= hidden_field_tag "id", "", id: "id-delete-appointment" %>
+			<% end %>
+		</div>
+
 		<script type="text/javascript">
 
 			// Hacemos dialogo 
@@ -55,7 +70,7 @@
 			// Hacemos timepicker al input
 			$("#new-appointment-hour").datetimepicker({
 				lang: "es",
-				datepicker: false,
+				datepicker: false,	
 				format: "H:i"
 			});
 
@@ -67,24 +82,11 @@
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
-				events: function(start, end, timezone, callback) {
-					$.ajax({
-						url: "<%= record_appointments_events_path(@patient_record) + '?tab=' + params[:tab] %>",
-						dataType: "json",
-						success: function(data) {
-							var events = [];
-							for (var i = 0; i < data.length; i++) {
-								events.push({
-									title: data[i].title,
-									start: data[i].start,
-									openUrl: data[i].open
-								});
-							}
-							callback(events);
-						}
-					});
+				events: {
+					url: "<%= record_appointments_events_path(@patient_record) + '?tab=' + params[:tab] %>",
+					className: "calendar-appointment"
 				},
-				dayClick: function(date, jsEvent, view) {
+				dayClick: function (date, jsEvent, view) {
 
 					// Fecha y hora para nueva cita
 					var appointmentDate = undefined;
@@ -112,13 +114,86 @@
 
 					$("#form-appointment-dialog").dialog("open");
 				},
-				eventClick: function(calEvent, jsEvent, view) {
+				weekends: false,
+				editable: true,
+				eventLimit: true,
+				eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
 
-					// Abrimos la cita con el link dado
-					window.location = calEvent.openUrl;
+					// Obtenemos la fecha original del evento
+					var date = new Date(event.start._i.replace("T", " "));
+
+					// Obtenemos la nueva fecha
+					var diff = delta._data;
+					var y = date.getFullYear() + diff.years;
+					var m = (date.getMonth() + 1) + diff.months;
+					var d = date.getDate() + diff.days;
+					var h = date.getHours() + diff.hours;
+					var min = date.getMinutes() + diff.minutes;
+					var dateStr = y + "-" + m + "-" + d + " " + h + ":" + min;
+
+					// Actualizamos los campos del formulario
+					$("#id-update-appointment").val(event.idAppointment);
+					$("#date-update-appointment").val(dateStr);
+
+					// Enviamos
+					$("#form-update-appointment").submit();
 				},
-				weekends: false
+				timeFormat: "HH:mm",
+				eventAfterRender: function( event, element, view ) {
+					customizeEvent(event, element[0]);
+				}
 			});
+
+			// Cuando se ha completado el borrado
+			$("#form-delete-appointment").bind("ajax:success", function (evt, data, status, xhr) {
+				$("#appointment-calendar-input").fullCalendar("refetchEvents");
+			});
+			
+			function customizeEvent (event, eventElement) {
+
+				// Asociamos el id del evento con un atributo de la vista
+				$(eventElement).attr("fc-event-id", event._id);
+				$(eventElement).attr("appointment-id", event.idAppointment);
+
+				// Agrega hrs
+				$(eventElement).find(".fc-time").append(" hrs. ")
+
+				// Click para abrir a la cita
+				function openAppointment() {
+
+					// Obtenemos el id del evento
+					var eventId = $(this).parent().parent().attr("fc-event-id");
+
+					// Obtnemos el evento asociado y abrimos la cita con el link
+					$("#appointment-calendar-input").fullCalendar('clientEvents', function(evt) {
+						if(evt._id === eventId) {
+							window.location = evt.open;
+						}
+					});
+				}
+				$(eventElement).find(".fc-time").click(openAppointment);
+				$(eventElement).find(".fc-title").click(openAppointment);
+
+				// Obtenemos el contenido
+				var content = $(eventElement).find(".fc-content")[0];
+
+				// Creamos el span para eliminar
+				var spanRemove = document.createElement("span");
+				$(spanRemove).addClass("fc-remove");
+				$(spanRemove).append("<i class='fa fa-times'></i>");
+				$(spanRemove).click(function () {
+
+					// Obtenemos el id de la cita
+					var appointmentId = $(this).parent().parent().attr("appointment-id");
+
+					// Lo ponemos en el formulario y lo enviamos
+					$("#id-delete-appointment").val(appointmentId);
+					$("#form-delete-appointment").submit();
+				});
+
+				// Lo agregamos al contenido
+				$(content).append(spanRemove);
+			}
 		</script>
 	</div>
 <% end %>

@@ -115,6 +115,12 @@ Espora::Application.routes.draw do
 	# Crea una cita
 	post "/therapists/havad/:id/appointment/create" => "appointments#create", as: "create_appointment"
 
+	# Actualiza la fecha de una cita
+	post "/therapists/havad/appointment/update_date" => "appointments#update_date", as: "appointment_update_date"
+
+	# Elimina una cita
+	post "/therapist/havad/appointment/delete" => "appointments#delete", as: "appointment_delete"
+
 	# Elige una cita
 	get "/therapists/havad/:id/open_appointment/:appointment_id" => "appointments#open", as: "open_appointment"
 

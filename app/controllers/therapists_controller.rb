@@ -181,8 +181,6 @@ class TherapistsController < ApplicationController
 			end
 		end
 
-		ap params
-
 		# Obtenemos el terapeuta
 		@therapist = Therapist.find(params[:id])
 
@@ -247,9 +245,10 @@ class TherapistsController < ApplicationController
 		# Ponemos la informacion como va
 		appointments.map! do |e|
 			{
-				"id" => e.id.to_s,
+				"idAppointment" => e.id.to_s,
 				"title" => "Cita " + e.number.to_s + ". " + e.patient_record.patient.full_name,
-				"start" => e.date.strftime("%Y-%m-%d") + "T" + e.date.strftime("%H:%M")
+				"start" => e.date.strftime("%Y-%m-%d") + "T" + e.date.strftime("%H:%M"),
+				"open" => open_appointment_path(@patient_record, e) + "?tab=" + params[:tab] + "&app_tab=" + tab_index.to_s
 			}
 		end
 

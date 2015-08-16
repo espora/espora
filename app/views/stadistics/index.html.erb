@@ -15,8 +15,8 @@
 				<li><a href="#failed_subjects_attended">Materias reprobadas de atendidas</a></li>
 				<!--<li><a href="#dropouts_semester">Bajas al semestre</a></li>-->
 				<li><a href="#dropouts">Bajas</a></li>
-				<!--<li><a href="#reasons">Motivos de consulta</a></li>-->
-				<!--<li><a href="#symptoms">Signos y síntomas</a></li>-->
+				<li><a href="#reasons">Motivos de consulta</a></li>
+				<li><a href="#symptoms">Signos y síntomas</a></li>
 				<li><a href="#affected_areas">Áreas afectadas</a></li>
 				<li><a href="#improved_areas">Áreas mejoradas</a></li>
 				<li><a href="#condition_before">Estado emocional al comenzar</a></li>
@@ -288,14 +288,8 @@
 			"reasons": {
 				options: {
 					title: 'Motivos de consulta señalados por los alumnos',
-					chartArea: { width: 900,
-								 height: 400},
-					hAxis: {
-						title: 'Cantidad de alumnos'
-					},
-					vAxis: {
-						title: 'Motivos de consulta'
-					}
+					width: 1000,
+					height: 700,
 				},
 				chartType: "barchart",
 				buildDataTable: function (data){
@@ -332,14 +326,8 @@
 			"symptoms": {
 				options: {
 					title: 'Signos y síntomas más frecuentes en los pacientes',
-					chartArea: { width: 900,
-								 height: 400},
-					hAxis: {
-						title: 'Cantidad de alumnos'
-					},
-					vAxis: {
-						title: 'Signos y sintomas'
-					}
+					width: 1000,
+					height: 1000,
 				},
 				chartType: "barchart",
 				buildDataTable: function (data){

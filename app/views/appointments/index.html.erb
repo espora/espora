@@ -96,11 +96,11 @@
 
 					// Armamos los datos para la cita
 					if(date._ambigTime) {
-						var date = new Date(date._d);
-						appointmentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() + 1);
+						var date = new Date(fixDateStr(date._d));
+						appointmentDate = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getDate() + 1);
 					}
 					else {
-						appointmentDate = date._i[0] + "-" + (date._i[1] + 1) + "-" + date._i[2];
+						appointmentDate = date._i[0] + "/" + (date._i[1] + 1) + "/" + date._i[2];
 						appointmentHour = date._i[3] + ":" + date._i[4];
 					}
 
@@ -120,7 +120,7 @@
 				eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
 
 					// Obtenemos la fecha original del evento
-					var date = new Date(event.start._i.replace("T", " "));
+					var date = new Date(fixDateStr(event.start._i.replace("T", " ")));
 
 					// Obtenemos la nueva fecha
 					var diff = delta._data;
@@ -129,7 +129,7 @@
 					var d = date.getDate() + diff.days;
 					var h = date.getHours() + diff.hours;
 					var min = date.getMinutes() + diff.minutes;
-					var dateStr = y + "-" + m + "-" + d + " " + h + ":" + min;
+					var dateStr = y + "/" + m + "/" + d + " " + h + ":" + min;
 
 					// Actualizamos los campos del formulario
 					$("#id-update-appointment").val(event.idAppointment);
@@ -193,6 +193,23 @@
 
 				// Lo agregamos al contenido
 				$(content).append(spanRemove);
+			}
+
+			function fixDateStr (dateStr) {
+				var tmp = undefined;
+				if(typeof dateStr === "object") {
+					tmp = dateStr.toLocaleString();
+				} else {
+					tmp = dateStr;
+				}
+
+				while(tmp.lastIndexOf("-") != -1) {
+					tmp = tmp.replace("-", "/");
+				}
+				if(tmp.lastIndexOf(".000000") != -1) {
+					tmp = tmp.replace(".000000", "");
+				}
+				return tmp;
 			}
 		</script>
 	</div>

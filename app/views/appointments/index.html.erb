@@ -119,9 +119,6 @@
 				eventLimit: true,
 				eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
 
-					// Corregimos para Firefox
-					var dateStre
-
 					// Obtenemos la fecha original del evento
 					var date = new Date(fixDateStr(event.start._i.replace("T", " ")));
 
@@ -199,7 +196,13 @@
 			}
 
 			function fixDateStr (dateStr) {
-				var tmp = dateStr + "";
+				var tmp = undefined;
+				if(typeof dateStr === "object") {
+					tmp = dateStr.toLocaleString();
+				} else {
+					tmp = dateStr;
+				}
+
 				while(tmp.lastIndexOf("-") != -1) {
 					tmp = tmp.replace("-", "/");
 				}

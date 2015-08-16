@@ -199,7 +199,7 @@
 			}
 
 			function fixDateStr (dateStr) {
-				var tmp = dateStr;
+				var tmp = dateStr + "";
 				while(tmp.lastIndexOf("-") != -1) {
 					tmp = tmp.replace("-", "/");
 				}

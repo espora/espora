@@ -33,7 +33,7 @@ module ApplicationHelper
 			# Itera los identificadores de las citas abiertas
 			# y lo mete en el arreglo
 			session[:open_records][patient_record.id.to_s][:open_appointments].each do | value |
-				@open_appointments << Appointment.find(value)
+				@open_appointments << Appointment.find(value[:id])
 			end
 		end
 		

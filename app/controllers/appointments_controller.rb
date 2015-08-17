@@ -35,6 +35,16 @@ class AppointmentsController < ApplicationController
 		id = params[:id]
 		appoint_id = params[:appointment_id]
 
+		# Creamos el registro
+		appoint_register = {
+
+			# Id de la cita
+			:id => appoint_id,
+
+			# Pestaña donde esta abierta la cita
+			:tab => params[:app_tab].to_i
+		}
+
 		# Si no hemos creado la variable de sesion
 		if session[:open_records].nil?
 			session[:open_records] = Hash.new
@@ -49,31 +59,72 @@ class AppointmentsController < ApplicationController
 				# Id del expediente
 				:id => id,
 
-				# Citas abiertas
-				:open_appointments => [ appoint_id ]
-			}
+				# Pestaña donde esta abierto el expediente
+				:tab => params[:tab].to_i,
 
-		# Si la cita no esta abierta
-		elsif session[:open_records][id][:open_appointments].index(appoint_id).nil?
-			
-			# La ponemos en sesion
-			session[:open_records][id][:open_appointments] << appoint_id
+				# Citas abiertas
+				:open_appointments => [ appoint_register ]
+			}
+		else
+
+			# Buscamos la cita
+			aux = nil
+			session[:open_records][id][:open_appointments].each do |open_app|
+				if open_app[:id] == appoint_id
+					aux = open_app
+				end
+			end
+
+			# Si no estaba, la ponemos en sesion
+			if aux.nil?
+				session[:open_records][id][:open_appointments] << appoint_register
+			else
+				appoint_register = aux
+			end
 		end
 
+		# Obtenemos el app_tab
+		app_tab = appoint_register[:tab].to_s
+
 		# Redirigimos al show
-		redirect_to show_appointment_path(id, appoint_id) + "?tab=" + params[:tab] + "&app_tab=" + params[:app_tab]
+		redirect_to show_appointment_path(id, appoint_id) + "?tab=" + params[:tab] + "&app_tab=" + app_tab
 	end
 
 	# GET
 	# Cierra una cita (la elimina de la sesion)
 	def close
 
-		# Encontramos el indice en el arreglo
-		index = session[:open_records][params[:id]][:open_appointments].index(params[:appointment_id])
+		# Guardamos en variables los parametros
+		id = params[:id]
+		appoint_id = params[:appointment_id]
 
-		# Quitamos la variable de sesion del paciente elegido
-		if not index.nil?
-			session[:open_records][params[:id]][:open_appointments].delete_at(index)
+		# Corrigiendo las pestañas
+
+		# Ordenamos por tab
+		session[:open_records][id][:open_appointments].sort! do |x,y|
+			x[:tab] <=> y[:tab]
+		end
+
+		# Obtenemos el indice del id que se va a cerrar
+		idx_to_delete = -1
+		to_delete = nil
+		session[:open_records][id][:open_appointments].each_with_index do |open_app, i|
+			if open_app[:id] == appoint_id
+				idx_to_delete = i + 1
+				to_delete = open_app
+			end
+		end
+
+		if idx_to_delete != -1
+
+			# Le restamos un tab a las demas
+			(idx_to_delete ... session[:open_records][id][:open_appointments].size).each do |i|
+				open_app = session[:open_records][id][:open_appointments][i]
+				open_app[:tab] = open_app[:tab].to_i - 1
+			end
+
+			# Quitamos la variable de sesion de la cita elegida
+			session[:open_records][id][:open_appointments].delete(to_delete)
 		end
 
 		# Redirigimos a las citas del expediente

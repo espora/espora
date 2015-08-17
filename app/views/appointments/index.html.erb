@@ -58,105 +58,14 @@
 
 		<script type="text/javascript">
 
-			// Hacemos dialogo 
-			$("#form-appointment-dialog").dialog({
-				autoOpen: false,
-				modal: true,
-				closeText: "hide",
-				title: "Agregar cita",
-				minWidth: 200
-			});
-
-			// Hacemos timepicker al input
-			$("#new-appointment-hour").datetimepicker({
-				lang: "es",
-				datepicker: false,	
-				format: "H:i"
-			});
-
-			// Calendario
-			$("#appointment-calendar-input").fullCalendar({
-				lang: "es",
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-				events: {
-					url: "<%= record_appointments_events_path(@patient_record) + '?tab=' + params[:tab] %>",
-					className: "calendar-appointment"
-				},
-				dayClick: function (date, jsEvent, view) {
-
-					// Fecha y hora para nueva cita
-					var appointmentDate = undefined;
-					var appointmentHour = undefined;
-					$("#new-appointment-day").val("");
-					$("#new-appointment-hour").val("");
-
-					// Armamos los datos para la cita
-					if(date._ambigTime) {
-						var date = new Date(fixDateStr(date._d));
-						appointmentDate = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getDate() + 1);
-					}
-					else {
-						appointmentDate = date._i[0] + "/" + (date._i[1] + 1) + "/" + date._i[2];
-						appointmentHour = date._i[3] + ":" + date._i[4];
-					}
-
-					// Agregamos el dia
-					$("#new-appointment-day").val(appointmentDate);
-
-					// Hora
-					if(appointmentHour) {
-						$("#new-appointment-hour").val(appointmentHour);
-					}
-
-					$("#form-appointment-dialog").dialog("open");
-				},
-				weekends: false,
-				editable: true,
-				eventLimit: true,
-				eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
-
-					// Obtenemos la fecha original del evento
-					var date = new Date(fixDateStr(event.start._i.replace("T", " ")));
-
-					// Obtenemos la nueva fecha
-					var diff = delta._data;
-					var y = date.getFullYear() + diff.years;
-					var m = (date.getMonth() + 1) + diff.months;
-					var d = date.getDate() + diff.days;
-					var h = date.getHours() + diff.hours;
-					var min = date.getMinutes() + diff.minutes;
-					var dateStr = y + "/" + m + "/" + d + " " + h + ":" + min;
-
-					// Actualizamos los campos del formulario
-					$("#id-update-appointment").val(event.idAppointment);
-					$("#date-update-appointment").val(dateStr);
-
-					// Enviamos
-					$("#form-update-appointment").submit();
-				},
-				timeFormat: "HH:mm",
-				eventAfterRender: function( event, element, view ) {
-					customizeEvent(event, element[0]);
-				}
-			});
-
-			// Cuando se ha completado el borrado
-			$("#form-delete-appointment").bind("ajax:success", function (evt, data, status, xhr) {
-				$("#appointment-calendar-input").fullCalendar("refetchEvents");
-			});
-			
-			function customizeEvent (event, eventElement) {
+			function evtCustomRender (event, element, view) {
 
 				// Asociamos el id del evento con un atributo de la vista
-				$(eventElement).attr("fc-event-id", event._id);
-				$(eventElement).attr("appointment-id", event.idAppointment);
+				$(element[0]).attr("fc-event-id", event._id);
+				$(element[0]).attr("appointment-id", event.idAppointment);
 
 				// Agrega hrs
-				$(eventElement).find(".fc-time").append(" hrs. ")
+				$(element[0]).find(".fc-time").append(" hrs. ")
 
 				// Click para abrir a la cita
 				function openAppointment() {
@@ -171,11 +80,11 @@
 						}
 					});
 				}
-				$(eventElement).find(".fc-time").click(openAppointment);
-				$(eventElement).find(".fc-title").click(openAppointment);
+				$(element[0]).find(".fc-time").click(openAppointment);
+				$(element[0]).find(".fc-title").click(openAppointment);
 
 				// Obtenemos el contenido
-				var content = $(eventElement).find(".fc-content")[0];
+				var content = $(element[0]).find(".fc-content")[0];
 
 				// Creamos el span para eliminar
 				var spanRemove = document.createElement("span");
@@ -195,14 +104,66 @@
 				$(content).append(spanRemove);
 			}
 
-			function fixDateStr (dateStr) {
-				var tmp = undefined;
-				if(typeof dateStr === "object") {
-					tmp = dateStr.toLocaleString();
-				} else {
-					tmp = dateStr;
+			function dayClickHandler (moment, jsEvent, view) {
+
+				// Armamos los datos para la cita
+				var appointmentDate = "";
+				var appointmentHour = "";
+				$("#new-appointment-day").val("");
+				$("#new-appointment-hour").val("");
+
+				// Obtenemos la fecha
+				var date = moment._d;
+
+				// Armamos los datos para la cita
+				// DIA
+				appointmentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() + 1);
+
+				// HORA
+				if(!moment._ambigTime) {
+					appointmentDate = moment._i[0] + "-" + (moment._i[1] + 1) + "-" + moment._i[2];
+					appointmentHour = moment._i[3] + ":" + moment._i[4];
 				}
 
+				// Los ponemos en los campos correspondientes
+				$("#new-appointment-hour").val(appointmentHour);
+				$("#new-appointment-day").val(appointmentDate);
+
+				// Abrimos el dialogo
+				$("#form-appointment-dialog").dialog("open");
+			}
+
+			function evtDropHandler (event, delta, revertFunc, jsEvent, ui, view) {
+
+				// Obtenemos la fecha original del evento
+				var date = new Date(fixDateStr(event.start._i));
+
+				// Calculamos la diferencia de fechas
+				date.setFullYear(date.getFullYear() + delta._data.years);
+				date.setMonth((date.getMonth() + 1) + delta._data.months);
+				date.setDate(date.getDate() + delta._data.days);
+				date.setHours(date.getHours() + delta._data.hours);
+				date.setMinutes(date.getMinutes() + delta._data.minutes);
+
+				// Obtenemos la fecha
+				var y = date.getFullYear(), m = date.getMonth(),
+					d = date.getDate(), h = date.getHours(),
+					min = date.getMinutes();
+
+				var dateStr = y + "-" + m + "-" + d + " " + h + ":" + min;
+
+				// Actualizamos los campos del formulario
+				$("#id-update-appointment").val(event.idAppointment);
+				$("#date-update-appointment").val(dateStr);
+
+				// Enviamos
+				$("#form-update-appointment").submit();
+			}
+
+			function fixDateStr (dateStr) {
+
+				// Cambiamos la hora al estandar (Firefox te odio!)
+				var tmp = dateStr.replace("T", " ");
 				while(tmp.lastIndexOf("-") != -1) {
 					tmp = tmp.replace("-", "/");
 				}
@@ -211,6 +172,49 @@
 				}
 				return tmp;
 			}
+
+			// Hacemos dialogo el formulario para crear una nueva cita
+			$("#form-appointment-dialog").dialog({
+				autoOpen: false,
+				modal: true,
+				closeText: "hide",
+				title: "Agregar cita",
+				minWidth: 200
+			});
+
+			// Hacemos timepicker al input
+			$("#new-appointment-hour").datetimepicker({
+				lang: "es",
+				datepicker: false,
+				format: "H:i"
+			});
+
+			// Cuando se ha completado el borrado
+			$("#form-delete-appointment, #form-update-appointment").bind("ajax:success", function (evt, data, status, xhr) {
+				$("#appointment-calendar-input").fullCalendar("refetchEvents");
+			});
+
+			// Calendario
+			$("#appointment-calendar-input").fullCalendar({
+				lang: "es",
+				timezone: "America/Mexico_City",
+				weekends: false,
+				editable: true,
+				eventLimit: true,
+				timeFormat: "HH:mm",
+				eventAfterRender: evtCustomRender,
+				dayClick: dayClickHandler,
+				eventDrop: evtDropHandler,
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				events: {
+					url: "<%= record_appointments_events_path(@patient_record) + '?tab=' + params[:tab] %>",
+					className: "calendar-appointment"
+				}
+			});
 		</script>
 	</div>
 <% end %>

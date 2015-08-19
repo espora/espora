@@ -3,28 +3,28 @@
 	<div id="sidebar-header-tab">
 		<div id="sidebar-tab">
 			<ul id="sidebar-tabs-header">
-				<li><a href="#request_on_attended">Número de solicitudes y de alumnos atendidos</a></li>
-				<li><a href="#sex_requests">Sexo de solicitantes</a></li>
-				<li><a href="#sex_attended">Sexo de atendidos</a></li>
+				<li><a onclick="creceNormal()"href="#request_on_attended">Número de solicitudes y de alumnos atendidos</a></li>
+				<li><a onclick="creceNormal()"href="#sex_requests">Sexo de solicitantes</a></li>
+				<li><a onclick="creceNormal()"href="#sex_attended">Sexo de atendidos</a></li>
 				<!--<li><a href="#family_structure">Estructura Familiar</a></li>-->
-				<li><a href="#career_requests">Carrera de solicitantes</a></li>
-				<li><a href="#career_attended">Carrera de atendidos</a></li>
-				<li><a href="#semester_requests">Semestre de solicitantes</a></li>
-				<li><a href="#semester_attended">Semestre de atendidos</a></li>
-				<li><a href="#failed_subjects_requests">Materias reprobadas de solicitudes</a></li>
-				<li><a href="#failed_subjects_attended">Materias reprobadas de atendidas</a></li>
+				<li><a onclick="creceNormal()"href="#career_requests">Carrera de solicitantes</a></li>
+				<li><a onclick="creceNormal()"href="#career_attended">Carrera de atendidos</a></li>
+				<li><a onclick="creceNormal()"href="#semester_requests">Semestre de solicitantes</a></li>
+				<li><a onclick="creceNormal()"href="#semester_attended">Semestre de atendidos</a></li>
+				<li><a onclick="creceNormal()"href="#failed_subjects_requests">Materias reprobadas de solicitudes</a></li>
+				<li><a onclick="creceNormal()"href="#failed_subjects_attended">Materias reprobadas de atendidas</a></li>
 				<!--<li><a href="#dropouts_semester">Bajas al semestre</a></li>-->
-				<li><a href="#dropouts">Bajas</a></li>
-				<li><a href="#reasons">Motivos de consulta</a></li>
-				<li><a href="#symptoms">Signos y síntomas</a></li>
-				<li><a href="#affected_areas">Áreas afectadas</a></li>
-				<li><a href="#improved_areas">Áreas mejoradas</a></li>
-				<li><a href="#condition_before">Estado emocional al comenzar</a></li>
-				<li><a href="#condition_after">Estado emocional al finalizar</a></li>
-				<li><a href="#aid">Nivel de ayuda</a></li>
-				<li><a href="#advise">Nivel de recomendación</a></li>
-				<li><a href="#how_met">Como conoció</a></li>
-				<li><a href="#rating">Calificación</a></li>
+				<li><a onclick="creceNormal()"href="#dropouts">Bajas</a></li>
+				<li><a onclick="creceMotivos()" href="#reasons">Motivos de consulta</a></li>
+				<li><a onclick="creceSintomas()" href="#symptoms">Signos y síntomas</a></li>
+				<li><a onclick="creceNormal()"href="#affected_areas">Áreas afectadas</a></li>
+				<li><a onclick="creceNormal()"href="#improved_areas">Áreas mejoradas</a></li>
+				<li><a onclick="creceNormal()"href="#condition_before">Estado emocional al comenzar</a></li>
+				<li><a onclick="creceNormal()"href="#condition_after">Estado emocional al finalizar</a></li>
+				<li><a onclick="creceNormal()"href="#aid">Nivel de ayuda</a></li>
+				<li><a onclick="creceNormal()"href="#advise">Nivel de recomendación</a></li>
+				<li><a onclick="creceNormal()"href="#how_met">Como conoció</a></li>
+				<li><a onclick="creceNormal()"href="#rating">Calificación</a></li>
 			</ul>
 		</div>
 
@@ -55,6 +55,18 @@
 	</div>
 
 	<script type="text/javascript">
+
+	function creceMotivos(){
+		document.getElementById("statistics").style.height =  '650px';
+	}
+
+	function creceSintomas(){
+		document.getElementById("statistics").style.height =  '1050px';
+	}
+
+	function creceNormal(){
+		document.getElementById("statistics").style.height =  '450px';
+	}
 
 		/* CARACTERISTICAS DE LAS GRÁFICAS
 		 * 
@@ -327,7 +339,7 @@
 				options: {
 					title: 'Signos y síntomas más frecuentes en los pacientes',
 					width: 1000,
-					height: 1000
+					height: 1200
 				},
 				chartType: "barchart",
 				buildDataTable: function (data){

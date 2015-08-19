@@ -14,89 +14,67 @@ class PatientRequestsController < ApplicationController
 	# Aplica búsquedas, filtros y ordenamientos.
 	def lue
 
-		# El Array que se ira llenando
-		@patient_requests = Array.new
-
-		# Nos pasaron un numero de cuenta?
-		if not params[:account_number].nil?
-
-			# Buscamos un paciente con el numero de cuenta y regresamos
-			patient = Patient.find_by_account_number(params[:account_number])
-			@patient_requests.concat([ patient.patient_request ])
-		end
+		# Buscamos las solicitudes que solo con los que tienen status esperando o contactado
+		condition_str = "patient_status_types.name = 'Sin contactar' or patient_status_types.name = 'Esperando respuesta'"
+		@patient_requests = PatientRequest.joins(patient: :patient_status_type).where(condition_str)
 
 		# Estan buscando algo?
 		if not params[:searchStr].nil?
-			if params[:searchStr] == ""
-
-				# Viene vacio, entonces mandamos todas
-				@patient_requests = PatientRequest.all
-			else
+			if params[:searchStr] != ""
 
 				# BUSQUEDA
 
 				# Por apellido paterno
-				@patient_requests.concat(PatientRequest.joins(:patient).where("p_last_name LIKE ?", "%#{params[:searchStr]}%"))
+				condition_str = "patients.p_last_name LIKE ? or " +
 
 				# Por apellido materno
-				@patient_requests.concat(PatientRequest.joins(:patient).where("m_last_name LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.m_last_name LIKE ? or " +
 
 				# Por nombres
-				@patient_requests.concat(PatientRequest.joins(:patient).where("names LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.names LIKE ? or " +
 
 				# Por numero de cuenta
-				@patient_requests.concat(PatientRequest.joins(:patient).where("account_number LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.account_number LIKE ?"
 
-				# Eliminamos repetidos
-				@patient_requests.uniq!
+				@patient_requests = @patient_requests.joins(:patient).where(condition_str,
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%")
 			end
-		end
-
-		# Si no hubo ninguno hay que solicitar todos
-		if params[:account_number].nil? and params[:searchStr].nil?
-			@patient_requests = PatientRequest.all
 		end
 
 		# Hay que ordenar
 		if not params[:order_by].nil? and @patient_requests.size > 0
-			
 			if params[:order_by] == "condition"
-				@patient_requests.sort! do |x, y|
-					x.condition_type.id <=> y.condition_type.id
-				end
-
+				@patient_requests = @patient_requests.joins(:condition_type).order("condition_types.id ASC")
 			elsif params[:order_by] == "status"
-				@patient_requests.sort! do |x, y|
-					x.patient.patient_status_type.id <=> y.patient.patient_status_type.id
-				end
-
+				@patient_requests = @patient_requests.order("patient_status_types.id ASC")
 			else
-				@patient_requests.sort! do |x, y|
-					x.patient.attributes[params[:order_by]] <=> y.patient.attributes[params[:order_by]]
-				end
+				@patient_requests = @patient_requests.order("patients.#{params[:order_by]} ASC")
 			end
 		end
+
+		# Paginamos
+		if params[:page].nil?
+			params[:page] = 1
+		end
+		@patient_requests = @patient_requests.paginate(:page => params[:page], :per_page => 10)
 
 		# Convertimos a array
-		@patient_requests = @patient_requests.to_a
+		#@patient_requests = @patient_requests.to_a
 
 		# Hay que filtrar
-		if not params[:filter_by].nil?
-
-			# Nos quedamos solo los que coinciden en horario con el 
-			# terapeuta
-			if params[:filter_by] == "schedule"
-				@patient_requests.keep_if do | pat_req |
-					current_therapist.match_schedule?(pat_req)
-				end
-			end
-		end
-
-		# Nos quedamos solo con los que tienen status esperando o contactado
-		@patient_requests.keep_if do | pat_req |
-			status_name = pat_req.patient.patient_status_type.name
-			status_name == "Sin contactar" or status_name == "Esperando respuesta"
-		end
+		#if not params[:filter_by].nil?
+		#
+		#	# Nos quedamos solo los que coinciden en horario con el 
+		#	# terapeuta
+		#	if params[:filter_by] == "schedule"
+		#		@patient_requests.keep_if do | pat_req |
+		#			current_therapist.match_schedule?(pat_req)
+		#		end
+		#	end
+		#end
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 1
@@ -179,7 +157,7 @@ class PatientRequestsController < ApplicationController
 			# Mandamos a renderear de nuevo con mensaje
 			flash[:notice] = { :patient_request => "¡Ha registrado exitosamente una solicitud!" }
 
-			redirect_to lue_index_path + "?account_number=" + @patient.account_number.to_s
+			redirect_to lue_index_path + "?searchStr=" + @patient.account_number.to_s
 		else
 
 			# Panel para las tabs del workspace del terapeuta

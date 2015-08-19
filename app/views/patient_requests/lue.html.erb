@@ -47,7 +47,7 @@
 					<th class="order<%= (params[:order_by] == 'p_last_name')? ' order-active' : '' %>" orderby="p_last_name">APELLIDO PATERNO</th>
 					<th class="order<%= (params[:order_by] == 'm_last_name')? ' order-active' : '' %>" orderby="m_last_name">APELLIDO MATERNO</th>
 					<th class="order<%= (params[:order_by] == 'names')? ' order-active' : '' %>" orderby="names">NOMBRE(S)</th>
-					<th class="order<%= (params[:order_by] == 'request_date')? ' order-active' : '' %>" orderby="request_date">FECHA DE SOLICITUD</th>
+					<th class="order<%= (params[:order_by] == 'created_at')? ' order-active' : '' %>" orderby="created_at">FECHA DE SOLICITUD</th>
 					<th class="order<%= (params[:order_by] == 'condition')? ' order-active' : '' %>" orderby="condition">CONDICIÓN</th>
 					<th class="order<%= (params[:order_by] == 'status')? ' order-active' : '' %>" orderby="status">STATUS</th>
 					<th></th>
@@ -75,7 +75,7 @@
 						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= patient.p_last_name %></td>
 						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
-						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= req.request_date %></td>
+						<td class="<%= (params[:order_by] == 'created_at')? 'c-order-active' : '' %>"><%= req.created_at.strftime("%d-%m-%y") %></td>
 						<td class="<%= (params[:order_by] == 'condition')? 'c-order-active' : '' %>"><%= req.condition_type.name %></td>
 						<td class="<%= (params[:order_by] == 'status')? 'c-order-active' : '' %>"><%= patient.patient_status_type.name %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
@@ -97,6 +97,12 @@
 				<% end %>
 			</tbody>
 		</table>
+
+		<% if @patient_requests.size > 0 %>
+			<div class="table-pagination">
+				<%= will_paginate @patient_requests %>
+			</div>
+		<% end %>
 	</div>
 
 	<script type="text/javascript">

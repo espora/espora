@@ -1,4 +1,8 @@
 es:
+  will_paginate:
+    page_gap: "..."
+    previous_label: "← Anterior"
+    next_label: "Siguiente →"
   activerecord:
     errors:
       models:

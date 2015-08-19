@@ -17,7 +17,7 @@
 	<div class="fosti-block" style="width: 98%; padding-left: 2%;">
 
 		<table id="fosti-table" class="pure-table pure-table-bordered">
-			<% [80, 150, 40, 60, 100, 50, 45, 75, 65, 65].each do | w | %>
+			<% [80, 100, 30, 60, 100, 50, 45, 70, 60, 60].each do | w | %>
 				<col width="<%= w %>px"/>
 			<% end %>
 
@@ -88,6 +88,12 @@
 				<% end %>
 			</tbody>
 		</table>
+
+		<% if @patient_records.size > 0 %>
+			<div class="table-pagination">
+				<%= will_paginate @patient_records %>
+			</div>
+		<% end %>
 	</div>
 
 	<script type="text/javascript">

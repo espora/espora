@@ -14,63 +14,57 @@ class PatientRecordsController < ApplicationController
 	# Aplica búsquedas y ordenamientos.
 	def fosti
 
-		# El Array que se ira llenando
-		@patient_records = Array.new
+		# Obtenemos los expedientes actuales del terapeuta
+		@patient_records = current_therapist.on_treatment_records
 
 		# Estan buscando algo?
 		if not params[:searchStr].nil?
-			if params[:searchStr] == ""
-
-				# Viene vacio, entonces mandamos todas
-				@patient_records = current_therapist.patient_records
-			else
+			if params[:searchStr] != ""
 
 				# BUSQUEDA
 
 				# Por apellido paterno
-				@patient_records.concat(current_therapist.patient_records.joins(:patient).where("p_last_name LIKE ?", "%#{params[:searchStr]}%"))
+				condition_str = "patients.p_last_name LIKE ? or " +
 
 				# Por apellido materno
-				@patient_records.concat(current_therapist.patient_records.joins(:patient).where("m_last_name LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.m_last_name LIKE ? or " +
 
 				# Por nombres
-				@patient_records.concat(current_therapist.patient_records.joins(:patient).where("names LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.names LIKE ? or " +
 
 				# Por numero de cuenta
-				@patient_records.concat(current_therapist.patient_records.joins(:patient).where("account_number LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.account_number LIKE ?"
 
-				# Eliminamos repetidos
-				@patient_records.uniq!
+				# Por apellido paterno
+				@patient_records = @patient_records.joins(:patient).where(condition_str,
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%")
 			end
-		else
-
-			# Viene vacio, entonces mandamos todas
-			@patient_records = current_therapist.patient_records
 		end
 
 		# Hay que ordenar
 		if not params[:order_by].nil? and @patient_records.count > 0
-			@patient_records.sort! do |x, y|
-				case params[:order_by]
-				when "full_name"
-					x.patient.full_name <=> y.patient.full_name
-				when "admission_date"
-					x.created_at <=> y.created_at
-				else
-					x.patient.attributes[params[:order_by]] <=> y.patient.attributes[params[:order_by]]
-				end
+			case params[:order_by]
+			when "full_name"
+				@patient_records = @patient_records.order("patients.p_last_name ASC")
+			when "admission_date"
+				@patient_records = @patient_records.order("created_at DESC")
+			when "age"
+				@patient_records = @patient_records.order("patients.birth DESC")
+			when "career"
+				@patient_records = @patient_records.joins(patient: :career).order("careers.name ASC")
+			else
+				@patient_records = @patient_records.order("patients.#{params[:order_by]} ASC")
 			end
 		end
 
-		# Filtramos para solo los que estan en tratamiento
-		@patient_records = @patient_records.to_a
-		@patient_records.keep_if do | pat_record |
-			status = pat_record.patient.patient_status_type.name
-			status === "En tratamiento"
+		# Paginamos
+		if params[:page].nil?
+			params[:page] = 1
 		end
-
-		# Unico
-		@patient_records.uniq!
+		@patient_records = @patient_records.paginate(:page => params[:page], :per_page => 10)
 
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 2

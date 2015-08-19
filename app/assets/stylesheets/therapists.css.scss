@@ -329,3 +329,57 @@ textarea {
 	height: 14px;
 	margin-top: 5px;
 }
+
+/******* PAGINADOR *************/
+
+.table-pagination {
+	margin-top: 15px;
+}
+
+.pagination {
+	cursor: default;
+	float: right;
+	margin-right: 5%;
+}
+
+.pagination a,
+.pagination span,
+.pagination em {
+	padding: 0.2em 0.5em;
+	display: block;
+	float: left;
+	margin-right: 1px;
+}
+
+.pagination .disabled {
+	color: #999999;
+	border: 1px solid #dddddd;
+}
+
+.pagination .current {
+	font-style: normal;
+	font-weight: bold;
+	background: #004e93;
+	color: white;
+	border: 1px solid #004e93;
+}
+
+.pagination a {
+	text-decoration: none;
+	color: #004e93;
+	border: 1px solid #004e93;
+}
+
+.pagination a:hover,
+.pagination a:focus {
+	color: #000033;
+	border-color: #000033;
+}
+
+.pagination:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}

@@ -14,7 +14,7 @@ class StatisticsChart
 			},
 			"sex_requests" => {
 				:options => {
-					:title "Sexo de los alumnos que han solicitado el servicio",
+					:title => "Sexo de los alumnos que han solicitado el servicio",
 					:width => 800,
 					:height => 400
 				},
@@ -22,7 +22,7 @@ class StatisticsChart
 			},
 			"sex_attended" => {
 				:options => {
-					:title "Sexo de los alumnos que se han atendido en ESPORA",
+					:title => "Sexo de los alumnos que se han atendido en ESPORA",
 					:width => 800,
 					:height => 400
 				},

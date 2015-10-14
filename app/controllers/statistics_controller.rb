@@ -43,7 +43,8 @@ class StatisticsController < ApplicationController
 		if respond_to?(method_name, true)
 			branch = Branch.find(params[:branch])
 
-			@chartSetting = StatisticsChart::settings[params[:chart]]
+			settings = StatisticsChart.settings()
+			@chartSetting = settings[params[:chart]]
 			@chartSetting[:dataTable] = send(method_name, branch, params[:semester])
 		else
 			@chartSetting = "undefinedchart"

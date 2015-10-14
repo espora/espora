@@ -5,7 +5,8 @@ class StatisticsChart
 			"request_on_attended" => {
 				:options => {
 					:title => "Numero de Solicitudes y Alumnos Atendidos",
-					:width => 450, :height => 200,
+					:width => 450,
+					:height => 200,
 					:curveType => "function",
 					:legend => { position: "bottom" }
 				},
@@ -14,16 +15,16 @@ class StatisticsChart
 			"sex_requests" => {
 				:options => {
 					:title "Sexo de los alumnos que han solicitado el servicio",
-					:width => 800, :height => 400,
+					:width => 800,
+					:height => 400
 				},
 				:chartType => "piechart"
 			},
-			,
 			"sex_attended" => {
 				:options => {
 					:title "Sexo de los alumnos que se han atendido en ESPORA",
 					:width => 800,
-					:height => 400,
+					:height => 400
 				},
 				:chartType => "piechart"
 			}

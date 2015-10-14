@@ -337,7 +337,7 @@ Branch.delete_all
 branch_entries = [
 	{ id: "1", name: "Facultad de Ciencias", branch_type_id: 2},
 	{ id: "2", name: "Facultad de Medicina Veterinaria y Zootecnia", branch_type_id: 2},
-	{ id: "3", name: "Preparatoria No. 5", branch_type_id: 1},
+	{ id: "3", name: "Preparatoria No. 5", branch_type_id: 1}
 ]
 
 puts "\n--- Poblando catálogo de Sedes (#{branch_entries.count} inserciones)... "
@@ -357,7 +357,7 @@ career_entries = [
 	{ id: "7", name: "Biología", branch_id: 1},
 	{ id: "8", name: "Manejo Sustentable de Zonas Costeras", branch_id: 1},
 	{ id: "9", name: "Medicina Veterinaria y Zootecnia", branch_id: 2},
-	{ id: "10", name: "Alumno de Preparatoria", branch_id: 3},
+	{ id: "10", name: "Alumno", branch_id: 3}
 ]
 
 puts "\n--- Poblando catálogo de Carreras (#{career_entries.count} inserciones)... "

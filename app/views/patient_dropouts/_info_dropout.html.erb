@@ -41,14 +41,15 @@
 		</div>
 	</div>
 
-	<!-- INGRESO -->
+	<% if dropout_type.nil? %>
+	<% else %>
+	
+	<!-- EGRESO -->
 	<div style="width: 45%; margin-left: 1%;">
 		<div style="font-size: 13px; font-weight: bolder;">EGRESO</div>
 
 		<% if patient_dropout.nil? %>
-		<div style="width: 47%; margin-left: 2%;">
-			
-		</div>
+		<div style="width: 47%; margin-left: 2%;"></div>
 		<% else %>
 		<% missed = patient.patient_record.missed_appointments.count %>
 		<% case dropout_type.name %>
@@ -97,4 +98,5 @@
 		<% end %>
 		</div>
 	</div>
+	<% end %>
 </div>

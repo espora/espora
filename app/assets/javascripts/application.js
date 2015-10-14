@@ -87,3 +87,33 @@ function trimSchedulesTable (table) {
 		}
 	}
 }
+
+/**
+ * Dibuja una grafica con GoogleCharts.
+ * 
+ * @param {Object} chartSetting - Objeto que tiene la configuración de la grafica.
+ * @param {DOM Element} element - Elemento DOM donde se pone la gráfica.
+ */
+function displayChart (chartSetting, element) {
+
+	// Creamos la grafica
+	var chart = undefined;
+	switch(chartSetting.chartType) {
+		case "linechart":
+			chart = new google.visualization.LineChart(element);
+			break;
+		case "piechart":
+			chart = new google.visualization.PieChart(element);
+			break;
+		case "columnchart":
+			chart = new google.visualization.ColumnChart(element);
+			break;
+		case "barchart":
+			chart = new google.visualization.BarChart(element);
+			break;
+	}
+
+	// La dibujamos
+	var dataTable = google.visualization.arrayToDataTable(chartSetting.dataTable);
+	chart.draw(dataTable, chartSetting.options);
+}

@@ -25,6 +25,7 @@
 		</div>
 
 		<% if current_therapist.has_role? :coordinator %>
+		
 			<!-- ESTADISTICAS -->
 			<div id="statistics" class="ter-panel">
 				<%= yield(:statistics) if content_for?(:statistics) %>
@@ -51,7 +52,7 @@
 
 					// Estadisticas
 					if(newPanelId === "statistics") {
-						window.location = "<%= (current_therapist.has_role? :coordinator) ? stadistics_index_path : '' %>"
+						window.location = "<%= (current_therapist.has_role? :coordinator) ? statistics_index_path : '' %>"
 					}
 				}
 			});

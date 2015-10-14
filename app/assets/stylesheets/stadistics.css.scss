@@ -1,58 +1,68 @@
-#statistics{
-    height: 500px;
+#statistics-options {
+	width: 100%;
+	height: 45px;
+
+	position: relative;
+
+	border: 1px solid #d3d3d3;
+	border-radius: 3px;
 }
 
-#container {
-    /*position: relative;*/
-    height: 100%;
-	width: 80%;
-    float: left;
-}
-#sidebar-tab ul li {
-    margin-left: 12px;
-    width: 100%;
-} 
+#statistics-download {
+	width: 38px;
+	height: 37px;
 
-#sidebar-tab {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    float: left;
-    font-size: 10vh;
-    /*position: absolute;*/
-    background: #41775F;
-    width: 245px;
-    height: 400px;
-    box-sizing: border-box;
-   -moz-box-sizing: border-box;
-}
-#sidebar-tab ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+	position: relative;
+	margin-top: 4px;
+	margin-right: 4px;
+	float: right;
+
+	background: #1c94c4;
+	color: white;
+	font-size: 20px;
+
+	border-radius: 4px;
 }
 
-.ui-tabs-anchor{
-    width: 100% !important;
-}
-#sidebar-tab ul li a {
-    padding: 15px 20px;
-    font-size: 16px;
-    font-weight: 100;
-    color: white;
-    text-decoration: none;
-    display: block;
-    border-bottom: 1px solid #41775F;
-    -webkit-transition:  background 0.3s ease-in-out;
-    -moz-transition:  background 0.3s ease-in-out;
-    -ms-transition:  background 0.3s ease-in-out;
-    -o-transition:  background 0.3s ease-in-out;
-    transition:  background 0.3s ease-in-out;
-}
-#sidebar-tab ul li:hover a {
-    background: #E6C84F;
+#statistics-download:hover {
+	cursor: pointer;
+	background: #13607f;
 }
 
-#sidebar-tab ul li a {
-    background: #41775F;
-    margin-top: -1.3px;
+#statistics-download i {
+	margin-top: 10px;
+    margin-left: 9px;
+}
+
+#branch-statics-selec,
+#semester-statics-selec {
+	margin-top: 8px;
+	float: left;
+}
+
+#branch-statics-selec {
+	margin-left: 2%;
+}
+
+#semester-statics-selec {
+	margin-left: 20px;
+}
+
+#branch-statics-selec span,
+#semester-statics-selec span {
+	float: left;
+}
+
+#statistics-container {
+	width: 100%;
+	height: 380px;
+
+	position: relative;
+	margin-top: 8px;
+
+	overflow-y: scroll;
+}
+
+div.statistics-chart {
+	padding: 8px;
 }

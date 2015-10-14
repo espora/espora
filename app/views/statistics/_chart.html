@@ -1,0 +1,18 @@
+<div name-chart="<%= params[:chart] %>" class="statistics-chart">
+	<div class="chart"></div>
+</div>
+
+<script>
+	(function () {
+
+		// Parseamos el JSON de datos
+		var settingJSON = '<%= @chartSetting.to_json %>';
+		while(settingJSON.lastIndexOf('&quot;') != -1) {
+			settingJSON = settingJSON.replace('&quot;', '"');
+		}
+
+		var chartSetting = JSON.parse(settingJSON);
+		var element = $("div[name-chart='<%= params[:chart] %>'] .chart")[0];
+		displayChart(chartSetting, element);
+	})();
+</script>

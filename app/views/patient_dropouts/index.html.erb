@@ -70,10 +70,12 @@
 			</form>
 
 			<tbody>
+
+				<!-- BAJAS -->
+				<% if not @dropouts.nil? %>
 				<% @dropouts.each_with_index do | dropout, index | %>
-					<% isDropout = dropout.is_a?(PatientDropout) %>
-					<% patient = isDropout ? dropout.patient : dropout %>
-					<% dropout_type = isDropout ? dropout.patient_dropout_type : nil %>
+					<% patient = dropout.patient %>
+					<% dropout_type = dropout.patient_dropout_type %>
 
 					<!-- REGISTRO -->
 					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>" align="center">
@@ -83,9 +85,9 @@
 						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
 						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= patient.patient_request.request_date %></td>
 						<td class="<%= (params[:order_by] == 'dropout_date')? 'c-order-active' : '' %>">
-							<%= isDropout ? dropout.created_at.strftime("%d-%m-%y") : dropout.updated_at.strftime("%d-%m-%y") %>
+							<%= dropout.created_at.strftime("%d-%m-%y") %>
 						</td>
-						<td class="<%= (params[:order_by] == 'dropout_type')? 'c-order-active' : '' %>"><%= isDropout ? dropout_type.name : "Desinteresado" %></td>
+						<td class="<%= (params[:order_by] == 'dropout_type')? 'c-order-active' : '' %>"><%= dropout_type.name %></td>
 						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
 					</tr>
 					<!-- FIN REGISTRO -->
@@ -97,8 +99,37 @@
 						</td>
 					</tr>
 				<% end %>
+				<% end %>
 
-				<% if @dropouts.size == 0 %>
+				<!-- DESINTERESADOS -->
+				<% if not @uninterested.nil? %>
+				<% @uninterested.each_with_index do | patient, index | %>
+
+					<!-- REGISTRO -->
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>" align="center">
+						<td class="<%= (params[:order_by] == 'account_number')? 'c-order-active' : '' %>"><%= patient.account_number %></td>
+						<td class="<%= (params[:order_by] == 'p_last_name')? 'c-order-active' : '' %>"><%= patient.p_last_name %></td>
+						<td class="<%= (params[:order_by] == 'm_last_name')? 'c-order-active' : '' %>"><%= patient.m_last_name %></td>
+						<td class="<%= (params[:order_by] == 'names')? 'c-order-active' : '' %>"><%= patient.names %></td>
+						<td class="<%= (params[:order_by] == 'request_date')? 'c-order-active' : '' %>"><%= patient.patient_request.request_date %></td>
+						<td class="<%= (params[:order_by] == 'dropout_date')? 'c-order-active' : '' %>">
+							<%= patient.updated_at.strftime("%d-%m-%y") %>
+						</td>
+						<td class="<%= (params[:order_by] == 'dropout_type')? 'c-order-active' : '' %>">Desinteresado</td>
+						<td><div class="arrow-expand"><i class="fa fa-caret-down"></i></div></td>
+					</tr>
+					<!-- FIN REGISTRO -->
+
+					<!-- INFORMACION -->
+					<tr class="<%= 'pure-table-odd' if (index % 2 == 1) %>">
+						<td colspan="8" class="dropout-pat" style="padding: 0 0 0 0; margin: 0 0 0 0;">
+							<%= render partial: "info_dropout", locals: { patient: patient, patient_dropout: nil, dropout_type: nil } %>
+						</td>
+					</tr>
+				<% end %>
+				<% end %>
+
+				<% if (not @dropouts.nil? and @dropouts.size == 0) or (not @uninterested.nil? and @uninterested.size == 0)  %>
 					<tr>
 						<td colspan="8" align="center" style="font-size: 14px; font-style: italic; padding-top: 9px; height: 30px;">
 							NO SE HALLARON BAJAS
@@ -106,6 +137,20 @@
 					</tr>
 				<% end %>
 			</tbody>
+
+			<% if not @dropouts.nil? %>
+			<% if @dropouts.size > 0 %>
+				<div class="table-pagination">
+					<%= will_paginate @dropouts %>
+				</div>
+			<% end %>
+			<% else %>
+			<% if @uninterested.size > 0 %>
+				<div class="table-pagination">
+					<%= will_paginate @uninterested %>
+				</div>
+			<% end %>
+			<% end %>
 		</table>
 	</div>
 

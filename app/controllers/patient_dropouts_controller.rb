@@ -5,108 +5,89 @@ class PatientDropoutsController < ApplicationController
 
 	def index
 
-		# El Array que se ira llenando
-		@dropouts = Array.new
+		# Obtenemos las bajas
+		@dropouts = current_therapist.dropout_records
+		@uninterested = nil
 
-		# Seleccionamos el estatus de no interesado
-		@uninterested_status = PatientStatusType.find_by_name("Ya no esta interesado")
+		# Aplicamos el filtro
+		if not params[:filter_by].nil?
+			case params[:filter_by]
+			when "none"
+				@uninterested = PatientStatusType.find_by_name("Ya no esta interesado").patients
+			when "uninterested"
+				@dropouts = nil
+				@uninterested = PatientStatusType.find_by_name("Ya no esta interesado").patients
+			when "interrupted"
+				@dropouts = @dropouts.joins(:patient_dropout_type).where("patient_dropout_types.name = ?", "Interrupción")
+			when "abandoned"
+				@dropouts = @dropouts.joins(:patient_dropout_type).where("patient_dropout_types.name = ?", "Abandono")
+			when "channelized"
+				@dropouts = @dropouts.joins(:patient_dropout_type).where("patient_dropout_types.name = ?", "Canalizado")
+			when "ended"
+				@dropouts = @dropouts.joins(:patient_dropout_type).where("patient_dropout_types.name = ?", "Finalizado")
+			end
+		else
 
-		# Nos pasaron un numero de cuenta?
-		if not params[:account_number].nil?
-
-			# Buscamos un paciente con el numero de cuenta y regresamos
-			patient = Patient.find_by_account_number(params[:account_number])
-			@dropouts.concat([ patient.patient_dropout ])
+			# Obtenemos los desinteresados
+			@uninterested = PatientStatusType.find_by_name("Ya no esta interesado").patients
 		end
 
 		# Estan buscando algo?
 		if not params[:searchStr].nil?
-			if params[:searchStr] == ""
-
-				# Viene vacio, entonces mandamos todas
-				@dropouts = PatientDropout.all
-				@dropouts.concat(@uninterested_status.patients)
-			else
+			if params[:searchStr] != ""
 
 				# BUSQUEDA
 
 				# Por apellido paterno
-				@dropouts.concat(PatientDropout.joins(:patient).where("p_last_name LIKE ?", "%#{params[:searchStr]}%"))
-				@dropouts.concat(@uninterested_status.patients.where("p_last_name LIKE ?", "%#{params[:searchStr]}%"))
+				condition_str = "patients.p_last_name LIKE ? or " +
 
 				# Por apellido materno
-				@dropouts.concat(PatientDropout.joins(:patient).where("m_last_name LIKE ?", "%#{params[:searchStr]}%"))
-				@dropouts.concat(@uninterested_status.patients.where("m_last_name LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.m_last_name LIKE ? or " +
 
 				# Por nombres
-				@dropouts.concat(PatientDropout.joins(:patient).where("names LIKE ?", "%#{params[:searchStr]}%"))
-				@dropouts.concat(@uninterested_status.patients.where("names LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.names LIKE ? or " +
 
 				# Por numero de cuenta
-				@dropouts.concat(PatientDropout.joins(:patient).where("account_number LIKE ?", "%#{params[:searchStr]}%"))
-				@dropouts.concat(@uninterested_status.patients.where("account_number LIKE ?", "%#{params[:searchStr]}%"))
+				"patients.account_number LIKE ?"
 
-				# Eliminamos repetidos
-				@dropouts.uniq!
+				if not @dropouts.nil?
+					@dropouts = @dropouts.joins(:patient).where(condition_str,
+						"%#{params[:searchStr]}%",
+						"%#{params[:searchStr]}%",
+						"%#{params[:searchStr]}%",
+						"%#{params[:searchStr]}%")
+				end
+
+				if not @uninterested.nil?
+					@uninterested = @uninterested.where(condition_str,
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%",
+					"%#{params[:searchStr]}%")
+				end
 			end
-		else
-		end
-
-		# Si no hubo ninguno hay que solicitar todos
-		if params[:account_number].nil? and params[:searchStr].nil?
-			@dropouts = PatientDropout.all
-			@dropouts.concat(@uninterested_status.patients)
 		end
 
 		# Hay que ordenar
 		if not params[:order_by].nil? and @dropouts.count > 0
-			@dropouts.sort! { |x, y|
-				case params[:order_by]
-				when "dropout_date"
-					dropout_date_x = x.is_a?(PatientDropout) ? x.created_at : x.updated_at
-					dropout_date_y = y.is_a?(PatientDropout) ? y.created_at : y.updated_at
-					dropout_date_x <=> dropout_date_y
-				when "full_name"
-					patient_x = x.is_a?(PatientDropout) ? x.patient : x
-					patient_y = y.is_a?(PatientDropout) ? y.patient : y
-					patient_x.full_name <=> patient_y.full_name
-				else
-					patient_x = x.is_a?(PatientDropout) ? x.patient : x
-					patient_y = y.is_a?(PatientDropout) ? y.patient : y
-					patient_x.attributes[params[:order_by]] <=> patient_y.attributes[params[:order_by]]
-				end
-			}
-		end
-
-		# Convertimos a array
-		@dropouts = @dropouts.to_a
-
-		# Hay que filtrar
-		if not params[:filter_by].nil?
-			case params[:filter_by]
-			when "uninterested"
-				@dropouts.keep_if do | dropout |
-					dropout.is_a?(Patient)
-				end
-			when "interrupted"
-				@dropouts.keep_if do | dropout |
-					dropout.is_a?(PatientDropout) and dropout.patient_dropout_type.name == "Interrupción"
-				end
-			when "abandoned"
-				@dropouts.keep_if do | dropout |
-					dropout.is_a?(PatientDropout) and dropout.patient_dropout_type.name == "Abandono"
-				end
-			when "channelized"
-				@dropouts.keep_if do | dropout |
-					dropout.is_a?(PatientDropout) and dropout.patient_dropout_type.name == "Canalizado"
-				end
-			when "ended"
-				@dropouts.keep_if do | dropout |
-					dropout.is_a?(PatientDropout) and dropout.patient_dropout_type.name == "Finalizado"
-				end
+			case params[:order_by]
+			when "dropout_date"
+			when "full_name"
+			else
 			end
 		end
 
+		# Paginamos
+		if params[:page].nil?
+			params[:page] = 1
+		end
+		if not @dropouts.nil?
+			@dropouts = @dropouts.paginate(:page => params[:page], :per_page => 10)
+		end
+		if not @uninterested.nil?
+			@uninterested = @uninterested.paginate(:page => params[:page], :per_page => 10)
+		end
+		
 		# Panel para las tabs del workspace del terapeuta
 		@therapist_active_tab = 3
 	end
@@ -144,7 +125,7 @@ class PatientDropoutsController < ApplicationController
 		end
 
 		# Redirigimos a las bajas
-		redirect_to patient_dropouts_index_path + "?account_number=" + @patient.account_number.to_s
+		redirect_to patient_dropouts_index_path + "?searchStr=" + @patient.account_number.to_s
 	end
 
 	def create_interruption
@@ -174,7 +155,7 @@ class PatientDropoutsController < ApplicationController
 		end
 
 		# Redirigimos a las bajas
-		redirect_to patient_dropouts_index_path + "?account_number=" + @patient.account_number.to_s
+		redirect_to patient_dropouts_index_path + "?searchStr=" + @patient.account_number.to_s
 	end
 
 	def create_abandonment
@@ -204,7 +185,7 @@ class PatientDropoutsController < ApplicationController
 		end
 
 		# Redirigimos a las bajas
-		redirect_to patient_dropouts_index_path + "?account_number=" + @patient.account_number.to_s
+		redirect_to patient_dropouts_index_path + "?searchStr=" + @patient.account_number.to_s
 	end
 
 	def create_signout
@@ -239,7 +220,7 @@ class PatientDropoutsController < ApplicationController
 		end
 
 		# Redirigimos a las bajas
-		redirect_to patient_dropouts_index_path + "?account_number=" + @patient.account_number.to_s		
+		redirect_to patient_dropouts_index_path + "?searchStr=" + @patient.account_number.to_s		
 	end
 
 	private

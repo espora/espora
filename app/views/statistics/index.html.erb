@@ -1,0 +1,83 @@
+<% content_for :statistics do %>
+
+	<!-- OPCTIONES ESTADISTICAS -->
+	<div id="statistics-options">
+
+		<!-- SEDE -->
+		<% if current_therapist.role === "Coordinador" %>
+			<form action="<%= request.fullpath %>" method="get" class="pure-form" id="branch-statics-selec">
+				<%= label_tag 'branch', 'Sede:', :style => "font-weight: bold;" %>
+				<%= select_tag 'branch', @branch_options.html_safe, :onchange => "this.form.submit();" %>
+			</form>
+		<% end %>
+
+		<!-- SEMESTRE -->
+		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="semester-statics-selec">
+			<%= label_tag 'semester', 'Periodo:', :style => "font-weight: bold;" %>
+			<%= select_tag 'semester', @semester_options.html_safe, :onchange => "this.form.submit();" %>
+		</form>
+
+		<!-- BOTON PDF -->
+		<div id="statistics-download" title="Descargar en PDF">
+			<i class="fa fa-download"></i>
+		</div>
+	</div>
+
+	<!-- CONTENEDOR ESTADISTICAS -->
+	<div id="statistics-container">
+		<div style="width: 100%; height: 1400px;">
+		</div>
+	</div>
+
+	<script>
+		(function () {
+
+			// Freewal para estadisticas
+			var wall = new Freewall("#statistics-container div");
+			wall.reset({
+				animate: true,
+				cellW: 160,
+				cellH: 160,
+				delay: 50,
+				onResize: function() {
+					wall.fitWidth();
+				}
+			});
+			wall.fitWidth();
+
+			// Los nombres de las graficas disponibles
+			var chartNames = [
+				"request_on_attended"
+			];
+
+			// Funcion para agregar una nueva grafica
+			function appendChart(name) {
+				var chartUrl = "<%= chart_path %>?chart=" + name;
+				$.ajax({
+					method: "GET",
+					url: chartUrl,
+					data: {
+						branch: "<%= @branch.id %>",
+						semester: "<%= @semester %>"
+					},
+					success: function (data) {
+						$("#statistics-container > div").append(data);
+
+						var newChart = document.getElementById(name + "-chart");
+						wall.appendBlock(newChart);
+					}
+				});
+			}
+			
+			// Obtenemos cada estadistica en base al nombre
+			google.load('visualization', '1.0', {'packages':['corechart']});
+			google.setOnLoadCallback(function() {
+				for (var i = 0; i < chartNames.length; i++) {
+					appendChart(chartNames[i]);
+				}
+			});
+		})();
+	</script>
+<% end %>
+
+<%= render template: "therapists/profile_tab" %>

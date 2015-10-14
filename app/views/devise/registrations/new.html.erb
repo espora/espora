@@ -1,18 +1,47 @@
-<h2>Sign up</h2>
+<section style="width: 28%; margin-left: 36%;">
+	
+	<div style="width: 100%;">
+		<%= image_tag("EsporaBlanco.png", :class => "esp-logo", :style => "margin-left: 2%;") %>
+	</div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+	<h2 style="margin-left: 50px">Registra a un Terapeuta</h2>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+	<div class="signUp" id="login" >
+		<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+		  <%= devise_error_messages! %>
 
-  <div><%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+		  <div><%= f.label :email %><br />
+		  	<%= f.email_field :email, autofocus: true %>
+		  </div>
 
-  <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
+		  <div><%= f.label :password %><br />
+		    <%= f.password_field :password, autocomplete: "off" %>
+		  </div>
 
-  <div><%= f.submit "Sign up" %></div>
-<% end %>
+		  <div><%= f.label :password_confirmation %><br />
+		    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+		  </div>
 
-<%= render "devise/shared/links" %>
+		  <div><%= f.submit "Sign up", :class => "pure-button pure-button-primary", :style => "width: 25%; margin-left: 92px"  %>
+		  </div>
+
+		<% end %>
+		<div class="margin-left">
+			<%= render "devise/shared/links" %>
+		</div>
+	</div>
+</section>
+
+<style type="text/css">
+	.signUp{
+	    height: 250px !important;
+	   	}
+
+	 .signUp form{
+	 	padding-left: 30px;
+	 }
+
+	 .margin-left{
+	 	margin-left: 142px;
+	 }
+</style>

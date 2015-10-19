@@ -15,8 +15,8 @@ class StatisticsChart
 			"sex_requests" => {
 				:options => {
 					:title => "Sexo de los alumnos que han solicitado el servicio",
-					:width => 800,
-					:height => 400
+					:width => 300,
+					:height => 300
 				},
 				:chartType => "piechart"
 			},

@@ -3,17 +3,12 @@
 	<!-- OPCTIONES ESTADISTICAS -->
 	<div id="statistics-options">
 
-		<!-- SEDE -->
-		<% if current_therapist.role === "Coordinador" %>
-			<form action="<%= request.fullpath %>" method="get" class="pure-form" id="branch-statics-selec">
-				<%= label_tag 'branch', 'Sede:', :style => "font-weight: bold;" %>
-				<%= select_tag 'branch', @branch_options.html_safe, :onchange => "this.form.submit();" %>
-			</form>
-		<% end %>
+		<!-- FORMULARIO PARA SELECIONAR -->
+		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="statics-selec">
+			<%= label_tag 'branch', 'Sede:', :style => "font-weight: bold;" %>
+			<%= select_tag 'branch', @branch_options.html_safe, :onchange => "this.form.submit();" %>
 
-		<!-- SEMESTRE -->
-		<form action="<%= request.fullpath %>" method="get" class="pure-form" id="semester-statics-selec">
-			<%= label_tag 'semester', 'Periodo:', :style => "font-weight: bold;" %>
+			<%= label_tag 'semester', 'Semestre:', :style => "font-weight: bold;" %>
 			<%= select_tag 'semester', @semester_options.html_safe, :onchange => "this.form.submit();" %>
 		</form>
 
@@ -25,7 +20,7 @@
 
 	<!-- CONTENEDOR ESTADISTICAS -->
 	<div id="statistics-container">
-		<div style="width: 100%; height: 1400px;">
+		<div id="statistics-wall">
 		</div>
 	</div>
 
@@ -33,8 +28,9 @@
 		(function () {
 
 			// Freewal para estadisticas
-			var wall = new Freewall("#statistics-container div");
+			var wall = new Freewall("#statistics-wall");
 			wall.reset({
+				selector: '.statistics-chart',
 				animate: true,
 				cellW: 160,
 				cellH: 160,
@@ -47,7 +43,8 @@
 
 			// Los nombres de las graficas disponibles
 			var chartNames = [
-				"request_on_attended"
+				"request_on_attended",
+				"sex_requests"
 			];
 
 			// Funcion para agregar una nueva grafica
@@ -61,10 +58,10 @@
 						semester: "<%= @semester %>"
 					},
 					success: function (data) {
-						$("#statistics-container > div").append(data);
+						var domData = $(data);
 
-						var newChart = document.getElementById(name + "-chart");
-						wall.appendBlock(newChart);
+						wall.appendBlock(domData[0]);
+						$("#statistics-wall").append(domData[2]);
 					}
 				});
 			}

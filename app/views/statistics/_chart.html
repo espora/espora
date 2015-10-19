@@ -1,7 +1,7 @@
-<div name-chart="<%= params[:chart] %>" class="statistics-chart">
+<div name-chart="<%= params[:chart] %>" class="statistics-chart"
+	style="width: <%= @chartSetting[:options][:width] + 10 %>px; height: <%= @chartSetting[:options][:height] + 10 %>px;">
 	<div class="chart"></div>
 </div>
-
 <script>
 	(function () {
 

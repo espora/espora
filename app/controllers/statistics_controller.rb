@@ -1,8 +1,5 @@
 class StatisticsController < ApplicationController
 
-	# Incluir las funciones de ayuda de estadisticas
-	include StatisticsHelper
-
 	# Layout de terapeuta
 	layout "therapist", :only => [ :index ]
 
@@ -21,7 +18,7 @@ class StatisticsController < ApplicationController
 
 		# Semestre
 		if params[:semester].nil?
-			@semester = "2015-1"
+			@semester = get_semester(Time.now)
 		else
 			@semester = params[:semester]
 		end
@@ -56,6 +53,22 @@ class StatisticsController < ApplicationController
 
 	private
 
+		def get_semester(date)
+			month = date.month
+			year = date.year
+
+			# Ene - Jun
+			if 1 <= month and month <= 6
+				semester = year.to_s + "-2"
+
+			# Jul - Dic
+			elsif 7 <= month and month <= 12
+				semester = (year + 1).to_s + "-1"
+			end
+
+			return semester
+		end
+
 		def get_branch_options (branch)
 			branch_options = ""
 
@@ -69,7 +82,21 @@ class StatisticsController < ApplicationController
 		end
 
 		def get_semester_options (semester)
-			return "<option value='2015-1' selected>Semestre 2015-1</option>"
+			date = PatientRequest.all.order("patient_requests.request_date ASC").first.request_date
+			now = Time.now
+			semester_options = ""
+
+			while date < now do
+				semester_str = get_semester(date)
+
+				semester_options += "<option value='#{semester_str}' "
+				semester_options += "selected" if semester_str === semester
+				semester_options += ">Semestre #{semester_str}</option>"
+
+				date = date + 6.month
+			end
+
+			return semester_options
 		end
 
 		def last_init_semester(date)
@@ -86,18 +113,33 @@ class StatisticsController < ApplicationController
 			return (date - diff.month) - day.day
 		end
 
+		def parse_semester(semester)
+			year = semester.split("-")[0].to_i
+			num = semester.split("-")[1].to_i
+
+			if num == 1
+				date = Time.new(year - 1, 7, 1)
+			else
+				date = Time.new(year, 1, 1)
+			end
+
+			return date
+		end
+
 		###############
 		# CHARTS DATA #
 		###############
 		
-		def request_on_attended_data (branch, semester)
-			init = last_init_semester(Time.now) - 18.month
+		def request_on_attended_data(branch, semester)
 			now = Time.now
+
+			initDate = last_init_semester(now) - 18.month
+			endDate = (get_semester(now) == semester) ? now : parse_semester(semester) + 6.month
 
 			# Selecciona las solicitudes
 			patient_requests = PatientRequest.joins(patient: { career: :branch })
 			.where("branches.id = ?", "#{branch.id}")
-			.where(:created_at => init..now)
+			.where(:request_date => initDate..endDate)
 
 			# Iteramos las solicitudes y creamos un auxiliar
 			dataTmp = Hash.new 
@@ -136,11 +178,38 @@ class StatisticsController < ApplicationController
 
 			# Creamos la tabla de datos
 			dataTable = [['String', 'Numero de Solicitudes Recibidas', 'Numero de Alumnos Atendidos']]
-			dataTmp.each do |key, value|
-				row = ['Semestre ' + key, value[:request], value[:attended]];
+			dataTmp.keys.sort!.each do |key|
+				row = ['Semestre ' + key, dataTmp[key][:request], dataTmp[key][:attended]];
 				dataTable << row
 			end
 			
+			return dataTable
+		end
+
+		def sex_requests_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+
+			# Selecciona las solicitudes
+			dataTmp = PatientRequest.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:request_date => initDate..endDate)
+			.group(:sex).count
+
+			# Creamos la tabla de datos
+			dataTable = [['Genero', 'Personas']]
+			if dataTmp["m"].nil?
+				dataTable << ['Hombre', 0]
+			else
+				dataTable << ['Hombre', dataTmp["m"]]
+			end
+
+			if dataTmp["f"].nil?
+				dataTable << ['Mujer', 0]
+			else
+				dataTable << ['Mujer', dataTmp["f"]]
+			end
+
 			return dataTable
 		end
 end

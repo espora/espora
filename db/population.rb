@@ -70,8 +70,8 @@ patients_created.each do |patient|
 			request_date: Faker::Date.between(30.days.ago, Date.today),
 			attention_date: Faker::Date.forward(10),
 			patient_id: patient.id,
-			contact_therapist_id: Therapist.last.id,
-			receive_therapist_id: Therapist.last.id,
+			contact_therapist_id: Therapist.first.id,
+			receive_therapist_id: Therapist.first.id,
 			condition_type_id: Faker::Number.between(from=1, to=5),
 			reasons: [
 				Reason.new(reasons_type_id: Faker::Number.between(from=1, to=23))

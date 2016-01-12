@@ -27,52 +27,77 @@
 	<script>
 		(function () {
 
-			// Freewal para estadisticas
-			var wall = new Freewall("#statistics-wall");
-			wall.reset({
-				selector: '.statistics-chart',
-				animate: true,
-				delay: 50,
-				gutterY: 20,
-				gutterX: 20,
-				onResize: function() {
-					wall.fitWidth();
-				}
-			});
-			wall.fitWidth();
-
 			// Los nombres de las graficas disponibles
 			var chartNames = [
-				"request_on_attended",
-				"sex_requests"
+			  "request_on_attended",
+			  "sex_requests",
+			  "sex_attended",
+			  "career_requests",
+			  "career_attended",
+			  "semester_requests",
+			  "semester_attended",
+			  "failed_subjects_requests",
+			  "failed_subjects_attended"
+			  //"dropouts"
+			  //"reasons",
+			  //"symptoms",
+			  //"affected_areas",
+			  //"improved_areas",
+			  //"condition_before",
+			  //"condition_after",
+			  //"aid",
+			  //"advise",
+			  //"how_met",
+			  //"rating"
 			];
 
-			// Funcion para agregar una nueva grafica
-			function appendChart(name) {
-				var chartUrl = "<%= chart_path %>?chart=" + name;
-				$.ajax({
-					method: "GET",
-					url: chartUrl,
-					data: {
-						branch: "<%= @branch.id %>",
-						semester: "<%= @semester %>"
-					},
-					success: function (data) {
-						var domData = $(data);
+			// Freewal para estadisticas
+			var wall = new Freewall("#statistics-wall");
 
-						wall.appendBlock(domData[0]);
-						$("#statistics-wall").append(domData[2]);
-					}
-				});
-			}
-			
 			// Obtenemos cada estadistica en base al nombre
 			google.load('visualization', '1.0', {'packages':['corechart']});
 			google.setOnLoadCallback(function() {
-				for (var i = 0; i < chartNames.length; i++) {
-					appendChart(chartNames[i]);
-				}
+				var promises = [];
+			  for (var i = 0; i < chartNames.length; i++) {
+			  	promises[i] = $.Deferred();
+			    appendChart(chartNames[i], promises[i]);
+			  }
+
+			  $.when( promises ).done(function () {
+			  	wall.reset({
+			  	  selector: '.statistics-chart',
+			  	  animate: true,
+			  	  delay: 50,
+			  	  onResize: function() {
+			  	    wall.fitWidth();
+			  	  }
+			  	});
+
+			  	wall.fitWidth();
+			  });
 			});
+
+			// Funcion para agregar una nueva grafica
+			function appendChart(name, promise) {
+			  var chartUrl = "<%= chart_path %>?chart=" + name;
+			  $.ajax({
+			    method: "GET",
+			    url: chartUrl,
+			    data: {
+			      branch: "<%= @branch.id %>",
+			      semester: "<%= @semester %>"
+			    },
+			    success: function (data) {
+			      var domData = $(data);
+			      promise.resolve();
+
+			      for (var j = 0; j < domData.length; j++) {
+			      	$("#statistics-wall").append(domData[j]);
+			      }
+			      wall.appendBlock(domData[0]);
+			    }
+			  });
+			}
 		})();
 	</script>
 <% end %>

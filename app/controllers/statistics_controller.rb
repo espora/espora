@@ -43,6 +43,9 @@ class StatisticsController < ApplicationController
 			settings = StatisticsChart.settings()
 			@chartSetting = settings[params[:chart]]
 			@chartSetting[:dataTable] = send(method_name, branch, params[:semester])
+
+			ap "Sending..."
+			ap @chartSetting[:dataTable]
 		else
 			@chartSetting = "undefinedchart"
 		end
@@ -211,5 +214,153 @@ class StatisticsController < ApplicationController
 			end
 
 			return dataTable
+		end
+
+		def sex_attended_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+			
+			# Consultamos la base
+			dataTmp = PatientRecord.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:created_at => initDate..endDate)
+			.group("patients.sex").count
+
+			# Creamos la tabla de datos
+			dataTable = [['Genero', 'Personas']]
+			if dataTmp["m"].nil?
+				dataTable << ['Hombre', 0]
+			else
+				dataTable << ['Hombre', dataTmp["m"]]
+			end
+
+			if dataTmp["f"].nil?
+				dataTable << ['Mujer', 0]
+			else
+				dataTable << ['Mujer', dataTmp["f"]]
+			end
+
+			return dataTable
+		end
+
+		def career_requests_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+			
+			# Consulta a la base
+			dataTmp = PatientRequest.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:request_date => initDate..endDate)
+			.group("careers.name").count
+			
+			# Creamos la tabla de datos
+			dataTable = [['Carrera', 'Personas']]
+			dataTmp.each do | key, value |
+				dataTable << [ key, value ]
+			end
+
+			return dataTable
+		end
+
+		def career_attended_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+
+			# Consultamos la base
+			dataTmp = PatientRecord.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:created_at => initDate..endDate)
+			.group("careers.name").count
+			
+			# Creamos la tabla de datos
+			dataTable = [['Carrera', 'Personas']]
+			dataTmp.each do | key, value |
+				dataTable << [ key, value ]
+			end
+
+			return dataTable
+		end
+
+		def semester_requests_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+
+			# Consulta a la base
+			dataTmp = PatientRequest.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:request_date => initDate..endDate)
+			.group(:semester).count
+			
+			# Creamos la tabla de datos
+			dataTable = [['Semetre', 'Personas']]
+			dataTmp.each do | key, value |
+				dataTable << [ "Semestre " + key.to_s, value ]
+			end
+
+			return dataTable
+		end
+
+		def semester_attended_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+
+			# Consultamos la base
+			dataTmp = PatientRecord.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:created_at => initDate..endDate)
+			.group("patients.semester").count
+			
+			# Creamos la tabla de datos
+			dataTable = [['Semetre', 'Personas']]
+			dataTmp.each do | key, value |
+				dataTable << [ "Semetre " + key.to_s, value ]
+			end
+
+			return dataTable
+		end
+
+		def failed_subjects_requests_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+			
+			# Consulta a la base
+			dataTmp = PatientRequest.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:request_date => initDate..endDate)
+			.group(:failed_subjects).count
+			
+			# Creamos la tabla de datos
+			dataTable = [['Número de materias', 'Personas']]
+			dataTmp.each do | key, value |
+				dataTable << [ key.to_s, value ]
+			end
+
+			return dataTable
+		end
+
+		def failed_subjects_attended_data(branch, semester)
+			initDate = parse_semester(semester)
+			endDate = initDate + 6.month
+
+			# Consulta a la base
+			dataTmp = PatientRecord.joins(patient: { career: :branch })
+			.where("branches.id = ?", "#{branch.id}")
+			.where(:created_at => initDate..endDate)
+			.group(:failed_subjects).count
+			
+			# Creamos la tabla de datos
+			dataTable = [['Número de materias', 'Personas']]
+			dataTmp.each do | key, value |
+				dataTable << [ key.to_s, value ]
+			end
+			
+			return dataTable
+		end
+
+		def dropouts_data
+
+			# Consultamos la base
+			data = PatientDropout.joins(:patient_dropout_type).group(:name).count
+			return data
 		end
 end

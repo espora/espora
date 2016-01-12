@@ -19,6 +19,17 @@ ActiveRecord::Schema.define(version: 20150804195707) do
     t.datetime "updated_at"
   end
 
+  create_table "affected_areas", force: true do |t|
+    t.integer  "patient_request_id"
+    t.integer  "personal_area_type_id"
+    t.string   "other_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "affected_areas", ["patient_request_id"], name: "index_affected_areas_on_patient_request_id"
+  add_index "affected_areas", ["personal_area_type_id"], name: "index_affected_areas_on_personal_area_type_id"
+
   create_table "aid_level_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -304,6 +315,17 @@ ActiveRecord::Schema.define(version: 20150804195707) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "symptoms", force: true do |t|
+    t.integer  "symptom_type_id"
+    t.integer  "level"
+    t.integer  "appointment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "symptoms", ["appointment_id"], name: "index_symptoms_on_appointment_id"
+  add_index "symptoms", ["symptom_type_id"], name: "index_symptoms_on_symptom_type_id"
 
   create_table "therapist_schedules", force: true do |t|
     t.integer  "day"

@@ -25,5 +25,6 @@ es:
         signed_out: "Ha salido del sistema"
     failure:
       therapist:
+        unauthenticated: "Debes logearte primero"
         not_found_in_database: "Terapeuta no registrado"
         invalid: "Contraseña inválida"
